@@ -95,25 +95,24 @@
 
             google.script.run.withSuccessHandler(function(res) {
                 loadingEl.style.display = "none";
-                if (res && res.error) {
-                    errEl.innerText = res.error;
-                    errEl.style.display = "block";
-                } else if (res && res.success) {
-                    sessionStorage.setItem("classTutorData", JSON.stringify(res));
-                    sessionStorage.setItem("userTutorData", JSON.stringify(res));
+                if (res && (res.role === 'admin' || res.role === 'tutor' || res.thanhCong === true || res.success)) {
+                    sessionStorage.setItem("teacherLoggedIn", "true");
                     sessionStorage.setItem("userPhone", phone);
-                    sessionStorage.setItem("userRole", "class_tutor");
+                    sessionStorage.setItem("userRole", res.role || "class_tutor");
 
-                    localStorage.setItem("classTutorData", JSON.stringify(res));
-                    localStorage.setItem("userTutorData", JSON.stringify(res));
+                    localStorage.setItem("teacherLoggedIn", "true");
                     localStorage.setItem("userPhone", phone);
-                    localStorage.setItem("userRole", "class_tutor");
+                    localStorage.setItem("userRole", res.role || "class_tutor");
                     window.location.href = "class-dashboard.html";
                 } else {
-                    errEl.innerText = "Đăng nhập không thành công. Vui lòng thử lại!";
+                    errEl.innerText = (res ? (res.error || res.message || res.thongBao) : "") || "Số điện thoại hoặc Mã PIN bảo mật không chính xác!";
                     errEl.style.display = "block";
                 }
-            }).loginClassSystem(phone, pin);
+            }).withFailureHandler(function(err) {
+                loadingEl.style.display = "none";
+                errEl.innerText = "Lỗi kết nối máy chủ xác thực: " + err;
+                errEl.style.display = "block";
+            }).loginSystem(phone, pin, "");
         }
     </script>
 </body>

@@ -1293,9 +1293,14 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
+            var loggedIn = sessionStorage.getItem("teacherLoggedIn") || localStorage.getItem("teacherLoggedIn");
+            var phone = sessionStorage.getItem("userPhone") || localStorage.getItem("userPhone");
 
-            // Đọc dữ liệu giáo viên từ sessionStorage hoặc localStorage
-            var saved = sessionStorage.getItem("classTutorData") || sessionStorage.getItem("userTutorData") || localStorage.getItem("classTutorData") || localStorage.getItem("userTutorData");
+            if (!loggedIn || loggedIn !== "true" || !phone) {
+                alert("Vui lòng đăng nhập tài khoản Giáo viên / Admin để truy cập Bảng điều khiển!");
+                window.location.href = "class-login.html";
+                return;
+            }
             
             if (saved) {
                 try {
@@ -1327,6 +1332,17 @@
                 resetClassHwForm();
             }
         });
+
+        function logoutClass() {
+            sessionStorage.removeItem("teacherLoggedIn");
+            localStorage.removeItem("teacherLoggedIn");
+            sessionStorage.removeItem("userPhone");
+            localStorage.removeItem("userPhone");
+            sessionStorage.removeItem("classTutorData");
+            localStorage.removeItem("classTutorData");
+            alert("Đã đăng xuất khỏi tài khoản Giáo viên thành công!");
+            window.location.href = "class-login.html";
+        }
 
         function loadClassDashboardData(phone, requestedClassId, code) {
             var tutorCode = code || (currentTutorData ? (currentTutorData.tutorCode || currentTutorData.tutorId || "") : "");

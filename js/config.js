@@ -12,6 +12,6 @@ const APP_CONFIG = {
     SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxQyi3jPVuPxP9rujFEBdh1MFX4-BC59jqTFk3-mgZgdMTHD3mL4demkhurcbKJZ7PA/exec",
 
     // Dán đường link Folder Google Drive mới của Thầy vào đây
-    HOMEWORK_DRIVE_FOLDER: "https://drive.google.com/drive/folders/1ABC_DEMO_NOP_BAI_TAP",
+    HOMEWORK_DRIVE_FOLDER: "https://drive.google.com/drive/folders/1cGu7nt0K0paWCg-9nlHgqxVp0I_6h8M8?usp=drive_link",
     ASSIGNMENT_DRIVE_FOLDER: "https://drive.google.com/drive/folders/11z6CIwULBhR6CKcUzhvHDaTMjiUA7Iiu?usp=drive_link"
 };

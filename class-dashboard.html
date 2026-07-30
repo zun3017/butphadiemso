@@ -1772,7 +1772,7 @@
 
             if (!phone && !tutorCode) {
                 showToast("Không tìm thấy thông tin đăng nhập của giáo viên. Vui lòng đăng nhập lại!", "error");
-                window.location.href = "class-dashboard.html";
+                // window.location.href = "class-dashboard.html";
                 return;
             }
 
@@ -3325,7 +3325,7 @@
             localStorage.removeItem("classTutorData");
             localStorage.removeItem("userTutorData");
             localStorage.removeItem("userPhone");
-            window.location.href = "class-dashboard.html";
+            // window.location.href = "class-dashboard.html";
         }
             function renderTuitionOverviewUI() {
             var cls = currentClasses[activeClassIndex];

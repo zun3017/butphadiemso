@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bứt Phá Điểm Số - Lớp Học Thầy Nguyễn Hữu Phúc</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS System -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+    <!-- NAVBAR / HEADER -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-group">
+                <div class="nav-logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="nav-brand-text">
+                    <h1>Bứt Phá Điểm Số</h1>
+                    <p id="brandTeacherName">Lớp Học Thầy Nguyễn Hữu Phúc</p>
+                </div>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link-btn active"><i class="fa-solid fa-house"></i> 1. Trang chủ</a>
+                <a href="homework.html" class="nav-link-btn"><i class="fa-solid fa-file-arrow-up"></i> 2. Nộp bài tập</a>
+                <a href="parent-dashboard.html" class="nav-link-btn"><i class="fa-solid fa-user-shield"></i> 3. Dành cho phụ huynh</a>
+                <a href="class-dashboard.html" class="nav-link-btn"><i class="fa-solid fa-chalkboard-user"></i> 4. Dành cho lớp học</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <div class="hero-badge">
+                <i class="fa-solid fa-star"></i> LỚP HỌC TOÁN THƯƠNG HIỆU CHẤT LƯỢNG CAO
+            </div>
+            <h1 class="hero-title">Đồng Hành <br><span class="highlight">Bứt Phá Điểm Số 9+</span> Môn Toán 🚀</h1>
+            <p class="hero-subtitle">Hệ thống học tập thông minh trực tuyến & quản lý lớp học toàn diện dành riêng cho Học sinh và Phụ huynh Lớp Học Thầy Phúc.</p>
+            <div class="hero-buttons">
+                <a href="homework.html" class="hero-btn hero-btn-primary"><i class="fa-solid fa-cloud-arrow-up"></i> Nộp Bài Tập Ngay</a>
+                <a href="parent-dashboard.html" class="hero-btn hero-btn-glass"><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu Kết Quả (Phụ Huynh)</a>
+                <a href="class-dashboard.html" class="hero-btn hero-btn-glass"><i class="fa-solid fa-users"></i> Vào Lớp Học</a>
+            </div>
+        </section>
+
+        <!-- GIỚI THIỆU THẦY GIÁO -->
+        <section class="teacher-banner">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" alt="Thầy Nguyễn Hữu Phúc" class="teacher-avatar">
+            <div class="teacher-info">
+                <span class="badge badge-primary mb-2"><i class="fa-solid fa-award"></i> GIÁO VIÊN CHỦ NHIỆM</span>
+                <h3 id="teacherNameDetail">Thầy Nguyễn Hữu Phúc</h3>
+                <p class="role"><i class="fa-solid fa-book-bookmark"></i> Chuyên Giáo Viên Toán THCS & THPT - Luyện Thi Đại Học 9+</p>
+                <p style="color: var(--text-muted);">Với nhiều năm kinh nghiệm giảng dạy và luyện thi, Thầy mang đến phương pháp tư duy giải toán mạch lạc, tối ưu thời gian làm bài trắc nghiệm và giúp học sinh mất gốc lấy lại căn bản thần tốc.</p>
+                <div class="teacher-stats">
+                    <div class="stat-item">
+                        <h4>10+</h4>
+                        <p>Năm Kinh Nghiệm</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>1000+</h4>
+                        <p>Học Sinh Đã Đào Tạo</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>98%</h4>
+                        <p>Đạt Điểm Giỏi & Xuất Sắc</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DANH SÁCH LỚP HỌC ĐANG MỞ -->
+        <section class="section-title">
+            <h2>Các Lớp Học Đang Giảng Dạy</h2>
+            <p>Lộ trình đào tạo được thiết kế riêng biệt cho từng khối lớp</p>
+        </section>
+
+        <div class="grid-3" id="courseGrid">
+            <!-- Lớp 10 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <span class="course-tag">THCS & THPT</span>
+                    <div class="course-title">Lớp 10A1 - Toán Nâng Cao</div>
+                    <p style="font-size: 13px; opacity: 0.9;">Lịch học: Tối Thứ 3 - Thứ 5 - Thứ 7 (18h30 - 20h30)</p>
+                </div>
+                <div class="course-body">
+                    <ul class="course-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Củng cố tư duy Đại số & Hình học không gian</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Chấm chữa bài tập về nhà 100%</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Báo cáo kết quả hàng tuần cho Phụ huynh</li>
+                    </ul>
+                    <a href="homework.html" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-file-export"></i> Nộp bài tập lớp 10</a>
+                </div>
+            </div>
+
+            <!-- Lớp 11 -->
+            <div class="course-card">
+                <div class="course-header" style="background: linear-gradient(135deg, #0EA5E9, #0284C7);">
+                    <span class="course-tag">LỚP TRỌNG ĐIỂM</span>
+                    <div class="course-title">Lớp 11A1 - Luyện Thi 9+</div>
+                    <p style="font-size: 13px; opacity: 0.9;">Lịch học: Chiều Thứ 2 - Thứ 4 - Thứ 6 (17h00 - 19h00)</p>
+                </div>
+                <div class="course-body">
+                    <ul class="course-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Chuyên đề Đạo hàm, Lượng giác & Tổ hợp</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Thi thử trắc nghiệm định kỳ 2 tuần/lần</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Hỗ trợ giải đáp thắc mắc 24/7 qua Zalo</li>
+                    </ul>
+                    <a href="homework.html" class="btn btn-primary" style="width: 100%; background: linear-gradient(135deg, #0EA5E9, #0284C7);"><i class="fa-solid fa-file-export"></i> Nộp bài tập lớp 11</a>
+                </div>
+            </div>
+
+            <!-- Lớp 12 -->
+            <div class="course-card">
+                <div class="course-header" style="background: linear-gradient(135deg, #10B981, #059669);">
+                    <span class="course-tag">LUYỆN THI ĐẠI HỌC</span>
+                    <div class="course-title">Lớp 12A1 - Về Đích 9+ TN THPT</div>
+                    <p style="font-size: 13px; opacity: 0.9;">Lịch học: Tối Thứ 2 - Thứ 6 (19h30 - 21h30)</p>
+                </div>
+                <div class="course-body">
+                    <ul class="course-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Ôn luyện toàn bộ dạng toán thi THPT Quốc Gia</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Tự động chấm điểm trắc nghiệm & xếp hạng</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Đề thi thử độc quyền cập nhật mới nhất</li>
+                    </ul>
+                    <a href="homework.html" class="btn btn-accent" style="width: 100%;"><i class="fa-solid fa-file-export"></i> Nộp bài tập lớp 12</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Bứt Phá Điểm Số - Lớp Học Thầy Nguyễn Hữu Phúc</h3>
+                <p>Hệ thống hỗ trợ học tập trực tuyến, giao nhận bài tập và báo cáo chuyên cần phụ huynh chuyên nghiệp.</p>
+            </div>
+            <div>
+                <h4 style="color: white; margin-bottom: 14px;">Liên Hệ Thầy</h4>
+                <p><i class="fa-solid fa-phone"></i> Hotline: <span id="footerPhone">0985.692.879</span></p>
+                <p><i class="fa-solid fa-comment-dots"></i> Zalo: 0985.692.879</p>
+                <p><i class="fa-solid fa-location-dot"></i> Địa chỉ: Biên Hòa, Đồng Nai</p>
+            </div>
+            <div>
+                <h4 style="color: white; margin-bottom: 14px;">Liên Kết Nhanh</h4>
+                <p><a href="index.html" style="color: #94A3B8; text-decoration: none;">Trang chủ</a></p>
+                <p><a href="homework.html" style="color: #94A3B8; text-decoration: none;">Nộp bài tập</a></p>
+                <p><a href="parent-dashboard.html" style="color: #94A3B8; text-decoration: none;">Dành cho Phụ huynh</a></p>
+                <p><a href="class-dashboard.html" style="color: #94A3B8; text-decoration: none;">Dành cho Lớp học</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Lớp Học Bứt Phá Điểm Số. Tất cả quyền được bảo lưu.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.APP_CONFIG) {
+                document.getElementById('brandTeacherName').innerText = APP_CONFIG.BRAND_NAME;
+                document.getElementById('teacherNameDetail').innerText = APP_CONFIG.TEACHER_NAME;
+                document.getElementById('footerPhone').innerText = APP_CONFIG.PHONE;
+            }
+        });
+    </script>
+</body>
+</html>

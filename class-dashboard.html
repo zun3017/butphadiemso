@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dành Cho Lớp Học - Lớp Học Thầy Nguyễn Hữu Phúc</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS System -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR / HEADER -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo-group">
+                <div class="nav-logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="nav-brand-text">
+                    <h1>Bứt Phá Điểm Số</h1>
+                    <p id="brandTeacherName">Lớp Học Thầy Nguyễn Hữu Phúc</p>
+                </div>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link-btn"><i class="fa-solid fa-house"></i> 1. Trang chủ</a>
+                <a href="homework.html" class="nav-link-btn"><i class="fa-solid fa-file-arrow-up"></i> 2. Nộp bài tập</a>
+                <a href="parent-dashboard.html" class="nav-link-btn"><i class="fa-solid fa-user-shield"></i> 3. Dành cho phụ huynh</a>
+                <a href="class-dashboard.html" class="nav-link-btn active"><i class="fa-solid fa-chalkboard-user"></i> 4. Dành cho lớp học</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container">
+        
+        <!-- SWITCH TABS -->
+        <div style="display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 2px solid var(--border-color); padding-bottom: 12px;">
+            <button id="tabStudentBtn" class="btn btn-primary" onclick="switchRoleTab('student')">
+                <i class="fa-solid fa-graduation-cap"></i> Giao Diện Học Sinh
+            </button>
+            <button id="tabTeacherBtn" class="btn btn-secondary" onclick="switchRoleTab('teacher')">
+                <i class="fa-solid fa-user-gear"></i> Giao Diện Thầy Giáo (Quản Lý)
+            </button>
+        </div>
+
+        <!-- 1. GIAO DIỆN HỌC SINH -->
+        <div id="studentRoleView">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+                <!-- TÀI LIỆU & THÔNG BÁO -->
+                <div>
+                    <div class="card" style="margin-bottom: 30px;">
+                        <h3 style="font-size: 20px; font-weight: 800; color: var(--dark-bg); margin-bottom: 16px;">
+                            <i class="fa-solid fa-bullhorn" style="color: var(--primary-color);"></i> Thông Báo Từ Thầy Nguyễn Hữu Phúc
+                        </h3>
+                        <div style="background: var(--primary-light); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 12px;">
+                            <span class="badge badge-primary" style="margin-bottom: 6px;">28/07/2026</span>
+                            <h4 style="font-size: 16px; font-weight: 700; color: var(--dark-bg);">Lịch thi thử Chuyên đề Số 06 Môn Toán</h4>
+                            <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">Các em học sinh lớp 12A1 chú ý: Bài thi thử sẽ diễn ra vào lúc 19h30 tối Thứ 6 tuần này. Yêu cầu ôn tập kỹ phần Tích phân và Hình học Oxyz.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="font-size: 20px; font-weight: 800; color: var(--dark-bg); margin-bottom: 16px;">
+                            <i class="fa-solid fa-folder-open" style="color: var(--secondary-color);"></i> Kho Tài Liệu & Bài Giảng Lớp Học
+                        </h3>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; background: white;">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 28px; color: #EF4444; margin-bottom: 10px;"></i>
+                                <h4 style="font-size: 15px; font-weight: 700;">Bộ Đề Thi Thử Toán 2026 (Có Đáp Án)</h4>
+                                <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 12px;">Dung lượng: 12.5 MB | PDF</p>
+                                <a href="https://drive.google.com" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: 100%;"><i class="fa-solid fa-download"></i> Tải Tài Liệu</a>
+                            </div>
+
+                            <div style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; background: white;">
+                                <i class="fa-solid fa-video" style="font-size: 28px; color: #0EA5E9; margin-bottom: 10px;"></i>
+                                <h4 style="font-size: 15px; font-weight: 700;">Video Bài Giảng: Kỹ Thuật Bấm Máy Oxyz</h4>
+                                <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 12px;">Thời lượng: 45 phút | HD</p>
+                                <a href="https://drive.google.com" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; width: 100%;"><i class="fa-solid fa-play"></i> Xem Bài Giảng</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- THỜI KHÓA BIỂU & ĐỔI MÃ PIN -->
+                <div>
+                    <div class="card">
+                        <h3 style="font-size: 18px; font-weight: 800; color: var(--dark-bg); margin-bottom: 16px;">
+                            <i class="fa-solid fa-calendar-days"></i> Lịch Học Trong Tuần
+                        </h3>
+
+                        <ul style="list-style: none;">
+                            <li style="padding: 10px 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between;">
+                                <span><strong>Lớp 10A1</strong> (T3 - T5 - T7)</span>
+                                <span class="badge badge-primary">18h30 - 20h30</span>
+                            </li>
+                            <li style="padding: 10px 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between;">
+                                <span><strong>Lớp 11A1</strong> (T2 - T4 - T6)</span>
+                                <span class="badge badge-primary">17h00 - 19h00</span>
+                            </li>
+                            <li style="padding: 10px 0; display: flex; justify-content: space-between;">
+                                <span><strong>Lớp 12A1</strong> (T2 - T6)</span>
+                                <span class="badge badge-success">19h30 - 21h30</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. GIAO DIỆN QUẢN LÝ DÀNH CHO THẦY GIÁO -->
+        <div id="teacherRoleView" style="display: none;">
+            <!-- XÁC THỰC MÃ PIN THẦY GIÁO -->
+            <div id="teacherAuthCard" class="card" style="max-width: 450px; margin: 0 auto 30px;">
+                <h3 style="font-size: 20px; font-weight: 800; color: var(--primary-color); margin-bottom: 12px; text-align: center;">
+                    <i class="fa-solid fa-lock"></i> Xác Thực Mã PIN Thầy Giáo
+                </h3>
+                <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-bottom: 20px;">Nhập Mã PIN bảo mật của Thầy để mở tính năng quản lý bài tập & điểm số (Mã mặc định Demo: <strong>1234</strong>)</p>
+                
+                <form id="formTeacherAuth">
+                    <div class="form-group">
+                        <input type="password" id="teacherPinInput" class="form-control" placeholder="Nhập Mã PIN..." style="text-align: center; font-size: 20px; letter-spacing: 4px;" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-key"></i> ĐĂNG NHẬP THẦY GIÁO</button>
+                </form>
+            </div>
+
+            <!-- NỘI DUNG QUẢN LÝ KHI ĐÃ ĐĂNG NHẬP -->
+            <div id="teacherAdminContent" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <!-- GIAO BÀI TẬP MỚI -->
+                    <div class="card">
+                        <h3 style="font-size: 18px; font-weight: 800; color: var(--dark-bg); margin-bottom: 16px;">
+                            <i class="fa-solid fa-plus-circle" style="color: var(--accent-color);"></i> Giao Bài Tập Mới Cho Lớp
+                        </h3>
+
+                        <form id="formCreateHomework">
+                            <div class="form-group">
+                                <label class="form-label">Chọn Lớp Học</label>
+                                <select id="newHwClass" class="form-select" required>
+                                    <option value="Tất cả">Tất cả các lớp</option>
+                                    <option value="10A1">Lớp 10A1</option>
+                                    <option value="11A1">Lớp 11A1</option>
+                                    <option value="12A1">Lớp 12A1</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Têu Đề Bài Tập</label>
+                                <input type="text" id="newHwTitle" class="form-control" placeholder="Ví dụ: Bài tập Chuyên đề Ôn thi học kỳ 1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Hạn Nộp Bài</label>
+                                <input type="date" id="newHwDeadline" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Link Đề Bài (Google Drive / File PDF)</label>
+                                <input type="url" id="newHwFileUrl" class="form-control" placeholder="Dán link file đề bài từ Google Drive..." required>
+                            </div>
+
+                            <button type="submit" class="btn btn-accent" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> TẠO BÀI TẬP VÀ GIAO CHO LỚP</button>
+                        </form>
+                    </div>
+
+                    <!-- HƯỚNG DẪN DÁN SCRIPT URL MỚI -->
+                    <div class="card" style="background: linear-gradient(135deg, #EEF2FF, #E0E7FF); border: 1.5px solid var(--primary-color);">
+                        <h3 style="font-size: 18px; font-weight: 800; color: var(--primary-color); margin-bottom: 12px;">
+                            <i class="fa-solid fa-gear"></i> Cấu Hình Kết Nối Google Sheet Mới
+                        </h3>
+                        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 12px;">Khi Thầy tạo Google Sheet mới và triển khai Apps Script mới, Thầy chỉ cần mở file <strong>`js/config.js`</strong> và thay đổi URL tại biến <code>SCRIPT_URL</code>.</p>
+                        <ul style="font-size: 13px; color: var(--text-muted); margin-left: 20px; line-height: 1.8;">
+                            <li>File mã nguồn Google Apps Script mẫu nằm trong file <strong>`GoogleScript.gs`</strong> của thư mục dự án.</li>
+                            <li>Folder Drive nộp bài được cấu hình tại <code>HOMEWORK_DRIVE_FOLDER</code>.</li>
+                            <li>Folder Drive giao bài được cấu hình tại <code>ASSIGNMENT_DRIVE_FOLDER</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            &copy; 2026 Lớp Học Bứt Phá Điểm Số. Khu vực dành cho Lớp học & Thầy giáo.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/class.js"></script>
+</body>
+</html>

@@ -19,12 +19,6 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
-            width: 100%;
-        }
-
-        .main-container, #resultBox, .dashboard-container, .homework-container {
-            width: 100%;
-            box-sizing: border-box;
         }
 
         /* ================= HEADER ================= */

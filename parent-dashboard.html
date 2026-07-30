@@ -20,38 +20,7 @@
     <link rel="stylesheet" href="css/style.css?v=1.7.0">
 </head>
 <body>
-    <!-- Navbar / Header -->
-    <div class="header">
-        <div class="nav-container">
-            <a href="index.html" class="nav-left" style="text-decoration: none; cursor: pointer;">
-                <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="nav-logo">
-                <div class="header-text">
-                    <h1>Lớp Học Bứt Phá Điểm Số</h1>
-                    <p>Thầy Nguyễn Hữu Phúc</p>
-                </div>
-            </a>
-            <div class="nav-right">
-                <a href="index.html" class="nav-btn" id="btnNavHome"><i class="fa-solid fa-house"></i> Trang chủ</a>
-                <a href="parent-login.html" class="nav-btn active" id="btnNavParent"><i class="fa-solid fa-graduation-cap"></i> Dành cho Phụ huynh</a>
-                <a href="homework.html" class="nav-btn" id="btnNavHomework"><i class="fa-solid fa-file-arrow-up"></i> Nộp bài tập</a>
-                <a href="class-login.html" class="nav-btn" id="btnNavClass"><i class="fa-solid fa-users-rectangle"></i> Dành cho Lớp học</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="resultBox" style="width: 100%; max-width: 1100px; margin: 30px auto; padding: 0 20px;">
-        <!-- Search Card Dành cho Phụ huynh -->
-        <div class="search-card" style="max-width: 540px; margin: 20px auto 30px auto; text-align: center; background: rgba(15, 11, 46, 0.85); border: 1px solid rgba(142, 77, 255, 0.4); border-radius: 20px; padding: 25px;">
-            <h3 style="color: #FFD23F; margin-bottom: 14px; font-size: 19px;"><i class="fa-solid fa-graduation-cap"></i> Tra Cứu Kết Quả Học Tập Phụ Huynh</h3>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="searchParentInput" placeholder="Nhập SĐT Phụ huynh hoặc Mã HS..." style="flex: 1; padding: 13px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(142, 77, 255, 0.4); border-radius: 12px; color: #FFF; font-size: 15px; outline: none;">
-                <button onclick="traCuuPhuHuynh()" style="padding: 13px 22px; background: linear-gradient(135deg, #8E4DFF, #5B21B6); color: #FFF; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;">
-                    Tra cứu <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-            <p id="loadingText" style="display: none; color: #FFD23F; margin-top: 12px; font-size: 14px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tra cứu dữ liệu từ hệ thống...</p>
-        </div>
-
+    <div id="resultBox">
         <div id="loiChao"></div>
         
         <!-- Khu vực hiển thị Huy chương vinh danh (đã dời vào thẻ bên dưới) -->
@@ -177,15 +146,39 @@
     <div class="star twinkle-2" style="top: 85%; left: 30%; width: 2px; height: 2px;"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/config.js?v=1.0.0"></script>
     <script src="js/api.js?v=1.9.0"></script>
-    <script src="js/parent.js?v=1.0.0"></script>
+    <script src="js/parent.js?v=1.7.1"></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
+            var dataStr = sessionStorage.getItem('dashboardData') || localStorage.getItem('dashboardData');
+            var role = sessionStorage.getItem('userRole') || localStorage.getItem('userRole');
+            var data = null;
+            try {
+                if (dataStr) data = JSON.parse(dataStr);
+            } catch(e) {}
+
+            if (data && role === 'student') {
+                renderStudentView(data);
+            }
+
             var phone = sessionStorage.getItem('userPhone') || localStorage.getItem('userPhone');
-            if (phone && document.getElementById('searchParentInput')) {
-                document.getElementById('searchParentInput').value = phone;
-                traCuuPhuHuynh(phone);
+            var studentName = sessionStorage.getItem('selectedStudentName') || localStorage.getItem('selectedStudentName');
+            if (phone) {
+                google.script.run.withSuccessHandler(function(res) {
+                    if (res && res.role === 'student' && res.data && res.data.timThay) {
+                        sessionStorage.setItem('userRole', 'student');
+                        sessionStorage.setItem('dashboardData', JSON.stringify(res.data));
+                        localStorage.setItem('userRole', 'student');
+                        localStorage.setItem('dashboardData', JSON.stringify(res.data));
+                        renderStudentView(res.data);
+                    } else if (!data) {
+                        window.location.href = 'student-login.html';
+                    }
+                }).withFailureHandler(function() {
+                    if (!data) window.location.href = 'student-login.html';
+                }).loginSystem(phone, "", studentName);
+            } else if (!data) {
+                window.location.href = 'student-login.html';
             }
         });
     </script>

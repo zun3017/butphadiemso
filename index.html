@@ -5,16 +5,16 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lớp Học Bứt Phá Điểm Số - Thầy Nguyễn Hữu Phúc</title>
+    <title>Hệ thống Tra cứu Học tập - Học tập thông minh</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
+    <!-- Chart.js (Dành cho việc hiển thị biểu đồ giả lập trong Widget Demo) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Global CSS -->
     <link rel="stylesheet" href="css/style.css?v=1.7.0">
-    <!-- Home CSS -->
+    <!-- Home CSS (Chuyên biệt cho Trang chủ Landing Page) -->
     <link rel="stylesheet" href="css/home.css?v=1.6.2">
 </head>
 <body>
@@ -24,11 +24,11 @@
             <a href="index.html" class="nav-left" style="text-decoration: none; cursor: pointer;">
                 <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="nav-logo">
                 <div class="header-text">
-                    <h1>Lớp Học Bứt Phá Điểm Số</h1>
-                    <p>Thầy Nguyễn Hữu Phúc</p>
+                    <h1>Tra cứu học tập</h1>
+                    <p>Học tập thông minh</p>
                 </div>
             </a>
-            <div class="nav-right">
+                        <div class="nav-right">
                 <a href="index.html" class="nav-btn active" id="btnNavHome"><i class="fa-solid fa-house"></i> Trang chủ</a>
                 <a href="parent-login.html" class="nav-btn" id="btnNavParent"><i class="fa-solid fa-graduation-cap"></i> Dành cho Phụ huynh</a>
                 <a href="homework.html" class="nav-btn" id="btnNavHomework"><i class="fa-solid fa-file-arrow-up"></i> Nộp bài tập</a>
@@ -38,17 +38,18 @@
     </div>
 
     <!-- MAIN CONTAINER -->
-    <div class="main-container" style="width: 100%; max-width: 1200px; margin-top: 30px; padding-bottom: 50px;">
+    <div class="main-container" style="max-width: 1200px; margin-top: 30px; padding-bottom: 50px;">
         
         <!-- 1. HERO SECTION -->
         <section class="hero-section">
             <div class="hero-badge">
-                <span>⭐</span> CỔNG THÔNG TIN LỚP HỌC ĐIỆN TỬ THẾ HỆ MỚI
+                <span>⭐</span> CỔNG THÔNG TIN ĐIỆN TỬ THẾ HỆ MỚI
             </div>
-            <h1 class="hero-title">Lớp Học Bứt Phá <br><span class="highlight">Điểm Số Vượt Trội</span> 🚀</h1>
-            <p class="hero-subtitle">Giải pháp đồng hành và tối ưu hóa học tập, giúp phụ huynh theo dõi sát sao tiến độ và kết quả, đồng thời hỗ trợ Thầy giáo quản lý lớp học toàn diện.</p>
+            <h1 class="hero-title">Hệ Thống <br><span class="highlight">Tra Cứu Học Tập</span> Thông Minh 🚀</h1>
+            <p class="hero-subtitle">Giải pháp đồng hành và tối ưu hóa học tập, giúp phụ huynh theo dõi sát sao tiến độ và kết quả, đồng thời hỗ trợ gia sư quản lý lớp học toàn diện.</p>
             <div class="hero-ctas">
-                <a href="parent-login.html" class="btn-cta btn-cta-primary"><i class="fa-solid fa-graduation-cap"></i> Tra cứu Phụ huynh</a>
+                <a href="#sectionDemo" class="btn-cta btn-cta-primary"><i class="fa-solid fa-play"></i> Trải nghiệm thử Demo</a>
+                <a href="parent-login.html" class="btn-cta btn-cta-secondary"><i class="fa-solid fa-graduation-cap"></i> Tra cứu Phụ huynh</a>
                 <a href="homework.html" class="btn-cta btn-cta-secondary" style="border-color:#10B981; color:#10B981; background:rgba(16,185,129,0.05);"><i class="fa-solid fa-file-arrow-up"></i> Nộp bài tập</a>
                 <a href="class-login.html" class="btn-cta btn-cta-secondary" style="border-color:#8E4DFF; color:#FFD23F; background:rgba(142,77,255,0.12);"><i class="fa-solid fa-users-rectangle"></i> Dành cho Lớp học</a>
             </div>
@@ -57,8 +58,8 @@
         <!-- 2. FEATURES GRID -->
         <section class="section-wrapper">
             <div class="section-header">
-                <h2>Tính Năng Nổi Bật Dành Cho Lớp Học</h2>
-                <p>Những giải pháp hỗ trợ vượt trội được thiết kế cho từng cá nhân trong lớp học</p>
+                <h2>Tính Năng Nổi Bật</h2>
+                <p>Những giải pháp hỗ trợ vượt trội được thiết kế cho từng cá nhân trong hệ thống</p>
             </div>
             
             <div class="features-grid">
@@ -68,92 +69,119 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                     <h3>Tra Cứu Nhanh Chóng</h3>
-                    <p>Chỉ cần nhập số điện thoại đăng ký hoặc Mã HS, Phụ huynh và Học sinh có thể truy cập tức thì bảng điểm và kết quả học tập của các môn học.</p>
+                    <p>Chỉ cần nhập số điện thoại đăng ký, Phụ huynh và Học sinh có thể truy cập tức thì bảng điểm và kết quả học tập chi tiết của buổi học gần nhất.</p>
                 </div>
                 <!-- Card 2 -->
                 <div class="feature-card-premium">
                     <div class="icon-box icon-blue-glow">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <h3>Biểu Đồ Tiến Bộ Theo Môn</h3>
-                    <p>Trực quan hóa điểm số kiểm tra và chuyên cần theo từng môn (Toán, Lý, Hóa, Tiếng Anh). Dễ dàng theo dõi sự bứt phá và xu hướng học tập.</p>
+                    <h3>Biểu Đồ Tiến Bộ</h3>
+                    <p>Trực quan hóa điểm số đầu giờ và điểm định kỳ dưới dạng biểu đồ đường sinh động. Dễ dàng theo dõi sự bứt phá và xu hướng học tập theo thời gian.</p>
                 </div>
                 <!-- Card 3 -->
                 <div class="feature-card-premium">
                     <div class="icon-box icon-green-glow">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
-                    <h3>Giao Nhận Bài Tập Môn Học</h3>
-                    <p>Thầy giáo tải lên đề bài và tài liệu môn học. Học sinh tải về và nộp bài làm trực tuyến nhanh chóng vào Google Drive tiện lợi.</p>
+                    <h3>Giao Nhận Bài Tập</h3>
+                    <p>Gia sư tải lên tài liệu và bài tập trực tuyến. Học sinh tải về và nộp bài làm qua hệ thống nhanh chóng, tiện lợi, không lo thất lạc.</p>
                 </div>
                 <!-- Card 4 -->
                 <div class="feature-card-premium">
                     <div class="icon-box icon-orange-glow">
                         <i class="fa-solid fa-user-shield"></i>
                     </div>
-                    <h3>Bảo Mật PIN Giáo Viên</h3>
-                    <p>Bảo mật dữ liệu tối đa. Tài khoản Thầy giáo và Quản lý Lớp được xác thực bằng mã PIN bảo vệ cá nhân, ngăn chặn các truy cập trái phép.</p>
+                    <h3>Bảo Mật An Toàn</h3>
+                    <p>Bảo mật dữ liệu tối đa. Tài khoản Gia sư và Admin được xác thực bằng mã PIN bảo vệ cá nhân, ngăn chặn các truy cập trái phép.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 3. GUIDE SECTION (TABS) -->
+        <!-- 3. INTERACTIVE DEMO SECTION -->
+        <section class="section-wrapper" id="sectionDemo" style="scroll-margin-top: 100px;">
+            <div class="section-header">
+                <h2>Trải Nghiệm Hệ Thống (Demo Giả Lập)</h2>
+                <p>Khám phá giao diện thực tế của Phụ huynh / Học sinh, Nộp bài tập và Gia sư (Dữ liệu mô phỏng an toàn)</p>
+            </div>
+
+            <div class="demo-container">
+                <div class="demo-selector">
+                    <button class="demo-tab-btn active" data-role="student">
+                        <i class="fa-solid fa-graduation-cap"></i> Giao diện Học sinh
+                    </button>
+                    <button class="demo-tab-btn" data-role="homework">
+                        <i class="fa-solid fa-file-arrow-up"></i> Giao diện Nộp bài tập
+                    </button>
+                    <button class="demo-tab-btn" data-role="tutor">
+                        <i class="fa-solid fa-chalkboard-user"></i> Giao diện Gia sư
+                    </button>
+                </div>
+
+                <!-- Đây là nơi JS của demo-mock.js render các giao diện simulated screen -->
+                <div class="demo-content-area" id="demoContentArea">
+                    <!-- Được cập nhật tự động bằng javascript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. GUIDE SECTION (TABS) -->
         <section class="section-wrapper">
             <div class="section-header">
                 <h2>Hướng Dẫn Sử Dụng</h2>
-                <p>Quy trình các bước đơn giản giúp bạn làm quen nhanh chóng với hệ thống lớp học</p>
+                <p>Quy trình các bước đơn giản giúp bạn làm quen nhanh chóng với hệ thống</p>
             </div>
 
             <!-- Tab điều hướng hướng dẫn -->
             <div class="guide-tabs">
                 <button class="guide-tab-btn active" data-target="student">Dành cho Phụ huynh & Học sinh</button>
-                <button class="guide-tab-btn" data-target="teacher">Dành cho Giáo viên Lớp học</button>
+                <button class="guide-tab-btn" data-target="tutor">Dành cho Gia sư giảng dạy</button>
             </div>
 
             <!-- Nội dung Hướng dẫn HS/PH -->
             <div class="guide-step-list" id="guideStudentContainer">
                 <div class="guide-step-card">
                     <div class="guide-step-num">1</div>
-                    <h3><i class="fa-solid fa-arrow-right-to-bracket"></i> Bước 1: Truy Cập Trang Tra Cứu</h3>
-                    <p>Tại trang chủ, nhấn chọn mục <strong>"Dành cho Phụ huynh"</strong> ở thanh trình đơn (Menu) hoặc nhấn nút tại phần giới thiệu.</p>
+                    <h3><i class="fa-solid fa-arrow-right-to-bracket"></i> Bước 1: Truy Cập</h3>
+                    <p>Tại trang chủ, nhấn chọn mục <strong>"Dành cho PH / HS"</strong> ở thanh trình đơn (Menu) hoặc nhấn nút tại phần giới thiệu.</p>
                 </div>
                 <div class="guide-step-card">
                     <div class="guide-step-num">2</div>
-                    <h3><i class="fa-solid fa-key"></i> Bước 2: Nhập Số Điện Thoại / Mã HS</h3>
-                    <p>Nhập chính xác số điện thoại Phụ huynh hoặc Mã HS đã đăng ký với Thầy giáo vào ô tìm kiếm, sau đó nhấn <strong>"Tiếp tục"</strong>.</p>
+                    <h3><i class="fa-solid fa-key"></i> Bước 2: Nhập Số Điện Thoại</h3>
+                    <p>Nhập chính xác số điện thoại mà Phụ huynh hoặc Học sinh đã đăng ký với gia sư vào ô tìm kiếm, sau đó nhấn <strong>"Tiếp tục"</strong>.</p>
                 </div>
                 <div class="guide-step-card">
                     <div class="guide-step-num">3</div>
-                    <h3><i class="fa-solid fa-chart-simple"></i> Bước 3: Xem Điểm & Chuyên Cần</h3>
-                    <p>Hệ thống tự động hiển thị bảng tóm tắt kết quả các môn học, chuyên cần, nhận xét của Thầy giáo và danh sách bài tập cần làm.</p>
+                    <h3><i class="fa-solid fa-chart-simple"></i> Bước 3: Xem Thông Tin</h3>
+                    <p>Hệ thống tự động hiển thị bảng tóm tắt kết quả, biểu đồ điểm số kiểm tra, nhận xét của gia sư và danh sách bài tập cần làm.</p>
                 </div>
             </div>
 
-            <!-- Nội dung Hướng dẫn Giáo viên -->
-            <div class="guide-step-list" id="guideTeacherContainer" style="display: none;">
+            <!-- Nội dung Hướng dẫn Gia sư (Mặc định ẩn) -->
+            <div class="guide-step-list" id="guideTutorContainer" style="display: none;">
                 <div class="guide-step-card">
                     <div class="guide-step-num">1</div>
-                    <h3><i class="fa-solid fa-lock"></i> Bước 1: Xác Thực PIN Bảo Mật</h3>
-                    <p>Truy cập mục <strong>"Dành cho Lớp học"</strong>. Chuyển sang Tab Thầy giáo Quản lý và nhập <strong>Mã PIN bảo mật</strong> (Mặc định: 1234).</p>
+                    <h3><i class="fa-solid fa-lock"></i> Bước 1: Đăng Nhập</h3>
+                    <p>Truy cập mục <strong>"Dành cho Gia sư"</strong>. Nhập số điện thoại đã khai báo và <strong>mã PIN gồm 6 chữ số</strong> bảo mật được cung cấp.</p>
                 </div>
                 <div class="guide-step-card">
                     <div class="guide-step-num">2</div>
-                    <h3><i class="fa-solid fa-users"></i> Bước 2: Chọn Lớp & Môn Học</h3>
-                    <p>Chọn Lớp học và Môn học cụ thể từ danh sách để xem thời khóa biểu, danh sách sĩ số hoặc tình hình học tập từng lớp.</p>
+                    <h3><i class="fa-solid fa-users"></i> Bước 2: Chọn Học Sinh</h3>
+                    <p>Hệ thống mở ra giao diện tổng hợp lịch học. Chọn một học sinh cụ thể từ danh sách để xem tiến trình học tập hoặc lịch sử điểm số.</p>
                 </div>
                 <div class="guide-step-card">
                     <div class="guide-step-num">3</div>
-                    <h3><i class="fa-solid fa-pen-to-square"></i> Bước 3: Giao Bài & Nhập Điểm</h3>
-                    <p>Sử dụng biểu mẫu để Tạo lớp học mới, Giao bài tập về nhà mới cho môn học, hoặc Nhập điểm và nhận xét cho học sinh.</p>
+                    <h3><i class="fa-solid fa-pen-to-square"></i> Bước 3: Cập Nhật Dữ Liệu</h3>
+                    <p>Sử dụng biểu mẫu để nhập điểm đầu giờ, điểm định kỳ, nhận xét học tập hoặc giao bài tập về nhà mới cho học sinh đó.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 4. FAQ SECTION -->
+        <!-- 5. FAQ SECTION (ACCORDION) -->
         <section class="section-wrapper">
             <div class="section-header">
                 <h2>Câu Hỏi Thường Gặp</h2>
-                <p>Giải đáp nhanh một số thắc mắc phổ biến khi sử dụng hệ thống lớp học</p>
+                <p>Giải đáp nhanh một số thắc mắc phổ biến của người dùng khi sử dụng hệ thống</p>
             </div>
 
             <div class="faq-accordion">
@@ -164,31 +192,43 @@
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Phụ huynh hoặc học sinh cần liên hệ trực tiếp với Thầy giáo phụ trách để đăng ký số điện thoại. Sau khi Thầy giáo cập nhật vào lớp học, số điện thoại sẽ lập tức có hiệu lực để tra cứu.
+                            Phụ huynh hoặc học sinh cần liên hệ trực tiếp với Gia sư phụ trách hoặc Quản trị viên để đăng ký thông tin số điện thoại. Sau khi Gia sư điền thông tin vào hệ thống, số điện thoại sẽ lập tức có hiệu lực để tra cứu.
                         </div>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Làm thế nào để nộp bài tập về nhà trực tuyến?</span>
+                        <span>Tôi là Gia sư, làm thế nào để được cấp mã PIN bảo mật?</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Vào mục <strong>"Nộp bài tập"</strong>, chọn Môn học và Lớp học tương ứng, chọn tên bài tập cần làm, đính kèm link file bài làm hoặc tải ảnh bài tập trực tiếp lên Google Drive.
+                            Mã PIN của Gia sư do Quản trị viên (Admin) của hệ thống tạo lập ban đầu khi kích hoạt tài khoản gia sư. Nếu bạn quên hoặc mất mã PIN, hãy liên hệ với Admin để được cấp lại hoặc thay đổi mã PIN mới.
                         </div>
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Dữ liệu điểm số được cập nhật khi nào?</span>
+                        <span>Dữ liệu học tập được cập nhật khi nào?</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Dữ liệu điểm số và nhận xét sẽ được cập nhật ngay khi Thầy giáo chấm bài và nhấn Lưu. Quá trình đồng bộ hóa diễn ra theo thời gian thực (real-time) với hệ thống Google Sheets.
+                            Dữ liệu điểm số và nhận xét sẽ được cập nhật ngay khi Gia sư nhập thông tin và nhấn Lưu trên Dashboard giảng dạy. Quá trình đồng bộ hóa diễn ra theo thời gian thực (real-time) với Google Sheets nền.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Hệ thống có bảo mật thông tin điểm số không?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Có. Thông tin tra cứu của Học sinh chỉ có thể truy xuất khi cung cấp đúng số điện thoại đã được đăng ký cụ thể. Ngoài ra, giao diện nhập liệu và sửa điểm được bảo vệ hoàn toàn bởi lớp xác thực mã PIN của Gia sư và Admin.
                         </div>
                     </div>
                 </div>
@@ -197,7 +237,7 @@
 
     </div>
 
-    <!-- Background decorations -->
+    <!-- Background decorations (Giữ nguyên phong cách Space Theme) -->
     <div class="decor planet-left"></div>
     <div class="decor planet-right"></div>
     <div class="decor rocket"></div>
@@ -214,24 +254,25 @@
             <div class="footer-left">
                 <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="footer-logo">
                 <div>
-                    <span class="footer-brand">Lớp Học Bứt Phá Điểm Số</span>
+                    <span class="footer-brand">Tra cứu học tập</span>
                     <div style="display:block; margin-top: 4px;">
-                        <span style="color: #A6ADCE; font-size: 12.5px; font-weight: 500;">Thầy Nguyễn Hữu Phúc - 0985.692.879</span>
+                        <span style="color: #A6ADCE; font-size: 12.5px; font-weight: 500;">Học tập thông minh</span>
                     </div>
                 </div>
             </div>
             <div class="footer-right">
                 <p style="font-weight: 600; color: #FFF; font-size: 14.5px; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-phone" style="color: #8E4DFF;"></i>
-                    Liên hệ Hỗ trợ Thầy giáo: 
-                    <a href="tel:0985692879" style="color: #FFD23F; text-decoration: none; font-weight: 800;">0985.692.879</a>
+                    <i class="fa-solid fa-user-shield" style="color: #8E4DFF;"></i>
+                    Liên hệ Hỗ trợ (Admin): 
+                    <a href="tel:0975546830" style="color: #FFD23F; text-decoration: none; font-weight: 800;">0975546830</a>
                 </p>
             </div>
         </div>
     </footer>
 
-    <script src="js/config.js?v=1.0.0"></script>
     <script src="js/api.js?v=1.9.0"></script>
     <script src="js/navigation.js?v=1.6.4"></script>
+    <!-- Script chạy Demo dữ liệu giả lập -->
+    <script src="js/demo-mock.js?v=1.6.8"></script>
 </body>
 </html>

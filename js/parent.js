@@ -381,12 +381,17 @@ function renderStudentView(ketQua) {
         lichSu.slice().reverse().forEach(function(item, idx) {
             var styleStr = (idx >= 5) ? 'style="display: none;" class="history-row hidden-row"' : 'class="history-row"';
 
+            var contentHtml = item.noiDung || '';
+            if (item.nhanXetRieng) {
+                contentHtml += "<div style='margin-top: 5px; color: #C4B5FD; font-size: 12px; font-style: italic; font-weight: 500;'>Nhận xét riêng: " + item.nhanXetRieng + "</div>";
+            }
+
             // Desktop Row
             htmlLichSu += "<tr " + styleStr + ">";
             htmlLichSu += "<td>" + (item.tuan || (idx + 1)) + "</td>";
             htmlLichSu += "<td>" + (item.ngay || '') + "</td>";
             htmlLichSu += "<td>" + (item.mon || item.tenLop || '') + "</td>";
-            htmlLichSu += "<td>" + (item.noiDung || '') + "</td>";
+            htmlLichSu += "<td>" + contentHtml + "</td>";
             htmlLichSu += "<td>" + getBtvnBadge(item.danhGiaBTVN) + "</td>";
             htmlLichSu += "<td>" + (item.diemDauGio || '-') + "</td>";
             htmlLichSu += "<td>" + (item.diemDinhKi || '-') + "</td>";
@@ -408,7 +413,7 @@ function renderStudentView(ketQua) {
             htmlMobile += "  </div>";
             htmlMobile += "  <div class='accordion-body' id='accordion-body-" + idx + "'>";
             htmlMobile += "    <div class='accordion-body-row'><span class='accordion-body-label'>Môn / Lớp</span><span class='accordion-body-val'>" + (item.mon || item.tenLop || '') + "</span></div>";
-            htmlMobile += "    <div class='accordion-body-row'><span class='accordion-body-label'>Nội dung dạy học</span><span class='accordion-body-val'>" + (item.noiDung || '') + "</span></div>";
+            htmlMobile += "    <div class='accordion-body-row'><span class='accordion-body-label'>Nội dung dạy học</span><span class='accordion-body-val'>" + contentHtml + "</span></div>";
             htmlMobile += "    <div class='accordion-body-row'><span class='accordion-body-label'>Đánh giá bài tập về nhà</span><span class='accordion-body-val'>" + getBtvnBadge(item.danhGiaBTVN) + "</span></div>";
             htmlMobile += "    <div class='accordion-body-row'><span class='accordion-body-label'>Kiểm tra đầu giờ</span><span class='accordion-body-val'>" + (item.diemDauGio || '-') + "</span></div>";
             htmlMobile += "    <div class='accordion-body-row'><span class='accordion-body-label'>Kiểm tra định kì</span><span class='accordion-body-val'>" + (item.diemDinhKi || '-') + "</span></div>";

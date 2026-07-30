@@ -1117,7 +1117,7 @@
                     <i id="accordionIcon" class="fa-solid fa-chevron-down" style="transition: transform 0.3s;"></i>
                 </button>
                 
-                <div id="studentNotesAccordionContainer" style="display: none; margin-top: 15px; max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                <div id="studentNotesAccordionContainer" style="display: none; margin-top: 15px; padding-right: 5px;">
                     <div id="modalStudentNotesList" style="display: flex; flex-direction: column; gap: 12px;">
                         <!-- Render danh sách học sinh để điền nhận xét riêng -->
                     </div>
@@ -2199,11 +2199,30 @@
             var icon = document.getElementById("stIcon_" + stId);
             var summary = document.getElementById("stSummary_" + stId);
             if (!detail) return;
-            if (detail.style.display === "none" || detail.style.display === "") {
+            
+            var isOpening = (detail.style.display === "none" || detail.style.display === "");
+            
+            if (isOpening) {
+                // Đóng tất cả các thẻ học sinh khác đang mở
+                if (activeStudents && activeStudents.length > 0) {
+                    activeStudents.forEach(function(st) {
+                        if (st.studentId !== stId) {
+                            var otherDetail = document.getElementById("stDetailContainer_" + st.studentId);
+                            var otherIcon = document.getElementById("stIcon_" + st.studentId);
+                            var otherSummary = document.getElementById("stSummary_" + st.studentId);
+                            if (otherDetail) otherDetail.style.display = "none";
+                            if (otherIcon) otherIcon.style.transform = "rotate(0deg)";
+                            if (otherSummary) otherSummary.style.display = "inline";
+                        }
+                    });
+                }
+                
+                // Mở thẻ hiện tại
                 detail.style.display = "block";
                 if (icon) icon.style.transform = "rotate(180deg)";
                 if (summary) summary.style.display = "none";
             } else {
+                // Đóng thẻ hiện tại
                 detail.style.display = "none";
                 if (icon) icon.style.transform = "rotate(0deg)";
                 if (summary) summary.style.display = "inline";

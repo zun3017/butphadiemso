@@ -9,7 +9,7 @@ const APP_CONFIG = {
     ZALO_URL: "https://zalo.me/0985692879",
     
     // URL Google Apps Script Web App MỚI của Thầy
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbw9Tluph9jeQCaxdJDHxY23YwOD5x_PAwN7iXrmYS3xhmCdxMq3_pfqxjsiI1Xw9Qe9/exec",
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz-wSNNvXPRFRcgCCFEMXndz-25E5MXKbqB57gPJNLkuVTAFhVlY8QCGAmgXdk6Cx0/exec",
 
     // Link Folder Google Drive bài tập học sinh nộp & Thầy giao
     HOMEWORK_DRIVE_FOLDER: "https://drive.google.com/drive/folders/1cGu7nt0K0paWCg-9nlHgqxVp0I_6h8M8?usp=drive_link",

@@ -79,7 +79,7 @@ function renderScoreTable(scores) {
 
     var limit = Math.min(scores.length, visibleLogsCount);
     for (var i = 0; i < limit; i++) {
-        var s = scores[i];
+        var s = scores[i] || {};
         html += `
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
                 <td style="padding: 12px; font-weight: bold; color: #FFD23F;">${s.subject || 'Môn Toán'}</td>

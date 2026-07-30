@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dành Cho Phụ Huynh - Lớp Học Thầy Nguyễn Hữu Phúc</title>
+    <title>Dành Cho Phụ Huynh - Lớp Học Đa Môn Bứt Phá Điểm Số</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -38,8 +38,8 @@
     <main class="main-container">
         <!-- TRA CỨU SECTION -->
         <div class="card" style="margin-bottom: 30px; background: linear-gradient(135deg, #1E1B4B, #312E81); color: white;">
-            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 12px;"><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu Kết Quả Học Tập Cho Phụ Huynh</h2>
-            <p style="opacity: 0.9; margin-bottom: 20px;">Nhập Số điện thoại đăng ký hoặc Mã học sinh để xem bảng điểm, chuyên cần và nhận xét của Thầy giáo.</p>
+            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 12px;"><i class="fa-solid fa-magnifying-glass"></i> Tra Cứu Kết Quả Học Tập Tất Cả Các Môn</h2>
+            <p style="opacity: 0.9; margin-bottom: 20px;">Nhập SĐT Phụ huynh hoặc Mã học sinh để tra cứu kết quả các môn học con đang tham gia.</p>
             
             <form id="formSearchParent" style="display: flex; gap: 12px; max-width: 600px; flex-wrap: wrap;">
                 <input type="text" id="parentSearchInput" class="form-control" placeholder="Nhập SĐT Phụ huynh hoặc Mã HS (Ví dụ: 0901234567 hoặc HS1001)..." style="flex: 1; min-width: 250px;" required>
@@ -61,72 +61,60 @@
                         <h4 id="resStudentName" style="font-size: 20px; font-weight: 800; color: var(--dark-bg);">Nguyễn Văn An</h4>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-                        <div>
-                            <span style="font-size: 12px; color: var(--text-muted);">Mã Học Sinh:</span>
-                            <p id="resStudentCode" style="font-weight: 700;">HS1001</p>
-                        </div>
-                        <div>
-                            <span style="font-size: 12px; color: var(--text-muted);">Lớp Đang Học:</span>
-                            <p id="resClassName" style="font-weight: 700;">Lớp 12A1</p>
-                        </div>
-                    </div>
-
                     <div style="margin-bottom: 16px;">
-                        <span style="font-size: 13px; color: var(--text-muted);">Tỷ Lệ Chuyên Cần:</span>
-                        <p id="resAttendance" class="badge badge-success" style="font-size: 14px; margin-top: 4px;">100% (12/12 buổi)</p>
+                        <span style="font-size: 12px; color: var(--text-muted);">Mã Học Sinh:</span>
+                        <p id="resStudentCode" style="font-weight: 700;">HS1001</p>
                     </div>
 
+                    <!-- DANH SÁCH MÔN ĐANG HỌC -->
                     <div style="margin-bottom: 20px;">
-                        <span style="font-size: 13px; color: var(--text-muted);">Tình Trạng Học Phí:</span>
-                        <p id="resTuitionStatus" class="badge badge-primary" style="font-size: 14px; margin-top: 4px;">Đã hoàn thành HP Tháng 7</p>
+                        <span style="font-size: 13px; color: var(--text-muted);">Các Lớp & Môn Học Đang Tham Gia:</span>
+                        <div id="resEnrolledClasses" style="margin-top: 8px;">
+                            <div style="background: #F8FAFC; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 6px;">
+                                <strong>Môn Toán Học</strong> (Lớp 10A1) - <span class="badge badge-success">100% Chuyên cần</span>
+                            </div>
+                            <div style="background: #F8FAFC; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--radius-sm);">
+                                <strong>Môn Vật Lý</strong> (Lớp 11A1) - <span class="badge badge-success">92% Chuyên cần</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- THÔNG TIN CHUYỂN KHOẢN -->
                     <div style="background: #F1F5F9; border-radius: var(--radius-sm); padding: 16px; border: 1px dashed var(--border-color);">
-                        <h5 style="font-size: 14px; font-weight: 800; color: var(--dark-bg); margin-bottom: 8px;"><i class="fa-solid fa-building-columns"></i> Thông Tin Học Phí</h5>
+                        <h5 style="font-size: 14px; font-weight: 800; color: var(--dark-bg); margin-bottom: 8px;"><i class="fa-solid fa-building-columns"></i> Thông Tin Đóng Học Phí</h5>
                         <p style="font-size: 13px; color: var(--text-muted);">Ngân hàng: <strong id="bankName">MB Bank</strong></p>
                         <p style="font-size: 13px; color: var(--text-muted);">Số tài khoản: <strong id="bankAcc" style="color: var(--primary-color);">0985692879</strong></p>
                         <p style="font-size: 13px; color: var(--text-muted);">Chủ tài khoản: <strong id="bankHolder">NGUYEN HUU PHUC</strong></p>
                     </div>
                 </div>
 
-                <!-- BẢNG ĐIỂM & NHẬN XÉT -->
+                <!-- BẢNG ĐIỂM BÀI TẬP THEO MÔN -->
                 <div class="card">
                     <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 16px; color: var(--dark-bg);">
-                        <i class="fa-solid fa-chart-bar"></i> Kết Quả Kiểm Tra & Đánh Giá
+                        <i class="fa-solid fa-chart-bar"></i> Kết Quả Bài Tập Các Môn Học
                     </h3>
 
-                    <!-- NHẬN XÉT CỦA THẦY GIÁO -->
-                    <div style="background: var(--primary-light); border-left: 4px solid var(--primary-color); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 24px;">
-                        <h4 style="font-size: 14px; font-weight: 800; color: var(--primary-color); margin-bottom: 6px;"><i class="fa-solid fa-comment-medical"></i> Nhận Xét Từ Thầy Nguyễn Hữu Phúc:</h4>
-                        <p id="resTeacherComment" style="font-size: 14px; color: var(--text-main);">Học sinh tư duy tốt, chăm chỉ làm bài tập về nhà. Cần chú ý rèn luyện thêm tốc độ bấm máy tính các bài toán Hình học không gian.</p>
-                    </div>
-
-                    <!-- LỊCH SỬ ĐIỂM -->
                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
                         <thead>
                             <tr style="background: #F8FAFC; border-bottom: 2px solid var(--border-color);">
-                                <th style="padding: 12px; font-weight: 700;">Bài Kiểm Tra</th>
-                                <th style="padding: 12px; font-weight: 700;">Ngày Thi</th>
+                                <th style="padding: 12px; font-weight: 700;">Môn Học</th>
+                                <th style="padding: 12px; font-weight: 700;">Bài Kiểm Tra / Bài Tập</th>
+                                <th style="padding: 12px; font-weight: 700;">Ngày Nộp</th>
                                 <th style="padding: 12px; font-weight: 700; text-align: right;">Điểm Số</th>
                             </tr>
                         </thead>
                         <tbody id="scoresTableBody">
                             <tr style="border-bottom: 1px solid var(--border-color);">
-                                <td style="padding: 12px; font-weight: 600;">Kiểm tra đầu giờ T7 (15p)</td>
+                                <td style="padding: 12px;"><span class="badge badge-primary">Môn Toán</span></td>
+                                <td style="padding: 12px; font-weight: 600;">Kiểm tra Chuyên đề Toán 15p</td>
                                 <td style="padding: 12px; color: var(--text-muted);">25/07/2026</td>
                                 <td style="padding: 12px; text-align: right;"><span class="badge badge-success" style="font-size: 14px;">9.5</span></td>
                             </tr>
                             <tr style="border-bottom: 1px solid var(--border-color);">
-                                <td style="padding: 12px; font-weight: 600;">Kiểm tra Định kỳ Tháng 7 (45p)</td>
-                                <td style="padding: 12px; color: var(--text-muted);">20/07/2026</td>
+                                <td style="padding: 12px;"><span class="badge badge-primary" style="background: #E0F2FE; color: #0369A1;">Vật Lý</span></td>
+                                <td style="padding: 12px; font-weight: 600;">Kiểm tra Định kỳ Vật Lý 45p</td>
+                                <td style="padding: 12px; color: var(--text-muted);">22/07/2026</td>
                                 <td style="padding: 12px; text-align: right;"><span class="badge badge-success" style="font-size: 14px;">8.8</span></td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; font-weight: 600;">Thi thử Chuyên đề Oxyz</td>
-                                <td style="padding: 12px; color: var(--text-muted);">15/07/2026</td>
-                                <td style="padding: 12px; text-align: right;"><span class="badge badge-success" style="font-size: 14px;">9.0</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -138,7 +126,7 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-bottom">
-            &copy; 2026 Lớp Học Bứt Phá Điểm Số. Trang thông tin dành cho Phụ huynh.
+            &copy; 2026 Lớp Học Bứt Phá Điểm Số.
         </div>
     </footer>
 

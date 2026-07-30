@@ -1,5 +1,5 @@
 /**
- * PARENT DASHBOARD SCRIPT
+ * PARENT DASHBOARD SCRIPT - ĐA MÔN & ĐA LỚP
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -51,22 +51,30 @@ function searchParentData() {
 function renderStudentData(student) {
     document.getElementById('resStudentName').innerText = student.name || '---';
     document.getElementById('resStudentCode').innerText = student.code || '---';
-    document.getElementById('resClassName').innerText = student.className || '---';
-    document.getElementById('resAttendance').innerText = student.attendance || '100%';
-    document.getElementById('resTuitionStatus').innerText = student.tuitionStatus || 'Bình thường';
     
-    if (student.teacherComment) {
-        document.getElementById('resTeacherComment').innerText = student.teacherComment;
+    // Render enrolled subjects/classes
+    const resClasses = document.getElementById('resEnrolledClasses');
+    if (resClasses && student.enrolledClasses) {
+        resClasses.innerHTML = '';
+        student.enrolledClasses.forEach(c => {
+            resClasses.innerHTML += `
+                <div style="background: #F8FAFC; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: var(--radius-sm); margin-bottom: 6px;">
+                    <strong>${c.subject}</strong> (${c.classId}) - <span class="badge badge-success">${c.attendance} Chuyên cần</span>
+                </div>
+            `;
+        });
     }
 
+    // Render scores per subject
     const tbody = document.getElementById('scoresTableBody');
     if (tbody && student.scores && student.scores.length > 0) {
         tbody.innerHTML = '';
         student.scores.forEach(s => {
             tbody.innerHTML += `
                 <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 12px; font-weight: 600;">${s.testName}</td>
-                    <td style="padding: 12px; color: var(--text-muted);">${s.date || '---'}</td>
+                    <td style="padding: 12px;"><span class="badge badge-primary">${s.subject}</span></td>
+                    <td style="padding: 12px; font-weight: 600;">${s.testName || s.homeworkId}</td>
+                    <td style="padding: 12px; color: var(--text-muted);">${s.submitTime || '---'}</td>
                     <td style="padding: 12px; text-align: right;"><span class="badge badge-success" style="font-size: 14px;">${s.score}</span></td>
                 </tr>
             `;

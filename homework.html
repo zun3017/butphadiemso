@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nộp Bài Tập - Lớp Học Thầy Nguyễn Hữu Phúc</title>
+    <title>Nộp Bài Tập - Lớp Học Đa Môn Bứt Phá Điểm Số</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -38,8 +38,8 @@
     <main class="main-container">
         <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
             <div>
-                <h2 style="font-size: 26px; font-weight: 800; color: var(--dark-bg);">📤 Nộp Bài Tập Trực Tuyến</h2>
-                <p style="color: var(--text-muted);">Học sinh chọn lớp, xem bài tập được giao và gửi file bài làm trực tiếp cho Thầy giáo.</p>
+                <h2 style="font-size: 26px; font-weight: 800; color: var(--dark-bg);">📤 Nộp Bài Tập Các Môn Học</h2>
+                <p style="color: var(--text-muted);">Học sinh chọn Môn học & Lớp học, xem bài tập được giao và nộp file bài làm trực tiếp cho Thầy giáo.</p>
             </div>
             <div>
                 <a id="btnDriveAssignment" href="#" target="_blank" class="btn btn-secondary" style="margin-right: 8px;"><i class="fa-solid fa-folder-open"></i> Thư mục Đề Bài (Drive)</a>
@@ -56,12 +56,20 @@
                 
                 <form id="formSubmitHomework">
                     <div class="form-group">
+                        <label class="form-label">Chọn Môn Học <span style="color:red;">*</span></label>
+                        <select id="selectSubject" class="form-select" onchange="onSubjectChange()" required>
+                            <option value="Tất cả">-- Tất cả các môn --</option>
+                            <option value="Môn Toán">Môn Toán</option>
+                            <option value="Vật Lý">Môn Vật Lý</option>
+                            <option value="Hóa Học">Môn Hóa Học</option>
+                            <option value="Tiếng Anh">Môn Tiếng Anh</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label">Chọn Lớp Học <span style="color:red;">*</span></label>
-                        <select id="selectClass" class="form-select" required>
+                        <select id="selectClass" class="form-select" onchange="onClassChange()" required>
                             <option value="">-- Chọn lớp học --</option>
-                            <option value="10A1">Lớp 10A1 - Chuyên Toán</option>
-                            <option value="11A1">Lớp 11A1 - Luyện Thi 9+</option>
-                            <option value="12A1">Lớp 12A1 - Về Đích 9+</option>
                         </select>
                     </div>
 
@@ -69,15 +77,12 @@
                         <label class="form-label">Chọn Bài Tập Cần Nộp <span style="color:red;">*</span></label>
                         <select id="selectHomework" class="form-select" required>
                             <option value="">-- Chọn bài tập --</option>
-                            <option value="BT01">Bài tập 1: Phương trình và Bất phương trình chứa căn</option>
-                            <option value="BT02">Bài tập 2: Đạo hàm và Ứng dụng trong Hình học</option>
-                            <option value="BT03">Đề thi thử số 05 - Chuyên đề Oxyz & Tích phân</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Mã Học Sinh / Số Điện Thoại PH <span style="color:red;">*</span></label>
-                        <input type="text" id="studentCode" class="form-control" placeholder="Ví dụ: HS1001 hoặc 0985692879" required>
+                        <label class="form-label">Mã Học Sinh / SĐT Phụ Huynh <span style="color:red;">*</span></label>
+                        <input type="text" id="studentCode" class="form-control" placeholder="Ví dụ: HS1001 hoặc 0901234567" required>
                     </div>
 
                     <div class="form-group">
@@ -86,10 +91,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Đường Link File Bài Làm (Google Drive / Canva / OneDrive / Ảnh) <span style="color:red;">*</span></label>
-                        <input type="url" id="fileUrl" class="form-control" placeholder="Dán link đường dẫn bài làm hoặc thư mục Drive bài làm tại đây..." required>
+                        <label class="form-label">Link File Bài Làm (Google Drive / Canva / Ảnh) <span style="color:red;">*</span></label>
+                        <input type="url" id="fileUrl" class="form-control" placeholder="Dán đường dẫn link file bài làm hoặc Folder Drive bài làm..." required>
                         <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
-                            💡 <em>Hướng dẫn: Học sinh tải bài làm lên Google Drive cá nhân, bật chế độ "Chia sẻ ai có link cũng xem được" và dán link vào ô trên.</em>
+                            💡 <em>Hướng dẫn: Tải bài làm lên Drive cá nhân, bật "Chia sẻ ai có link cũng xem được" và dán link vào ô trên.</em>
                         </p>
                     </div>
 
@@ -106,38 +111,7 @@
                 </h3>
 
                 <div id="homeworkListContainer">
-                    <!-- Item 1 -->
-                    <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 14px;">
-                        <span class="badge badge-primary" style="margin-bottom: 8px;">Lớp 10A1</span>
-                        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-main);">Bài tập 1: Phương trình và Bất phương trình chứa căn</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); margin: 6px 0 12px;">Hạn nộp: <strong style="color: var(--danger-color);">23h59 - 05/08/2026</strong></p>
-                        <div style="display: flex; gap: 10px;">
-                            <a href="https://drive.google.com" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;"><i class="fa-solid fa-download"></i> Tải Đề Bài</a>
-                            <button onclick="selectHomeworkToSubmit('BT01', '10A1')" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;"><i class="fa-solid fa-check"></i> Nộp Bài Này</button>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 14px;">
-                        <span class="badge badge-primary" style="margin-bottom: 8px;">Lớp 11A1</span>
-                        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-main);">Bài tập 2: Đạo hàm và Ứng dụng trong Hình học</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); margin: 6px 0 12px;">Hạn nộp: <strong style="color: var(--danger-color);">23h59 - 07/08/2026</strong></p>
-                        <div style="display: flex; gap: 10px;">
-                            <a href="https://drive.google.com" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;"><i class="fa-solid fa-download"></i> Tải Đề Bài</a>
-                            <button onclick="selectHomeworkToSubmit('BT02', '11A1')" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;"><i class="fa-solid fa-check"></i> Nộp Bài Này</button>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px;">
-                        <span class="badge badge-primary" style="margin-bottom: 8px;">Lớp 12A1</span>
-                        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-main);">Đề thi thử số 05 - Chuyên đề Oxyz & Tích phân</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); margin: 6px 0 12px;">Hạn nộp: <strong style="color: var(--danger-color);">23h59 - 10/08/2026</strong></p>
-                        <div style="display: flex; gap: 10px;">
-                            <a href="https://drive.google.com" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;"><i class="fa-solid fa-download"></i> Tải Đề Bài</a>
-                            <button onclick="selectHomeworkToSubmit('BT03', '12A1')" class="btn btn-primary" style="padding: 6px 12px; font-size: 13px;"><i class="fa-solid fa-check"></i> Nộp Bài Này</button>
-                        </div>
-                    </div>
+                    <!-- Homework cards dynamically rendered here -->
                 </div>
             </div>
         </div>
@@ -146,7 +120,7 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-bottom">
-            &copy; 2026 Lớp Học Bứt Phá Điểm Số. Hệ thống giao nhận bài tập trực tuyến.
+            &copy; 2026 Lớp Học Bứt Phá Điểm Số.
         </div>
     </footer>
 

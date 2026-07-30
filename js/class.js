@@ -1,5 +1,5 @@
 /**
- * CLASS DASHBOARD SCRIPT
+ * CLASS DASHBOARD SCRIPT - ĐA MÔN & ĐA LỚP
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
         formTeacherAuth.addEventListener('submit', (e) => {
             e.preventDefault();
             authenticateTeacher();
+        });
+    }
+
+    const formCreateClass = document.getElementById('formCreateClass');
+    if (formCreateClass) {
+        formCreateClass.addEventListener('submit', (e) => {
+            e.preventDefault();
+            createNewClass();
         });
     }
 
@@ -46,14 +54,41 @@ function switchRoleTab(role) {
 
 function authenticateTeacher() {
     const pin = document.getElementById('teacherPinInput').value.trim();
-    // Default demo PIN is 1234
     if (pin === '1234' || pin === '8888') {
         document.getElementById('teacherAuthCard').style.display = 'none';
         document.getElementById('teacherAdminContent').style.display = 'block';
-        alert('Đăng nhập Quản lý Thầy giáo thành công!');
+        alert('Đăng nhập Quản lý Lớp học thành công!');
     } else {
         alert('Mã PIN không chính xác! (Mã PIN dùng thử mặc định: 1234)');
     }
+}
+
+function createNewClass() {
+    const subject = document.getElementById('newClassSubject').value;
+    const name = document.getElementById('newClassName').value;
+    const schedule = document.getElementById('newClassSchedule').value;
+
+    const payload = {
+        subject: subject,
+        name: name,
+        schedule: schedule,
+        teacher: 'Thầy Nguyễn Hữu Phúc',
+        pin: '1234'
+    };
+
+    google.script.run
+        .withSuccessHandler((response) => {
+            if (response && response.success) {
+                alert(response.message || 'Tạo lớp học mới thành công!');
+                document.getElementById('formCreateClass').reset();
+            } else {
+                alert('Có lỗi xảy ra!');
+            }
+        })
+        .withFailureHandler((err) => {
+            alert('Lỗi kết nối máy chủ: ' + err);
+        })
+        .createClass(payload);
 }
 
 function createNewHomework() {

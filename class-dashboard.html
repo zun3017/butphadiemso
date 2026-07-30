@@ -1305,11 +1305,6 @@
                         nameDisplay.innerText = "Xin chào, " + (currentTutorData.tutorName || "Giáo viên Lớp học") + " 👋";
                     }
 
-                    if (currentTutorData.classes && Array.isArray(currentTutorData.classes) && currentTutorData.classes.length > 0) {
-                        currentClasses = currentTutorData.classes;
-                        renderDashboardUI();
-                    }
-
                     var phone = currentTutorData.tutorPhone || sessionStorage.getItem("userPhone") || localStorage.getItem("userPhone") || "";
                     var code = currentTutorData.tutorCode || currentTutorData.tutorId || sessionStorage.getItem("userCode") || localStorage.getItem("userCode") || "";
                     loadClassDashboardData(phone, null, code);
@@ -1372,19 +1367,14 @@
 
                         renderDashboardUI();
                     } else {
-                        var savedData = sessionStorage.getItem("classTutorData") || localStorage.getItem("classTutorData");
-                        if (savedData) {
-                            try {
-                                var parsed = JSON.parse(savedData);
-                                if (parsed && parsed.classes && parsed.classes.length > 0) {
-                                    currentClasses = parsed.classes;
-                                    if (activeClassIndex < 0 || activeClassIndex >= currentClasses.length) activeClassIndex = 0;
-                                    renderDashboardUI();
-                                    return;
-                                }
-                            } catch(e) {}
-                        }
-                        renderEmptyClassState();
+                        sessionStorage.removeItem("classTutorData");
+                        localStorage.removeItem("classTutorData");
+                        currentClasses = [];
+                        activeClassIndex = 0;
+                        activeStudents = [];
+                        activeClassLessonLogs = [];
+                        activeClassHomework = [];
+                        renderDashboardUI();
                     }
                 })
                 .withFailureHandler(function(err) {

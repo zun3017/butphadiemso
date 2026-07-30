@@ -1328,20 +1328,21 @@
             }
         });
 
+        function clearLocalCacheAndReload() {
+            sessionStorage.removeItem("classTutorData");
+            localStorage.removeItem("classTutorData");
+            sessionStorage.removeItem("dashboardData");
+            localStorage.removeItem("dashboardData");
+            alert("Đã xóa bộ nhớ đệm cũ trên trình duyệt! Đang tải lại dữ liệu trực tiếp từ Google Sheet Mới...");
+            location.reload();
+        }
+
         function loadClassDashboardData(phone, requestedClassId, code) {
             var tutorCode = code || (currentTutorData ? (currentTutorData.tutorCode || currentTutorData.tutorId || "") : "");
             google.script.run
                 .withSuccessHandler(function(res) {
                     if (res && res.classes && Array.isArray(res.classes) && res.classes.length > 0) {
-                        var merged = res.classes.slice();
-                        if (currentClasses && currentClasses.length > 0) {
-                            currentClasses.forEach(function(localCls) {
-                                if (!merged.some(function(mc) { return mc.classId === localCls.classId || mc.className === localCls.className; })) {
-                                    merged.push(localCls);
-                                }
-                            });
-                        }
-                        currentClasses = merged;
+                        currentClasses = res.classes.slice();
                         if (!currentTutorData) currentTutorData = {};
                         currentTutorData.classes = currentClasses;
                         if (phone) currentTutorData.tutorPhone = phone;

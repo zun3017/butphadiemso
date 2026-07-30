@@ -39,7 +39,19 @@
         </div>
     </div>
 
-    <div id="resultBox">
+    <div id="resultBox" style="max-width: 1100px; margin: 30px auto; padding: 0 20px;">
+        <!-- Search Card Dành cho Phụ huynh -->
+        <div class="search-card" style="max-width: 540px; margin: 20px auto 30px auto; text-align: center; background: rgba(15, 11, 46, 0.85); border: 1px solid rgba(142, 77, 255, 0.4); border-radius: 20px; padding: 25px;">
+            <h3 style="color: #FFD23F; margin-bottom: 14px; font-size: 19px;"><i class="fa-solid fa-graduation-cap"></i> Tra Cứu Kết Quả Học Tập Phụ Huynh</h3>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="searchParentInput" placeholder="Nhập SĐT Phụ huynh hoặc Mã HS..." style="flex: 1; padding: 13px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(142, 77, 255, 0.4); border-radius: 12px; color: #FFF; font-size: 15px; outline: none;">
+                <button onclick="traCuuPhuHuynh()" style="padding: 13px 22px; background: linear-gradient(135deg, #8E4DFF, #5B21B6); color: #FFF; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;">
+                    Tra cứu <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <p id="loadingText" style="display: none; color: #FFD23F; margin-top: 12px; font-size: 14px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tra cứu dữ liệu từ hệ thống...</p>
+        </div>
+
         <div id="loiChao"></div>
         
         <!-- Khu vực hiển thị Huy chương vinh danh (đã dời vào thẻ bên dưới) -->

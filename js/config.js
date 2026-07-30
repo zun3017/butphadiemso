@@ -13,5 +13,5 @@ const APP_CONFIG = {
 
     // Dán đường link Folder Google Drive mới của Thầy vào đây
     HOMEWORK_DRIVE_FOLDER: "https://drive.google.com/drive/folders/1ABC_DEMO_NOP_BAI_TAP",
-    ASSIGNMENT_DRIVE_FOLDER: "https://drive.google.com/drive/folders/1XYZ_DEMO_GIAO_BAI_TAP"
+    ASSIGNMENT_DRIVE_FOLDER: "https://drive.google.com/drive/folders/11z6CIwULBhR6CKcUzhvHDaTMjiUA7Iiu?usp=drive_link"
 };

@@ -1322,9 +1322,10 @@
         }
 
         function checkTeacherAuth() {
-            var loggedIn = sessionStorage.getItem("teacherLoggedIn") || localStorage.getItem("teacherLoggedIn");
+            // Xóa bộ nhớ đệm cũ để luôn yêu cầu Đăng nhập mỗi khi Thầy mở trang
+            var loggedIn = sessionStorage.getItem("teacherLoggedIn");
             var modal = document.getElementById("teacherLoginModal");
-            if (!loggedIn || loggedIn !== "true") {
+            if (loggedIn !== "true") {
                 if (modal) modal.style.display = "flex";
             } else {
                 if (modal) modal.style.display = "none";

@@ -4,7 +4,7 @@
  */
 const SCRIPT_URL = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.SCRIPT_URL)
     ? APP_CONFIG.SCRIPT_URL
-    : 'https://script.google.com/macros/s/AKfycbyqYSGlYrksMueG8lCDHqQykP37T3_42UkVmed6RtQrI-22W0P2G57EkWBxiadG_tE/exec';
+    : 'https://script.google.com/macros/s/AKfycbyt-mSeTKqNL_CZNIkNkwC1aBsLQ5PwoQV_22lzHF1Lrm_35KDls9c0VmcQFAGSfcnf/exec';
 
 // Chỉ tạo Shim giả lập nếu chạy ngoài môi trường Google Apps Script (ví dụ trên GitHub Pages / Localhost)
 if (typeof google === 'undefined' || typeof google.script === 'undefined' || typeof google.script.run === 'undefined') {

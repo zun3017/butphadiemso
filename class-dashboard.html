@@ -336,7 +336,7 @@
     </div>
 
     <div class="dashboard-container">
-        <!-- 1. Header Welcome Card (Giống hệt Gia sư 1-1) -->
+        <!-- 1. Header Welcome Card (Chuẩn giao diện Lớp học) -->
         <div class="tutor-header-card" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px 25px; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
             <div>
                 <h2 id="tutorNameDisplay" style="color: #FFD23F; font-size: 22px; font-weight: 800; margin: 0;">Xin chào, Giáo viên Lớp học 👋</h2>
@@ -349,7 +349,7 @@
             </div>
         </div>
 
-        <!-- 2. Schedule Section (Khung Thời khóa biểu tổng hợp giống hệt Gia sư 1-1) -->
+        <!-- 2. Schedule Section (Khung Thời khóa biểu tổng hợp Chuẩn giao diện Lớp học) -->
         <div class="card-box" style="margin-bottom: 20px;">
             <h3 style="color: #FFF; font-size: 16px; font-weight: 700; margin: 0 0 15px; display: flex; align-items: center; gap: 8px;">
                 <i class="fa-regular fa-calendar-alt" style="color: #8E4DFF;"></i> Thời khóa biểu tổng hợp
@@ -376,7 +376,7 @@
 
         <!-- Widget Thông báo khi chưa chọn lớp học đã bị xóa theo yêu cầu -->
 
-        <!-- Khung Nội Dung Chi Tiết Lớp Học (Luôn hiển thị mượt mà hệt Gia sư) -->
+        <!-- Khung Nội Dung Chi Tiết Lớp Học (Luôn hiển thị mượt mà hệt Lớp học) -->
         <div id="classDetailsContainer" style="display: none; animation: fadeIn 0.3s ease-in-out;">
             <!-- Class Info Banner -->
             <div class="card-box" id="classInfoBox">
@@ -459,6 +459,10 @@
                         <div>
                             <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">TÊN BÀI TẬP *</label>
                             <input type="text" id="classHwTitle" placeholder="Ví dụ: Đề cương Toán tuần 1" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                        </div>
+                        <div>
+                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">MÔN HỌC</label>
+                            <input type="text" id="classHwSubject" placeholder="Ví dụ: Toán" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
                         </div>
                         <div>
                             <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">NGÀY PHÁT HÀNH *</label>
@@ -563,7 +567,7 @@
             </div>
         </div>
 
-        <!-- Lịch Sử Học Tập & Nhận Xét Chi Tiết (Tương thích 100% bản Gia sư) -->
+        <!-- Lịch Sử Học Tập & Nhận Xét Chi Tiết (Tương thích 100% bản Lớp học) -->
         <div class="card-box" style="margin-top: 25px; margin-bottom: 25px;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px;">
                 <h3 style="color: #FFF; font-size: 18px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 10px;">
@@ -1033,7 +1037,7 @@
         </div>
     </div>
 
-    <!-- MODAL 5: Thêm Nhật Ký Buổi Học (Chuẩn 100% theo giao diện Gia sư) -->
+    <!-- MODAL 5: Thêm Nhật Ký Buổi Học (Chuẩn 100% theo giao diện Giáo viên) -->
     <div id="addClassLessonModal" class="modal-overlay">
         <div class="modal-card" style="max-width: 580px; width: 94%; padding: 25px; border-radius: 22px; background: #0D0826; border: 1px solid rgba(142, 77, 255, 0.35); box-shadow: 0 12px 50px rgba(0,0,0,0.85); max-height: 90vh; overflow-y: auto;">
             <div class="modal-header" style="margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center;">
@@ -1081,7 +1085,7 @@
                 <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">ĐÁNH GIÁ BÀI TẬP VỀ NHÀ</label>
                 <select id="logHwEval" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 13px 16px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
                     <option value="Hoàn thành" style="background:#0D0826;">Hoàn thành</option>
-                    <option value="Phụ huynh nhớ nhắc nhờ bé làm bài tập gia sư mới giao" style="background:#0D0826;">Phụ huynh nhớ nhắc nhờ bé làm bài tập gia sư mới giao</option>
+                    <option value="Phụ huynh nhớ nhắc nhờ bé làm bài tập giáo viên mới giao" style="background:#0D0826;">Phụ huynh nhớ nhắc nhờ bé làm bài tập giáo viên mới giao</option>
                     <option value="Thiếu 1 bài" style="background:#0D0826;">Thiếu 1 bài</option>
                     <option value="Chưa làm bài" style="background:#0D0826;">Chưa làm bài</option>
                     <option value="Không có bài tập" style="background:#0D0826;">Không có bài tập</option>
@@ -1128,7 +1132,7 @@
         </div>
     </div>
 
-    <!-- Sync Toast Badge giống Dành cho Gia Sư -->
+    <!-- Sync Toast Badge giống Dành cho Giáo Viên -->
     <div id="syncToast" class="sync-toast" style="display:none;"></div>
 
     <script src="js/api.js?v=1.9.0"></script>
@@ -1293,14 +1297,9 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            var loggedIn = sessionStorage.getItem("teacherLoggedIn") || localStorage.getItem("teacherLoggedIn");
-            var phone = sessionStorage.getItem("userPhone") || localStorage.getItem("userPhone");
 
-            if (!loggedIn || loggedIn !== "true" || !phone) {
-                alert("Vui lòng đăng nhập tài khoản Giáo viên / Admin để truy cập Bảng điều khiển!");
-                window.location.href = "class-login.html";
-                return;
-            }
+            // Đọc dữ liệu giáo viên từ sessionStorage hoặc localStorage
+            var saved = sessionStorage.getItem("classTutorData") || sessionStorage.getItem("userTutorData") || localStorage.getItem("classTutorData") || localStorage.getItem("userTutorData");
             
             if (saved) {
                 try {
@@ -1332,17 +1331,6 @@
                 resetClassHwForm();
             }
         });
-
-        function logoutClass() {
-            sessionStorage.removeItem("teacherLoggedIn");
-            localStorage.removeItem("teacherLoggedIn");
-            sessionStorage.removeItem("userPhone");
-            localStorage.removeItem("userPhone");
-            sessionStorage.removeItem("classTutorData");
-            localStorage.removeItem("classTutorData");
-            alert("Đã đăng xuất khỏi tài khoản Giáo viên thành công!");
-            window.location.href = "class-login.html";
-        }
 
         function loadClassDashboardData(phone, requestedClassId, code) {
             var tutorCode = code || (currentTutorData ? (currentTutorData.tutorCode || currentTutorData.tutorId || "") : "");
@@ -1678,7 +1666,7 @@
                         renderClassHomeworkListUI();
                     }
                 })
-                .getClassDashboardData(phone, requestedClassId);
+                .getClassDashboardData(phone, requestedClassId, tutorCode);
         }
 
         function loadStudentsForActiveClass() {
@@ -2943,6 +2931,14 @@
             if (!file) return;
             
             var reader = new FileReader();
+            
+            // Giới hạn dung lượng 5MB (Google Apps Script Payload Limit)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast("Dung lượng file quá lớn! Vui lòng tải file (Video, PDF nặng...) lên Google Drive hoặc Youtube của bạn và dán link vào ô 'Link liên kết bài tập'.", "error");
+                e.target.value = "";
+                return;
+            }
+
             reader.onload = function(evt) {
                 var base64 = evt.target.result.split(',')[1];
                 selectedClassHwFile = {
@@ -2995,6 +2991,7 @@
             }
 
             var title = document.getElementById("classHwTitle").value.trim();
+            var subject = document.getElementById("classHwSubject").value.trim();
             var releaseDate = document.getElementById("classHwReleaseDate").value.trim();
             var link = document.getElementById("classHwLink").value.trim();
 
@@ -3051,13 +3048,14 @@
                             showToast("Giao bài tập thành công!", "success");
                             
                             var savedHw = {
-                                hwId: res.hwId,
+                                hwId: (res.hw && res.hw.hwId) ? res.hw.hwId : "",
                                 classId: cls.classId,
                                 className: cls.className,
+                                subject: subject,
                                 title: title,
                                 releaseDate: releaseDate || new Date().toLocaleDateString('vi-VN'),
-                                fileUrl: res.fileUrl || "",
-                                fileName: res.fileName || "",
+                                fileUrl: (res.hw && res.hw.fileUrl) ? res.hw.fileUrl : "",
+                                fileName: (res.hw && res.hw.fileName) ? res.hw.fileName : "",
                                 link: link
                             };
                             
@@ -3079,7 +3077,7 @@
                     if (btn) btn.disabled = false;
                     showToast("Lỗi kết nối: " + err.toString(), "error");
                 })
-                .saveClassHomework(cls.classId, cls.className, title, releaseDate, base64, fName, mType, link);
+                .saveClassHomework(cls.classId, cls.className, subject, title, releaseDate, base64, fName, mType, link);
         }
 
         function deleteClassHomework(hwId) {
@@ -3094,8 +3092,9 @@
         }
 
         var currentEditHwId = null;
-        function openEditClassHomeworkModal(hwId, title, releaseDate, link) {
+        function openEditClassHomeworkModal(hwId, subject, title, releaseDate, link) {
             currentEditHwId = hwId;
+            document.getElementById("editClassHwSubject").value = subject || "";
             document.getElementById("editClassHwTitle").value = title || "";
             document.getElementById("editClassHwReleaseDate").value = releaseDate || "";
             document.getElementById("editClassHwLink").value = link || "";
@@ -3122,6 +3121,7 @@
         }
         
         function saveEditClassHomework() {
+            var subject = document.getElementById("editClassHwSubject").value.trim();
             var title = document.getElementById("editClassHwTitle").value.trim();
             var releaseDate = document.getElementById("editClassHwReleaseDate").value.trim();
             var link = document.getElementById("editClassHwLink").value.trim();
@@ -3151,7 +3151,7 @@
                 if (btn) { btn.disabled = false; btn.innerHTML = 'Lưu thay đổi'; }
                 showSyncToast('error');
                 showToast("Lỗi kết nối: " + err.toString(), "error");
-            }).editClassHomework(currentEditHwId, title, releaseDate, link, base64, fName, mType);
+            }).editClassHomework(currentEditHwId, subject, title, releaseDate, link, base64, fName, mType);
         }
 
         function openClassHwTrashModal() {
@@ -3240,7 +3240,7 @@
 
                 var actionsHtml = 
                     '<div style="display:flex; gap:8px; justify-content:center; align-items:center;">' +
-                        '<button onclick="openEditClassHomeworkModal(\'' + hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\'") + '\', \'' + hw.releaseDate + '\', \'' + (hw.link ? hw.link.replace(/'/g, "\\'") : '') + '\')" class="action-btn-hw-icon action-btn-hw-edit" title="Chỉnh sửa" style="background:none; border:none; color:#FFD23F; cursor:pointer; font-size:15px;"><i class="fa-solid fa-pen-to-square"></i></button>' +
+                        '<button onclick="openEditClassHomeworkModal(\'' + hw.hwId + '\', \'' + (hw.subject ? hw.subject.replace(/'/g, "\\'") : '') + '\', \'' + hw.title.replace(/'/g, "\\'") + '\', \'' + hw.releaseDate + '\', \'' + (hw.link ? hw.link.replace(/'/g, "\\'") : '') + '\')" class="action-btn-hw-icon action-btn-hw-edit" title="Chỉnh sửa" style="background:none; border:none; color:#FFD23F; cursor:pointer; font-size:15px;"><i class="fa-solid fa-pen-to-square"></i></button>' +
                         '<button onclick="deleteClassHomework(\'' + hw.hwId + '\')" class="action-btn-hw-icon action-btn-hw-delete" title="Xóa tạm thời" style="background:none; border:none; color:#EF4444; cursor:pointer; font-size:15px;"><i class="fa-solid fa-trash-can"></i></button>' +
                     '</div>';
 
@@ -3772,6 +3772,10 @@
             <div class="modal-header">
                 <h3><i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa bài tập</h3>
                 <button onclick="closeModal('editClassHwModal')" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-form-group">
+                <label>Môn học</label>
+                <input type="text" id="editClassHwSubject" placeholder="Ví dụ: Toán">
             </div>
             <div class="modal-form-group">
                 <label>Tên bài tập *</label>

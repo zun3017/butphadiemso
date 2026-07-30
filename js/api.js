@@ -2,9 +2,11 @@
  * API GATEWAY SHIM FOR GOOGLE APPS SCRIPT
  * Tự động kết nối với Web App Google Apps Script mới của Thầy giáo
  */
-const SCRIPT_URL = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.SCRIPT_URL)
-    ? APP_CONFIG.SCRIPT_URL
-    : 'https://script.google.com/macros/s/AKfycbz-wSNNvXPRFRcgCCFEMXndz-25E5MXKbqB57gPJNLkuVTAFhVlY8QCGAmgXdk6Cx0/exec';
+const SCRIPT_URL = (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFIG.SCRIPT_URL)
+    ? window.APP_CONFIG.SCRIPT_URL 
+    : 'https://script.google.com/macros/s/AKfycbz7Ig1ryxHWjQU7GzOmrZiJtJGXEMZ0PxeDyJzjlN5mci4rd-PIxHuATjqENhuo0SPw/exec';
+
+
 
 // Chỉ tạo Shim giả lập nếu chạy ngoài môi trường Google Apps Script (ví dụ trên GitHub Pages / Localhost)
 if (typeof google === 'undefined' || typeof google.script === 'undefined' || typeof google.script.run === 'undefined') {

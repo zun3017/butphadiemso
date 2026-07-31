@@ -453,7 +453,56 @@ function renderStudentView(ketQua) {
         }
         khuVucBaiTapEl.innerHTML = htmlBaiTap;
     }
+
+    // Tự động tải danh sách đề thi trực tuyến được giao cho lớp học này
+    var classIdToUse = ketQua.classId || sessionStorage.getItem('activeClassId') || localStorage.getItem('activeClassId') || '';
+    if (classIdToUse) {
+        // Lưu lại để trang exam.html sử dụng
+        sessionStorage.setItem('activeClassId', classIdToUse);
+        if (ketQua.studentId) {
+            sessionStorage.setItem('userPhone', ketQua.studentId);
+            localStorage.setItem('userPhone', ketQua.studentId);
+        }
+        loadAssignedExams(classIdToUse);
+    }
 } // End renderStudentView
+
+// Tải danh sách đề thi online được giao cho lớp
+function loadAssignedExams(classId) {
+    var container = document.getElementById('khuVucDeThiOnline');
+    if (!container) return;
+
+    google.script.run
+        .withSuccessHandler(function(list) {
+            var html = "";
+            if (list && list.length > 0) {
+                list.forEach(function(exam) {
+                    html += "<div class='bt-item' style='display:flex; justify-content:space-between; align-items:center; background:rgba(142,77,255,0.05); border:1px solid rgba(142,77,255,0.15); padding:12px 20px; border-radius:12px; margin-bottom:10px;'>";
+                    html += "  <div style='text-align:left;'>";
+                    html += "    <strong style='color:#FFD23F; font-size:14px;'>[" + exam.examId + "]</strong>";
+                    html += "    <span style='color:#FFF; font-weight:600; margin-left:8px; font-size:15px;'>" + exam.title + "</span>";
+                    html += "    <div style='font-size:12px; color:#A6ADCE; margin-top:4px;'><i class='fa-regular fa-clock'></i> Thời gian: " + exam.timeLimit + " phút | Giao ngày: " + exam.dateAssigned + "</div>";
+                    html += "  </div>";
+                    html += "  <button onclick='startOnlineExam(\"" + exam.examId + "\", \"" + classId + "\")' class='btn-download' style='background:linear-gradient(135deg, #10B981 0%, #059669 100%); border:none; box-shadow: 0 4px 12px rgba(16,185,129,0.3); padding:8px 18px; border-radius:15px; font-weight:700; color:#fff; cursor:pointer; font-size:13px; display:inline-flex; align-items:center; gap:6px;'><i class='fa-solid fa-play'></i> Làm bài</button>";
+                    html += "</div>";
+                });
+            } else {
+                html = "<p style='color: #A6ADCE; font-style:italic;'>Không có bài thi trắc nghiệm nào đang mở cho lớp của bạn.</p>";
+            }
+            container.innerHTML = html;
+        })
+        .withFailureHandler(function(err) {
+            container.innerHTML = "<p style='color: #EF4444;'>Lỗi tải danh sách bài thi: " + err + "</p>";
+        })
+        .getAssignedExamsForClass(classId);
+}
+
+// Bắt đầu làm bài thi trực tuyến
+function startOnlineExam(examId, classId) {
+    sessionStorage.setItem('activeExamId', examId);
+    sessionStorage.setItem('activeClassId', classId);
+    window.location.href = "exam.html";
+}
 
 // ==================== HELPERS ====================
 

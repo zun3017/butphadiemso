@@ -361,6 +361,106 @@
             </div>
         </div>
 
+        <!-- Section Thi trắc nghiệm Online (Tích hợp AI) -->
+        <div class="card-box" style="margin-top: 20px; margin-bottom: 20px; background: rgba(11, 8, 38, 0.9); border-color: rgba(142, 77, 255, 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+                <div class="section-title" style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: #FFF;">
+                    <i class="fa-solid fa-file-signature" style="color: #FFD23F;"></i> Quản lý Đề & Phòng thi trắc nghiệm (AI)
+                </div>
+            </div>
+
+            <!-- Tab Buttons cho Bài thi -->
+            <div style="display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; flex-wrap: wrap;">
+                <button id="classExamTabCreateBtn" onclick="switchClassExamTab('create')" style="padding: 9px 20px; background: rgba(142,77,255,0.2); border: 1px solid #8E4DFF; border-radius: 20px; color: #FFF; font-weight: 700; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #FFD23F;"></i> Tạo đề thi bằng AI
+                </button>
+                <button id="classExamTabManageBtn" onclick="switchClassExamTab('manage')" style="padding: 9px 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #A6ADCE; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-folder-open"></i> Kho đề & Giao đề
+                </button>
+                <button id="classExamTabResultBtn" onclick="switchClassExamTab('results')" style="padding: 9px 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #A6ADCE; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-square-poll-vertical"></i> Xem điểm thi online
+                </button>
+            </div>
+
+            <!-- Content 1: Tạo đề thi bằng AI -->
+            <div id="classExamTabContentCreate">
+                <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(142,77,255,0.3); border-radius: 16px; padding: 20px;">
+                    <h4 style="color: #FFD23F; margin-bottom: 16px; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Đăng tải tài liệu đề thi để AI OCR bóc tách
+                    </h4>
+                    <p style="color:#A6ADCE; font-size:13px; margin-bottom:15px; line-height:1.4;">
+                        Hệ thống sử dụng mô hình <strong>Gemini 1.5 Flash</strong> để đọc tài liệu (Ảnh chụp đề, PDF hoặc Word) và tự động nhận dạng công thức toán LaTeX, bóc tách phương án lựa chọn và đáp án đúng để tạo bài thi trắc nghiệm online chấm điểm tự động.
+                    </p>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">Chọn file đề thi (Ảnh chụp hoặc PDF)</label>
+                        <input type="file" id="examFileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleExamFileSelect(event)">
+                        <div onclick="document.getElementById('examFileInput').click()" style="padding: 30px; border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; background: rgba(4,2,10,0.6); transition: all 0.3s;" onmouseover="this.style.borderColor='#8E4DFF'" onmouseout="this.style.borderColor='rgba(142, 77, 255, 0.4)'">
+                            <i class="fa-solid fa-file-pdf" style="font-size: 32px; color: #8E4DFF; margin-bottom: 10px;"></i>
+                            <div id="examUploadText" style="font-size: 13px; color: #E2D1FF; font-weight:600;">Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)</div>
+                            <div style="font-size:11px; color:#A6ADCE; margin-top:5px;">Dung lượng tối đa 10MB</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <button onclick="processExamUpload()" id="btnProcessExam" style="padding: 12px 28px; background: linear-gradient(135deg, #10B981, #059669); border:none; color:#FFF; font-weight:700; border-radius:20px; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); font-family: 'Inter', sans-serif;">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Bóc tách & Tạo đề thi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content 2: Kho đề & Giao đề -->
+            <div id="classExamTabContentManage" style="display:none;">
+                <div class="table-wrapper" style="overflow-x:auto;">
+                    <table style="width:100%; border-collapse:collapse; text-align:left;" id="tblClassExams">
+                        <thead>
+                            <tr style="background:rgba(142,77,255,0.1); color:#fff; font-weight:700;">
+                                <th style="padding:12px;">Mã đề</th>
+                                <th style="padding:12px;">Tên đề</th>
+                                <th style="padding:12px;">Môn học</th>
+                                <th style="padding:12px;">Thời gian</th>
+                                <th style="padding:12px;">Lớp được giao</th>
+                                <th style="padding:12px;">Ngày tạo</th>
+                                <th style="padding:12px; text-align:center;">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblClassExamsBody">
+                            <tr><td colspan="7" style="text-align:center; padding:20px; color:#A6ADCE;">Đang tải danh sách đề thi...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Content 3: Xem điểm thi online -->
+            <div id="classExamTabContentResults" style="display:none;">
+                <div style="display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap; align-items:center;">
+                    <label style="color:#A6ADCE; font-size:13.5px; font-weight:bold;">Chọn Lớp học:</label>
+                    <select id="ddlResultClassSelect" onchange="loadExamResults()" style="background:#0F172A; color:#FFF; border:1px solid rgba(255,255,255,0.1); padding:8px 15px; border-radius:10px; font-size:13.5px; outline:none; min-width:180px;">
+                        <!-- Sẽ tự động nạp lớp -->
+                    </select>
+                    <label style="color:#A6ADCE; font-size:13.5px; font-weight:bold;">Chọn đề thi:</label>
+                    <select id="ddlResultExamSelect" onchange="loadExamResults()" style="background:#0F172A; color:#FFF; border:1px solid rgba(255,255,255,0.1); padding:8px 15px; border-radius:10px; font-size:13.5px; outline:none; min-width:200px;">
+                        <option value="">-- Tất cả đề thi --</option>
+                    </select>
+                </div>
+                <div class="table-wrapper" style="overflow-x:auto;">
+                    <table style="width:100%; border-collapse:collapse; text-align:left;">
+                        <thead>
+                            <tr style="background:rgba(142,77,255,0.1); color:#fff; font-weight:700;">
+                                <th style="padding:12px;">Tên học sinh</th>
+                                <th style="padding:12px;">Mã đề</th>
+                                <th style="padding:12px;">Số câu đúng</th>
+                                <th style="padding:12px;">Điểm số</th>
+                                <th style="padding:12px;">Thời gian nộp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblExamResultsBody">
+                            <tr><td colspan="5" style="text-align:center; padding:20px; color:#A6ADCE;">Vui lòng chọn đề thi để xem điểm.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- 3. Khung Chọn & Quản Lý Lớp Học (Đặt vị trí trên cùng dễ nhìn) -->
         <div class="card-box" style="background: rgba(11, 8, 38, 0.9); border-color: rgba(142, 77, 255, 0.3); margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
@@ -769,7 +869,6 @@
                 </table>
             </div>
         </div> <!-- End Tuition Overview -->
-
     </div> <!-- End classDetailsContainer -->
 </div> <!-- End dashboard-container -->
 
@@ -808,6 +907,40 @@
             </div>
             <button onclick="saveNewClass(this)" style="width: 100%; padding: 13px; background: linear-gradient(135deg, #8E4DFF, #5B2EFF); border: none; border-radius: 12px; color: #FFF; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px;">
                 Tạo Lớp Học & Khởi Tạo Sheet <i class="fa-solid fa-arrow-right" style="margin-left: 6px;"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL MỚI: Giao Đề Thi Cho Lớp -->
+    <div id="assignExamModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-file-signature" style="margin-right: 8px;"></i>Giao đề thi cho lớp học</h3>
+                <button class="btn-close-modal" onclick="closeModal('assignExamModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="form-group" style="margin-bottom:15px;">
+                <label>Mã đề thi</label>
+                <input type="text" id="assignExamId" class="form-control" readonly style="background: rgba(255,255,255,0.05); color: #fff;">
+            </div>
+            <div class="form-group" style="margin-bottom:15px;">
+                <label>Tên đề thi</label>
+                <input type="text" id="assignExamTitle" class="form-control" readonly style="background: rgba(255,255,255,0.05); color: #fff;">
+            </div>
+            <div class="form-group" style="margin-bottom:15px;">
+                <label>Chọn Lớp học muốn giao</label>
+                <select id="assignClassIdSelect" class="form-control" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
+                    <!-- Sẽ tự động nạp danh sách lớp của GV -->
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom:20px;">
+                <label>Trạng thái mở phòng thi</label>
+                <select id="assignExamStatusSelect" class="form-control" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
+                    <option value="Mở">🟢 Mở phòng thi (Cho phép thi trực tiếp)</option>
+                    <option value="Đóng">🔴 Đóng phòng thi (Tạm ẩn đề đối với học sinh)</option>
+                </select>
+            </div>
+            <button onclick="submitAssignExam()" style="width: 100%; padding: 13px; background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 12px; color: #FFF; font-weight: bold; font-size: 15px; cursor: pointer; font-family: 'Inter', sans-serif;">
+                Giao đề ngay <i class="fa-solid fa-check" style="margin-left: 6px;"></i>
             </button>
         </div>
     </div>
@@ -3762,6 +3895,299 @@
                     showToast("Lỗi kết nối: " + err.toString(), "error");
                 }).updateMultipleStudentsPaymentStatus(updates);
             });
+        }
+
+        // ==========================================
+        // HỆ THỐNG THI TRẮC NGHIỆM TRỰC TUYẾN (AI)
+        // ==========================================
+        var selectedExamFileBase64 = "";
+        var selectedExamFileMime = "";
+        var activeTeacherExams = [];
+
+        // Chuyển đổi tab đề thi
+        function switchClassExamTab(tabName) {
+            var tabs = ['create', 'manage', 'results'];
+            tabs.forEach(function(t) {
+                var btn = document.getElementById('classExamTab' + capitalizeFirstLetter(t) + 'Btn');
+                var content = document.getElementById('classExamTabContent' + capitalizeFirstLetter(t));
+                if (t === tabName) {
+                    if (btn) {
+                        btn.style.background = 'rgba(142,77,255,0.2)';
+                        btn.style.borderColor = '#8E4DFF';
+                        btn.style.color = '#FFF';
+                    }
+                    if (content) content.style.display = 'block';
+                } else {
+                    if (btn) {
+                        btn.style.background = 'rgba(255,255,255,0.04)';
+                        btn.style.borderColor = 'rgba(255,255,255,0.1)';
+                        btn.style.color = '#A6ADCE';
+                    }
+                    if (content) content.style.display = 'none';
+                }
+            });
+
+            // Tự động load dữ liệu tương ứng
+            if (tabName === 'manage') {
+                loadTeacherExams();
+            } else if (tabName === 'results') {
+                loadExamSelectDropdown();
+            }
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Xử lý chọn file đề thi trắc nghiệm
+        function handleExamFileSelect(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 10 * 1024 * 1024) {
+                showToast("File quá lớn. Vui lòng chọn file dưới 10MB!", "error");
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var rawData = e.target.result;
+                selectedExamFileBase64 = rawData.split(',')[1];
+                selectedExamFileMime = file.type;
+                document.getElementById('examUploadText').innerText = "Đã chọn: " + file.name + " (" + (file.size / 1024 / 1024).toFixed(2) + " MB)";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Gửi file đề thi cho Gemini OCR
+        function processExamUpload() {
+            if (!selectedExamFileBase64) {
+                showToast("Vui lòng chọn file đề thi (Ảnh hoặc PDF) trước khi tải lên!", "error");
+                return;
+            }
+
+            var btn = document.getElementById('btnProcessExam');
+            var oldText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> AI Đang bóc tách đề...';
+            showSyncToast('pending');
+
+            var tutorPhone = currentTutorData ? currentTutorData.phone : '';
+
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    btn.disabled = false;
+                    btn.innerHTML = oldText;
+                    
+                    if (res && res.success) {
+                        showSyncToast('success');
+                        showToast("Bóc tách đề thi thành công! Mã đề thi mới của bạn là: " + res.examId + " (" + res.questionCount + " câu hỏi).", "success");
+                        
+                        // Clear input
+                        selectedExamFileBase64 = "";
+                        selectedExamFileMime = "";
+                        document.getElementById('examFileInput').value = "";
+                        document.getElementById('examUploadText').innerHTML = "Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)";
+
+                        // Chuyển sang tab quản lý
+                        switchClassExamTab('manage');
+                    } else {
+                        showSyncToast('error');
+                        showToast("Lỗi bóc tách đề: " + (res ? res.error : "Không xác định"), "error");
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    btn.disabled = false;
+                    btn.innerHTML = oldText;
+                    showSyncToast('error');
+                    showToast("Lỗi kết nối máy chủ: " + err.toString(), "error");
+                })
+                .uploadAndCreateExam(selectedExamFileBase64, selectedExamFileMime, tutorPhone);
+        }
+
+        // Tải danh sách đề thi của giáo viên
+        function loadTeacherExams() {
+            var tbody = document.getElementById('tblClassExamsBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px; color:#A6ADCE;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải...</td></tr>';
+            var tutorPhone = currentTutorData ? currentTutorData.phone : '';
+
+            google.script.run
+                .withSuccessHandler(function(list) {
+                    activeTeacherExams = list || [];
+                    var html = "";
+                    if (activeTeacherExams.length > 0) {
+                        activeTeacherExams.forEach(function(exam) {
+                            html += "<tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'>";
+                            html += "  <td style='padding:12px; font-weight:700; color:#FFD23F;'>" + exam.examId + "</td>";
+                            html += "  <td style='padding:12px; color:#fff;'>" + exam.title + "</td>";
+                            html += "  <td style='padding:12px; color:#A6ADCE; font-weight:600;'>" + (exam.subject || "Toán học") + "</td>";
+                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + exam.timeLimit + " phút</td>";
+                            
+                            // Tô màu lớp được giao
+                            var assignedText = exam.assignedClasses || "Chưa giao";
+                            var assignedStyle = (assignedText === "Chưa giao") ? "color:#FDA4AF; font-style:italic;" : "color:#A7F3D0; font-weight:600;";
+                            
+                            html += "  <td style='padding:12px; " + assignedStyle + "'>" + assignedText + "</td>";
+                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + exam.dateCreated + "</td>";
+                            html += "  <td style='padding:12px; text-align:center;'>";
+                            html += "    <button onclick='openAssignExamModal(\"" + exam.examId + "\", \"" + escapeHtml(exam.title) + "\")' style='background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#A7F3D0; cursor:pointer; padding:5px 12px; border-radius:12px; font-size:12px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-share'></i> Giao cho lớp</button>";
+                            html += "  </td>";
+                            html += "</tr>";
+                        });
+                    } else {
+                        html = "<tr><td colspan='7' style='text-align:center; padding:30px; color:#A6ADCE;'>Kho đề của bạn đang trống. Hãy dùng AI để tạo đề đầu tiên!</td></tr>";
+                    }
+                    tbody.innerHTML = html;
+                })
+                .withFailureHandler(function(err) {
+                    tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; color:#EF4444; padding:20px;'>Lỗi kết nối: " + err + "</td></tr>";
+                })
+                .getTeacherExams(tutorPhone);
+        }
+
+        function escapeHtml(text) {
+            return String(text || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Mở Modal giao đề thi
+        function openAssignExamModal(examId, title) {
+            document.getElementById('assignExamId').value = examId;
+            document.getElementById('assignExamTitle').value = title;
+
+            // Nạp danh sách lớp của GV vào dropdown
+            var select = document.getElementById('assignClassIdSelect');
+            if (select) {
+                select.innerHTML = "";
+                currentClasses.forEach(function(cls) {
+                    var opt = document.createElement('option');
+                    opt.value = cls.classId;
+                    opt.innerText = cls.className + " (" + cls.classId + ")";
+                    select.appendChild(opt);
+                });
+
+                // Chọn sẵn lớp hiện tại đang active nếu có
+                if (activeClassIndex !== -1 && currentClasses[activeClassIndex]) {
+                    select.value = currentClasses[activeClassIndex].classId;
+                }
+            }
+
+            openModal('assignExamModal');
+        }
+
+        // Gửi lệnh giao đề thi
+        function submitAssignExam() {
+            var examId = document.getElementById('assignExamId').value;
+            var classId = document.getElementById('assignClassIdSelect').value;
+            var status = document.getElementById('assignExamStatusSelect').value;
+
+            if (!classId) {
+                showToast("Vui lòng chọn lớp học!", "error");
+                return;
+            }
+
+            showSyncToast('pending');
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        showSyncToast('success');
+                        showToast("Giao đề thi thành công cho lớp " + classId + "!", "success");
+                        closeModal('assignExamModal');
+                    } else {
+                        showSyncToast('error');
+                        showToast("Lỗi: " + (res ? res.error : "Không xác định"), "error");
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    showSyncToast('error');
+                    showToast("Lỗi mạng: " + err.toString(), "error");
+                })
+                .assignExamToClass(examId, classId, status);
+        }
+
+        // Nạp danh sách đề thi và lớp học vào select dropdown của Tab kết quả
+        function loadExamSelectDropdown() {
+            // Nạp danh sách lớp học
+            var classSelect = document.getElementById('ddlResultClassSelect');
+            if (classSelect) {
+                classSelect.innerHTML = '<option value="">-- Tất cả lớp học --</option>';
+                currentClasses.forEach(function(cls) {
+                    var opt = document.createElement('option');
+                    opt.value = cls.classId;
+                    opt.innerText = cls.className;
+                    classSelect.appendChild(opt);
+                });
+                
+                // Chọn sẵn lớp đang active nếu giáo viên vừa click vào lớp nào đó
+                if (activeClassIndex !== -1 && currentClasses[activeClassIndex]) {
+                    classSelect.value = currentClasses[activeClassIndex].classId;
+                }
+            }
+
+            var select = document.getElementById('ddlResultExamSelect');
+            if (!select) return;
+
+            select.innerHTML = '<option value="">-- Tất cả đề thi --</option>';
+            var tutorPhone = currentTutorData ? currentTutorData.phone : '';
+
+            google.script.run
+                .withSuccessHandler(function(list) {
+                    if (list && list.length > 0) {
+                        list.forEach(function(exam) {
+                            var opt = document.createElement('option');
+                            opt.value = exam.examId;
+                            opt.innerText = exam.title + " (" + exam.examId + ")";
+                            select.appendChild(opt);
+                        });
+                    }
+                })
+                .getTeacherExams(tutorPhone);
+        }
+
+        // Tải kết quả điểm thi của học sinh
+        function loadExamResults() {
+            var tbody = document.getElementById('tblExamResultsBody');
+            if (!tbody) return;
+
+            var examId = document.getElementById('ddlResultExamSelect').value;
+            var classId = document.getElementById('ddlResultClassSelect').value;
+
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#A6ADCE;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải bảng điểm...</td></tr>';
+
+            google.script.run
+                .withSuccessHandler(function(results) {
+                    var html = "";
+                    if (results && results.length > 0) {
+                        results.forEach(function(r) {
+                            html += "<tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'>";
+                            html += "  <td style='padding:12px; color:#fff; font-weight:600;'>" + r.studentName + "</td>";
+                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + r.examId + "</td>";
+                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + r.correctCount + " / " + r.totalCount + " câu</td>";
+                            
+                            // Tô màu điểm
+                            var scoreColor = "#EF4444";
+                            if (parseFloat(r.score) >= 8.0) scoreColor = "#10B981";
+                            else if (parseFloat(r.score) >= 5.0) scoreColor = "#FFD23F";
+
+                            html += "  <td style='padding:12px; color:" + scoreColor + "; font-weight:800;'>" + parseFloat(r.score).toFixed(1) + " điểm</td>";
+                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + r.submitTime + "</td>";
+                            html += "</tr>";
+                        });
+                    } else {
+                        html = "<tr><td colspan='5' style='text-align:center; padding:30px; color:#A6ADCE;'>Chưa có học sinh nào nộp bài thi cho đề này.</td></tr>";
+                    }
+                    tbody.innerHTML = html;
+                })
+                .withFailureHandler(function(err) {
+                    tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:#EF4444; padding:20px;'>Lỗi tải bảng điểm: " + err + "</td></tr>";
+                })
+                .getExamResults(classId, examId);
         }
 
 </script>

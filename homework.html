@@ -1009,16 +1009,17 @@
                 var mobileHtml = "";
                 visibleList.forEach(function(item, idx) {
                     var isFolder = item.fileUrl && (item.fileUrl.indexOf("/folders/") !== -1 || item.fileUrl.indexOf("/drive/folders/") !== -1);
-                    var isZip = item.fileUrl && (item.fileUrl.toLowerCase().indexOf(".zip") !== -1 || item.fileUrl.indexOf("/file/d/") !== -1);
-                    var viewText = isFolder ? '<i class="fa-solid fa-folder-open"></i> Xem thư mục bài nộp' : (isZip ? '<i class="fa-solid fa-file-zipper"></i> Tải bài nộp (ZIP)' : '<i class="fa-solid fa-file-pdf"></i> Xem file bài nộp');
+                    var isZip = item.fileUrl && (item.fileUrl.toLowerCase().indexOf(".zip") !== -1);
+                    var isImage = item.fileUrl && (item.fileUrl.toLowerCase().indexOf(".jpg") !== -1 || item.fileUrl.toLowerCase().indexOf(".jpeg") !== -1 || item.fileUrl.toLowerCase().indexOf(".png") !== -1);
+                    
+                    var viewText = '<i class="fa-solid fa-file-pdf"></i> Xem file bài nộp';
+                    if (isFolder) viewText = '<i class="fa-solid fa-folder-open"></i> Xem thư mục bài nộp';
+                    else if (isZip) viewText = '<i class="fa-solid fa-file-zipper"></i> Tải bài nộp (ZIP)';
+                    else if (isImage) viewText = '<i class="fa-solid fa-image"></i> Xem hình ảnh';
 
                     var finalUrl = item.fileUrl;
-                    if (isZip && item.fileUrl) {
-                        var matches = item.fileUrl.match(/[-\w]{25,}/);
-                        if (matches && matches[0]) {
-                            finalUrl = "https://drive.google.com/uc?export=download&id=" + matches[0];
-                        }
-                    }
+                    // Xóa logic rewrite uc?export=download vì Zalo Webview/Mobile chặn download trực tiếp gây lỗi ERR_FILE_NOT_FOUND
+
 
                     var rowHtml = "<tr>";
                     rowHtml += "<td>" + item.timestamp + "</td>";

@@ -13,11 +13,10 @@ const APP_CONFIG = {
     ZALO_URL: "https://zalo.me/0985692879",
     
     // URL Google Apps Script Web App MỚI của Thầy
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyGhkkmuMOuYhRy9veoQ79L4W37vi4qbZk-UmQOOSG3IWPOXkKOfva3x0FdE4HDplV-/exec",
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwuY1WMTutt7GHCPOTcV_Kv7s53mwm7t_6mHeVqD1J6sHX-vl1SRYGf5n0AlNadZsJL/exec",
 
 
     // Link Folder Google Drive bài tập học sinh nộp & Thầy giao
     HOMEWORK_DRIVE_FOLDER: "https://drive.google.com/drive/folders/1cGu7nt0K0paWCg-9nlHgqxVp0I_6h8M8?usp=drive_link",
     ASSIGNMENT_DRIVE_FOLDER: "https://drive.google.com/drive/folders/11z6CIwULBhR6CKcUzhvHDaTMjiUA7Iiu?usp=drive_link"
-};
 

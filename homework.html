@@ -845,6 +845,24 @@
         var selectedFilesQueue = []; // Hàng đợi danh sách tệp đính kèm được chọn
         var editingRowIndex = null; // Số dòng đang chỉnh sửa
 
+        // Chuyển link Google Drive preview sang link tải trực tiếp
+        function toDriveDownload(url) {
+            if (!url) return url;
+            var fileId = null;
+            // Dạng: /file/d/FILE_ID/view hoặc /file/d/FILE_ID/edit
+            var m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (m1) fileId = m1[1];
+            // Dạng: open?id=FILE_ID hoặc uc?id=FILE_ID
+            if (!fileId) {
+                var m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                if (m2) fileId = m2[1];
+            }
+            if (fileId) {
+                return 'https://drive.google.com/uc?export=download&id=' + fileId;
+            }
+            return url; // Trả nguyên nếu không nhận ra định dạng
+        }
+
         // 1. Hàm kiểm tra mã và đăng nhập
         function check() {
             var ma = document.getElementById('maInput').value.trim();
@@ -932,7 +950,8 @@
                     html += '    <div style="display: flex; gap: 8px; flex-wrap: wrap;">';
                     
                     if (hw.fileUrl) {
-                        html += '      <a href="' + hw.fileUrl + '" target="_blank" class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
+                        var dlUrl = toDriveDownload(hw.fileUrl);
+                        html += '      <a href="' + dlUrl + '" download class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
                         html += '        <i class="fa-solid fa-cloud-arrow-down"></i> Tải Bài';
                         html += '      </a>';
                     }

@@ -568,6 +568,10 @@
                             <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">NGÀY PHÁT HÀNH *</label>
                             <input type="text" id="classHwReleaseDate" placeholder="dd/mm/yyyy" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
                         </div>
+                        <div>
+                            <label style="display: block; color: #EF4444; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;"><i class="fa-solid fa-calendar-xmark"></i> HẠN CHÓT NỘP BÀI</label>
+                            <input type="text" id="classHwDeadline" placeholder="dd/mm/yyyy" class="form-control" style="background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                        </div>
                     </div>
 
                     <div style="margin-bottom: 15px;">
@@ -3131,6 +3135,7 @@
             var m = String(now.getMonth() + 1).padStart(2, '0');
             var y = now.getFullYear();
             document.getElementById("classHwReleaseDate").value = d + "/" + m + "/" + y;
+            document.getElementById("classHwDeadline").value = "";
             document.getElementById("classHwLink").value = "";
             clearClassSelectedFile();
         }
@@ -3145,6 +3150,7 @@
             var title = document.getElementById("classHwTitle").value.trim();
             var subject = document.getElementById("classHwSubject").value.trim();
             var releaseDate = document.getElementById("classHwReleaseDate").value.trim();
+            var deadline = document.getElementById("classHwDeadline").value.trim();
             var link = document.getElementById("classHwLink").value.trim();
 
             if (!title) {
@@ -3206,6 +3212,7 @@
                                 subject: subject,
                                 title: title,
                                 releaseDate: releaseDate || new Date().toLocaleDateString('vi-VN'),
+                                deadline: deadline,
                                 fileUrl: (res.hw && res.hw.fileUrl) ? res.hw.fileUrl : "",
                                 fileName: (res.hw && res.hw.fileName) ? res.hw.fileName : "",
                                 link: link
@@ -3229,7 +3236,7 @@
                     if (btn) btn.disabled = false;
                     showToast("Lỗi kết nối: " + err.toString(), "error");
                 })
-                .saveClassHomework(cls.classId, cls.className, subject, title, releaseDate, base64, fName, mType, link);
+                .saveClassHomework(cls.classId, cls.className, subject, title, releaseDate, deadline, base64, fName, mType, link);
         }
 
         function deleteClassHomework(hwId) {
@@ -3244,11 +3251,12 @@
         }
 
         var currentEditHwId = null;
-        function openEditClassHomeworkModal(hwId, subject, title, releaseDate, link) {
+        function openEditClassHomeworkModal(hwId, subject, title, releaseDate, deadline, link) {
             currentEditHwId = hwId;
             document.getElementById("editClassHwSubject").value = subject || "";
             document.getElementById("editClassHwTitle").value = title || "";
             document.getElementById("editClassHwReleaseDate").value = releaseDate || "";
+            document.getElementById("editClassHwDeadline").value = deadline || "";
             document.getElementById("editClassHwLink").value = link || "";
             document.getElementById("editClassHwFileNameDesktop").innerText = "Kéo thả hoặc click chọn file nếu muốn đổi...";
             selectedEditClassHwFile = null;
@@ -3276,6 +3284,7 @@
             var subject = document.getElementById("editClassHwSubject").value.trim();
             var title = document.getElementById("editClassHwTitle").value.trim();
             var releaseDate = document.getElementById("editClassHwReleaseDate").value.trim();
+            var deadline = document.getElementById("editClassHwDeadline").value.trim();
             var link = document.getElementById("editClassHwLink").value.trim();
             if (!title) { showToast("Vui lòng nhập tên bài tập", "warning"); return; }
             
@@ -3303,7 +3312,7 @@
                 if (btn) { btn.disabled = false; btn.innerHTML = 'Lưu thay đổi'; }
                 showSyncToast('error');
                 showToast("Lỗi kết nối: " + err.toString(), "error");
-            }).editClassHomework(currentEditHwId, subject, title, releaseDate, link, base64, fName, mType);
+            }).editClassHomework(currentEditHwId, subject, title, releaseDate, deadline, link, base64, fName, mType);
         }
 
         function openClassHwTrashModal() {
@@ -3390,14 +3399,16 @@
                 }
                 if (!attachStr) attachStr = '<span style="color:#A6ADCE;">Không có</span>';
 
+                var deadlineBadge = hw.deadline ? '<br><span style="font-size:11px; color:#EF4444; font-weight:600;"><i class="fa-solid fa-calendar-xmark"></i> HCH: ' + hw.deadline + '</span>' : '';
+
                 var actionsHtml = 
                     '<div style="display:flex; gap:8px; justify-content:center; align-items:center;">' +
-                        '<button onclick="openEditClassHomeworkModal(\'' + hw.hwId + '\', \'' + (hw.subject ? hw.subject.replace(/'/g, "\\'") : '') + '\', \'' + hw.title.replace(/'/g, "\\'") + '\', \'' + hw.releaseDate + '\', \'' + (hw.link ? hw.link.replace(/'/g, "\\'") : '') + '\')" class="action-btn-hw-icon action-btn-hw-edit" title="Chỉnh sửa" style="background:none; border:none; color:#FFD23F; cursor:pointer; font-size:15px;"><i class="fa-solid fa-pen-to-square"></i></button>' +
+                        '<button onclick="openEditClassHomeworkModal(\'' + hw.hwId + '\', \'' + (hw.subject ? hw.subject.replace(/'/g, "\\'") : '') + '\', \'' + hw.title.replace(/'/g, "\\'") + '\', \'' + (hw.releaseDate||'') + '\', \'' + (hw.deadline||'') + '\', \'' + (hw.link ? hw.link.replace(/'/g, "\\'") : '') + '\')" class="action-btn-hw-icon action-btn-hw-edit" title="Chỉnh sửa" style="background:none; border:none; color:#FFD23F; cursor:pointer; font-size:15px;"><i class="fa-solid fa-pen-to-square"></i></button>' +
                         '<button onclick="deleteClassHomework(\'' + hw.hwId + '\')" class="action-btn-hw-icon action-btn-hw-delete" title="Xóa tạm thời" style="background:none; border:none; color:#EF4444; cursor:pointer; font-size:15px;"><i class="fa-solid fa-trash-can"></i></button>' +
                     '</div>';
 
                 return '<tr>' +
-                    '<td style="color:#A6ADCE; font-weight:600;">' + (hw.releaseDate || '-') + '</td>' +
+                    '<td style="color:#A6ADCE; font-weight:600;">' + (hw.releaseDate || '-') + deadlineBadge + '</td>' +
                     '<td style="font-weight:700; color:#FFD23F;">' + hw.title + '</td>' +
                     '<td>' + attachStr + '</td>' +
                     '<td style="text-align:center; vertical-align: middle;">' + actionsHtml + '</td>' +
@@ -4229,6 +4240,10 @@
             <div class="modal-form-group">
                 <label>Ngày phát hành *</label>
                 <input type="text" id="editClassHwReleaseDate" placeholder="dd/mm/yyyy">
+            </div>
+            <div class="modal-form-group">
+                <label style="color:#EF4444;"><i class="fa-solid fa-calendar-xmark"></i> Hạn chót nộp bài</label>
+                <input type="text" id="editClassHwDeadline" placeholder="dd/mm/yyyy">
             </div>
             <div class="modal-form-group" style="margin-top: 10px;">
                 <label>Chọn file bài tập mới (Nếu muốn thay thế file cũ)</label>

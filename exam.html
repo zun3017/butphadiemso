@@ -840,6 +840,14 @@
         // Hiển thị kết quả sau khi nộp
         function showExamResults(res) {
             document.getElementById('loadingScreen').style.display = 'none';
+            
+            // Xử lý trường hợp đã nộp bài rồi
+            if (res && res.alreadySubmitted) {
+                alert(res.error || "Bạn đã nộp bài thi này rồi!");
+                window.location.href = "parent-dashboard.html";
+                return;
+            }
+
             document.getElementById('examScreen').style.display = 'none';
             document.getElementById('timerBadge').style.display = 'none';
             
@@ -847,7 +855,8 @@
             resContainer.style.display = 'block';
 
             if (res && res.success) {
-                document.getElementById('lblResultExamTitle').innerText = res.fullExamData.title || "Bài thi trắc nghiệm";
+                // Dùng tiêu đề từ questions đã load (không dùng fullExamData)
+                document.getElementById('lblResultExamTitle').innerText = (questions && questions[0] ? "Kết quả bài thi" : "Bài thi trắc nghiệm");
                 document.getElementById('lblResultScore').innerText = parseFloat(res.score).toFixed(1);
                 document.getElementById('lblCorrectRatio').innerText = "Số câu đúng: " + res.correctCount + " / " + res.totalCount + " câu";
 
@@ -861,18 +870,15 @@
                     circle.style.borderColor = "#EF4444"; // Đỏ
                 }
 
-                // Vẽ chi tiết bài làm
+                // Hiển thị chi tiết bài làm (dùng questions đã load từ đầu - không có correctAnswer)
                 var detailContainer = document.getElementById('resultDetailsContainer');
                 detailContainer.innerHTML = "";
 
-                var fullQuestions = res.fullExamData.questions || [];
-                fullQuestions.forEach(function(q) {
+                (questions || []).forEach(function(q) {
                     var userAns = userAnswers[q.qNum] || "Chưa chọn";
-                    var correctAns = q.correctAnswer;
-                    var isCorrect = (userAns === correctAns);
 
                     var card = document.createElement('div');
-                    card.className = "review-card " + (isCorrect ? "correct" : "incorrect");
+                    card.className = "review-card";
 
                     var header = document.createElement('div');
                     header.className = "review-status-row";
@@ -883,7 +889,8 @@
                     
                     var badge = document.createElement('span');
                     badge.className = "review-status-badge";
-                    badge.innerText = isCorrect ? "ĐÚNG" : "SAI";
+                    badge.innerText = userAns === "Chưa chọn" ? "CHƯA LÀM" : "ĐÃ LÀM";
+                    badge.style.background = userAns === "Chưa chọn" ? "rgba(239,68,68,0.2)" : "rgba(16,185,129,0.2)";
                     
                     header.appendChild(title);
                     header.appendChild(badge);
@@ -895,31 +902,23 @@
                     qText.innerText = q.questionText;
                     card.appendChild(qText);
 
-                    // Hiển thị các phương án
-                    var optsDiv = document.createElement('div');
-                    optsDiv.className = "review-options";
-
-                    Object.keys(q.options).forEach(function(key) {
-                        var val = q.options[key];
-                        var optItem = document.createElement('div');
-                        optItem.className = "review-opt-item";
-                        optItem.innerText = key + ". " + val;
-
-                        if (key === correctAns) {
-                            optItem.classList.add("correct-select");
-                        } else if (key === userAns && !isCorrect) {
-                            optItem.classList.add("user-select");
-                        }
-                        optsDiv.appendChild(optItem);
-                    });
-                    card.appendChild(optsDiv);
-
-                    // Giải thích lời giải chi tiết
-                    if (q.explanation) {
-                        var exp = document.createElement('div');
-                        exp.className = "explanation-box";
-                        exp.innerHTML = "<strong>Lời giải chi tiết:</strong><br>" + q.explanation;
-                        card.appendChild(exp);
+                    // Hiển thị đáp án học sinh đã chọn
+                    if (q.options) {
+                        var optsDiv = document.createElement('div');
+                        optsDiv.className = "review-options";
+                        Object.keys(q.options).forEach(function(key) {
+                            var val = q.options[key];
+                            var optItem = document.createElement('div');
+                            optItem.className = "review-opt-item";
+                            optItem.innerText = key + ". " + val;
+                            if (key === userAns) {
+                                optItem.style.background = "rgba(142,77,255,0.3)";
+                                optItem.style.border = "1px solid #8E4DFF";
+                                optItem.style.fontWeight = "700";
+                            }
+                            optsDiv.appendChild(optItem);
+                        });
+                        card.appendChild(optsDiv);
                     }
 
                     detailContainer.appendChild(card);

@@ -3974,6 +3974,11 @@
                 return;
             }
 
+            if (!selectedExamFileBase64 || selectedExamFileBase64 === "") {
+                showToast("File chưa được đọc xong. Vui lòng chọn lại file và đợi vài giây!", "error");
+                return;
+            }
+
             var btn = document.getElementById('btnProcessExam');
             var oldText = btn.innerHTML;
             btn.disabled = true;
@@ -3981,9 +3986,6 @@
             showSyncToast('pending');
 
             var tutorPhone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || '') : '';
-            document.getElementById('hiddenTutorPhone').value = tutorPhone;
-
-            var formObj = document.getElementById('examUploadForm');
 
             google.script.run
                 .withSuccessHandler(function(res) {
@@ -4013,7 +4015,7 @@
                     showSyncToast('error');
                     showToast("Lỗi kết nối máy chủ: " + err.toString(), "error");
                 })
-                .uploadAndCreateExamRaw(formObj);
+                .uploadAndCreateExam(selectedExamFileBase64, selectedExamFileMime, tutorPhone);
         }
 
         // Tải danh sách đề thi của giáo viên

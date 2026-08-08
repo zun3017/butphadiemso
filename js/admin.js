@@ -172,7 +172,7 @@ var pinVerifyAction = "deleteStudent";
             document.getElementById('admPaidRev').innerText = report.paid.toLocaleString('vi-VN') + "đ";
             document.getElementById('admUnpaidRev').innerText = report.unpaid.toLocaleString('vi-VN') + "đ";
             
-            // 1. Cập nhật Bảng phân rã theo Gia sư cho tháng chọn (Desktop & Mobile)
+            // 1. Cập nhật Bảng phân rã theo Giáo viên cho tháng chọn (Desktop & Mobile)
             var breakdownBody = document.querySelector('#adminTutorBreakdownTable tbody');
             var breakdownMobile = document.getElementById('adminTutorBreakdownMobile');
             
@@ -379,7 +379,7 @@ var pinVerifyAction = "deleteStudent";
         }
 
         // 2. Tutors Management Tab
-        // Helper tính số học sinh hoạt động của 1 gia sư
+        // Helper tính số học sinh hoạt động của 1 giáo viên
         function getActiveStudentsForTutor(tPhone) {
             if (!adminDataGlobal.students) return 0;
             var normT = normalizePhone(tPhone);
@@ -490,7 +490,7 @@ var pinVerifyAction = "deleteStudent";
                                 "<td style='font-size:12px;'>" + lastActiveDisplay + "</td>" +
                                 "<td style='text-align:center;'>" + statusText + "</td>" +
                                 "<td style='text-align:center;'>" +
-                                  "<button class='btn-icon-edit' onclick='openAdminEditTutorModal(\"" + t.phone + "\")' title='Sửa/Vô hiệu hóa gia sư'><i class='fa-solid fa-pen-to-square'></i> Sửa</button>" +
+                                  "<button class='btn-icon-edit' onclick='openAdminEditTutorModal(\"" + t.phone + "\")' title='Sửa/Vô hiệu hóa giáo viên'><i class='fa-solid fa-pen-to-square'></i> Sửa</button>" +
                                 "</td>";
                  tbody.appendChild(tr);
                  
@@ -751,7 +751,7 @@ var pinVerifyAction = "deleteStudent";
                 .adminLuuGiaSu(oldPhone, name, phone, pin, qrUrl, createdDate, nextBillingDate, accountType);
         }
 
-        // Xóa/Khôi phục & Thùng rác Gia sư JS Controllers
+        // Xóa/Khôi phục & Thùng rác Giáo viên JS Controllers
         function confirmDeleteAdminTutor() {
             pinVerifyAction = "deleteTutor";
             document.getElementById('confirmTutorPinInput').value = "";
@@ -784,7 +784,7 @@ var pinVerifyAction = "deleteStudent";
                          if (res.error) {
                              showToast("Lỗi: " + res.error, "error");
                          } else {
-                             showToast("Đã đưa gia sư vào thùng rác thành công!", "success");
+                             showToast("Đã đưa giáo viên vào thùng rác thành công!", "success");
                              refreshAdminDashboard();
                          }
                      })
@@ -810,7 +810,7 @@ var pinVerifyAction = "deleteStudent";
                     if (res.error) {
                         showToast("Lỗi: " + res.error, "error");
                     } else {
-                        showToast("Khôi phục gia sư thành công!", "success");
+                        showToast("Khôi phục giáo viên thành công!", "success");
                         closeTutorTrashModal();
                         refreshAdminDashboard();
                     }
@@ -959,7 +959,7 @@ var pinVerifyAction = "deleteStudent";
                 .loginSystem(currentAdminPhone, pin);
         }
 
-        // Các hàm phụ trợ hóa đơn của Gia sư đã được di chuyển sang đúng file js/tutor.js.
+        // Các hàm phụ trợ hóa đơn của Giáo viên đã được di chuyển sang đúng file js/tutor.js.
         
         function isSinglePageApp() {
             return (document.getElementById('mainScreen') !== null);
@@ -1076,7 +1076,7 @@ var pinVerifyAction = "deleteStudent";
 
         // --- Cải tiến Admin quản lý Phí thuê Web và Marquee ---
         function confirmQuickPaid(phone, name) {
-            showCustomConfirm("Xác nhận đã nhận tiền thuê Web của gia sư " + name + " cho chu kỳ này và tự động gia hạn thêm 1 tháng?", function() {
+            showCustomConfirm("Xác nhận đã nhận tiền thuê Web của giáo viên " + name + " cho chu kỳ này và tự động gia hạn thêm 1 tháng?", function() {
                 showToast("Đang gửi xác nhận lên Google Sheets...", "info");
                 google.script.run
                     .withSuccessHandler(function(res) {
@@ -1094,7 +1094,7 @@ var pinVerifyAction = "deleteStudent";
             });
         }
 
-        // Hàm chuyển đổi trạng thái Vô hiệu hóa / Kích hoạt lại gia sư
+        // Hàm chuyển đổi trạng thái Vô hiệu hóa / Kích hoạt lại giáo viên
          function toggleTutorDeactivateStatus() {
              var phone = document.getElementById('adminTutorOldPhone').value;
              var name = document.getElementById('adminTutorName').value;
@@ -1105,14 +1105,14 @@ var pinVerifyAction = "deleteStudent";
              var newStatus = isCurrentlyDeactivated ? "" : "Vô hiệu hóa";
              var actionText = isCurrentlyDeactivated ? "kích hoạt lại" : "vô hiệu hóa";
              
-             showCustomConfirm("Xác nhận " + actionText + " tài khoản gia sư " + name + "?", function() {
-                 showToast("Đang cập nhật trạng thái gia sư...", "info");
+             showCustomConfirm("Xác nhận " + actionText + " tài khoản giáo viên " + name + "?", function() {
+                 showToast("Đang cập nhật trạng thái giáo viên...", "info");
                  google.script.run
                      .withSuccessHandler(function(res) {
                          if (res.error) {
                              showToast("Lỗi: " + res.error, "error");
                          } else {
-                             showToast((isCurrentlyDeactivated ? "Kích hoạt lại" : "Vô hiệu hóa") + " tài khoản gia sư thành công!", "success");
+                             showToast((isCurrentlyDeactivated ? "Kích hoạt lại" : "Vô hiệu hóa") + " tài khoản giáo viên thành công!", "success");
                              closeAdminEditTutorModal();
                              refreshAdminDashboard();
                          }

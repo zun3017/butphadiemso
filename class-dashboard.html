@@ -391,15 +391,18 @@
                     <p style="color:#A6ADCE; font-size:13px; margin-bottom:15px; line-height:1.4;">
                         Hệ thống sử dụng mô hình <strong>Gemini 1.5 Flash</strong> để đọc tài liệu (Ảnh chụp đề, PDF hoặc Word) và tự động nhận dạng công thức toán LaTeX, bóc tách phương án lựa chọn và đáp án đúng để tạo bài thi trắc nghiệm online chấm điểm tự động.
                     </p>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">Chọn file đề thi (Ảnh chụp hoặc PDF)</label>
-                        <input type="file" id="examFileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleExamFileSelect(event)">
-                        <div onclick="document.getElementById('examFileInput').click()" style="padding: 30px; border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; background: rgba(4,2,10,0.6); transition: all 0.3s;" onmouseover="this.style.borderColor='#8E4DFF'" onmouseout="this.style.borderColor='rgba(142, 77, 255, 0.4)'">
-                            <i class="fa-solid fa-file-pdf" style="font-size: 32px; color: #8E4DFF; margin-bottom: 10px;"></i>
-                            <div id="examUploadText" style="font-size: 13px; color: #E2D1FF; font-weight:600;">Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)</div>
-                            <div style="font-size:11px; color:#A6ADCE; margin-top:5px;">Dung lượng tối đa 10MB</div>
+                    <form id="examUploadForm">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">Chọn file đề thi (Ảnh chụp hoặc PDF)</label>
+                            <input type="file" name="examFile" id="examFileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleExamFileSelect(event)">
+                            <div onclick="document.getElementById('examFileInput').click()" style="padding: 30px; border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; background: rgba(4,2,10,0.6); transition: all 0.3s;" onmouseover="this.style.borderColor='#8E4DFF'" onmouseout="this.style.borderColor='rgba(142, 77, 255, 0.4)'">
+                                <i class="fa-solid fa-file-pdf" style="font-size: 32px; color: #8E4DFF; margin-bottom: 10px;"></i>
+                                <div id="examUploadText" style="font-size: 13px; color: #E2D1FF; font-weight:600;">Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)</div>
+                                <div style="font-size:11px; color:#A6ADCE; margin-top:5px;">Dung lượng tối đa 10MB</div>
+                            </div>
                         </div>
-                    </div>
+                        <input type="hidden" name="tutorPhone" id="hiddenTutorPhone" value="">
+                    </form>
                     <div style="text-align: right;">
                         <button onclick="processExamUpload()" id="btnProcessExam" style="padding: 12px 28px; background: linear-gradient(135deg, #10B981, #059669); border:none; color:#FFF; font-weight:700; border-radius:20px; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); font-family: 'Inter', sans-serif;">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> AI Bóc tách & Tạo đề thi
@@ -550,78 +553,77 @@
                 </div>
 
                 <!-- Form Giao bài tập -->
-                <div id="classHwAssignFormContainer" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(142,77,255,0.3); border-radius: 16px; padding: 20px; margin-bottom: 15px;">
-                    <h4 style="color: #FFD23F; margin-bottom: 16px; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-folder-plus"></i> Đăng tải bài tập mới
-                    </h4>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                        <div>
-                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">TÊN BÀI TẬP *</label>
-                            <input type="text" id="classHwTitle" placeholder="Ví dụ: Đề cương Toán tuần 1" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
-                        </div>
-                        <div>
-                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">MÔN HỌC</label>
-                            <input type="text" id="classHwSubject" placeholder="Ví dụ: Toán" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
-                        </div>
-                        <div>
-                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">NGÀY PHÁT HÀNH *</label>
-                            <input type="text" id="classHwReleaseDate" placeholder="dd/mm/yyyy" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">CHỌN FILE BÀI TẬP (HÌNH ẢNH, WORD, PDF...)</label>
+                <form id="classHwAssignForm">
+                    <div id="classHwAssignFormContainer" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(142,77,255,0.3); border-radius: 16px; padding: 20px; margin-bottom: 15px;">
+                        <h4 style="color: #FFD23F; margin-bottom: 16px; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-folder-plus"></i> Đăng tải bài tập mới
+                        </h4>
                         
-                        <!-- Upload Area cho Desktop -->
-                        <div class="upload-area" id="classHwUploadAreaDesktop" onclick="document.getElementById('classHwFileInputDesktop').click()" style="padding: 20px; border-style: dashed; background: rgba(4, 2, 10, 0.6); border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s;">
-                            <i class="fa-solid fa-file-arrow-up" style="font-size: 24px; color: #8E4DFF; margin-bottom: 6px;"></i>
-                            <div id="classHwUploadText" style="font-size: 12px; color: #E2D1FF;">Kéo thả hoặc click chọn file bài tập từ máy...</div>
-                            <input type="file" id="classHwFileInputDesktop" style="display: none;" onchange="handleClassHwFileSelect(event)">
-                        </div>
-
-                        <!-- Upload Area cho Mobile -->
-                        <div class="upload-area" id="classHwUploadAreaMobile" style="cursor: default; padding: 20px 15px; border-style: dashed; background: rgba(4, 2, 10, 0.6); border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center;">
-                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 28px; margin-bottom: 10px; color: #8E4DFF;"></i>
-                            <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #FFF;">Chọn hình ảnh hoặc tài liệu bài tập</div>
-                            
-                            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 280px; margin: 0 auto;">
-                                <button type="button" onclick="document.getElementById('classHwImageInputMobile').click()" class="modal-btn modal-btn-primary" style="background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; font-size: 13px; padding: 10px 16px; border-radius: 20px; font-weight: bold; width: 100%; justify-content: center; gap: 8px; display: inline-flex; align-items: center; cursor: pointer; color: #FFF; font-family: 'Inter', sans-serif;">
-                                    <i class="fa-solid fa-camera"></i> Chụp ảnh / Chọn Thư viện
-                                </button>
-                                <button type="button" onclick="document.getElementById('classHwDocInputMobile').click()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; font-size: 12px; padding: 8px 16px; border-radius: 20px; font-weight: 600; width: 100%; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; font-family: 'Inter', sans-serif;">
-                                    <i class="fa-solid fa-file-pdf"></i> Tải Tài liệu (PDF, Word...)
-                                </button>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                            <div>
+                                <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">TÊN BÀI TẬP *</label>
+                                <input type="text" name="title" id="classHwTitle" placeholder="Ví dụ: Đề cương Toán tuần 1" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
                             </div>
+                            <div>
+                                <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">MÔN HỌC</label>
+                                <input type="text" name="subject" id="classHwSubject" placeholder="Ví dụ: Toán" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                            </div>
+                            <div>
+                                <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">NGÀY PHÁT HÀNH *</label>
+                                <input type="text" name="releaseDate" id="classHwReleaseDate" placeholder="dd/mm/yyyy" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">CHỌN FILE BÀI TẬP (HÌNH ẢNH, WORD, PDF...)</label>
                             
-                            <!-- Inputs ẩn -->
-                            <input type="file" id="classHwImageInputMobile" style="display: none;" accept="image/*" onchange="handleClassHwFileSelect(event)">
-                            <input type="file" id="classHwDocInputMobile" style="display: none;" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleClassHwFileSelect(event)">
+                            <!-- Upload Area cho Desktop -->
+                            <div class="upload-area" id="classHwUploadAreaDesktop" onclick="document.getElementById('classHwFileInputDesktop').click()" style="padding: 20px; border-style: dashed; background: rgba(4, 2, 10, 0.6); border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                                <i class="fa-solid fa-file-arrow-up" style="font-size: 24px; color: #8E4DFF; margin-bottom: 6px;"></i>
+                                <div id="classHwUploadText" style="font-size: 12px; color: #E2D1FF;">Kéo thả hoặc click chọn file bài tập từ máy...</div>
+                                <input type="file" name="classHwFile" id="classHwFileInputDesktop" style="display: none;" onchange="handleClassHwFileSelect(event)">
+                            </div>
+
+                            <!-- Upload Area cho Mobile -->
+                            <div class="upload-area" id="classHwUploadAreaMobile" style="cursor: default; padding: 20px 15px; border-style: dashed; background: rgba(4, 2, 10, 0.6); border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center;">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 28px; margin-bottom: 10px; color: #8E4DFF;"></i>
+                                <div style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #FFF;">Chọn hình ảnh hoặc tài liệu bài tập</div>
+                                
+                                <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 280px; margin: 0 auto;">
+                                    <button type="button" onclick="document.getElementById('classHwFileInputDesktop').click()" class="modal-btn modal-btn-primary" style="background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; font-size: 13px; padding: 10px 16px; border-radius: 20px; font-weight: bold; width: 100%; justify-content: center; gap: 8px; display: inline-flex; align-items: center; cursor: pointer; color: #FFF; font-family: 'Inter', sans-serif;">
+                                        <i class="fa-solid fa-camera"></i> Chọn file tải lên
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Selected File Badge -->
+                            <div id="classSelectedFileBox" style="display: none; justify-content: space-between; align-items: center; background: rgba(142, 77, 255, 0.15); padding: 8px 12px; border-radius: 8px; margin-top: 10px; font-size: 12px;">
+                                <span id="classSelectedFileName" style="color: #FFF; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;"></span>
+                                <button type="button" onclick="clearClassSelectedFile()" style="background:none; border:none; color:#FF4D4D; cursor:pointer;"><i class="fa-solid fa-times"></i> Hủy</button>
+                            </div>
                         </div>
 
-                        <!-- Selected File Badge -->
-                        <div id="classSelectedFileBox" style="display: none; justify-content: space-between; align-items: center; background: rgba(142, 77, 255, 0.15); padding: 8px 12px; border-radius: 8px; margin-top: 10px; font-size: 12px;">
-                            <span id="classSelectedFileName" style="color: #FFF; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;"></span>
-                            <button onclick="clearClassSelectedFile()" style="background:none; border:none; color:#FF4D4D; cursor:pointer;"><i class="fa-solid fa-times"></i> Hủy</button>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">LINK LIÊN KẾT BÀI TẬP (VÍ DỤ: GOOGLE FORMS, QUIZIZZ... NẾU CÓ)</label>
+                            <input type="text" name="link" id="classHwLink" placeholder="https://example.com/homework-link" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                        </div>
+
+                        <!-- Ẩn thông tin lớp học -->
+                        <input type="hidden" name="classId" id="classHwClassIdHidden" value="">
+                        <input type="hidden" name="className" id="classHwClassNameHidden" value="">
+
+                        <!-- Progress Bar -->
+                        <div class="progress-container" id="classHwProgressContainer" style="width: 100%; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px; margin-top: 15px; overflow: hidden; display: none;">
+                            <div class="progress-bar" id="classHwProgressBar" style="height: 100%; background: linear-gradient(90deg, #8E4DFF, #3399FF); width: 0%; transition: width 0.1s linear;"></div>
+                        </div>
+                        <div id="classHwProgressText" style="font-size: 11px; color:#3399FF; text-align:right; display:none; font-weight:bold; margin-top:4px;">0%</div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px;">
+                            <button type="button" onclick="resetClassHwForm()" style="padding: 9px 22px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; color: #FFF; font-weight: 600; cursor: pointer; font-size: 13.5px;">Hủy</button>
+                            <button type="button" id="btnSubmitClassAssignedHw" onclick="submitClassAssignedHomework()" style="padding: 9px 28px; background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; border-radius: 20px; color: #FFF; font-weight: 700; cursor: pointer; font-size: 13.5px; box-shadow: 0 4px 15px rgba(142,77,255,0.4);">Giao bài</button>
                         </div>
                     </div>
-
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">LINK LIÊN KẾT BÀI TẬP (VÍ DỤ: GOOGLE FORMS, QUIZIZZ... NẾU CÓ)</label>
-                        <input type="text" id="classHwLink" placeholder="https://example.com/homework-link" class="form-control" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="progress-container" id="classHwProgressContainer" style="width: 100%; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px; margin-top: 15px; overflow: hidden; display: none;">
-                        <div class="progress-bar" id="classHwProgressBar" style="height: 100%; background: linear-gradient(90deg, #8E4DFF, #3399FF); width: 0%; transition: width 0.1s linear;"></div>
-                    </div>
-                    <div id="classHwProgressText" style="font-size: 11px; color:#3399FF; text-align:right; display:none; font-weight:bold; margin-top:4px;">0%</div>
-
-                    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 15px;">
-                        <button type="button" onclick="resetClassHwForm()" style="padding: 9px 22px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; color: #FFF; font-weight: 600; cursor: pointer; font-size: 13.5px;">Hủy</button>
-                        <button type="button" id="btnSubmitClassAssignedHw" onclick="submitClassAssignedHomework()" style="padding: 9px 28px; background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; border-radius: 20px; color: #FFF; font-weight: 700; cursor: pointer; font-size: 13.5px; box-shadow: 0 4px 15px rgba(142,77,255,0.4);">Giao bài</button>
-                    </div>
-                </div>
+                </form>
 
                 <!-- Danh sách bài tập đã giao -->
                 <div id="classHwListContainer" style="display: none;">
@@ -3146,12 +3148,18 @@
             var releaseDate = document.getElementById("classHwReleaseDate").value.trim();
             var link = document.getElementById("classHwLink").value.trim();
 
+            var title = document.getElementById("classHwTitle").value.trim();
+            var link = document.getElementById("classHwLink").value.trim();
+            var formObj = document.getElementById("classHwAssignForm");
+
             if (!title) {
                 showToast("Vui lòng nhập tên bài tập!", "error");
                 return;
             }
             
-            if (!selectedClassHwFile && !link) {
+            var fileInput = document.getElementById("classHwFileInputDesktop");
+            var hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
+            if (!hasFile && !link) {
                 showToast("Vui lòng đính kèm file hoặc nhập link bài tập!", "error");
                 return;
             }
@@ -3180,9 +3188,8 @@
                 }, 150);
             }
 
-            var base64 = selectedClassHwFile ? selectedClassHwFile.base64 : "";
-            var fName = selectedClassHwFile ? selectedClassHwFile.fileName : "";
-            var mType = selectedClassHwFile ? selectedClassHwFile.mimeType : "";
+            document.getElementById("classHwClassIdHidden").value = cls.classId;
+            document.getElementById("classHwClassNameHidden").value = cls.className;
 
             google.script.run
                 .withSuccessHandler(function(res) {
@@ -3202,9 +3209,9 @@
                                 hwId: (res.hw && res.hw.hwId) ? res.hw.hwId : "",
                                 classId: cls.classId,
                                 className: cls.className,
-                                subject: subject,
+                                subject: document.getElementById("classHwSubject").value.trim(),
                                 title: title,
-                                releaseDate: releaseDate || new Date().toLocaleDateString('vi-VN'),
+                                releaseDate: document.getElementById("classHwReleaseDate").value.trim() || new Date().toLocaleDateString('vi-VN'),
                                 fileUrl: (res.hw && res.hw.fileUrl) ? res.hw.fileUrl : "",
                                 fileName: (res.hw && res.hw.fileName) ? res.hw.fileName : "",
                                 link: link
@@ -3228,7 +3235,7 @@
                     if (btn) btn.disabled = false;
                     showToast("Lỗi kết nối: " + err.toString(), "error");
                 })
-                .saveClassHomework(cls.classId, cls.className, subject, title, releaseDate, base64, fName, mType, link);
+                .saveClassHomeworkRaw(formObj);
         }
 
         function deleteClassHomework(hwId) {
@@ -3958,9 +3965,10 @@
             reader.readAsDataURL(file);
         }
 
-        // Gửi file đề thi cho Gemini OCR
+        // Gửi file đề thi cho Gemini OCR qua FormObject
         function processExamUpload() {
-            if (!selectedExamFileBase64) {
+            var fileInput = document.getElementById('examFileInput');
+            if (!fileInput.files || fileInput.files.length === 0) {
                 showToast("Vui lòng chọn file đề thi (Ảnh hoặc PDF) trước khi tải lên!", "error");
                 return;
             }
@@ -3971,7 +3979,10 @@
             btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> AI Đang bóc tách đề...';
             showSyncToast('pending');
 
-            var tutorPhone = currentTutorData ? currentTutorData.phone : '';
+            var tutorPhone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || '') : '';
+            document.getElementById('hiddenTutorPhone').value = tutorPhone;
+
+            var formObj = document.getElementById('examUploadForm');
 
             google.script.run
                 .withSuccessHandler(function(res) {
@@ -3985,7 +3996,7 @@
                         // Clear input
                         selectedExamFileBase64 = "";
                         selectedExamFileMime = "";
-                        document.getElementById('examFileInput').value = "";
+                        fileInput.value = "";
                         document.getElementById('examUploadText').innerHTML = "Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)";
 
                         // Chuyển sang tab quản lý
@@ -4001,7 +4012,7 @@
                     showSyncToast('error');
                     showToast("Lỗi kết nối máy chủ: " + err.toString(), "error");
                 })
-                .uploadAndCreateExam(selectedExamFileBase64, selectedExamFileMime, tutorPhone);
+                .uploadAndCreateExamRaw(formObj);
         }
 
         // Tải danh sách đề thi của giáo viên

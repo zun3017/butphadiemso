@@ -959,9 +959,17 @@
                     }
                     
                     if (hw.externalLink) {
-                        html += '      <a href="' + hw.externalLink + '" target="_blank" class="btn-link-ext" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
-                        html += '        <i class="fa-solid fa-link"></i> Mở Link';
-                        html += '      </a>';
+                        var isDrive = hw.externalLink.indexOf("drive.google.com") !== -1;
+                        if (isDrive && !hw.fileUrl) {
+                            var dlUrl = toDriveDownload(hw.externalLink);
+                            html += '      <a href="' + dlUrl + '" download class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
+                            html += '        <i class="fa-solid fa-cloud-arrow-down"></i> Tải Bài';
+                            html += '      </a>';
+                        } else {
+                            html += '      <a href="' + hw.externalLink + '" target="_blank" class="btn-link-ext" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
+                            html += '        <i class="fa-solid fa-link"></i> Mở Link';
+                            html += '      </a>';
+                        }
                     }
                     
                     html += '    </div>';
@@ -988,7 +996,7 @@
                     }
                 }
             } else {
-                assignedContainer.innerHTML = '<div style="text-align: center; color: #A6ADCE; padding: 20px; font-size: 13px;"><i class="fa-solid fa-circle-info"></i> Hiện chưa có bài tập nào được giao từ Gia sư.</div>';
+                assignedContainer.innerHTML = '<div style="text-align: center; color: #A6ADCE; padding: 20px; font-size: 13px;"><i class="fa-solid fa-circle-info"></i> Hiện chưa có bài tập nào được giao từ Giáo viên.</div>';
             }
         }
 

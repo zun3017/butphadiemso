@@ -163,7 +163,8 @@ function renderStudentView(ketQua) {
             var btvnStr = (item.danhGiaBTVN || "").trim().toLowerCase();
             if (btvnStr !== "") {
                 tongBTVNThangNay++;
-                if (btvnStr.indexOf("hoàn thành") !== -1) {
+                if (btvnStr.indexOf("phụ huynh") !== -1) {
+                    // Lời nhắn/dặn dò ("Phụ huynh nhớ nhắc bé...") luôn tính 100% hoàn thành
                     completedBTVNThangNay += 1.0;
                 } else if (btvnStr.indexOf("thiếu") !== -1) {
                     var matchBtvn = btvnStr.match(/thiếu\s+(\d+)/);
@@ -175,8 +176,16 @@ function renderStudentView(ketQua) {
                     } else {
                         completedBTVNThangNay += 0.0;
                     }
-                } else {
+                } else if (
+                    btvnStr.indexOf("không làm") !== -1 ||
+                    btvnStr.indexOf("chưa làm") !== -1 ||
+                    btvnStr.indexOf("chưa nộp") !== -1 ||
+                    btvnStr.indexOf("chưa đạt") !== -1
+                ) {
                     completedBTVNThangNay += 0.0;
+                } else {
+                    // Hoàn thành, Đạt, Tốt, Xuất sắc, v.v. đều tính 100% hoàn thành
+                    completedBTVNThangNay += 1.0;
                 }
             }
         }

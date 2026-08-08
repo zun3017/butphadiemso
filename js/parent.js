@@ -472,9 +472,42 @@ function renderStudentView(ketQua) {
             sessionStorage.setItem('userPhone', ketQua.studentId);
             localStorage.setItem('userPhone', ketQua.studentId);
         }
+        // Render ngay từ dữ liệu sẵn có (nếu backend đã trả về)
+        if (ketQua.assignedExams && ketQua.assignedExams.length > 0) {
+            renderExamList(ketQua.assignedExams, classIdToUse);
+        }
+        // Luôn gọi API để đảm bảo danh sách mới nhất
         loadAssignedExams(classIdToUse);
+    } else {
+        // Không có classId: hiển thị thông báo rõ ràng
+        var container = document.getElementById('khuVucDeThiOnline');
+        if (container) {
+            container.innerHTML = "<p style='color: #A6ADCE; font-style:italic;'>Không có bài thi nào - Học sinh chưa được xếp lớp hoặc giáo viên chưa giao đề.</p>";
+        }
     }
 } // End renderStudentView
+
+// Render danh sách đề thi vào UI
+function renderExamList(list, classId) {
+    var container = document.getElementById('khuVucDeThiOnline');
+    if (!container) return;
+    var html = "";
+    if (list && list.length > 0) {
+        list.forEach(function(exam) {
+            html += "<div class='bt-item' style='display:flex; justify-content:space-between; align-items:center; background:rgba(142,77,255,0.05); border:1px solid rgba(142,77,255,0.15); padding:12px 20px; border-radius:12px; margin-bottom:10px;'>";
+            html += "  <div style='text-align:left;'>";
+            html += "    <strong style='color:#FFD23F; font-size:14px;'>[" + exam.examId + "]</strong>";
+            html += "    <span style='color:#FFF; font-weight:600; margin-left:8px; font-size:15px;'>" + exam.title + "</span>";
+            html += "    <div style='font-size:12px; color:#A6ADCE; margin-top:4px;'><i class='fa-regular fa-clock'></i> Thời gian: " + exam.timeLimit + " phút | Giao ngày: " + (exam.dateAssigned || exam.assignedDate || "") + "</div>";
+            html += "  </div>";
+            html += "  <button onclick='startOnlineExam(\"" + exam.examId + "\", \"" + classId + "\")' class='btn-download' style='background:linear-gradient(135deg, #10B981 0%, #059669 100%); border:none; box-shadow: 0 4px 12px rgba(16,185,129,0.3); padding:8px 18px; border-radius:15px; font-weight:700; color:#fff; cursor:pointer; font-size:13px; display:inline-flex; align-items:center; gap:6px;'><i class='fa-solid fa-play'></i> Làm bài</button>";
+            html += "</div>";
+        });
+    } else {
+        html = "<p style='color: #A6ADCE; font-style:italic;'>Không có bài thi trắc nghiệm nào đang mở cho lớp của bạn.</p>";
+    }
+    container.innerHTML = html;
+}
 
 // Tải danh sách đề thi online được giao cho lớp
 function loadAssignedExams(classId) {
@@ -483,22 +516,7 @@ function loadAssignedExams(classId) {
 
     google.script.run
         .withSuccessHandler(function(list) {
-            var html = "";
-            if (list && list.length > 0) {
-                list.forEach(function(exam) {
-                    html += "<div class='bt-item' style='display:flex; justify-content:space-between; align-items:center; background:rgba(142,77,255,0.05); border:1px solid rgba(142,77,255,0.15); padding:12px 20px; border-radius:12px; margin-bottom:10px;'>";
-                    html += "  <div style='text-align:left;'>";
-                    html += "    <strong style='color:#FFD23F; font-size:14px;'>[" + exam.examId + "]</strong>";
-                    html += "    <span style='color:#FFF; font-weight:600; margin-left:8px; font-size:15px;'>" + exam.title + "</span>";
-                    html += "    <div style='font-size:12px; color:#A6ADCE; margin-top:4px;'><i class='fa-regular fa-clock'></i> Thời gian: " + exam.timeLimit + " phút | Giao ngày: " + exam.dateAssigned + "</div>";
-                    html += "  </div>";
-                    html += "  <button onclick='startOnlineExam(\"" + exam.examId + "\", \"" + classId + "\")' class='btn-download' style='background:linear-gradient(135deg, #10B981 0%, #059669 100%); border:none; box-shadow: 0 4px 12px rgba(16,185,129,0.3); padding:8px 18px; border-radius:15px; font-weight:700; color:#fff; cursor:pointer; font-size:13px; display:inline-flex; align-items:center; gap:6px;'><i class='fa-solid fa-play'></i> Làm bài</button>";
-                    html += "</div>";
-                });
-            } else {
-                html = "<p style='color: #A6ADCE; font-style:italic;'>Không có bài thi trắc nghiệm nào đang mở cho lớp của bạn.</p>";
-            }
-            container.innerHTML = html;
+            renderExamList(list, classId);
         })
         .withFailureHandler(function(err) {
             container.innerHTML = "<p style='color: #EF4444;'>Lỗi tải danh sách bài thi: " + err + "</p>";

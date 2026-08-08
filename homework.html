@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
@@ -936,6 +936,9 @@
             var examContainer = document.getElementById('hwExamListContainer');
             if (!examCard || !examContainer) return;
 
+            // Luôn hiện card bài thi
+            examCard.style.display = 'block';
+
             var classId = (currentHW && currentHW.classId) ? currentHW.classId : (sessionStorage.getItem('activeClassId') || '');
 
             // Lưu classId để exam.html sử dụng
@@ -988,6 +991,8 @@
                     })
                     .withFailureHandler(function() { clearTimeout(timeoutId); examContainer.innerHTML = '<div style="color:#A6ADCE; padding:12px;">Không tải được danh sách bài thi.</div>'; })
                     .getAssignedExamsForClass(classId);
+            } else {
+                examContainer.innerHTML = '<div style="color:#A6ADCE;padding:12px;font-style:italic;"><i class="fa-solid fa-triangle-exclamation" style="color:#FFD23F;"></i> Học sinh chưa được xếp vào lớp nào. Liên hệ giáo viên.</div>';
             }
         }
 

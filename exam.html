@@ -650,7 +650,9 @@
                 return;
             }
 
-            document.getElementById('lblExamSubtitle').innerText = "Học sinh: " + studentName + " (Lớp: " + classId + ")";
+            // Chỉ hiện tên học sinh, không hiện mã lớp kỹ thuật
+            var studentDisplay = studentName || 'Học sinh';
+            document.getElementById('lblExamSubtitle').innerText = "Học sinh: " + studentDisplay;
 
             // Gọi API nạp câu hỏi
             google.script.run

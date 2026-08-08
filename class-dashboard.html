@@ -4167,12 +4167,21 @@
                 return;
             }
 
+            // Feedback ngay khi bấm
+            var btn = document.querySelector('#assignExamModal button[onclick="submitAssignExam()"]');
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Đang giao đề...'; }
+
+            // Lấy tên lớp thân thiện
+            var selectEl = document.getElementById('assignClassIdSelect');
+            var className = selectEl ? (selectEl.options[selectEl.selectedIndex] ? selectEl.options[selectEl.selectedIndex].text : classId) : classId;
+
             showSyncToast('pending');
             google.script.run
                 .withSuccessHandler(function(res) {
+                    if (btn) { btn.disabled = false; btn.innerHTML = 'Giao đề ngay <i class="fa-solid fa-check" style="margin-left:6px"></i>'; }
                     if (res && res.success) {
                         showSyncToast('success');
-                        showToast("Giao đề thi thành công cho lớp " + classId + "!", "success");
+                        showToast("Giao đề thi thành công cho " + className + "!", "success");
                         closeModal('assignExamModal');
                     } else {
                         showSyncToast('error');
@@ -4180,6 +4189,7 @@
                     }
                 })
                 .withFailureHandler(function(err) {
+                    if (btn) { btn.disabled = false; btn.innerHTML = 'Giao đề ngay <i class="fa-solid fa-check" style="margin-left:6px"></i>'; }
                     showSyncToast('error');
                     showToast("Lỗi mạng: " + err.toString(), "error");
                 })

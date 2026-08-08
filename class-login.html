@@ -62,8 +62,8 @@
                     </div>
                 </div>
                 
-                <button class="btn-submit" onclick="xuLyClassLogin()" style="width: 100%; justify-content: center; height: 50px; border-radius: 12px; font-size: 15px; font-weight: bold; background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none;">
-                    Đăng nhập Lớp Học <i class="fa-solid fa-right-to-bracket" style="margin-left: 6px;"></i>
+                <button class="btn-submit" id="btnClassLogin" onclick="xuLyClassLogin()" style="width: 100%; justify-content: center; height: 50px; border-radius: 12px; font-size: 15px; font-weight: bold; background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none;">
+                    Đăng nhập Lớp Học <i class="fa-solid fa-right-to-bracket" id="btnClassLoginIcon" style="margin-left: 6px;"></i>
                 </button>
                 
                 <p id="classThongBaoLoi" class="error-msg" style="color: #EF4444; font-size: 13.5px; margin-top: 12px; display: none;"></p>
@@ -92,6 +92,8 @@
 
             errEl.style.display = "none";
             loadingEl.style.display = "block";
+            var btn = document.getElementById('btnClassLogin');
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Đang đăng nhập...'; }
 
             google.script.run.withSuccessHandler(function(res) {
                 loadingEl.style.display = "none";

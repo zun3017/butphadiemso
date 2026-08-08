@@ -526,8 +526,8 @@
             <div class="input-wrapper">
                 <i class="fa-regular fa-folder-open input-icon"></i>
                 <input type="text" id="maInput" placeholder="Nhập mã bài tập được giao (VD: BT101, BT102)...">
-                <button class="btn-submit" onclick="check()">
-                    Đăng nhập cổng <i class="fa-solid fa-arrow-right-long"></i>
+                <button class="btn-submit" id="btnLogin" onclick="check()">
+                    Đăng nhập cổng <i class="fa-solid fa-arrow-right-long" id="btnLoginIcon"></i>
                 </button>
             </div>
             <p id="error" class="error-msg"></p>
@@ -578,8 +578,10 @@
                     </div>
                     <div class="info-divider"></div>
                     <div class="info-row">
-                        <span class="info-label"><i class="fa-solid fa-hashtag"></i> Mã bài tập:</span>
-                        <span class="info-value" id="hwCode">-</span>
+                        <span class="info-label"><i class="fa-solid fa-chalkboard-user"></i> Lớp học:</span>
+                        <span class="info-value" id="hwClassName">-</span>
+                        <!-- hwCode ẩn, chỉ dùng nội bộ -->
+                        <span id="hwCode" style="display:none"></span>
                     </div>
                     <div class="info-row">
                         <span class="info-label"><i class="fa-solid fa-circle-info"></i> Trạng thái chốt:</span>
@@ -883,12 +885,24 @@
                 errorMsg.style.display = "block";
             } else {
                 errorMsg.style.display = "none";
+                // Feedback ngay khi bấm: disable + spinner
+                var loginBtn = document.getElementById('btnLogin');
+                if (loginBtn) {
+                    loginBtn.disabled = true;
+                    loginBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Đang xác thực...';
+                }
                 document.getElementById('loadingText').style.display = 'block';
                 
                 // Gọi API Apps Script xác thực mã bài tập cột H trong sheet Mã học sinh
                 google.script.run
-                    .withSuccessHandler(showHomeworkDashboard)
+                    .withSuccessHandler(function(res) {
+                        var btn = document.getElementById('btnLogin');
+                        if (btn) { btn.disabled = false; btn.innerHTML = 'Đăng nhập cổng <i class="fa-solid fa-arrow-right-long"></i>'; }
+                        showHomeworkDashboard(res);
+                    })
                     .withFailureHandler(function(err) {
+                        var btn = document.getElementById('btnLogin');
+                        if (btn) { btn.disabled = false; btn.innerHTML = 'Đăng nhập cổng <i class="fa-solid fa-arrow-right-long"></i>'; }
                         document.getElementById('loadingText').style.display = 'none';
                         errorMsg.innerText = "Lỗi kết nối: " + err.toString();
                         errorMsg.style.display = "block";
@@ -917,7 +931,10 @@
 
                 // Điền thông tin học sinh & bài tập
                 document.getElementById('hwStudentName').innerText = res.studentName;
-                document.getElementById('hwCode').innerText = res.ma;
+                document.getElementById('hwCode').innerText = res.ma; // hidden, only for internal use
+                // Hiện tên lớp thân thiện thay vì mã kỹ thuật
+                var classNameEl = document.getElementById('hwClassName');
+                if (classNameEl) classNameEl.innerText = res.className || res.classId || 'Lớp học';
                 document.getElementById('hwStudentInput').value = res.studentName;
 
                 // Render danh sách bài nộp và kiểm tra khóa ngày nộp
@@ -954,10 +971,10 @@
                 examContainer.innerHTML = currentHW.assignedExams.map(function(exam) {
                     return '<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.15); padding:12px 18px; border-radius:12px; margin-bottom:10px; flex-wrap:wrap; gap:10px;">' +
                         '<div>' +
-                        '  <div style="font-weight:700; color:#FFD23F; font-size:14px;">' + (exam.title || exam.examId) + '</div>' +
-                        '  <div style="font-size:12px; color:#A6ADCE; margin-top:3px;"><i class="fa-regular fa-clock"></i> Thời gian: ' + (exam.timeLimit || 15) + ' phút</div>' +
+                        '<div style="font-weight:700;color:#FFD23F;font-size:14px;">' + (exam.title || 'Đề kiểm tra') + '</div>' +
+                        '<div style="font-size:12px;color:#A6ADCE;margin-top:3px;"><i class="fa-regular fa-clock"></i> Thời gian: ' + (exam.timeLimit || 15) + ' phút</div>' +
                         '</div>' +
-                        '<button onclick="startExamFromHomework(\'' + exam.examId + '\', \'' + classId + '\')" ' +
+                        '<button onclick="startExamFromHomework(\'' + exam.examId + '\', \'' + classId + '\', this)" ' +
                         'style="background:linear-gradient(135deg,#10B981,#059669); border:none; box-shadow:0 4px 12px rgba(16,185,129,0.3); padding:8px 18px; border-radius:15px; font-weight:700; color:#fff; cursor:pointer; font-size:13px; display:inline-flex; align-items:center; gap:6px;">' +
                         '<i class="fa-solid fa-play"></i> Làm bài</button>' +
                         '</div>';
@@ -977,10 +994,10 @@
                             examContainer.innerHTML = list.map(function(exam) {
                                 return '<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.15); padding:12px 18px; border-radius:12px; margin-bottom:10px; flex-wrap:wrap; gap:10px;">' +
                                     '<div>' +
-                                    '  <div style="font-weight:700; color:#FFD23F; font-size:14px;">' + (exam.title || exam.examId) + '</div>' +
-                                    '  <div style="font-size:12px; color:#A6ADCE; margin-top:3px;"><i class="fa-regular fa-clock"></i> Thời gian: ' + (exam.timeLimit || 15) + ' phút</div>' +
+                                    '<div style="font-weight:700;color:#FFD23F;font-size:14px;">' + (exam.title || 'Đề kiểm tra') + '</div>' +
+                                    '<div style="font-size:12px;color:#A6ADCE;margin-top:3px;"><i class="fa-regular fa-clock"></i> Thời gian: ' + (exam.timeLimit || 15) + ' phút</div>' +
                                     '</div>' +
-                                    '<button onclick="startExamFromHomework(\'' + exam.examId + '\', \'' + classId + '\')" ' +
+                                    '<button onclick="startExamFromHomework(\'' + exam.examId + '\', \'' + classId + '\', this)" ' +
                                     'style="background:linear-gradient(135deg,#10B981,#059669); border:none; box-shadow:0 4px 12px rgba(16,185,129,0.3); padding:8px 18px; border-radius:15px; font-weight:700; color:#fff; cursor:pointer; font-size:13px; display:inline-flex; align-items:center; gap:6px;">' +
                                     '<i class="fa-solid fa-play"></i> Làm bài</button>' +
                                     '</div>';
@@ -996,10 +1013,15 @@
             }
         }
 
-        function startExamFromHomework(examId, classId) {
+        function startExamFromHomework(examId, classId, btn) {
+            // Feedback ngay: đổi nút thành loading
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Đang vào thi...';
+            }
             sessionStorage.setItem('activeExamId', examId);
             sessionStorage.setItem('activeClassId', classId);
-            window.location.href = 'exam.html';
+            setTimeout(function() { window.location.href = 'exam.html'; }, 300);
         }
 
         // Render danh sách bài tập được giao cho học sinh

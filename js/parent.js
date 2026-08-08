@@ -466,8 +466,9 @@ function renderStudentView(ketQua) {
     // Tự động tải danh sách đề thi trực tuyến được giao cho lớp học này
     var classIdToUse = ketQua.classId || sessionStorage.getItem('activeClassId') || localStorage.getItem('activeClassId') || '';
     if (classIdToUse) {
-        // Lưu lại để trang exam.html sử dụng
+        // Lưu lại để trang exam.html và feedback sử dụng
         sessionStorage.setItem('activeClassId', classIdToUse);
+        localStorage.setItem('activeClassId', classIdToUse);
         if (ketQua.studentId) {
             sessionStorage.setItem('userPhone', ketQua.studentId);
             localStorage.setItem('userPhone', ketQua.studentId);
@@ -607,11 +608,16 @@ function guiPhanHoiPhuHuynh() {
     var maHS = sessionStorage.getItem('userPhone') || localStorage.getItem('userPhone') || "";
     var tenHocSinh = currentStudentName;
 
-    var data = null;
-    try { data = JSON.parse(sessionStorage.getItem('dashboardData') || localStorage.getItem('dashboardData')); } catch(e) {}
     var isClass = true; // Luôn là lớp học trong folder này
-    var classId = data ? (data.classId || "") : "";
-    var className = data ? (data.className || data.tenLop || "Lớp học") : "Lớp học";
+    // Lấy classId từ activeClassId (được lưu khi đăng nhập/vào lớp)
+    var classId = sessionStorage.getItem('activeClassId') || localStorage.getItem('activeClassId') || '';
+    // Fallback: thử lấy từ dashboardData nếu có
+    if (!classId) {
+        var data = null;
+        try { data = JSON.parse(sessionStorage.getItem('dashboardData') || localStorage.getItem('dashboardData')); } catch(e) {}
+        classId = data ? (data.classId || '') : '';
+    }
+    var className = classId ? ('Lớp ' + classId) : 'Lớp học';
 
     btn.disabled = true;
     btn.innerHTML = 'Đang gửi... <i class="fa-solid fa-circle-notch fa-spin"></i>';

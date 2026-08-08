@@ -902,10 +902,15 @@
             </div>
             <div class="form-group">
                 <label>Hình thức thu học phí</label>
-                <select id="newClassFeeType" class="form-control" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
+                <select id="newClassFeeType" class="form-control" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;" onchange="toggleMonthlyFeeInput('newClassMonthlyFeeGroup', this.value)">
                     <option value="per_session">🟢 Thu theo buổi (Đơn giá × Số buổi)</option>
                     <option value="monthly">🟣 Trọn gói theo tháng (Học phí cố định/tháng)</option>
                 </select>
+            </div>
+            <div class="form-group" id="newClassMonthlyFeeGroup" style="display:none;">
+                <label>💰 Học phí cố định theo tháng (VNĐ)</label>
+                <input type="number" id="newClassMonthlyFee" class="form-control" placeholder="Ví dụ: 1500000" min="0" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
+                <small style="color:#A6ADCE; font-size:12px; margin-top:4px; display:block;">Số tiền thu cố định mỗi tháng, không phụ thuộc số buổi học.</small>
             </div>
             <button onclick="saveNewClass(this)" style="width: 100%; padding: 13px; background: linear-gradient(135deg, #8E4DFF, #5B2EFF); border: none; border-radius: 12px; color: #FFF; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px;">
                 Tạo Lớp Học & Khởi Tạo Sheet <i class="fa-solid fa-arrow-right" style="margin-left: 6px;"></i>
@@ -975,10 +980,15 @@
             </div>
             <div class="form-group">
                 <label>Hình thức thu học phí mặc định của lớp</label>
-                <select id="editClassFeeType" class="form-control" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
+                <select id="editClassFeeType" class="form-control" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;" onchange="toggleMonthlyFeeInput('editClassMonthlyFeeGroup', this.value)">
                     <option value="per_session">🟢 Thu theo buổi (Đơn giá × Số buổi)</option>
                     <option value="monthly">🟣 Trọn gói theo tháng (Học phí cố định/tháng)</option>
                 </select>
+            </div>
+            <div class="form-group" id="editClassMonthlyFeeGroup" style="display:none;">
+                <label>💰 Học phí cố định theo tháng (VNĐ)</label>
+                <input type="number" id="editClassMonthlyFee" class="form-control" placeholder="Ví dụ: 1500000" min="0" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
+                <small style="color:#A6ADCE; font-size:12px; margin-top:4px; display:block;">Số tiền thu cố định mỗi tháng, không phụ thuộc số buổi học.</small>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 15px;">
                 <button onclick="deleteCurrentClassFromEdit()" style="flex: 1; padding: 13px; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 12px; color: #FCA5A5; font-weight: bold; font-size: 14px; cursor: pointer;">
@@ -1893,13 +1903,25 @@
             el.style.pointerEvents = "none";
         }
 
+        function toggleMonthlyFeeInput(groupId, feeType) {
+            var group = document.getElementById(groupId);
+            if (!group) return;
+            if (feeType === 'monthly') {
+                group.style.display = 'block';
+            } else {
+                group.style.display = 'none';
+            }
+        }
+
         function saveNewClass(btn) {
             var name = document.getElementById("newClassName").value.trim();
             var subject = document.getElementById("newClassSubject").value.trim();
             var schedule = document.getElementById("newClassSchedule").value.trim();
             var feeType = document.getElementById("newClassFeeType").value;
+            var monthlyFee = feeType === "monthly" ? (parseInt(document.getElementById("newClassMonthlyFee").value) || 0) : 0;
 
             if (!name) { showToast("Vui lòng nhập tên lớp học!", "error"); return; }
+            if (feeType === "monthly" && !monthlyFee) { showToast("Vui lòng nhập học phí theo tháng!", "error"); return; }
 
             var phone = (currentTutorData && currentTutorData.tutorPhone) 
                 ? currentTutorData.tutorPhone 
@@ -1930,6 +1952,7 @@
                 schedule: schedule || "Chưa cập nhật",
                 maxStudents: "20",
                 feeType: feeType || "per_session",
+                monthlyFee: monthlyFee || 0,
                 tutorPhone: phone || tutorCode,
                 tutorCode: tutorCode || phone
             };
@@ -1953,6 +1976,8 @@
             document.getElementById("newClassName").value = "";
             document.getElementById("newClassSubject").value = "";
             document.getElementById("newClassSchedule").value = "";
+            document.getElementById("newClassMonthlyFee").value = "";
+            document.getElementById("newClassMonthlyFeeGroup").style.display = "none";
 
             renderDashboardUI();
             showSyncToast('pending');

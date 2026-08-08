@@ -4086,7 +4086,7 @@
             if (!tbody) return;
             
             tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px; color:#A6ADCE;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải...</td></tr>';
-            var tutorPhone = currentTutorData ? currentTutorData.phone : '';
+            var tutorPhone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || '') : '';
 
             google.script.run
                 .withSuccessHandler(function(list) {

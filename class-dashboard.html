@@ -4053,6 +4053,15 @@
             var file = event.target.files[0];
             if (!file) return;
 
+            // Kiểm tra định dạng file - chỉ chấp nhận .docx
+            var fileName = file.name || '';
+            var ext = fileName.split('.').pop().toLowerCase();
+            if (ext !== 'docx') {
+                showToast('Chỉ hỗ trợ file Word (.docx). Vui lòng chọn đúng định dạng!', 'error');
+                event.target.value = '';
+                return;
+            }
+
             if (file.size > 10 * 1024 * 1024) {
                 showToast("File quá lớn. Vui lòng chọn file dưới 10MB!", "error");
                 return;
@@ -4062,7 +4071,8 @@
             reader.onload = function(e) {
                 var rawData = e.target.result;
                 selectedExamFileBase64 = rawData.split(',')[1];
-                selectedExamFileMime = file.type;
+                // Fallback mime type nếu browser trả về rỗng (xảy ra với .docx trên một số browser)
+                selectedExamFileMime = file.type || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
                 document.getElementById('examUploadText').innerText = "Đã chọn: " + file.name + " (" + (file.size / 1024 / 1024).toFixed(2) + " MB)";
             };
             reader.readAsDataURL(file);

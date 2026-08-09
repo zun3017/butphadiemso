@@ -386,23 +386,63 @@
             <div id="classExamTabContentCreate">
                 <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(142,77,255,0.3); border-radius: 16px; padding: 20px;">
                     <h4 style="color: #FFD23F; margin-bottom: 16px; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Đăng tải tài liệu đề thi để AI OCR bóc tách
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Đăng tải tài liệu đề thi để AI đọc nội dung và ảnh gốc
                     </h4>
                     <p style="color:#A6ADCE; font-size:13px; margin-bottom:15px; line-height:1.4;">
-                        Hệ thống sử dụng mô hình <strong>Gemini 1.5 Flash</strong> để đọc tài liệu (Ảnh chụp đề, PDF hoặc Word) và tự động nhận dạng công thức toán LaTeX, bóc tách phương án lựa chọn và đáp án đúng để tạo bài thi trắc nghiệm online chấm điểm tự động.
+                        Hệ thống sẽ **giải nén file Word (.docx)** để đọc trực tiếp text, trích xuất hình ảnh gốc sắc nét nhất, tự động nhận dạng bảng đáp án hoặc lời giải của bạn để tạo đề trắc nghiệm online ngay lập tức.
                     </p>
                     <form id="examUploadForm">
                         <div style="margin-bottom: 15px;">
-                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">Chọn file đề thi (Ảnh chụp hoặc PDF)</label>
-                            <input type="file" name="examFile" id="examFileInput" accept="image/*,application/pdf" style="display: none;" onchange="handleExamFileSelect(event)">
+                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">Chọn file đề thi Word (.docx)</label>
+                            <input type="file" name="examFile" id="examFileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: none;" onchange="handleExamFileSelect(event)">
                             <div onclick="document.getElementById('examFileInput').click()" style="padding: 30px; border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; background: rgba(4,2,10,0.6); transition: all 0.3s;" onmouseover="this.style.borderColor='#8E4DFF'" onmouseout="this.style.borderColor='rgba(142, 77, 255, 0.4)'">
-                                <i class="fa-solid fa-file-pdf" style="font-size: 32px; color: #8E4DFF; margin-bottom: 10px;"></i>
-                                <div id="examUploadText" style="font-size: 13px; color: #E2D1FF; font-weight:600;">Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)</div>
-                                <div style="font-size:11px; color:#A6ADCE; margin-top:5px;">Dung lượng tối đa 10MB</div>
+                                <i class="fa-solid fa-file-word" style="font-size: 32px; color: #8E4DFF; margin-bottom: 10px;"></i>
+                                <div id="examUploadText" style="font-size: 13px; color: #E2D1FF; font-weight:600;">Kéo thả hoặc click chọn file Đề thi Word (.docx)</div>
+                                <div style="font-size:11px; color:#A6ADCE; margin-top:5px;">Chỉ hỗ trợ định dạng .docx mới, dung lượng tối đa 10MB</div>
                             </div>
                         </div>
                         <input type="hidden" name="tutorPhone" id="hiddenTutorPhone" value="">
                     </form>
+
+                    <!-- ===== THANH TIẾN ĐỘ AI ===== -->
+                    <div id="examProgressArea" style="display:none; margin-bottom:18px; padding:18px 20px; background:rgba(142,77,255,0.08); border:1px solid rgba(142,77,255,0.25); border-radius:14px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <span id="examProgressLabel" style="font-size:13px; font-weight:700; color:#E2D1FF;">🤖 Đang khởi động AI...</span>
+                            <span id="examProgressPct" style="font-size:13px; font-weight:800; color:#A78BFA;">0%</span>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.07); border-radius:100px; height:10px; overflow:hidden; position:relative;">
+                            <div id="examProgressBar" style="height:100%; width:0%; background:linear-gradient(90deg,#8E4DFF,#10B981); border-radius:100px; transition:width 0.6s cubic-bezier(0.4,0,0.2,1); position:relative;">
+                                <div style="position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3)); animation:shimmer 1.2s infinite;"></div>
+                            </div>
+                        </div>
+                        <div id="examProgressSteps" style="display:flex; justify-content:space-between; margin-top:14px;">
+                            <div class="prog-step" id="pstep1" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">1</div>
+                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">Tải file</span>
+                            </div>
+                            <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="height:2px;width:100%;background:rgba(255,255,255,0.08);"></div></div>
+                            <div class="prog-step" id="pstep2" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">2</div>
+                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">AI đọc đề</span>
+                            </div>
+                            <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="height:2px;width:100%;background:rgba(255,255,255,0.08);"></div></div>
+                            <div class="prog-step" id="pstep3" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">3</div>
+                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">Bóc hình vẽ</span>
+                            </div>
+                            <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="height:2px;width:100%;background:rgba(255,255,255,0.08);"></div></div>
+                            <div class="prog-step" id="pstep4" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">4</div>
+                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">Hoàn thành</span>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        @keyframes shimmer { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
+                        .prog-step-active > div:first-child { background:rgba(142,77,255,0.5)!important; border-color:#A78BFA!important; color:#fff!important; box-shadow:0 0 12px rgba(142,77,255,0.6); }
+                        .prog-step-done > div:first-child { background:#10B981!important; border-color:#10B981!important; color:#fff!important; }
+                    </style>
+
                     <div style="text-align: right;">
                         <button onclick="processExamUpload()" id="btnProcessExam" style="padding: 12px 28px; background: linear-gradient(135deg, #10B981, #059669); border:none; color:#FFF; font-weight:700; border-radius:20px; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); font-family: 'Inter', sans-serif;">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> AI Bóc tách & Tạo đề thi
@@ -4029,10 +4069,56 @@
         }
 
         // Gửi file đề thi cho Gemini OCR qua FormObject
+        // ===== HÀM ĐIỀU KHIỂN THANH TIẾN ĐỘ =====
+        function setExamProgress(step, pct, label) {
+            var area = document.getElementById('examProgressArea');
+            if (area) area.style.display = 'block';
+            var bar = document.getElementById('examProgressBar');
+            var pctEl = document.getElementById('examProgressPct');
+            var lbl = document.getElementById('examProgressLabel');
+            if (bar) bar.style.width = pct + '%';
+            if (pctEl) pctEl.innerText = pct + '%';
+            if (lbl) lbl.innerText = label;
+            // Cập nhật step indicators
+            for (var s = 1; s <= 4; s++) {
+                var el = document.getElementById('pstep' + s);
+                if (!el) continue;
+                el.classList.remove('prog-step-active', 'prog-step-done');
+                if (s < step) {
+                    el.classList.add('prog-step-done');
+                    el.querySelector('div').innerHTML = '✓';
+                } else if (s === step) {
+                    el.classList.add('prog-step-active');
+                }
+            }
+        }
+
+        function hideExamProgress() {
+            var area = document.getElementById('examProgressArea');
+            if (area) {
+                area.style.opacity = '0';
+                area.style.transition = 'opacity 0.5s';
+                setTimeout(function() {
+                    area.style.display = 'none';
+                    area.style.opacity = '1';
+                    // Reset steps
+                    for (var s = 1; s <= 4; s++) {
+                        var el = document.getElementById('pstep' + s);
+                        if (!el) continue;
+                        el.classList.remove('prog-step-active', 'prog-step-done');
+                        el.querySelector('div').innerHTML = s;
+                    }
+                }, 500);
+            }
+        }
+
         function processExamUpload() {
+            var btn = document.getElementById('btnProcessExam');
+            if (btn && btn.disabled) return;
+
             var fileInput = document.getElementById('examFileInput');
             if (!fileInput.files || fileInput.files.length === 0) {
-                showToast("Vui lòng chọn file đề thi (Ảnh hoặc PDF) trước khi tải lên!", "error");
+                showToast("Vui lòng chọn file đề thi (Ảnh, PDF hoặc Word) trước khi tải lên!", "error");
                 return;
             }
 
@@ -4041,44 +4127,107 @@
                 return;
             }
 
-            var btn = document.getElementById('btnProcessExam');
+            // Khóa nút ngay lập tức và xóa bộ nhớ đệm Base64 để chống double-click
+            var fileBase64 = selectedExamFileBase64;
+            var fileMime = selectedExamFileMime;
+            selectedExamFileBase64 = "";
+            selectedExamFileMime = "";
+
             var oldText = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> AI Đang bóc tách đề...';
+            btn.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> Đang xử lý...';
             showSyncToast('pending');
+
+            // Bước 1: Tải file lên
+            setExamProgress(1, 10, '📤 Đang tải file lên server...');
 
             var tutorPhone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || '') : '';
 
+            // Chuyển sang bước 2 sau 1s (giả lập upload)
+            setTimeout(function() {
+                setExamProgress(2, 25, '📖 Đang phân tích XML cấu trúc file Word...');
+            }, 1000);
+
+            // Fake tiến độ mượt trong khi chờ parse XML
+            var fakeTimer = null;
+            var fakePct = 25;
+            fakeTimer = setInterval(function() {
+                if (fakePct < 70) {
+                    fakePct += Math.random() * 5;
+                    var bar = document.getElementById('examProgressBar');
+                    var pctEl = document.getElementById('examProgressPct');
+                    if (bar) bar.style.width = Math.min(fakePct, 70) + '%';
+                    if (pctEl) pctEl.innerText = Math.floor(Math.min(fakePct, 70)) + '%';
+                } else {
+                    clearInterval(fakeTimer);
+                }
+            }, 500);
+
+            // ===== BƯỚC 1+2: Parse cấu trúc & hình ảnh gốc =====
             google.script.run
                 .withSuccessHandler(function(res) {
-                    btn.disabled = false;
-                    btn.innerHTML = oldText;
-                    
+                    clearInterval(fakeTimer);
                     if (res && res.success) {
-                        showSyncToast('success');
-                        showToast("Bóc tách đề thi thành công! Mã đề thi mới của bạn là: " + res.examId + " (" + res.questionCount + " câu hỏi).", "success");
-                        
-                        // Clear input
-                        selectedExamFileBase64 = "";
-                        selectedExamFileMime = "";
-                        fileInput.value = "";
-                        document.getElementById('examUploadText').innerHTML = "Kéo thả hoặc click chọn file Đề thi (Ảnh hoặc PDF)";
+                        // Bước 3: Gọi bóc hình theo trang
+                        setExamProgress(3, 75, '🖼️ AI đang trích xuất câu hỏi thành dạng ảnh sắc nét...');
+                        btn.innerHTML = '<i class="fa-solid fa-images fa-spin"></i> Đang trích xuất ảnh...';
 
-                        // Chuyển sang tab quản lý
-                        switchClassExamTab('manage');
+                        google.script.run
+                            .withSuccessHandler(function(figRes) {
+                                // Bước 4: Hoàn thành
+                                setExamProgress(4, 100, '✅ Hoàn thành! Đề thi đã sẵn sàng.');
+                                setTimeout(function() {
+                                    cleanupUploadState();
+                                    hideExamProgress();
+                                    if (figRes && figRes.success) {
+                                        showSyncToast('success');
+                                        if (figRes.figuresExtracted > 0) {
+                                            showToast('✅ Bóc hình thành công ' + figRes.figuresExtracted + '/' + figRes.totalFigures + ' hình! Mã đề: ' + examId, 'success');
+                                        } else {
+                                            showToast('✅ Đề tạo xong (Mã: ' + examId + '). Không có hình vẽ cần bóc.', 'success');
+                                        }
+                                    } else {
+                                        showToast('⚠️ Đề đã tạo (Mã: ' + examId + ') nhưng bóc hình gặp lỗi: ' + (figRes ? figRes.error : 'Không xác định') + '. Học sinh vẫn có thể làm bài.', 'warning');
+                                    }
+                                    switchClassExamTab('manage');
+                                }, 1200);
+                            })
+                            .withFailureHandler(function(figErr) {
+                                cleanupUploadState();
+                                hideExamProgress();
+                                showToast("⚠️ Đề đã tạo thành công (Mã: " + examId + ") nhưng trích xuất hình bị lỗi: " + figErr.toString(), "warning");
+                                switchClassExamTab('manage');
+                            })
+                            .extractAllExamFiguresBatch(examId);
                     } else {
+                        clearInterval(fakeTimer);
+                        hideExamProgress();
+                        btn.disabled = false;
+                        btn.innerHTML = oldText;
                         showSyncToast('error');
                         showToast("Lỗi bóc tách đề: " + (res ? res.error : "Không xác định"), "error");
                     }
+
+                    function cleanupUploadState() {
+                        btn.disabled = false;
+                        btn.innerHTML = oldText;
+                        selectedExamFileBase64 = "";
+                        selectedExamFileMime = "";
+                        fileInput.value = "";
+                        document.getElementById('examUploadText').innerHTML = "Kéo thả hoặc click chọn file Đề thi Word (.docx)";
+                    }
                 })
                 .withFailureHandler(function(err) {
+                    clearInterval(fakeTimer);
+                    hideExamProgress();
                     btn.disabled = false;
                     btn.innerHTML = oldText;
                     showSyncToast('error');
                     showToast("Lỗi kết nối máy chủ: " + err.toString(), "error");
                 })
-                .uploadAndCreateExam(selectedExamFileBase64, selectedExamFileMime, tutorPhone);
+                .uploadAndCreateExam(fileBase64, fileMime, tutorPhone);
         }
+
 
         // Tải danh sách đề thi của giáo viên
         function loadTeacherExams() {

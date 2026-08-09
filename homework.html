@@ -918,6 +918,9 @@
 
             if (res.timThay) {
                 sessionStorage.setItem('currentHwCode', res.ma);
+                localStorage.setItem('currentHwCode', res.ma);
+                sessionStorage.setItem('currentHW', JSON.stringify(res));
+                localStorage.setItem('currentHW', JSON.stringify(res));
                 currentHW = res; // lưu trữ dữ liệu phiên
 
                 // Ẩn UI chính
@@ -928,7 +931,7 @@
 
                 // Hiện Dashboard nộp bài tập
                 document.getElementById('homeworkDashboard').style.display = 'flex';
-
+                
                 // Điền thông tin học sinh & bài tập
                 document.getElementById('hwStudentName').innerText = res.studentName;
                 document.getElementById('hwCode').innerText = res.ma; // hidden, only for internal use
@@ -1027,6 +1030,23 @@
         // Render danh sách bài tập được giao cho học sinh
         var assignedHwLimit = 5;
 
+        function openSubmitHomeworkFromAssigned(title) {
+            if(typeof cancelEditHomework === 'function') cancelEditHomework();
+            var lessonInput = document.getElementById('hwLessonInput');
+            if (lessonInput) {
+                lessonInput.value = title;
+                lessonInput.focus();
+                lessonInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                lessonInput.style.transition = "all 0.3s";
+                lessonInput.style.boxShadow = "0 0 10px #FFD23F";
+                lessonInput.style.borderColor = "#FFD23F";
+                setTimeout(function() {
+                    lessonInput.style.boxShadow = "none";
+                    lessonInput.style.borderColor = "rgba(255,255,255,0.15)";
+                }, 1500);
+            }
+        }
+
         function renderAssignedHomeworkList(showAll) {
             var assignedCard = document.getElementById('hwAssignedCard');
             var assignedContainer = document.getElementById('hwAssignedListContainer');
@@ -1076,6 +1096,10 @@
                             html += '      </a>';
                         }
                     }
+                    
+                    html += '      <button onclick="openSubmitHomeworkFromAssigned(\'' + hw.title.replace(/'/g, "\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg, #FFD23F 0%, #F59E0B 100%); border: none; color: #14163C; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
+                    html += '        <i class="fa-solid fa-upload"></i> Nộp Bài';
+                    html += '      </button>';
                     
                     html += '    </div>';
                     html += '  </div>';
@@ -1616,6 +1640,9 @@
         // 10. Đăng xuất khỏi cổng nộp bài tập
         function backToLogin() {
             sessionStorage.removeItem('currentHwCode');
+            localStorage.removeItem('currentHwCode');
+            sessionStorage.removeItem('currentHW');
+            localStorage.removeItem('currentHW');
             currentHW = null;
             cancelEdit();
             
@@ -1663,6 +1690,40 @@
                 }, false);
             }
         })();
+
+        // Tự động khôi phục phiên đăng nhập khi tải lại trang
+        document.addEventListener("DOMContentLoaded", function() {
+            var savedHW = sessionStorage.getItem('currentHW') || localStorage.getItem('currentHW');
+            if (savedHW) {
+                try {
+                    var parsed = JSON.parse(savedHW);
+                    // Hiển thị giao diện dashboard trước với dữ liệu đã lưu
+                    showHomeworkDashboard(parsed);
+                    
+                    // Chạy ngầm xác thực/cập nhật dữ liệu mới từ máy chủ
+                    google.script.run
+                        .withSuccessHandler(function(res) {
+                            if (res.timThay) {
+                                // Cập nhật lại dữ liệu mới nhất
+                                sessionStorage.setItem('currentHW', JSON.stringify(res));
+                                localStorage.setItem('currentHW', JSON.stringify(res));
+                                currentHW = res;
+                                
+                                // Vẽ lại UI ngầm
+                                document.getElementById('hwStudentName').innerText = res.studentName;
+                                var classNameEl = document.getElementById('hwClassName');
+                                if (classNameEl) classNameEl.innerText = res.className || res.classId || 'Lớp học';
+                                renderHomeworkList();
+                                renderAssignedHomeworkList();
+                                renderAssignedExams();
+                            }
+                        })
+                        .xacThucMaBaiTap(parsed.ma);
+                } catch(e) {
+                    console.error("Lỗi khôi phục phiên học tập:", e);
+                }
+            }
+        });
     </script>
 </body>
 </html>

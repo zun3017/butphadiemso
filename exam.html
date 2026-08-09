@@ -1011,9 +1011,11 @@
         if (type === 'MULTIPLE_CHOICE') {
             wrap.className = 'options-mc';
             var sel = userAnswers[String(gidx)] || '';
+            var hasAnyOption = false;
             ['A','B','C','D'].forEach(function(k) {
                 var v = opts[k];
                 if (!v) return;
+                hasAnyOption = true;
                 var row = document.createElement('div');
                 row.className = 'opt-item' + (sel === k ? ' selected' : '');
                 row.onclick = (function(gi, key) { return function() { pickMC(gi, key); }; })(gidx, k);
@@ -1027,6 +1029,23 @@
                 row.appendChild(txt);
                 wrap.appendChild(row);
             });
+
+            // Fallback: câu hỏi không có text options (đáp án là hình ảnh)
+            // → Hiển thị 4 nút chọn A, B, C, D trống để học sinh vẫn chọn được
+            if (!hasAnyOption) {
+                wrap.style.cssText = 'display:flex; gap:12px; margin:12px 0; flex-wrap:wrap;';
+                ['A','B','C','D'].forEach(function(k) {
+                    var btn = document.createElement('div');
+                    btn.className = 'opt-item' + (sel === k ? ' selected' : '');
+                    btn.style.cssText = 'min-width:52px; justify-content:center;';
+                    btn.onclick = (function(gi, key) { return function() { pickMC(gi, key); }; })(gidx, k);
+                    var pfx = document.createElement('div');
+                    pfx.className = 'opt-prefix';
+                    pfx.innerText = k;
+                    btn.appendChild(pfx);
+                    wrap.appendChild(btn);
+                });
+            }
 
         } else if (type === 'TRUE_FALSE') {
             wrap.className = 'tf-list';

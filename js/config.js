@@ -13,7 +13,7 @@ const APP_CONFIG = {
     ZALO_URL: "https://zalo.me/0985692879",
     
     // URL Google Apps Script Web App MỚI của Thầy
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzPFqLG4M4Q2_H4ESYpywzI1uw3t6C731iogj2X_yBbz-Lw-pKbfV8An9WZrVz-YA/exec",
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwSocYpPWvcbdABhZB3DT6g6FsJShxgZ211YAm8WCCOlu27TKLSE76Sw7iqBPYZCQ-9/exec",
 
 
 

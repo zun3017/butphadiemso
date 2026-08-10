@@ -648,6 +648,9 @@
                 <button id="classHwTabSubmitBtn" onclick="switchClassHwTab('submit')" style="padding: 9px 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #A6ADCE; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-graduation-cap"></i> Học sinh nộp bài
                 </button>
+                <button id="classHwTabTrackBtn" onclick="switchClassHwTab('track')" style="padding: 9px 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #A6ADCE; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chart-pie" style="color:#10B981;"></i> Theo dõi bài nộp
+                </button>
             </div>
 
             <!-- Tab 1: Giao bài tập -->
@@ -769,7 +772,7 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Học sinh nộp bài -->
+            <!-- Tab 2: Học sinh nộp bài (cũ - giữ tương thích) -->
             <div id="classHwTabContentSubmit" style="display: none;">
                 <div style="overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
                     <table class="batch-eval-table">
@@ -786,6 +789,18 @@
                             <tr><td colspan="5" style="text-align:center; color:#A6ADCE; padding: 25px;">Chưa có học sinh nào nộp bài tập.</td></tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Tab 3: Theo dõi bài nộp (grouped by homework) -->
+            <div id="classHwTabContentTrack" style="display: none;">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+                    <button onclick="loadClassSubmissionsGrouped()" style="padding:7px 18px; background:rgba(16,185,129,0.15); border:1px solid #10B981; border-radius:12px; color:#10B981; font-size:13px; font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:6px;">
+                        <i class="fa-solid fa-rotate"></i> Tải lại
+                    </button>
+                </div>
+                <div id="classSubmissionsGroupedContainer">
+                    <div style="text-align:center; color:#A6ADCE; padding:30px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải...</div>
                 </div>
             </div>
         </div>
@@ -2807,43 +2822,127 @@
         var selectedClassHwFile = null;
 
         function switchClassHwTab(tab) {
-            var assignBtn = document.getElementById("classHwTabAssignBtn");
-            var submitBtn = document.getElementById("classHwTabSubmitBtn");
+            var assignBtn  = document.getElementById("classHwTabAssignBtn");
+            var submitBtn  = document.getElementById("classHwTabSubmitBtn");
+            var trackBtn   = document.getElementById("classHwTabTrackBtn");
             var feedbackBtn = document.getElementById("classHwTabFeedbackBtn");
             
-            var assignContent = document.getElementById("classHwTabContentAssign");
-            var submitContent = document.getElementById("classHwTabContentSubmit");
+            var assignContent  = document.getElementById("classHwTabContentAssign");
+            var submitContent  = document.getElementById("classHwTabContentSubmit");
+            var trackContent   = document.getElementById("classHwTabContentTrack");
             var feedbackContent = document.getElementById("classHwTabContentFeedback");
 
-            if (assignBtn) { assignBtn.style.background = "rgba(255,255,255,0.04)"; assignBtn.style.borderColor = "rgba(255,255,255,0.1)"; assignBtn.style.color = "#A6ADCE"; }
-            if (submitBtn) { submitBtn.style.background = "rgba(255,255,255,0.04)"; submitBtn.style.borderColor = "rgba(255,255,255,0.1)"; submitBtn.style.color = "#A6ADCE"; }
-            if (feedbackBtn) { feedbackBtn.style.background = "rgba(255,255,255,0.04)"; feedbackBtn.style.borderColor = "rgba(255,255,255,0.1)"; feedbackBtn.style.color = "#A6ADCE"; }
-
-            if (assignContent) assignContent.style.display = "none";
-            if (submitContent) submitContent.style.display = "none";
-            if (feedbackContent) feedbackContent.style.display = "none";
+            [assignBtn, submitBtn, trackBtn, feedbackBtn].forEach(function(b) {
+                if (b) { b.style.background = "rgba(255,255,255,0.04)"; b.style.borderColor = "rgba(255,255,255,0.1)"; b.style.color = "#A6ADCE"; }
+            });
+            [assignContent, submitContent, trackContent, feedbackContent].forEach(function(c) {
+                if (c) c.style.display = "none";
+            });
 
             if (tab === "assign") {
                 if (assignBtn) { assignBtn.style.background = "rgba(142,77,255,0.2)"; assignBtn.style.borderColor = "#8E4DFF"; assignBtn.style.color = "#FFF"; }
                 if (assignContent) assignContent.style.display = "block";
-                
                 var dateInput = document.getElementById("classHwReleaseDate");
                 if (dateInput && !dateInput.value) {
                     var now = new Date();
-                    var d = String(now.getDate()).padStart(2, '0');
-                    var m = String(now.getMonth() + 1).padStart(2, '0');
-                    var y = now.getFullYear();
-                    dateInput.value = d + "/" + m + "/" + y;
+                    dateInput.value = String(now.getDate()).padStart(2,'0') + "/" + String(now.getMonth()+1).padStart(2,'0') + "/" + now.getFullYear();
                 }
             } else if (tab === "submit") {
                 if (submitBtn) { submitBtn.style.background = "rgba(142,77,255,0.2)"; submitBtn.style.borderColor = "#8E4DFF"; submitBtn.style.color = "#FFF"; }
                 if (submitContent) submitContent.style.display = "block";
                 loadClassSubmissions();
+            } else if (tab === "track") {
+                if (trackBtn) { trackBtn.style.background = "rgba(16,185,129,0.2)"; trackBtn.style.borderColor = "#10B981"; trackBtn.style.color = "#FFF"; }
+                if (trackContent) trackContent.style.display = "block";
+                loadClassSubmissionsGrouped();
             } else if (tab === "feedback") {
                 if (feedbackBtn) { feedbackBtn.style.background = "rgba(56,189,248,0.2)"; feedbackBtn.style.borderColor = "#38BDF8"; feedbackBtn.style.color = "#FFF"; }
                 if (feedbackContent) feedbackContent.style.display = "block";
                 loadClassParentFeedback();
             }
+        }
+
+        function loadClassSubmissionsGrouped() {
+            var cls = currentClasses[activeClassIndex];
+            if (!cls) return;
+            var container = document.getElementById("classSubmissionsGroupedContainer");
+            if (!container) return;
+            container.innerHTML = '<div style="text-align:center;color:#A6ADCE;padding:30px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải dữ liệu bài nộp...</div>';
+
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (!res || !res.success || !res.homeworks || res.homeworks.length === 0) {
+                        container.innerHTML = '<div style="text-align:center;color:#A6ADCE;padding:30px;">Lớp này chưa có bài tập nào được giao.</div>';
+                        return;
+                    }
+                    var html = '';
+                    res.homeworks.forEach(function(hw) {
+                        var subCount = hw.submissions ? hw.submissions.length : 0;
+                        var total = hw.totalStudents || 1;
+                        var pct = Math.round(subCount / total * 100);
+                        var barColor = pct >= 80 ? '#10B981' : pct >= 40 ? '#FFD23F' : '#EF4444';
+
+                        html += '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px 20px;margin-bottom:14px;">';
+                        // Header
+                        html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:10px;">';
+                        html += '<div>';
+                        html += '<div style="font-weight:800;color:#FFF;font-size:14.5px;margin-bottom:3px;">' + escapeHtml(hw.title || '') + '</div>';
+                        html += '<div style="font-size:12px;color:#A6ADCE;display:flex;gap:10px;">';
+                        html += '<span><i class="fa-solid fa-book" style="color:#A5B4FC;"></i> ' + escapeHtml(hw.subject || '') + '</span>';
+                        html += '<span><i class="fa-regular fa-calendar"></i> Giao: ' + escapeHtml(hw.releaseDate || '') + '</span>';
+                        if (hw.fileUrl) html += '<span><a href="' + hw.fileUrl + '" target="_blank" style="color:#8E4DFF;text-decoration:none;"><i class="fa-solid fa-file"></i> File đề bài</a></span>';
+                        html += '</div></div>';
+                        html += '<span style="font-size:13px;font-weight:700;color:' + barColor + ';">' + subCount + '/' + total + ' HS đã nộp</span>';
+                        html += '</div>';
+                        // Progress bar
+                        html += '<div style="background:rgba(255,255,255,0.06);border-radius:8px;height:7px;overflow:hidden;margin-bottom:12px;">';
+                        html += '<div style="height:100%;background:' + barColor + ';width:' + pct + '%;border-radius:8px;transition:width 0.5s;"></div>';
+                        html += '</div>';
+                        // Student list
+                        if (hw.submissions && hw.submissions.length > 0) {
+                            html += '<div style="display:flex;flex-direction:column;gap:6px;">';
+                            hw.submissions.forEach(function(sub) {
+                                html += '<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:10px;padding:8px 14px;flex-wrap:wrap;gap:6px;">';
+                                html += '<span style="font-weight:700;color:#6EE7B7;font-size:13px;"><i class="fa-solid fa-circle-check"></i> ' + escapeHtml(sub.studentName || '') + '</span>';
+                                html += '<span style="font-size:11.5px;color:#A6ADCE;">' + escapeHtml(sub.timestamp || '') + '</span>';
+                                html += '<div style="display:flex;gap:6px;align-items:center;">';
+                                if (sub.fileUrl) html += '<a href="' + sub.fileUrl + '" target="_blank" style="padding:4px 10px;background:rgba(99,102,241,0.15);border:1px solid #6366F1;border-radius:8px;color:#A5B4FC;font-size:12px;text-decoration:none;"><i class="fa-solid fa-file-arrow-down"></i> Xem bài</a>';
+                                if (sub.score) {
+                                    html += '<span style="padding:4px 10px;background:rgba(255,210,63,0.15);border:1px solid #FFD23F;border-radius:8px;color:#FFD23F;font-size:12px;">Điểm: <b>' + sub.score + '</b></span>';
+                                } else {
+                                    html += '<button onclick="openGradeModal(\'' + sub.subId + '\',\'' + escapeHtml(sub.studentName || '') + '\')" style="padding:4px 10px;background:rgba(249,115,22,0.15);border:1px solid #F97316;border-radius:8px;color:#FED7AA;font-size:12px;cursor:pointer;"><i class="fa-solid fa-pen"></i> Chấm điểm</button>';
+                                }
+                                html += '</div></div>';
+                            });
+                            html += '</div>';
+                        } else {
+                            html += '<div style="text-align:center;color:#6B7280;font-size:13px;font-style:italic;padding:8px;">Chưa có học sinh nào nộp bài này.</div>';
+                        }
+                        html += '</div>';
+                    });
+                    container.innerHTML = html;
+                })
+                .withFailureHandler(function() {
+                    container.innerHTML = '<div style="text-align:center;color:#EF4444;padding:30px;">Không thể tải dữ liệu bài nộp. Vui lòng thử lại.</div>';
+                })
+                .getClassSubmissionsGrouped(cls.classId);
+        }
+
+        function openGradeModal(subId, studentName) {
+            var score = prompt('Nhập điểm cho ' + studentName + ' (ví dụ: 8.5):');
+            if (score === null) return;
+            var comment = prompt('Nhận xét của giáo viên (có thể để trống):') || '';
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        showToast('Đã chấm điểm thành công!', 'success');
+                        loadClassSubmissionsGrouped();
+                    } else {
+                        showToast('Lỗi: ' + (res ? res.error : 'Không rõ'), 'error');
+                    }
+                })
+                .withFailureHandler(function(err) { showToast('Lỗi: ' + err.toString(), 'error'); })
+                .gradeSubmission(subId, score, comment);
         }
 
         function loadClassParentFeedback() {

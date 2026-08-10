@@ -1035,8 +1035,14 @@
         // Render danh sách bài tập được giao cho học sinh
         var assignedHwLimit = 5;
 
-        function openSubmitHomeworkFromAssigned(title) {
+        // Mã bài tập đang được chọn để nộp
+        var activeHwId = null;
+        var activeHwTitle = '';
+
+        function openSubmitHomeworkFromAssigned(hwId, title) {
             if(typeof cancelEditHomework === 'function') cancelEditHomework();
+            activeHwId = hwId;
+            activeHwTitle = title;
             var lessonInput = document.getElementById('hwLessonInput');
             if (lessonInput) {
                 lessonInput.value = title;
@@ -1049,6 +1055,12 @@
                     lessonInput.style.boxShadow = "none";
                     lessonInput.style.borderColor = "rgba(255,255,255,0.15)";
                 }, 1500);
+            }
+            // Hiển thị label bài được chọn
+            var selLabel = document.getElementById('activeHwLabel');
+            if (selLabel) {
+                selLabel.style.display = 'block';
+                selLabel.innerHTML = '✅ Đang nộp bài: <strong style="color:#FFD23F;">' + title + '</strong>';
             }
         }
 
@@ -1068,49 +1080,71 @@
                 var visibleList = sortedList.slice(0, limit);
 
                 visibleList.forEach(function(hw) {
+                    // Kiểm tra học sinh đã nộp bài này chưa
+                    var alreadySubmitted = null;
+                    if (currentHW && currentHW.submissions) {
+                        for (var si = 0; si < currentHW.submissions.length; si++) {
+                            if (currentHW.submissions[si].hwId === hw.hwId) {
+                                alreadySubmitted = currentHW.submissions[si];
+                                break;
+                            }
+                        }
+                    }
+
                     var html = "";
                     html += '<div class="assigned-hw-item" style="border: 1px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; margin-bottom: 12px; background: rgba(20, 22, 60, 0.3); padding: 15px 18px; text-align: left;">';
                     html += '  <div style="font-size: 13px; color: #B2B8D9; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">';
-                    html += '    Học sinh: <span style="font-weight: 700; color: #FFF;">' + currentHW.studentName + '</span> <span style="color: rgba(255,255,255,0.2);">|</span> Ngày phát hành: <span style="font-weight: 700; color: #FFF;">' + hw.releaseDate + '</span>';
+                    html += '    Học sinh: <span style="font-weight: 700; color: #FFF;">' + currentHW.studentName + '</span> <span style="color: rgba(255,255,255,0.2);">|</span> Môn: <span style="font-weight: 700; color: #A5B4FC;">' + (hw.subject || '') + '</span> <span style="color: rgba(255,255,255,0.2);">|</span> Ngày giao: <span style="font-weight: 700; color: #FFF;">' + hw.releaseDate + '</span>';
                     html += '  </div>';
                     html += '  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">';
                     html += '    <span style="font-weight: 700; color: #FFD23F; font-size: 15px; display: flex; align-items: center; gap: 8px;">';
                     html += '      <i class="fa-solid fa-file-invoice" style="color: #FFD23F;"></i> ' + hw.title;
                     html += '    </span>';
 
-
                     html += '    <div style="display: flex; gap: 8px; flex-wrap: wrap;">';
-                    
+
+                    // Nút Tải Bài nếu có fileUrl
                     if (hw.fileUrl) {
                         var dlUrl = toDriveDownload(hw.fileUrl);
-                        html += '      <a href="' + dlUrl + '" download class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
+                        html += '      <a href="' + dlUrl + '" target="_blank" class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">';
                         html += '        <i class="fa-solid fa-cloud-arrow-down"></i> Tải Bài';
                         html += '      </a>';
                     }
-                    
-                    if (hw.externalLink) {
-                        var isDrive = hw.externalLink.indexOf("drive.google.com") !== -1;
-                        if (isDrive && !hw.fileUrl) {
-                            var dlUrl = toDriveDownload(hw.externalLink);
-                            html += '      <a href="' + dlUrl + '" download class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
-                            html += '        <i class="fa-solid fa-cloud-arrow-down"></i> Tải Bài';
-                            html += '      </a>';
-                        } else {
-                            html += '      <a href="' + hw.externalLink + '" target="_blank" class="btn-link-ext" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
-                            html += '        <i class="fa-solid fa-link"></i> Mở Link';
-                            html += '      </a>';
-                        }
+
+                    // Nút Mở Link nếu có externalLink và KHÔNG phải file Drive
+                    if (hw.externalLink && hw.externalLink.indexOf('drive.google.com') === -1) {
+                        html += '      <a href="' + hw.externalLink + '" target="_blank" class="btn-link-ext" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '        <i class="fa-solid fa-link"></i> Mở Link';
+                        html += '      </a>';
+                    } else if (hw.externalLink && !hw.fileUrl) {
+                        // Link Drive nhưng chưa có fileUrl → hiển nút Tải
+                        var dlUrl2 = toDriveDownload(hw.externalLink);
+                        html += '      <a href="' + dlUrl2 + '" target="_blank" class="btn-download" style="background: rgba(142, 77, 255, 0.15); border: 1px solid #8E4DFF; color: #FFF; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '        <i class="fa-solid fa-cloud-arrow-down"></i> Tải Bài';
+                        html += '      </a>';
                     }
-                    
-                    html += '      <button onclick="openSubmitHomeworkFromAssigned(\'' + hw.title.replace(/'/g, "\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg, #FFD23F 0%, #F59E0B 100%); border: none; color: #14163C; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">';
-                    html += '        <i class="fa-solid fa-upload"></i> Nộp Bài';
-                    html += '      </button>';
-                    
+
+                    // Nút Nộp Bài — đổi màu nếu đã nộp
+                    if (alreadySubmitted) {
+                        html += '      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:3px;">';
+                        html += '        <button onclick="openSubmitHomeworkFromAssigned(\'' + hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg,#10B981,#059669); border: none; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '          <i class="fa-solid fa-check-circle"></i> Đã nộp — Nộp lại';
+                        html += '        </button>';
+                        html += '        <span style="font-size:11px; color:#6EE7B7;">Nộp lúc: ' + alreadySubmitted.submissionDate + '</span>';
+                        if (alreadySubmitted.score) html += '        <span style="font-size:11px; color:#FFD23F;">Giáo viên chấm: <b>' + alreadySubmitted.score + '</b>' + (alreadySubmitted.comment ? ' — ' + alreadySubmitted.comment : '') + '</span>';
+                        html += '      </div>';
+                    } else {
+                        html += '      <button onclick="openSubmitHomeworkFromAssigned(\'' + hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg, #FFD23F 0%, #F59E0B 100%); border: none; color: #14163C; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '        <i class="fa-solid fa-upload"></i> Nộp Bài';
+                        html += '      </button>';
+                    }
+
                     html += '    </div>';
                     html += '  </div>';
                     html += '</div>';
                     assignedContainer.innerHTML += html;
                 });
+
 
                 // Nút Xem thêm / Thu gọn
                 if (totalCount > assignedHwLimit) {
@@ -1513,7 +1547,7 @@
                                 clearInterval(interval);
                                 handleUploadError(err);
                             })
-                            .uploadHomeworkFiles(currentHW.ma, studentName, lessonName, filesDataArray);
+                            .uploadHomeworkFiles(currentHW.ma, activeHwId || lessonName, lessonName, filesDataArray);
                     }
                 }).catch(function(err) {
                     statusTxt.innerText = "Lỗi đọc file: " + err.toString();

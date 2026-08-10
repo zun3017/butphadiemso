@@ -7,7 +7,7 @@
  * Cấu hình URL Google Apps Script Web App MỚI và link Folder Google Drive
  */
 const APP_CONFIG = {
-    TEACHER_NAME: "Thầy Nguyễn Hữu Phúc",
+    TEACHER_NAME: "Thầy Đồng Quang Minh",
     BRAND_NAME: "Lớp Học Bứt Phá Điểm Số",
     PHONE: "0985.692.879",
     ZALO_URL: "https://zalo.me/0985692879",

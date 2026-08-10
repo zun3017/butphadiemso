@@ -2,20 +2,17 @@
 <html lang="vi">
 <head>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Tra cứu Học tập - Học tập thông minh</title>
+    <title>Lớp Hóa Thầy Minh - Chinh Phục Hóa Học</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js (Dành cho việc hiển thị biểu đồ giả lập trong Widget Demo) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Global CSS -->
     <link rel="stylesheet" href="css/style.css?v=1.7.0">
-    <!-- Home CSS (Chuyên biệt cho Trang chủ Landing Page) -->
-    <link rel="stylesheet" href="css/home.css?v=1.6.2">
+    <!-- Home CSS -->
+    <link rel="stylesheet" href="css/home.css?v=2.0.0">
 </head>
 <body>
     <!-- Navbar / Header -->
@@ -24,212 +21,382 @@
             <a href="index.html" class="nav-left" style="text-decoration: none; cursor: pointer;">
                 <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="nav-logo">
                 <div class="header-text">
-                    <h1>Tra cứu học tập</h1>
-                    <p>Học tập thông minh</p>
+                    <h1>Lớp Hóa Thầy Minh</h1>
+                    <p>Chinh phục điểm 10</p>
                 </div>
             </a>
         
             <div class="nav-right">
-                <a href="index.html" class="nav-btn active" id="btnNavHome"><i class="fa-solid fa-house"></i> Trang chủ</a>
-                <a href="parent-login.html" class="nav-btn" id="btnNavParent"><i class="fa-solid fa-graduation-cap"></i> Dành cho Phụ huynh</a>
-                <a href="homework.html" onclick="sessionStorage.removeItem('currentHW'); sessionStorage.removeItem('currentHW_ts'); sessionStorage.removeItem('currentHwCode'); localStorage.removeItem('currentHW'); localStorage.removeItem('currentHwCode');" class="nav-btn" id="btnNavHomework"><i class="fa-solid fa-file-arrow-up"></i> Nộp bài tập</a>
-                <a href="class-login.html" class="nav-btn" id="btnNavClass"><i class="fa-solid fa-users-rectangle"></i> Quản trị / Giáo viên</a>
+                <a href="#hero" class="nav-btn active"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                <a href="#about" class="nav-btn"><i class="fa-solid fa-user-tie"></i> Về Thầy</a>
+                <a href="#courses" class="nav-btn"><i class="fa-solid fa-book"></i> Khóa Học</a>
+                <a href="parent-login.html" class="nav-btn"><i class="fa-solid fa-magnifying-glass"></i> Tra Điểm</a>
+                <a href="homework.html" onclick="sessionStorage.removeItem('currentHW'); sessionStorage.removeItem('currentHW_ts'); sessionStorage.removeItem('currentHwCode'); localStorage.removeItem('currentHW'); localStorage.removeItem('currentHwCode');" class="nav-btn" style="border-color:#10B981; color:#10B981; background:rgba(16,185,129,0.05);"><i class="fa-solid fa-file-arrow-up"></i> Nộp Bài</a>
+                <a href="class-login.html" class="nav-btn" style="border-color:#8E4DFF; color:#FFD23F; background:rgba(142,77,255,0.12);"><i class="fa-solid fa-users-rectangle"></i> Admin</a>
             </div>
         </div>
     </div>
 
     <!-- MAIN CONTAINER -->
-    <div class="main-container" style="max-width: 1200px; margin-top: 30px; padding-bottom: 50px;">
+    <div class="main-container" style="max-width: 100%; padding: 0;">
         
         <!-- 1. HERO SECTION -->
-        <section class="hero-section">
-            <div class="hero-badge">
-                <span>⭐</span> CỔNG THÔNG TIN ĐIỆN TỬ THẾ HỆ MỚI
-            </div>
-            <h1 class="hero-title">Hệ Thống <br><span class="highlight">Tra Cứu Học Tập</span> Thông Minh 🚀</h1>
-            <p class="hero-subtitle">Giải pháp đồng hành và tối ưu hóa học tập, giúp phụ huynh theo dõi sát sao tiến độ và kết quả, đồng thời hỗ trợ giáo viên quản lý lớp học toàn diện.</p>
-            <div class="hero-ctas">
-                <a href="#sectionDemo" class="btn-cta btn-cta-primary"><i class="fa-solid fa-play"></i> Trải nghiệm thử Demo</a>
-                <a href="parent-login.html" class="btn-cta btn-cta-secondary"><i class="fa-solid fa-graduation-cap"></i> Tra cứu Phụ huynh</a>
-                <a href="homework.html" onclick="sessionStorage.removeItem('currentHW'); sessionStorage.removeItem('currentHW_ts'); sessionStorage.removeItem('currentHwCode'); localStorage.removeItem('currentHW'); localStorage.removeItem('currentHwCode');" class="btn-cta btn-cta-secondary" style="border-color:#10B981; color:#10B981; background:rgba(16,185,129,0.05);"><i class="fa-solid fa-file-arrow-up"></i> Nộp bài tập</a>
-                <a href="class-login.html" class="btn-cta btn-cta-secondary" style="border-color:#8E4DFF; color:#FFD23F; background:rgba(142,77,255,0.12);"><i class="fa-solid fa-users-rectangle"></i> Dành cho Lớp học</a>
-            </div>
-        </section>
-
-        <!-- 2. FEATURES GRID -->
-        <section class="section-wrapper">
-            <div class="section-header">
-                <h2>Tính Năng Nổi Bật</h2>
-                <p>Những giải pháp hỗ trợ vượt trội được thiết kế cho từng cá nhân trong hệ thống</p>
+        <section class="hero-section" id="hero">
+            <div class="hero-particles">
+                <div class="particle p1"></div>
+                <div class="particle p2"></div>
+                <div class="particle p3"></div>
             </div>
             
-            <div class="features-grid">
+            <div class="hero-content fade-up">
+                <div class="hero-badge">
+                    <i class="fa-solid fa-flask"></i> LỚP HỌC HÓA CHẤT LƯỢNG CAO
+                </div>
+                <h1 class="hero-title">Chinh Phục Hóa Học <br><span class="highlight">Từ Nền Tảng Đến Điểm 10</span></h1>
+                <p class="hero-subtitle">Cùng Thầy Đồng Quang Minh — Giáo viên Hóa trẻ tuổi đầy nhiệt huyết. Phương pháp giảng dạy hiện đại, bám sát cấu trúc đề thi mới nhất 2027.</p>
+                
+                <div class="hero-ctas">
+                    <a href="#courses" class="btn-primary"><i class="fa-solid fa-book-open"></i> Xem Khóa Học</a>
+                    <a href="#cta" class="btn-outline"><i class="fa-brands fa-whatsapp"></i> Nhắn Tin Tư Vấn</a>
+                </div>
+                
+                <div class="hero-stats fade-up delay-200">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Học Sinh Mỗi Năm</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Năm Kinh Nghiệm</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Bứt Phá Điểm Số</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT TEACHER -->
+        <section class="section-wrapper" id="about">
+            <div class="about-section fade-up">
+                <div class="about-image">
+                    <div class="about-image-glow"></div>
+                    <!-- Placeholder ảnh thầy, thay ảnh thật vào đây -->
+                    <img src="https://i.postimg.cc/J0w1W56r/placeholder-teacher.png" alt="Thầy Đồng Quang Minh" style="background: rgba(142,77,255,0.1); object-fit: cover;">
+                </div>
+                <div class="about-content">
+                    <div class="hero-badge" style="margin-bottom: 15px;"><i class="fa-solid fa-user-tie"></i> GIỚI THIỆU</div>
+                    <h2 class="section-title" style="text-align: left; font-size: 2.2rem;">Thầy Đồng Quang Minh</h2>
+                    <div class="about-tagline">"Học bản chất - Nhớ lâu dài - Làm bài bứt tốc"</div>
+                    <p class="about-text">
+                        Là giáo viên Hóa học trẻ đầy nhiệt huyết, Thầy Minh luôn trăn trở tìm ra phương pháp giúp học sinh tiếp thu Hóa học một cách tự nhiên nhất, không gò ép học vẹt. Bằng việc kết hợp công nghệ vào giảng dạy và quản lý học tập, Thầy cam kết đồng hành cùng sự bứt phá của từng học sinh.
+                    </p>
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <div>
+                                Phương pháp bài bản
+                                <span>Bám sát đề thi chuẩn</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <div>
+                                Truyền cảm hứng
+                                <span>Dạy dễ hiểu, tận tâm</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <div>
+                                Cập nhật liên tục
+                                <span>Đề thi cấu trúc 2027</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <div>
+                                Theo dõi sát sao
+                                <span>Hệ thống điểm online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. COURSES -->
+        <section class="section-wrapper" id="courses">
+            <div class="section-header">
+                <h2 class="section-title">Các Khóa Học Hóa Học</h2>
+                <p class="section-subtitle">Lộ trình được thiết kế chuyên biệt cho từng mục tiêu và năng lực, đa dạng loại hình học tập</p>
+            </div>
+            
+            <div class="courses-filter fade-up">
+                <button class="filter-btn active" data-filter="all">Tất cả khóa học</button>
+                <button class="filter-btn" data-filter="nhom">🏫 Lớp học nhóm</button>
+                <button class="filter-btn" data-filter="online">💻 Online trực tiếp</button>
+                <button class="filter-btn" data-filter="1on1">👤 Kèm 1-1</button>
+            </div>
+            
+            <div class="courses-grid fade-up delay-100" id="coursesGrid">
+                
                 <!-- Card 1 -->
-                <div class="feature-card-premium">
-                    <div class="icon-box icon-purple-glow">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                <div class="course-card" data-type="nhom online 1on1">
+                    <div class="course-badges">
+                        <span class="badge badge-grade">Lớp 10</span>
+                        <span class="badge badge-hot">HOT</span>
+                        <span class="badge badge-type-group"><i class="fa-solid fa-users"></i> Nhóm</span>
+                        <span class="badge badge-type-online"><i class="fa-solid fa-laptop"></i> Online</span>
                     </div>
-                    <h3>Tra Cứu Nhanh Chóng</h3>
-                    <p>Chỉ cần nhập số điện thoại đăng ký, Phụ huynh và Học sinh có thể truy cập tức thì bảng điểm và kết quả học tập chi tiết của buổi học gần nhất.</p>
+                    <h3 class="course-title">Hóa THPT Nền Tảng</h3>
+                    <p class="course-desc">Nắm chắc cấu tạo nguyên tử, bảng tuần hoàn, liên kết hóa học. Tạo đà vững chắc cho chương trình THPT.</p>
+                    <div class="course-meta">
+                        <div class="meta-item"><i class="fa-regular fa-clock"></i> 2 buổi / tuần</div>
+                        <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Tại lớp & Qua Google Meet</div>
+                    </div>
+                    <div class="course-price">500.000đ / tháng</div>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="course-cta">Đăng Ký Khóa Học</a>
                 </div>
+                
                 <!-- Card 2 -->
-                <div class="feature-card-premium">
-                    <div class="icon-box icon-blue-glow">
-                        <i class="fa-solid fa-chart-line"></i>
+                <div class="course-card" data-type="nhom online 1on1">
+                    <div class="course-badges">
+                        <span class="badge badge-grade">Lớp 11</span>
+                        <span class="badge badge-type-group"><i class="fa-solid fa-users"></i> Nhóm</span>
+                        <span class="badge badge-type-1on1"><i class="fa-solid fa-user"></i> 1 Kèm 1</span>
                     </div>
-                    <h3>Biểu Đồ Tiến Bộ</h3>
-                    <p>Trực quan hóa điểm số đầu giờ và điểm định kỳ dưới dạng biểu đồ đường sinh động. Dễ dàng theo dõi sự bứt phá và xu hướng học tập theo thời gian.</p>
+                    <h3 class="course-title">Hóa Hữu Cơ & Vô Cơ</h3>
+                    <p class="course-desc">Giải quyết tận gốc nỗi sợ Hóa Hữu cơ. Xử lý gọn gàng bài toán Hidrocacbon, Ancol, Axit và vô cơ phức tạp.</p>
+                    <div class="course-meta">
+                        <div class="meta-item"><i class="fa-regular fa-clock"></i> 2 buổi / tuần</div>
+                        <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Trực tiếp tại Cơ sở</div>
+                    </div>
+                    <div class="course-price">600.000đ / tháng</div>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="course-cta">Đăng Ký Khóa Học</a>
                 </div>
+                
                 <!-- Card 3 -->
-                <div class="feature-card-premium">
-                    <div class="icon-box icon-green-glow">
-                        <i class="fa-solid fa-book-open"></i>
+                <div class="course-card" data-type="nhom online 1on1">
+                    <div class="course-badges">
+                        <span class="badge badge-grade">Lớp 12</span>
+                        <span class="badge badge-hot">LUYỆN THI</span>
+                        <span class="badge badge-type-group"><i class="fa-solid fa-users"></i> Nhóm</span>
+                        <span class="badge badge-type-online"><i class="fa-solid fa-laptop"></i> Online</span>
                     </div>
-                    <h3>Giao Nhận Bài Tập</h3>
-                    <p>Giáo viên tải lên tài liệu và bài tập trực tuyến. Học sinh tải về và nộp bài làm qua hệ thống nhanh chóng, tiện lợi, không lo thất lạc.</p>
+                    <h3 class="course-title">Luyện Thi THPT QG 2027</h3>
+                    <p class="course-desc">Bám sát cấu trúc đề thi mới nhất. Chiến thuật làm bài trắc nghiệm siêu tốc, tối đa hóa điểm số.</p>
+                    <div class="course-meta">
+                        <div class="meta-item"><i class="fa-regular fa-clock"></i> 3 buổi / tuần</div>
+                        <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Linh hoạt (Offline/Online)</div>
+                    </div>
+                    <div class="course-price">800.000đ / tháng</div>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="course-cta">Đăng Ký Khóa Học</a>
                 </div>
+                
                 <!-- Card 4 -->
-                <div class="feature-card-premium">
-                    <div class="icon-box icon-orange-glow">
-                        <i class="fa-solid fa-user-shield"></i>
+                <div class="course-card" data-type="nhom 1on1">
+                    <div class="course-badges">
+                        <span class="badge badge-grade">Lớp 9</span>
+                        <span class="badge badge-type-group"><i class="fa-solid fa-users"></i> Nhóm</span>
                     </div>
-                    <h3>Bảo Mật An Toàn</h3>
-                    <p>Bảo mật dữ liệu tối đa. Tài khoản Giáo viên và Admin được xác thực bằng mã PIN bảo vệ cá nhân, ngăn chặn các truy cập trái phép.</p>
+                    <h3 class="course-title">Hóa THCS Nâng Cao</h3>
+                    <p class="course-desc">Ôn thi chuyển cấp, luyện thi vào lớp 10 chuyên Hóa. Nắm trọn phản ứng và các định luật hóa học.</p>
+                    <div class="course-meta">
+                        <div class="meta-item"><i class="fa-regular fa-clock"></i> 2 buổi / tuần</div>
+                        <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Trực tiếp tại Cơ sở</div>
+                    </div>
+                    <div class="course-price">500.000đ / tháng</div>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="course-cta">Đăng Ký Khóa Học</a>
+                </div>
+                
+            </div>
+            
+            <!-- Video Banner (Section 4.3) -->
+            <div class="video-banner fade-up delay-200" id="videoCourse">
+                <div class="video-banner-content">
+                    <div class="badge badge-new" style="display:inline-block; margin-bottom: 15px;">SẮP RA MẮT</div>
+                    <h3><i class="fa-solid fa-circle-play" style="color: #F472B6;"></i> Gói Video Bài Giảng 24/7</h3>
+                    <p>Mua 1 lần - Học mãi mãi, không hết hạn. Đầy đủ bài giảng, giải chi tiết từng dạng bài từ Lớp 8 đến Lớp 12.</p>
+                    <div class="video-perks">
+                        <div class="video-perk"><i class="fa-solid fa-check"></i> Học mọi lúc mọi nơi</div>
+                        <div class="video-perk"><i class="fa-solid fa-check"></i> Xem lại không giới hạn</div>
+                        <div class="video-perk"><i class="fa-solid fa-check"></i> File tài liệu đính kèm</div>
+                    </div>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="btn-primary btn-video"><i class="fa-solid fa-cart-shopping"></i> Nhận Thông Báo Khi Mở Bán</a>
+                </div>
+                <div class="video-banner-img">
+                    <i class="fa-solid fa-photo-film"></i>
                 </div>
             </div>
         </section>
 
-        <!-- 3. INTERACTIVE DEMO SECTION -->
-        <section class="section-wrapper" id="sectionDemo" style="scroll-margin-top: 100px;">
+        <!-- 4. WHY CHOOSE -->
+        <section class="section-wrapper" id="why">
             <div class="section-header">
-                <h2>Trải Nghiệm Hệ Thống (Demo Giả Lập)</h2>
-                <p>Khám phá giao diện thực tế của Phụ huynh / Học sinh, Nộp bài tập và Giáo viên (Dữ liệu mô phỏng an toàn)</p>
+                <h2 class="section-title">Tại Sao Chọn Lớp Thầy Minh?</h2>
+                <p class="section-subtitle">Môi trường học tập không chỉ truyền đạt kiến thức mà còn xây dựng tư duy và ứng dụng công nghệ 4.0</p>
             </div>
-
-            <div class="demo-container">
-                <div class="demo-selector">
-                    <button class="demo-tab-btn active" data-role="student">
-                        <i class="fa-solid fa-graduation-cap"></i> Giao diện Học sinh
-                    </button>
-                    <button class="demo-tab-btn" data-role="homework">
-                        <i class="fa-solid fa-file-arrow-up"></i> Giao diện Nộp bài tập
-                    </button>
-                    <button class="demo-tab-btn" data-role="tutor">
-                        <i class="fa-solid fa-chalkboard-user"></i> Giao diện Giáo viên
-                    </button>
+            
+            <div class="why-grid fade-up">
+                <div class="why-card">
+                    <div class="why-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="why-text">
+                        <h3>Theo dõi tiến độ Real-time</h3>
+                        <p>Ứng dụng hệ thống tra cứu điểm số online độc quyền. Phụ huynh và học sinh có thể theo dõi biểu đồ điểm số sau mỗi buổi học.</p>
+                    </div>
                 </div>
-
-                <!-- Đây là nơi JS của demo-mock.js render các giao diện simulated screen -->
-                <div class="demo-content-area" id="demoContentArea">
-                    <!-- Được cập nhật tự động bằng javascript -->
+                <div class="why-card">
+                    <div class="why-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="why-text">
+                        <h3>Giảng dạy Bản chất</h3>
+                        <p>Hiểu sâu gốc rễ tại sao xảy ra phản ứng, không bắt ép học thuộc lòng công thức rập khuôn. Dễ nhớ, áp dụng linh hoạt.</p>
+                    </div>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <div class="why-text">
+                        <h3>Giao / Nộp bài tiện lợi</h3>
+                        <p>Hệ thống nộp bài tập về nhà 100% online. Gửi file ảnh, PDF dễ dàng. Thầy chấm chữa và nhận xét trực tiếp trên nền tảng.</p>
+                    </div>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fa-solid fa-users-rays"></i></div>
+                    <div class="why-text">
+                        <h3>Lớp nhỏ, Kèm sát</h3>
+                        <p>Sĩ số lớp nhóm giới hạn để đảm bảo chất lượng. Thầy theo dõi sát sao từng cá nhân, sẵn sàng hỗ trợ 1-1 khi học sinh không theo kịp.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. GUIDE SECTION (TABS) -->
+        <!-- 5. RESULTS & TESTIMONIALS -->
+        <section class="section-wrapper">
+            <div class="results-stats fade-up">
+                <div class="r-stat text-center">
+                    <h4>100%</h4>
+                    <p>Học sinh tiến bộ sau 1 tháng</p>
+                </div>
+                <div class="r-stat text-center">
+                    <h4>8.5+</h4>
+                    <p>Điểm thi Hóa THPT QG trung bình</p>
+                </div>
+                <div class="r-stat text-center">
+                    <h4>300+</h4>
+                    <p>Bài giảng & tài liệu độc quyền</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Học Sinh Nói Gì?</h2>
+            </div>
+            
+            <div class="testimonials fade-up delay-100">
+                <div class="testi-card">
+                    <i class="fa-solid fa-quote-left quote-icon"></i>
+                    <p class="testi-text">"Từ một đứa sợ môn Hóa, học thầy Minh em đã hiểu được bản chất chứ không phải học vẹt nữa. Đề kiểm tra 15p em toàn 9-10 ạ!"</p>
+                    <div class="testi-author">
+                        <div class="testi-author-avatar">M</div>
+                        <div class="testi-author-info">
+                            <h5>Minh Anh</h5>
+                            <span>Học sinh Lớp 11</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <i class="fa-solid fa-quote-left quote-icon"></i>
+                    <p class="testi-text">"Hệ thống website của lớp xịn xò quá, đi học về em thấy mẹ xem điểm của em ngay luôn. Thầy kèm rất sát sao."</p>
+                    <div class="testi-author">
+                        <div class="testi-author-avatar" style="background: #10B981;">T</div>
+                        <div class="testi-author-info">
+                            <h5>Tiến Đạt</h5>
+                            <span>Học sinh Lớp 12</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <i class="fa-solid fa-quote-left quote-icon"></i>
+                    <p class="testi-text">"Mình rất yên tâm khi gửi gắm con cho thầy Minh. Thầy trẻ nhưng rất có tâm, phương pháp sư phạm cực kỳ tốt."</p>
+                    <div class="testi-author">
+                        <div class="testi-author-avatar" style="background: #EC4899;">P</div>
+                        <div class="testi-author-info">
+                            <h5>Phụ huynh bé Hoàng</h5>
+                            <span>Phụ huynh Lớp 9</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. REGISTRATION CTA (Zalo Links) -->
+        <section class="cta-section" id="cta">
+            <div class="section-wrapper" style="padding: 0;">
+                <h2 class="section-title">Bắt Đầu Hành Trình Bứt Phá Điểm Số</h2>
+                <p class="section-subtitle">Đừng để mất gốc môn Hóa cản bước bạn. Chọn hình thức học phù hợp và liên hệ thầy ngay!</p>
+                
+                <div class="cta-grid fade-up">
+                    <a href="https://zalo.me/0985692879" target="_blank" class="cta-card c-group">
+                        <i class="fa-solid fa-users"></i>
+                        <h4>Đăng ký Lớp Nhóm</h4>
+                        <span>Nhắn Zalo</span>
+                    </a>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="cta-card c-online">
+                        <i class="fa-solid fa-laptop"></i>
+                        <h4>Đăng ký Học Online</h4>
+                        <span>Nhắn Zalo</span>
+                    </a>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="cta-card c-1on1">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <h4>Đăng ký Kèm 1-1</h4>
+                        <span>Nhắn Zalo</span>
+                    </a>
+                    <a href="https://zalo.me/0985692879" target="_blank" class="cta-card c-video">
+                        <i class="fa-solid fa-circle-play"></i>
+                        <h4>Mua Gói Video</h4>
+                        <span>Nhắn Zalo</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. FAQ SECTION -->
         <section class="section-wrapper">
             <div class="section-header">
-                <h2>Hướng Dẫn Sử Dụng</h2>
-                <p>Quy trình các bước đơn giản giúp bạn làm quen nhanh chóng với hệ thống</p>
+                <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
             </div>
-
-            <!-- Tab điều hướng hướng dẫn -->
-            <div class="guide-tabs">
-                <button class="guide-tab-btn active" data-target="student">Dành cho Phụ huynh & Học sinh</button>
-                <button class="guide-tab-btn" data-target="tutor">Dành cho Giáo viên giảng dạy</button>
-            </div>
-
-            <!-- Nội dung Hướng dẫn HS/PH -->
-            <div class="guide-step-list" id="guideStudentContainer">
-                <div class="guide-step-card">
-                    <div class="guide-step-num">1</div>
-                    <h3><i class="fa-solid fa-arrow-right-to-bracket"></i> Bước 1: Truy Cập</h3>
-                    <p>Tại trang chủ, nhấn chọn mục <strong>"Dành cho PH / HS"</strong> ở thanh trình đơn (Menu) hoặc nhấn nút tại phần giới thiệu.</p>
-                </div>
-                <div class="guide-step-card">
-                    <div class="guide-step-num">2</div>
-                    <h3><i class="fa-solid fa-key"></i> Bước 2: Nhập Số Điện Thoại</h3>
-                    <p>Nhập chính xác số điện thoại mà Phụ huynh hoặc Học sinh đã đăng ký với giáo viên vào ô tìm kiếm, sau đó nhấn <strong>"Tiếp tục"</strong>.</p>
-                </div>
-                <div class="guide-step-card">
-                    <div class="guide-step-num">3</div>
-                    <h3><i class="fa-solid fa-chart-simple"></i> Bước 3: Xem Thông Tin</h3>
-                    <p>Hệ thống tự động hiển thị bảng tóm tắt kết quả, biểu đồ điểm số kiểm tra, nhận xét của giáo viên và danh sách bài tập cần làm.</p>
-                </div>
-            </div>
-
-            <!-- Nội dung Hướng dẫn Giáo viên (Mặc định ẩn) -->
-            <div class="guide-step-list" id="guideTutorContainer" style="display: none;">
-                <div class="guide-step-card">
-                    <div class="guide-step-num">1</div>
-                    <h3><i class="fa-solid fa-lock"></i> Bước 1: Đăng Nhập</h3>
-                    <p>Truy cập mục <strong>"Dành cho Giáo viên"</strong>. Nhập số điện thoại đã khai báo và <strong>mã PIN gồm 6 chữ số</strong> bảo mật được cung cấp.</p>
-                </div>
-                <div class="guide-step-card">
-                    <div class="guide-step-num">2</div>
-                    <h3><i class="fa-solid fa-users"></i> Bước 2: Chọn Học Sinh</h3>
-                    <p>Hệ thống mở ra giao diện tổng hợp lịch học. Chọn một học sinh cụ thể từ danh sách để xem tiến trình học tập hoặc lịch sử điểm số.</p>
-                </div>
-                <div class="guide-step-card">
-                    <div class="guide-step-num">3</div>
-                    <h3><i class="fa-solid fa-pen-to-square"></i> Bước 3: Cập Nhật Dữ Liệu</h3>
-                    <p>Sử dụng biểu mẫu để nhập điểm đầu giờ, điểm định kỳ, nhận xét học tập hoặc giao bài tập về nhà mới cho học sinh đó.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. FAQ SECTION (ACCORDION) -->
-        <section class="section-wrapper">
-            <div class="section-header">
-                <h2>Câu Hỏi Thường Gặp</h2>
-                <p>Giải đáp nhanh một số thắc mắc phổ biến của người dùng khi sử dụng hệ thống</p>
-            </div>
-
-            <div class="faq-accordion">
+            
+            <div class="faq-accordion fade-up">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Làm sao để đăng ký số điện thoại tra cứu cho học sinh?</span>
+                        <span>Hình thức học Online trực tiếp như thế nào?</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Phụ huynh hoặc học sinh cần liên hệ trực tiếp với Giáo viên phụ trách hoặc Quản trị viên để đăng ký thông tin số điện thoại. Sau khi Giáo viên điền thông tin vào hệ thống, số điện thoại sẽ lập tức có hiệu lực để tra cứu.
+                            Lớp học Online được giảng dạy qua Google Meet/Zoom có tương tác trực tiếp với thầy. Thầy sử dụng bảng điện tử và phần mềm để giảng bài sinh động không kém gì học trực tiếp (Offline).
                         </div>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Tôi là Giáo viên, làm thế nào để được cấp mã PIN bảo mật?</span>
+                        <span>Phụ huynh làm sao để theo dõi điểm của con?</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Mã PIN của Giáo viên do Quản trị viên (Admin) của hệ thống tạo lập ban đầu khi kích hoạt tài khoản giáo viên. Nếu bạn quên hoặc mất mã PIN, hãy liên hệ với Admin để được cấp lại hoặc thay đổi mã PIN mới.
+                            Lớp có hệ thống phần mềm riêng. Phụ huynh chỉ cần ấn vào nút "Tra Điểm" trên menu, nhập số điện thoại là có thể xem bảng điểm, biểu đồ tiến bộ và nhận xét của thầy sau mỗi buổi học.
                         </div>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Dữ liệu học tập được cập nhật khi nào?</span>
+                        <span>Gói Video Bài Giảng bao gồm những gì?</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
                         <div class="faq-answer-content">
-                            Dữ liệu điểm số và nhận xét sẽ được cập nhật ngay khi Giáo viên nhập thông tin và nhấn Lưu trên Dashboard giảng dạy. Quá trình đồng bộ hóa diễn ra theo thời gian thực (real-time) với Google Sheets nền.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Hệ thống có bảo mật thông tin điểm số không?</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Có. Thông tin tra cứu của Học sinh chỉ có thể truy xuất khi cung cấp đúng số điện thoại đã được đăng ký cụ thể. Ngoài ra, giao diện nhập liệu và sửa điểm được bảo vệ hoàn toàn bởi lớp xác thực mã PIN của Giáo viên và Admin.
+                            Bao gồm chuỗi video giảng lý thuyết và giải bài tập chi tiết theo từng chuyên đề/lớp học. Bạn mua 1 lần sẽ được cấp quyền truy cập trọn đời, đi kèm là kho tài liệu PDF bài tập phong phú.
                         </div>
                     </div>
                 </div>
@@ -238,42 +405,28 @@
 
     </div>
 
-    <!-- Background decorations (Giữ nguyên phong cách Space Theme) -->
-    <div class="decor planet-left"></div>
-    <div class="decor planet-right"></div>
-    <div class="decor rocket"></div>
-    
-    <div class="star twinkle-1" style="top: 10%; left: 20%; width: 2px; height: 2px;"></div>
-    <div class="star twinkle-2" style="top: 15%; right: 25%; width: 3px; height: 3px;"></div>
-    <div class="star twinkle-3" style="top: 40%; left: 10%; width: 2px; height: 2px;"></div>
-    <div class="star twinkle-1" style="top: 70%; right: 15%; width: 3px; height: 3px;"></div>
-    <div class="star twinkle-2" style="top: 85%; left: 30%; width: 2px; height: 2px;"></div>
-
     <!-- FOOTER -->
-    <footer class="footer-section">
-        <div class="footer-content">
-            <div class="footer-left">
-                <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="footer-logo">
+    <footer class="footer-section" style="background: #0B0A1D; border-top: 1px solid rgba(255,255,255,0.1); padding: 40px 20px;">
+        <div class="section-wrapper" style="padding: 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div class="footer-left" style="display: flex; align-items: center; gap: 15px;">
+                <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" style="width: 40px;">
                 <div>
-                    <span class="footer-brand">Tra cứu học tập</span>
-                    <div style="display:block; margin-top: 4px;">
-                        <span style="color: #A6ADCE; font-size: 12.5px; font-weight: 500;">Học tập thông minh</span>
-                    </div>
+                    <h3 style="margin: 0; font-size: 1.2rem; color: #FFF;">Lớp Hóa Thầy Minh</h3>
+                    <p style="margin: 5px 0 0; color: #A6ADCE; font-size: 0.9rem;">Chinh phục điểm 10 - Hệ thống quản lý thông minh</p>
                 </div>
             </div>
-            <div class="footer-right">
-                <p style="font-weight: 600; color: #FFF; font-size: 14.5px; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-user-shield" style="color: #8E4DFF;"></i>
-                    Liên hệ Hỗ trợ (Admin): 
-                    <a href="tel:0975546830" style="color: #FFD23F; text-decoration: none; font-weight: 800;">0975546830</a>
-                </p>
+            <div class="footer-right" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <a href="https://zalo.me/0985692879" target="_blank" style="color: #FFF; text-decoration: none; display: flex; align-items: center; gap: 8px;"><i class="fa-brands fa-zalo" style="color: #3B82F6;"></i> Zalo: 0985.692.879</a>
+                <a href="tel:0985692879" style="color: #FFF; text-decoration: none; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-phone" style="color: #10B981;"></i> Hotline: 0985.692.879</a>
             </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px; color: #64748B; font-size: 0.85rem;">
+            &copy; 2026 Lớp Hóa Thầy Minh. All rights reserved.
         </div>
     </footer>
 
-    <script src="js/api.js?v=1.9.0"></script>
-    <script src="js/navigation.js?v=1.6.4"></script>
-    <!-- Script chạy Demo dữ liệu giả lập -->
-    <script src="js/demo-mock.js?v=1.6.8"></script>
+    <!-- Scripts -->
+    <!-- Script chạy các hiệu ứng, filter trên trang chủ -->
+    <script src="js/home.js?v=2.0.0"></script>
 </body>
 </html>

@@ -3373,54 +3373,73 @@
                 }, 150);
             }
 
-            document.getElementById("classHwClassIdHidden").value = cls.classId;
-            document.getElementById("classHwClassNameHidden").value = cls.className;
+            // Đọc file nếu có và gọi saveClassHomework đúng chữ ký
+            var fileInputEl = document.getElementById("classHwFileInputDesktop");
+            var fileObj = (fileInputEl && fileInputEl.files && fileInputEl.files.length > 0) ? fileInputEl.files[0] : null;
 
-            google.script.run
-                .withSuccessHandler(function(res) {
-                    if (progressInterval) clearInterval(progressInterval);
-                    if (progressBar) progressBar.style.width = '100%';
-                    if (progressText) progressText.innerText = '100%';
-                    
-                    setTimeout(function() {
-                        if (progressContainer) progressContainer.style.display = 'none';
-                        if (progressText) progressText.style.display = 'none';
-                        if (btn) btn.disabled = false;
-                        
-                        if (res && res.success) {
-                            showToast("Giao bài tập thành công!", "success");
-                            
-                            var savedHw = {
-                                hwId: (res.hw && res.hw.hwId) ? res.hw.hwId : "",
-                                classId: cls.classId,
-                                className: cls.className,
-                                subject: document.getElementById("classHwSubject").value.trim(),
-                                title: title,
-                                releaseDate: document.getElementById("classHwReleaseDate").value.trim() || new Date().toLocaleDateString('vi-VN'),
-                                fileUrl: (res.hw && res.hw.fileUrl) ? res.hw.fileUrl : "",
-                                fileName: (res.hw && res.hw.fileName) ? res.hw.fileName : "",
-                                link: link
-                            };
-                            
-                            if (!activeClassHomework) activeClassHomework = [];
-                            activeClassHomework.unshift(savedHw);
-                            
-                            resetClassHwForm();
-                            switchClassHwSubTab("list");
-                            renderClassHomeworkListUI();
-                        } else {
-                            showToast("Lỗi: " + (res ? res.error : "Không thể giao bài tập"), "error");
-                        }
-                    }, 300);
-                })
-                .withFailureHandler(function(err) {
+            // Callbacks dùng chung cho cả 2 nhánh (có file / không có file)
+            var successHandler = function(res) {
+                if (progressInterval) clearInterval(progressInterval);
+                if (progressBar) progressBar.style.width = '100%';
+                if (progressText) progressText.innerText = '100%';
+                setTimeout(function() {
+                    if (progressContainer) progressContainer.style.display = 'none';
+                    if (progressText) progressText.style.display = 'none';
+                    if (btn) btn.disabled = false;
+                    if (res && res.success) {
+                        showToast("Giao bài tập thành công!", "success");
+                        var savedHw = {
+                            hwId: (res.hw && res.hw.hwId) ? res.hw.hwId : "",
+                            classId: cls.classId,
+                            className: cls.className,
+                            subject: subject,
+                            title: title,
+                            releaseDate: releaseDate || new Date().toLocaleDateString('vi-VN'),
+                            fileUrl: (res.hw && res.hw.fileUrl) ? res.hw.fileUrl : "",
+                            fileName: (res.hw && res.hw.fileName) ? res.hw.fileName : "",
+                            link: link
+                        };
+                        if (!activeClassHomework) activeClassHomework = [];
+                        activeClassHomework.unshift(savedHw);
+                        resetClassHwForm();
+                        switchClassHwSubTab("list");
+                        renderClassHomeworkListUI();
+                    } else {
+                        showToast("Lỗi: " + (res ? res.error : "Không thể giao bài tập"), "error");
+                    }
+                }, 300);
+            };
+            var failureHandler = function(err) {
+                if (progressInterval) clearInterval(progressInterval);
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressText) progressText.style.display = 'none';
+                if (btn) btn.disabled = false;
+                showToast("Lỗi kết nối: " + err.toString(), "error");
+            };
+
+            if (fileObj) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var base64Data = e.target.result.split(',')[1];
+                    google.script.run
+                        .withSuccessHandler(successHandler)
+                        .withFailureHandler(failureHandler)
+                        .saveClassHomework(cls.classId, cls.className, subject, title, releaseDate, base64Data, fileObj.name, fileObj.type, link);
+                };
+                reader.onerror = function() {
                     if (progressInterval) clearInterval(progressInterval);
                     if (progressContainer) progressContainer.style.display = 'none';
                     if (progressText) progressText.style.display = 'none';
                     if (btn) btn.disabled = false;
-                    showToast("Lỗi kết nối: " + err.toString(), "error");
-                })
-                .saveClassHomeworkRaw(formObj);
+                    showToast("Lỗi đọc file!", "error");
+                };
+                reader.readAsDataURL(fileObj);
+            } else {
+                google.script.run
+                    .withSuccessHandler(successHandler)
+                    .withFailureHandler(failureHandler)
+                    .saveClassHomework(cls.classId, cls.className, subject, title, releaseDate, '', '', '', link);
+            }
         }
 
         function deleteClassHomework(hwId) {

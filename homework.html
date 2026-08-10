@@ -918,9 +918,10 @@
 
             if (res.timThay) {
                 sessionStorage.setItem('currentHwCode', res.ma);
-                localStorage.setItem('currentHwCode', res.ma);
+                // Chỉ lưu sessionStorage (mất khi đóng tab) + timestamp để kiểm tra hạn
                 sessionStorage.setItem('currentHW', JSON.stringify(res));
-                localStorage.setItem('currentHW', JSON.stringify(res));
+                sessionStorage.setItem('currentHW_ts', Date.now().toString());
+                // KHÔNG lưu localStorage - tránh tự đăng nhập khi vào lại trang
                 currentHW = res; // lưu trữ dữ liệu phiên
 
                 // Ẩn UI chính
@@ -1679,9 +1680,8 @@
         // 10. Đăng xuất khỏi cổng nộp bài tập
         function backToLogin() {
             sessionStorage.removeItem('currentHwCode');
-            localStorage.removeItem('currentHwCode');
             sessionStorage.removeItem('currentHW');
-            localStorage.removeItem('currentHW');
+            sessionStorage.removeItem('currentHW_ts');
             currentHW = null;
             cancelEdit();
             
@@ -1732,8 +1732,18 @@
 
         // Tự động khôi phục phiên đăng nhập khi tải lại trang
         document.addEventListener("DOMContentLoaded", function() {
-            var savedHW = sessionStorage.getItem('currentHW') || localStorage.getItem('currentHW');
-            if (savedHW) {
+            // Chỉ tự động đăng nhập nếu có sessionStorage (cùng tab/session)
+            // và session chưa quá 4 tiếng (14400000 ms)
+            var savedHW = sessionStorage.getItem('currentHW');
+            var savedTs = parseInt(sessionStorage.getItem('currentHW_ts') || '0', 10);
+            var SESSION_MAX_MS = 4 * 60 * 60 * 1000; // 4 tiếng
+            var isExpired = (Date.now() - savedTs) > SESSION_MAX_MS;
+
+            // Xóa localStorage cũ nếu còn sót lại từ phiên bản trước
+            localStorage.removeItem('currentHW');
+            localStorage.removeItem('currentHwCode');
+
+            if (savedHW && !isExpired) {
                 try {
                     var parsed = JSON.parse(savedHW);
                     // Hiển thị giao diện dashboard trước với dữ liệu đã lưu
@@ -1745,7 +1755,7 @@
                             if (res.timThay) {
                                 // Cập nhật lại dữ liệu mới nhất
                                 sessionStorage.setItem('currentHW', JSON.stringify(res));
-                                localStorage.setItem('currentHW', JSON.stringify(res));
+                                sessionStorage.setItem('currentHW_ts', Date.now().toString());
                                 currentHW = res;
                                 
                                 // Vẽ lại UI ngầm

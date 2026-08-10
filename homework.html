@@ -1732,33 +1732,44 @@
 
         // Tự động khôi phục phiên đăng nhập khi tải lại trang
         document.addEventListener("DOMContentLoaded", function() {
-            // Chỉ tự động đăng nhập nếu có sessionStorage (cùng tab/session)
-            // và session chưa quá 4 tiếng (14400000 ms)
             var savedHW = sessionStorage.getItem('currentHW');
-            var savedTs = parseInt(sessionStorage.getItem('currentHW_ts') || '0', 10);
-            var SESSION_MAX_MS = 4 * 60 * 60 * 1000; // 4 tiếng
-            var isExpired = (Date.now() - savedTs) > SESSION_MAX_MS;
 
             // Xóa localStorage cũ nếu còn sót lại từ phiên bản trước
             localStorage.removeItem('currentHW');
             localStorage.removeItem('currentHwCode');
 
-            if (savedHW && !isExpired) {
+            if (savedHW) {
                 try {
                     var parsed = JSON.parse(savedHW);
-                    // Hiển thị giao diện dashboard trước với dữ liệu đã lưu
+
+                    // Nếu chưa có timestamp (session cũ) → set ngay, sessionStorage đã cô lập per-tab
+                    if (!sessionStorage.getItem('currentHW_ts')) {
+                        sessionStorage.setItem('currentHW_ts', Date.now().toString());
+                    }
+
+                    // Kiểm tra hạn session (4 tiếng)
+                    var savedTs = parseInt(sessionStorage.getItem('currentHW_ts'), 10);
+                    var SESSION_MAX_MS = 4 * 60 * 60 * 1000;
+                    var isExpired = (Date.now() - savedTs) > SESSION_MAX_MS;
+
+                    if (isExpired) {
+                        // Quá 4 tiếng → xóa, bắt đăng nhập lại
+                        sessionStorage.removeItem('currentHW');
+                        sessionStorage.removeItem('currentHW_ts');
+                        sessionStorage.removeItem('currentHwCode');
+                        return;
+                    }
+
+                    // Hiển thị dashboard với dữ liệu đã lưu
                     showHomeworkDashboard(parsed);
-                    
-                    // Chạy ngầm xác thực/cập nhật dữ liệu mới từ máy chủ
+
+                    // Chạy ngầm cập nhật dữ liệu mới nhất từ máy chủ
                     google.script.run
                         .withSuccessHandler(function(res) {
-                            if (res.timThay) {
-                                // Cập nhật lại dữ liệu mới nhất
+                            if (res && res.timThay) {
                                 sessionStorage.setItem('currentHW', JSON.stringify(res));
                                 sessionStorage.setItem('currentHW_ts', Date.now().toString());
                                 currentHW = res;
-                                
-                                // Vẽ lại UI ngầm
                                 document.getElementById('hwStudentName').innerText = res.studentName;
                                 var classNameEl = document.getElementById('hwClassName');
                                 if (classNameEl) classNameEl.innerText = res.className || res.classId || 'Lớp học';
@@ -1770,6 +1781,8 @@
                         .xacThucMaBaiTap(parsed.ma);
                 } catch(e) {
                     console.error("Lỗi khôi phục phiên học tập:", e);
+                    sessionStorage.removeItem('currentHW');
+                    sessionStorage.removeItem('currentHW_ts');
                 }
             }
         });

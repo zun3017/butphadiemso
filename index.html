@@ -27,12 +27,10 @@
             </a>
         
             <div class="nav-right">
-                <a href="#hero" class="nav-btn active"><i class="fa-solid fa-house"></i> Trang chủ</a>
-                <a href="#about" class="nav-btn"><i class="fa-solid fa-user-tie"></i> Về Thầy</a>
-                <a href="#courses" class="nav-btn"><i class="fa-solid fa-book"></i> Khóa Học</a>
-                <a href="parent-login.html" class="nav-btn"><i class="fa-solid fa-magnifying-glass"></i> Tra Điểm</a>
-                <a href="homework.html" onclick="sessionStorage.removeItem('currentHW'); sessionStorage.removeItem('currentHW_ts'); sessionStorage.removeItem('currentHwCode'); localStorage.removeItem('currentHW'); localStorage.removeItem('currentHwCode');" class="nav-btn" style="border-color:#10B981; color:#10B981; background:rgba(16,185,129,0.05);"><i class="fa-solid fa-file-arrow-up"></i> Nộp Bài</a>
-                <a href="class-login.html" class="nav-btn" style="border-color:#8E4DFF; color:#FFD23F; background:rgba(142,77,255,0.12);"><i class="fa-solid fa-users-rectangle"></i> Admin</a>
+                <a href="#hero" class="nav-btn active" id="btnNavHome"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                <a href="parent-login.html" class="nav-btn" id="btnNavParent"><i class="fa-solid fa-graduation-cap"></i> PH/ HS</a>
+                <a href="homework.html" onclick="sessionStorage.removeItem('currentHW'); sessionStorage.removeItem('currentHW_ts'); sessionStorage.removeItem('currentHwCode'); localStorage.removeItem('currentHW'); localStorage.removeItem('currentHwCode');" class="nav-btn" id="btnNavHomework"><i class="fa-solid fa-file-arrow-up"></i> Bài tập</a>
+                <a href="class-login.html" class="nav-btn" id="btnNavClass"><i class="fa-solid fa-users-rectangle"></i> Giáo viên</a>
             </div>
         </div>
     </div>

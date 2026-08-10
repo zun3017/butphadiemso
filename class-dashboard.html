@@ -382,74 +382,86 @@
                 </button>
             </div>
 
-            <!-- Content 1: Tạo đề thi bằng AI -->
+            <!-- Content 1: Tạo đề thi qua Azota -->
             <div id="classExamTabContentCreate">
-                <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(142,77,255,0.3); border-radius: 16px; padding: 20px;">
-                    <h4 style="color: #FFD23F; margin-bottom: 16px; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i> Đăng tải tài liệu đề thi để AI đọc nội dung và ảnh gốc
-                    </h4>
-                    <p style="color:#A6ADCE; font-size:13px; margin-bottom:15px; line-height:1.4;">
-                        Hệ thống sẽ **giải nén file Word (.docx)** để đọc trực tiếp text, trích xuất hình ảnh gốc sắc nét nhất, tự động nhận dạng bảng đáp án hoặc lời giải của bạn để tạo đề trắc nghiệm online ngay lập tức.
-                    </p>
-                    <form id="examUploadForm">
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">Chọn file đề thi Word (.docx)</label>
-                            <input type="file" name="examFile" id="examFileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: none;" onchange="handleExamFileSelect(event)">
-                            <div onclick="document.getElementById('examFileInput').click()" style="padding: 30px; border: 2px dashed rgba(142, 77, 255, 0.4); border-radius: 12px; text-align: center; cursor: pointer; background: rgba(4,2,10,0.6); transition: all 0.3s;" onmouseover="this.style.borderColor='#8E4DFF'" onmouseout="this.style.borderColor='rgba(142, 77, 255, 0.4)'">
-                                <i class="fa-solid fa-file-word" style="font-size: 32px; color: #8E4DFF; margin-bottom: 10px;"></i>
-                                <div id="examUploadText" style="font-size: 13px; color: #E2D1FF; font-weight:600;">Kéo thả hoặc click chọn file Đề thi Word (.docx)</div>
-                                <div style="font-size:11px; color:#A6ADCE; margin-top:5px;">Chỉ hỗ trợ định dạng .docx mới, dung lượng tối đa 10MB</div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="tutorPhone" id="hiddenTutorPhone" value="">
-                    </form>
+                <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(142,77,255,0.3); border-radius: 16px; padding: 24px;">
 
-                    <!-- ===== THANH TIẾN ĐỘ AI ===== -->
-                    <div id="examProgressArea" style="display:none; margin-bottom:18px; padding:18px 20px; background:rgba(142,77,255,0.08); border:1px solid rgba(142,77,255,0.25); border-radius:14px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                            <span id="examProgressLabel" style="font-size:13px; font-weight:700; color:#E2D1FF;">🤖 Đang khởi động AI...</span>
-                            <span id="examProgressPct" style="font-size:13px; font-weight:800; color:#A78BFA;">0%</span>
+                    <!-- BƯỚC 1 -->
+                    <div style="margin-bottom: 28px;">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8E4DFF,#6366F1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0;">1</div>
+                            <h4 style="color:#FFD23F; font-size:15px; font-weight:800; margin:0;">Tạo đề trên Azota</h4>
                         </div>
-                        <div style="background:rgba(255,255,255,0.07); border-radius:100px; height:10px; overflow:hidden; position:relative;">
-                            <div id="examProgressBar" style="height:100%; width:0%; background:linear-gradient(90deg,#8E4DFF,#10B981); border-radius:100px; transition:width 0.6s cubic-bezier(0.4,0,0.2,1); position:relative;">
-                                <div style="position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3)); animation:shimmer 1.2s infinite;"></div>
-                            </div>
-                        </div>
-                        <div id="examProgressSteps" style="display:flex; justify-content:space-between; margin-top:14px;">
-                            <div class="prog-step" id="pstep1" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
-                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">1</div>
-                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">Tải file</span>
-                            </div>
-                            <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="height:2px;width:100%;background:rgba(255,255,255,0.08);"></div></div>
-                            <div class="prog-step" id="pstep2" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
-                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">2</div>
-                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">AI đọc đề</span>
-                            </div>
-                            <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="height:2px;width:100%;background:rgba(255,255,255,0.08);"></div></div>
-                            <div class="prog-step" id="pstep3" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
-                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">3</div>
-                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">Bóc hình vẽ</span>
-                            </div>
-                            <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="height:2px;width:100%;background:rgba(255,255,255,0.08);"></div></div>
-                            <div class="prog-step" id="pstep4" style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
-                                <div style="width:28px;height:28px;border-radius:50%;background:rgba(142,77,255,0.2);border:2px solid rgba(142,77,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.4s;">4</div>
-                                <span style="font-size:10px;color:#A6ADCE;text-align:center;">Hoàn thành</span>
-                            </div>
+                        <p style="color:#A6ADCE; font-size:13px; margin-bottom:14px; line-height:1.6; margin-left:44px;">
+                            Nhấn vào nút bên dưới để mở trang Azota và tạo đề thi. Sau khi tạo xong, copy link đề thi của bạn lại.
+                        </p>
+                        <div style="margin-left:44px;">
+                            <button onclick="window.open('https://azota.vn', '_blank')"
+                                style="padding:11px 26px; background:linear-gradient(135deg,#8E4DFF,#6366F1); border:none; color:#fff; font-weight:700; border-radius:12px; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:10px; box-shadow:0 4px 16px rgba(142,77,255,0.4); transition:all 0.2s; font-family:'Inter',sans-serif;"
+                                onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(142,77,255,0.55)'"
+                                onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(142,77,255,0.4)'">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                Mở Azota để tạo đề
+                            </button>
                         </div>
                     </div>
-                    <style>
-                        @keyframes shimmer { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
-                        .prog-step-active > div:first-child { background:rgba(142,77,255,0.5)!important; border-color:#A78BFA!important; color:#fff!important; box-shadow:0 0 12px rgba(142,77,255,0.6); }
-                        .prog-step-done > div:first-child { background:#10B981!important; border-color:#10B981!important; color:#fff!important; }
-                    </style>
 
-                    <div style="text-align: right;">
-                        <button onclick="processExamUpload()" id="btnProcessExam" style="padding: 12px 28px; background: linear-gradient(135deg, #10B981, #059669); border:none; color:#FFF; font-weight:700; border-radius:20px; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); font-family: 'Inter', sans-serif;">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Bóc tách & Tạo đề thi
-                        </button>
+                    <div style="border-top:1px solid rgba(255,255,255,0.07); margin-bottom:24px;"></div>
+
+                    <!-- BƯỚC 2 -->
+                    <div>
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0;">2</div>
+                            <h4 style="color:#10B981; font-size:15px; font-weight:800; margin:0;">Lưu đề vào hệ thống</h4>
+                        </div>
+                        <p style="color:#A6ADCE; font-size:13px; margin-bottom:18px; line-height:1.6; margin-left:44px;">
+                            Sau khi tạo đề xong trên Azota, dán link đề thi vào ô bên dưới cùng thông tin đề rồi nhấn Lưu.
+                        </p>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+                            <div>
+                                <label style="display:block; color:#A6ADCE; font-size:11.5px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px;">Tên đề thi *</label>
+                                <input type="text" id="azotaExamName" placeholder="VD: Kiểm tra 15 phút Vật lý chương 1"
+                                    style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13.5px; outline:none; box-sizing:border-box; font-family:'Inter',sans-serif;"
+                                    onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                            </div>
+                            <div>
+                                <label style="display:block; color:#A6ADCE; font-size:11.5px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px;">Môn học *</label>
+                                <select id="azotaSubject"
+                                    style="width:100%; padding:10px 14px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13.5px; outline:none; box-sizing:border-box; font-family:'Inter',sans-serif;"
+                                    onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                                    <option value="Toán học">Toán học</option>
+                                    <option value="Vật lý" selected>Vật lý</option>
+                                    <option value="Hóa học">Hóa học</option>
+                                    <option value="Sinh học">Sinh học</option>
+                                    <option value="Tiếng Anh">Tiếng Anh</option>
+                                    <option value="Ngữ văn">Ngữ văn</option>
+                                    <option value="Lịch sử">Lịch sử</option>
+                                    <option value="Địa lý">Địa lý</option>
+                                    <option value="Tin học">Tin học</option>
+                                    <option value="GDCD">GDCD</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:14px;">
+                            <label style="display:block; color:#A6ADCE; font-size:11.5px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px;">Link đề thi Azota *</label>
+                            <input type="url" id="azotaExamLink" placeholder="Dán link Azota vào đây... (VD: https://azota.vn/de-thi/...)"
+                                style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13.5px; outline:none; box-sizing:border-box; font-family:'Inter',sans-serif;"
+                                onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                        </div>
+
+                        <div style="text-align:right; margin-top:20px;">
+                            <button onclick="saveAzotaExam()" id="btnSaveAzotaExam"
+                                style="padding:12px 30px; background:linear-gradient(135deg,#10B981,#059669); border:none; color:#fff; font-weight:700; border-radius:12px; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(16,185,129,0.35); font-family:'Inter',sans-serif;">
+                                <i class="fa-solid fa-floppy-disk"></i> Lưu đề thi
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- Content 2: Kho đề & Giao đề -->
             <div id="classExamTabContentManage" style="display:none;">
@@ -4239,6 +4251,45 @@
         }
 
 
+        // ===== LƯU ĐỀ THI AZOTA =====
+        function saveAzotaExam() {
+            var name    = (document.getElementById('azotaExamName')  || {}).value || '';
+            var subject = (document.getElementById('azotaSubject')   || {}).value || '';
+            var link    = (document.getElementById('azotaExamLink')  || {}).value || '';
+
+            if (!name.trim())  { showToast('Vui lòng nhập tên đề thi!', 'error'); return; }
+            if (!link.trim())  { showToast('Vui lòng dán link Azota!', 'error'); return; }
+            if (!link.startsWith('http')) { showToast('Link không hợp lệ, phải bắt đầu bằng https://', 'error'); return; }
+
+            var btn = document.getElementById('btnSaveAzotaExam');
+            var oldText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Đang lưu...';
+
+            var tutorPhone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || '') : '';
+
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    btn.disabled = false;
+                    btn.innerHTML = oldText;
+                    if (res && res.success) {
+                        showToast('✅ Đề thi đã được lưu! Mã đề: ' + res.examId, 'success');
+                        document.getElementById('azotaExamName').value  = '';
+                        document.getElementById('azotaExamLink').value  = '';
+                        switchClassExamTab('manage');
+                        loadTeacherExams();
+                    } else {
+                        showToast('Lỗi: ' + (res ? res.error : 'Không xác định'), 'error');
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    btn.disabled = false;
+                    btn.innerHTML = oldText;
+                    showToast('Lỗi kết nối: ' + err.toString(), 'error');
+                })
+                .saveAzotaExam(name.trim(), subject, link.trim(), tutorPhone);
+        }
+
         // Tải danh sách đề thi của giáo viên
         function loadTeacherExams() {
             var tbody = document.getElementById('tblClassExamsBody');
@@ -4267,11 +4318,15 @@
                             html += "  <td style='padding:12px; color:#A6ADCE;'>" + exam.dateCreated + "</td>";
                             html += "  <td style='padding:12px; text-align:center;'>";
                             html += "    <button onclick='openAssignExamModal(\"" + exam.examId + "\", \"" + escapeHtml(exam.title) + "\")' style='background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#A7F3D0; cursor:pointer; padding:5px 12px; border-radius:12px; font-size:12px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-share'></i> Giao cho lớp</button>";
+                            // Nếu là đề Azota → thêm nút mở link
+                            if (exam.azotaLink) {
+                                html += "    &nbsp;<button onclick=\"window.open('" + exam.azotaLink + "', '_blank')\" style='background:rgba(99,102,241,0.15); border:1px solid #6366F1; color:#A5B4FC; cursor:pointer; padding:5px 12px; border-radius:12px; font-size:12px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-arrow-up-right-from-square'></i> Mở Azota</button>";
+                            }
                             html += "  </td>";
                             html += "</tr>";
                         });
                     } else {
-                        html = "<tr><td colspan='7' style='text-align:center; padding:30px; color:#A6ADCE;'>Kho đề của bạn đang trống. Hãy dùng AI để tạo đề đầu tiên!</td></tr>";
+                        html = "<tr><td colspan='7' style='text-align:center; padding:30px; color:#A6ADCE;'>Kho đề của bạn đang trống. Hãy tạo đề trên Azota rồi lưu vào đây!</td></tr>";
                     }
                     tbody.innerHTML = html;
                 })

@@ -4,7 +4,7 @@
  */
 const SCRIPT_URL = (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFIG.SCRIPT_URL)
     ? window.APP_CONFIG.SCRIPT_URL 
-    : 'https://script.google.com/macros/s/AKfycbwSocYpPWvcbdABhZB3DT6g6FsJShxgZ211YAm8WCCOlu27TKLSE76Sw7iqBPYZCQ-9/exec';
+    : 'https://script.google.com/macros/s/AKfycbxWsDkZoxf5mR3MJEF13IxS8n_UmxeG1SRULGICdHiPN4hp1r2z7JiJmZ_N9edAKy7z/exec';
 
 
 

@@ -4095,7 +4095,11 @@
             if (tabName === 'manage') {
                 loadTeacherExams();
             } else if (tabName === 'results') {
-                loadExamSelectDropdown();
+                if (activeTeacherExams && activeTeacherExams.length === 0) {
+                    loadTeacherExams();
+                } else {
+                    renderAzotaResultsList();
+                }
             }
         }
 
@@ -4395,7 +4399,8 @@
             var subjectFilter = (document.getElementById('filterExamSubject') || {}).value || '';
             var searchFilter  = ((document.getElementById('filterExamSearch') || {}).value || '').toLowerCase().trim();
 
-            var filtered = (activeTeacherExams || []).filter(function(exam) {
+            var list = Array.isArray(activeTeacherExams) ? activeTeacherExams : [];
+            var filtered = list.filter(function(exam) {
                 var matchGrade   = !gradeFilter   || String(exam.grade || '') === gradeFilter;
                 var matchSubject = !subjectFilter || (exam.subject || '') === subjectFilter;
                 var matchSearch  = !searchFilter  || (exam.title || '').toLowerCase().indexOf(searchFilter) >= 0;
@@ -4412,7 +4417,8 @@
             var gradeFilter   = (document.getElementById('filterResultGrade')   || {}).value || '';
             var subjectFilter = (document.getElementById('filterResultSubject') || {}).value || '';
 
-            var filtered = (activeTeacherExams || []).filter(function(exam) {
+            var list = Array.isArray(activeTeacherExams) ? activeTeacherExams : [];
+            var filtered = list.filter(function(exam) {
                 var matchGrade   = !gradeFilter   || String(exam.grade || '') === gradeFilter;
                 var matchSubject = !subjectFilter || (exam.subject || '') === subjectFilter;
                 return matchGrade && matchSubject;

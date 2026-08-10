@@ -365,14 +365,14 @@
         <div class="card-box" style="margin-top: 20px; margin-bottom: 20px; background: rgba(11, 8, 38, 0.9); border-color: rgba(142, 77, 255, 0.3);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
                 <div class="section-title" style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: #FFF;">
-                    <i class="fa-solid fa-file-signature" style="color: #FFD23F;"></i> Quản lý Đề & Phòng thi trắc nghiệm (AI)
+                    <i class="fa-solid fa-file-signature" style="color: #FFD23F;"></i> Quản lý Đề thi Azota
                 </div>
             </div>
 
             <!-- Tab Buttons cho Bài thi -->
             <div style="display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; flex-wrap: wrap;">
                 <button id="classExamTabCreateBtn" onclick="switchClassExamTab('create')" style="padding: 9px 20px; background: rgba(142,77,255,0.2); border: 1px solid #8E4DFF; border-radius: 20px; color: #FFF; font-weight: 700; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-wand-magic-sparkles" style="color: #FFD23F;"></i> Tạo đề thi bằng AI
+                    <i class="fa-solid fa-link" style="color: #FFD23F;"></i> Tạo đề thi Azota
                 </button>
                 <button id="classExamTabManageBtn" onclick="switchClassExamTab('manage')" style="padding: 9px 20px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #A6ADCE; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-folder-open"></i> Kho đề & Giao đề
@@ -426,6 +426,14 @@
                                     onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
                             </div>
                             <div>
+                                <label style="display:block; color:#A6ADCE; font-size:11.5px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px;">Khối lớp *</label>
+                                <input type="text" id="azotaGrade" placeholder="VD: 8, 9, 10, 11, 12..."
+                                    style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13.5px; outline:none; box-sizing:border-box; font-family:'Inter',sans-serif;"
+                                    onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+                            <div>
                                 <label style="display:block; color:#A6ADCE; font-size:11.5px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px;">Môn học *</label>
                                 <select id="azotaSubject"
                                     style="width:100%; padding:10px 14px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13.5px; outline:none; box-sizing:border-box; font-family:'Inter',sans-serif;"
@@ -443,6 +451,7 @@
                                     <option value="Khác">Khác</option>
                                 </select>
                             </div>
+                            <div></div>
                         </div>
 
                         <div style="margin-bottom:14px;">
@@ -465,15 +474,46 @@
 
             <!-- Content 2: Kho đề & Giao đề -->
             <div id="classExamTabContentManage" style="display:none;">
+                <!-- BỘ LỌC -->
+                <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; align-items:center;">
+                    <select id="filterExamGrade" onchange="filterExamTable()" style="padding:8px 14px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13px; outline:none; cursor:pointer;">
+                        <option value="">-- Tất cả khối lớp --</option>
+                        <option value="6">Lớp 6</option>
+                        <option value="7">Lớp 7</option>
+                        <option value="8">Lớp 8</option>
+                        <option value="9">Lớp 9</option>
+                        <option value="10">Lớp 10</option>
+                        <option value="11">Lớp 11</option>
+                        <option value="12">Lớp 12</option>
+                    </select>
+                    <select id="filterExamSubject" onchange="filterExamTable()" style="padding:8px 14px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13px; outline:none; cursor:pointer;">
+                        <option value="">-- Tất cả môn --</option>
+                        <option value="Toán học">Toán học</option>
+                        <option value="Vật lý">Vật lý</option>
+                        <option value="Hóa học">Hóa học</option>
+                        <option value="Sinh học">Sinh học</option>
+                        <option value="Tiếng Anh">Tiếng Anh</option>
+                        <option value="Ngữ văn">Ngữ văn</option>
+                        <option value="Lịch sử">Lịch sử</option>
+                        <option value="Địa lý">Địa lý</option>
+                        <option value="Tin học">Tin học</option>
+                        <option value="GDCD">GDCD</option>
+                    </select>
+                    <input type="text" id="filterExamSearch" oninput="filterExamTable()" placeholder="🔍 Tìm theo tên đề..."
+                        style="padding:8px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13px; outline:none; min-width:200px; font-family:'Inter',sans-serif;"
+                        onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
+                    <button onclick="filterExamTable()" style="padding:8px 16px; background:rgba(142,77,255,0.2); border:1px solid rgba(142,77,255,0.4); border-radius:10px; color:#C4B5FD; font-size:13px; cursor:pointer; font-weight:600;">Lọc</button>
+                </div>
+                <!-- BẢNG KHO ĐỀ -->
                 <div class="table-wrapper" style="overflow-x:auto;">
                     <table style="width:100%; border-collapse:collapse; text-align:left;" id="tblClassExams">
                         <thead>
                             <tr style="background:rgba(142,77,255,0.1); color:#fff; font-weight:700;">
                                 <th style="padding:12px;">Mã đề</th>
                                 <th style="padding:12px;">Tên đề</th>
-                                <th style="padding:12px;">Môn học</th>
-                                <th style="padding:12px;">Thời gian</th>
-                                <th style="padding:12px;">Lớp được giao</th>
+                                <th style="padding:10px;">Khối</th>
+                                <th style="padding:10px;">Môn</th>
+                                <th style="padding:12px;">Đã giao lớp</th>
                                 <th style="padding:12px;">Ngày tạo</th>
                                 <th style="padding:12px; text-align:center;">Hành động</th>
                             </tr>
@@ -485,33 +525,36 @@
                 </div>
             </div>
 
-            <!-- Content 3: Xem điểm thi online -->
+            <!-- Content 3: Xem điểm thi (Azota) -->
             <div id="classExamTabContentResults" style="display:none;">
-                <div style="display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap; align-items:center;">
-                    <label style="color:#A6ADCE; font-size:13.5px; font-weight:bold;">Chọn Lớp học:</label>
-                    <select id="ddlResultClassSelect" onchange="loadExamResults()" style="background:#0F172A; color:#FFF; border:1px solid rgba(255,255,255,0.1); padding:8px 15px; border-radius:10px; font-size:13.5px; outline:none; min-width:180px;">
-                        <!-- Sẽ tự động nạp lớp -->
+                <div style="background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.3); border-radius:14px; padding:16px 20px; margin-bottom:20px; display:flex; align-items:center; gap:12px;">
+                    <i class="fa-solid fa-circle-info" style="color:#A5B4FC; font-size:18px;"></i>
+                    <p style="margin:0; color:#A6ADCE; font-size:13.5px; line-height:1.6;">
+                        Điểm thi được lưu trực tiếp trên <strong style="color:#fff;">Azota</strong>. Nhấn nút <strong style="color:#A5B4FC;">Xem điểm trên Azota</strong> ở từng đề bên dưới để mở trang điểm.
+                    </p>
+                </div>
+                <!-- Lọc theo khối + môn -->
+                <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+                    <select id="filterResultGrade" onchange="renderAzotaResultsList()" style="padding:8px 14px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13px; outline:none; cursor:pointer;">
+                        <option value="">-- Tất cả khối --</option>
+                        <option value="6">Lớp 6</option><option value="7">Lớp 7</option>
+                        <option value="8">Lớp 8</option><option value="9">Lớp 9</option>
+                        <option value="10">Lớp 10</option><option value="11">Lớp 11</option>
+                        <option value="12">Lớp 12</option>
                     </select>
-                    <label style="color:#A6ADCE; font-size:13.5px; font-weight:bold;">Chọn đề thi:</label>
-                    <select id="ddlResultExamSelect" onchange="loadExamResults()" style="background:#0F172A; color:#FFF; border:1px solid rgba(255,255,255,0.1); padding:8px 15px; border-radius:10px; font-size:13.5px; outline:none; min-width:200px;">
-                        <option value="">-- Tất cả đề thi --</option>
+                    <select id="filterResultSubject" onchange="renderAzotaResultsList()" style="padding:8px 14px; background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:#fff; font-size:13px; outline:none; cursor:pointer;">
+                        <option value="">-- Tất cả môn --</option>
+                        <option value="Toán học">Toán học</option>
+                        <option value="Vật lý">Vật lý</option>
+                        <option value="Hóa học">Hóa học</option>
+                        <option value="Sinh học">Sinh học</option>
+                        <option value="Tiếng Anh">Tiếng Anh</option>
+                        <option value="Ngữ văn">Ngữ văn</option>
                     </select>
                 </div>
-                <div class="table-wrapper" style="overflow-x:auto;">
-                    <table style="width:100%; border-collapse:collapse; text-align:left;">
-                        <thead>
-                            <tr style="background:rgba(142,77,255,0.1); color:#fff; font-weight:700;">
-                                <th style="padding:12px;">Tên học sinh</th>
-                                <th style="padding:12px;">Mã đề</th>
-                                <th style="padding:12px;">Số câu đúng</th>
-                                <th style="padding:12px;">Điểm số</th>
-                                <th style="padding:12px;">Thời gian nộp</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblExamResultsBody">
-                            <tr><td colspan="5" style="text-align:center; padding:20px; color:#A6ADCE;">Vui lòng chọn đề thi để xem điểm.</td></tr>
-                        </tbody>
-                    </table>
+                <!-- Danh sách đề + link Azota -->
+                <div id="azotaResultsList" style="display:flex; flex-direction:column; gap:12px;">
+                    <div style="text-align:center; padding:30px; color:#A6ADCE;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải...</div>
                 </div>
             </div>
         </div>
@@ -4194,6 +4237,7 @@
                         setExamProgress(3, 75, '🖼️ AI đang trích xuất câu hỏi thành dạng ảnh sắc nét...');
                         btn.innerHTML = '<i class="fa-solid fa-images fa-spin"></i> Đang trích xuất ảnh...';
 
+                        var examId = res.examId;
                         google.script.run
                             .withSuccessHandler(function(figRes) {
                                 // Bước 4: Hoàn thành
@@ -4256,8 +4300,10 @@
             var name    = (document.getElementById('azotaExamName')  || {}).value || '';
             var subject = (document.getElementById('azotaSubject')   || {}).value || '';
             var link    = (document.getElementById('azotaExamLink')  || {}).value || '';
+            var grade   = (document.getElementById('azotaGrade')     || {}).value || '';
 
             if (!name.trim())  { showToast('Vui lòng nhập tên đề thi!', 'error'); return; }
+            if (!grade.trim()) { showToast('Vui lòng nhập khối lớp! (VD: 8, 9, 10...)', 'error'); return; }
             if (!link.trim())  { showToast('Vui lòng dán link Azota!', 'error'); return; }
             if (!link.startsWith('http')) { showToast('Link không hợp lệ, phải bắt đầu bằng https://', 'error'); return; }
 
@@ -4274,8 +4320,9 @@
                     btn.innerHTML = oldText;
                     if (res && res.success) {
                         showToast('✅ Đề thi đã được lưu! Mã đề: ' + res.examId, 'success');
-                        document.getElementById('azotaExamName').value  = '';
-                        document.getElementById('azotaExamLink').value  = '';
+                        document.getElementById('azotaExamName').value = '';
+                        document.getElementById('azotaExamLink').value = '';
+                        document.getElementById('azotaGrade').value    = '';
                         switchClassExamTab('manage');
                         loadTeacherExams();
                     } else {
@@ -4287,53 +4334,115 @@
                     btn.innerHTML = oldText;
                     showToast('Lỗi kết nối: ' + err.toString(), 'error');
                 })
-                .saveAzotaExam(name.trim(), subject, link.trim(), tutorPhone);
+                .saveAzotaExam(name.trim(), subject, link.trim(), tutorPhone, grade.trim());
         }
 
         // Tải danh sách đề thi của giáo viên
         function loadTeacherExams() {
             var tbody = document.getElementById('tblClassExamsBody');
             if (!tbody) return;
-            
+
             tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:20px; color:#A6ADCE;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải...</td></tr>';
             var tutorPhone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || '') : '';
 
             google.script.run
                 .withSuccessHandler(function(list) {
                     activeTeacherExams = list || [];
-                    var html = "";
-                    if (activeTeacherExams.length > 0) {
-                        activeTeacherExams.forEach(function(exam) {
-                            html += "<tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'>";
-                            html += "  <td style='padding:12px; font-weight:700; color:#FFD23F;'>" + exam.examId + "</td>";
-                            html += "  <td style='padding:12px; color:#fff;'>" + exam.title + "</td>";
-                            html += "  <td style='padding:12px; color:#A6ADCE; font-weight:600;'>" + (exam.subject || "Toán học") + "</td>";
-                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + exam.timeLimit + " phút</td>";
-                            
-                            // Tô màu lớp được giao
-                            var assignedText = exam.assignedClasses || "Chưa giao";
-                            var assignedStyle = (assignedText === "Chưa giao") ? "color:#FDA4AF; font-style:italic;" : "color:#A7F3D0; font-weight:600;";
-                            
-                            html += "  <td style='padding:12px; " + assignedStyle + "'>" + assignedText + "</td>";
-                            html += "  <td style='padding:12px; color:#A6ADCE;'>" + exam.dateCreated + "</td>";
-                            html += "  <td style='padding:12px; text-align:center;'>";
-                            html += "    <button onclick='openAssignExamModal(\"" + exam.examId + "\", \"" + escapeHtml(exam.title) + "\")' style='background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#A7F3D0; cursor:pointer; padding:5px 12px; border-radius:12px; font-size:12px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-share'></i> Giao cho lớp</button>";
-                            // Nếu là đề Azota → thêm nút mở link
-                            if (exam.azotaLink) {
-                                html += "    &nbsp;<button onclick=\"window.open('" + exam.azotaLink + "', '_blank')\" style='background:rgba(99,102,241,0.15); border:1px solid #6366F1; color:#A5B4FC; cursor:pointer; padding:5px 12px; border-radius:12px; font-size:12px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-arrow-up-right-from-square'></i> Mở Azota</button>";
-                            }
-                            html += "  </td>";
-                            html += "</tr>";
-                        });
-                    } else {
-                        html = "<tr><td colspan='7' style='text-align:center; padding:30px; color:#A6ADCE;'>Kho đề của bạn đang trống. Hãy tạo đề trên Azota rồi lưu vào đây!</td></tr>";
-                    }
-                    tbody.innerHTML = html;
+                    renderExamTable(activeTeacherExams);
+                    renderAzotaResultsList(); // Refresh tab điểm nếu đang mở
                 })
                 .withFailureHandler(function(err) {
                     tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; color:#EF4444; padding:20px;'>Lỗi kết nối: " + err + "</td></tr>";
                 })
                 .getTeacherExams(tutorPhone);
+        }
+
+        // Render bảng kho đề
+        function renderExamTable(exams) {
+            var tbody = document.getElementById('tblClassExamsBody');
+            if (!tbody) return;
+            var html = '';
+            if (exams && exams.length > 0) {
+                exams.forEach(function(exam) {
+                    var grade = exam.grade ? 'Lớp ' + exam.grade : '';
+                    var gradeStyle = grade ? 'color:#FFD23F; font-weight:700;' : 'color:#A6ADCE; font-style:italic;';
+                    var assignedText = exam.assignedClasses || 'Chưa giao';
+                    var assignedStyle = (assignedText === 'Chưa giao') ? 'color:#FDA4AF; font-style:italic;' : 'color:#A7F3D0; font-weight:600;';
+
+                    html += "<tr style='border-bottom:1px solid rgba(255,255,255,0.05);' data-grade='" + (exam.grade || '') + "' data-subject='" + escapeHtml(exam.subject || '') + "' data-title='" + escapeHtml(exam.title || '') + "'>";
+                    html += "  <td style='padding:10px; font-weight:700; color:#FFD23F; font-size:12px;'>" + exam.examId + "</td>";
+                    html += "  <td style='padding:10px; color:#fff;'>" + escapeHtml(exam.title || '') + "</td>";
+                    html += "  <td style='padding:10px; " + gradeStyle + "'>" + (grade || '—') + "</td>";
+                    html += "  <td style='padding:10px; color:#A6ADCE; font-weight:600;'>" + escapeHtml(exam.subject || '') + "</td>";
+                    html += "  <td style='padding:10px; " + assignedStyle + "'>" + escapeHtml(assignedText) + "</td>";
+                    html += "  <td style='padding:10px; color:#A6ADCE; font-size:12px;'>" + (exam.dateCreated || '') + "</td>";
+                    html += "  <td style='padding:10px; text-align:center;'>";
+                    html += "    <button onclick='openAssignExamModal(\"" + exam.examId + "\", \"" + escapeHtml(exam.title) + "\")' style='background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#A7F3D0; cursor:pointer; padding:5px 10px; border-radius:10px; font-size:11.5px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-share'></i> Giao lớp</button>";
+                    if (exam.azotaLink) {
+                        html += "    &nbsp;<button onclick=\"window.open('" + exam.azotaLink + "', '_blank')\" style='background:rgba(99,102,241,0.15); border:1px solid #6366F1; color:#A5B4FC; cursor:pointer; padding:5px 10px; border-radius:10px; font-size:11.5px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;'><i class='fa-solid fa-arrow-up-right-from-square'></i> Mở Azota</button>";
+                    }
+                    html += "  </td></tr>";
+                });
+            } else {
+                html = "<tr><td colspan='7' style='text-align:center; padding:30px; color:#A6ADCE;'>Kho đề trống. Hãy tạo đề trên Azota rồi lưu vào đây!</td></tr>";
+            }
+            tbody.innerHTML = html;
+        }
+
+        // Bộ lọc kho đề (client-side)
+        function filterExamTable() {
+            var gradeFilter   = (document.getElementById('filterExamGrade')   || {}).value || '';
+            var subjectFilter = (document.getElementById('filterExamSubject') || {}).value || '';
+            var searchFilter  = ((document.getElementById('filterExamSearch') || {}).value || '').toLowerCase().trim();
+
+            var filtered = (activeTeacherExams || []).filter(function(exam) {
+                var matchGrade   = !gradeFilter   || String(exam.grade || '') === gradeFilter;
+                var matchSubject = !subjectFilter || (exam.subject || '') === subjectFilter;
+                var matchSearch  = !searchFilter  || (exam.title || '').toLowerCase().indexOf(searchFilter) >= 0;
+                return matchGrade && matchSubject && matchSearch;
+            });
+            renderExamTable(filtered);
+        }
+
+        // Render danh sách đề trong tab Xem điểm (link Azota)
+        function renderAzotaResultsList() {
+            var container = document.getElementById('azotaResultsList');
+            if (!container) return;
+
+            var gradeFilter   = (document.getElementById('filterResultGrade')   || {}).value || '';
+            var subjectFilter = (document.getElementById('filterResultSubject') || {}).value || '';
+
+            var filtered = (activeTeacherExams || []).filter(function(exam) {
+                var matchGrade   = !gradeFilter   || String(exam.grade || '') === gradeFilter;
+                var matchSubject = !subjectFilter || (exam.subject || '') === subjectFilter;
+                return matchGrade && matchSubject;
+            });
+
+            if (!filtered.length) {
+                container.innerHTML = '<div style="text-align:center; padding:30px; color:#A6ADCE;">Không có đề thi nào phù hợp.</div>';
+                return;
+            }
+
+            var html = '';
+            filtered.forEach(function(exam) {
+                var grade = exam.grade ? 'Lớp ' + exam.grade : '';
+                html += '<div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">';
+                html +=   '<div>';
+                html +=     '<div style="font-weight:700; color:#fff; font-size:14px; margin-bottom:4px;">' + escapeHtml(exam.title || '') + '</div>';
+                html +=     '<div style="font-size:12px; color:#A6ADCE; display:flex; gap:12px;">';
+                if (grade) html += '<span style="color:#FFD23F;"><i class="fa-solid fa-graduation-cap"></i> ' + grade + '</span>';
+                html +=       '<span><i class="fa-solid fa-book"></i> ' + escapeHtml(exam.subject || '') + '</span>';
+                html +=       '<span style="color:#A6ADCE;">Mã: ' + exam.examId + '</span>';
+                html +=     '</div>';
+                html +=   '</div>';
+                if (exam.azotaLink) {
+                    html += '<button onclick="window.open(\'' + exam.azotaLink + '\', \'_blank\')" style="padding:9px 18px; background:linear-gradient(135deg,#6366F1,#8E4DFF); border:none; color:#fff; font-weight:700; border-radius:10px; font-size:13px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; white-space:nowrap;"><i class="fa-solid fa-chart-bar"></i> Xem điểm trên Azota</button>';
+                } else {
+                    html += '<span style="color:#A6ADCE; font-size:12px; font-style:italic;">Chưa có link Azota</span>';
+                }
+                html += '</div>';
+            });
+            container.innerHTML = html;
         }
 
         function escapeHtml(text) {

@@ -527,11 +527,16 @@
 
             <!-- Content 3: Xem điểm thi (Azota) -->
             <div id="classExamTabContentResults" style="display:none;">
-                <div style="background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.3); border-radius:14px; padding:16px 20px; margin-bottom:20px; display:flex; align-items:center; gap:12px;">
-                    <i class="fa-solid fa-circle-info" style="color:#A5B4FC; font-size:18px;"></i>
-                    <p style="margin:0; color:#A6ADCE; font-size:13.5px; line-height:1.6;">
-                        Điểm thi được lưu trực tiếp trên <strong style="color:#fff;">Azota</strong>. Nhấn nút <strong style="color:#A5B4FC;">Xem điểm trên Azota</strong> ở từng đề bên dưới để mở trang điểm.
-                    </p>
+                <div style="background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.3); border-radius:14px; padding:16px 20px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                    <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:280px;">
+                        <i class="fa-solid fa-circle-info" style="color:#A5B4FC; font-size:20px;"></i>
+                        <p style="margin:0; color:#A6ADCE; font-size:13.5px; line-height:1.6;">
+                            <strong style="color:#FFD23F;">⚠️ Lưu ý quan trọng:</strong> Trình duyệt cần đăng nhập <strong style="color:#fff;">Tài khoản Giáo viên</strong> trên Azota. Nếu trình duyệt đang lưu tài khoản Học sinh, Azota sẽ hiển thị trang "Bắt đầu thi".
+                        </p>
+                    </div>
+                    <button onclick="window.open('https://azota.vn/vi/auth/login', '_blank')" style="padding:8px 16px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:10px; color:#fff; font-size:12.5px; cursor:pointer; font-weight:600; white-space:nowrap; display:inline-flex; align-items:center; gap:6px;">
+                        <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập lại TK Giáo viên
+                    </button>
                 </div>
                 <!-- Lọc theo khối + môn -->
                 <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">

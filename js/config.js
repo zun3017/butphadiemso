@@ -9,8 +9,8 @@
 const APP_CONFIG = {
     TEACHER_NAME: "Thầy Đồng Quang Minh",
     BRAND_NAME: "Lớp Học Bứt Phá Điểm Số",
-    PHONE: "0985.692.879",
-    ZALO_URL: "https://zalo.me/0985692879",
+    PHONE: "0824.231.314",
+    ZALO_URL: "https://zalo.me/0824231314",
     
     // URL Google Apps Script Web App MỚI của Thầy
     SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzhJy-vNaF5X0Z5uCvN0dPm6bRkeDcKbMrG-58QDLivNXX4YC9LbFSSeIKZTi9PP55o/exec",

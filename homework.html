@@ -1099,8 +1099,11 @@
                     html += '    Học sinh: <span style="font-weight: 700; color: #FFF;">' + currentHW.studentName + '</span> <span style="color: rgba(255,255,255,0.2);">|</span> Môn: <span style="font-weight: 700; color: #A5B4FC;">' + (hw.subject || '') + '</span> <span style="color: rgba(255,255,255,0.2);">|</span> Ngày giao: <span style="font-weight: 700; color: #FFF;">' + hw.releaseDate + '</span>';
                     html += '  </div>';
                     html += '  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">';
-                    html += '    <span style="font-weight: 700; color: #FFD23F; font-size: 15px; display: flex; align-items: center; gap: 8px;">';
+                    html += '    <span style="font-weight: 700; color: #FFD23F; font-size: 15px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">';
                     html += '      <i class="fa-solid fa-file-invoice" style="color: #FFD23F;"></i> ' + hw.title;
+                    if (alreadySubmitted && alreadySubmitted.score) {
+                        html += '      <span style="background: rgba(255, 210, 63, 0.2); border: 1px solid #FFD23F; border-radius: 12px; padding: 3px 10px; color: #FFD23F; font-size: 13px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px;"><i class="fa-solid fa-star"></i> Điểm: ' + alreadySubmitted.score + '</span>';
+                    }
                     html += '    </span>';
 
                     html += '    <div style="display: flex; gap: 8px; flex-wrap: wrap;">';
@@ -1129,20 +1132,24 @@
                     // Nút Nộp Bài — đổi màu nếu đã nộp
                     if (alreadySubmitted) {
                         html += '      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:3px;">';
-                        html += '        <button onclick="openSubmitHomeworkFromAssigned(\'' + hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg,#10B981,#059669); border: none; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '        <button onclick="openSubmitHomeworkFromAssigned(\''+ hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg,#10B981,#059669); border: none; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
                         html += '          <i class="fa-solid fa-check-circle"></i> Đã nộp — Nộp lại';
                         html += '        </button>';
                         html += '        <span style="font-size:11px; color:#6EE7B7;">Nộp lúc: ' + alreadySubmitted.submissionDate + '</span>';
-                        if (alreadySubmitted.score) html += '        <span style="font-size:11px; color:#FFD23F;">Giáo viên chấm: <b>' + alreadySubmitted.score + '</b>' + (alreadySubmitted.comment ? ' — ' + alreadySubmitted.comment : '') + '</span>';
                         html += '      </div>';
                     } else {
-                        html += '      <button onclick="openSubmitHomeworkFromAssigned(\'' + hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg, #FFD23F 0%, #F59E0B 100%); border: none; color: #14163C; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '      <button onclick="openSubmitHomeworkFromAssigned(\''+ hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg, #FFD23F 0%, #F59E0B 100%); border: none; color: #14163C; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
                         html += '        <i class="fa-solid fa-upload"></i> Nộp Bài';
                         html += '      </button>';
                     }
 
                     html += '    </div>';
                     html += '  </div>';
+                    if (alreadySubmitted && alreadySubmitted.comment) {
+                        html += '  <div style="margin-top: 10px; background: rgba(142, 77, 255, 0.1); border-left: 3px solid #8E4DFF; border-radius: 8px; padding: 8px 12px; font-size: 12.5px; color: #E2D1FF;">';
+                        html += '    <i class="fa-solid fa-comment-dots" style="color:#FFD23F; margin-right: 6px;"></i> <b>Nhận xét của thầy/cô:</b> ' + alreadySubmitted.comment;
+                        html += '  </div>';
+                    }
                     html += '</div>';
                     assignedContainer.innerHTML += html;
                 });

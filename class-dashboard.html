@@ -1720,7 +1720,7 @@
                         var att = pInfo.attendance || "Có mặt";
                         if (log.status === "Cả lớp nghỉ") att = "Cả lớp nghỉ";
                         if ((att === "Có mặt" || att === "Đi muộn") && !(pInfo.paid === true || pInfo.paid === "true")) {
-                            var fee = parseInt(st.fee) || 0;
+                            var fee = parseFloat(st.fee) || (cls ? parseFloat(cls.fee) : 0) || 0;
                             totalUnpaid += fee;
                         }
                     });
@@ -1993,7 +1993,7 @@
                         '<td>' + (st.parentName || '-') + '</td>' +
                         '<td>' + (st.parentPhone || '-') + '</td>' +
                         '<td style="color:#8E4DFF; font-weight:700;">' + (st.homeworkCode || '-') + '</td>' +
-                        '<td style="color:#10B981; font-weight:600;">' + (st.fee ? (parseInt(st.fee).toLocaleString('vi-VN') + ' đ' + feeBadge) : '-') + '<div style="margin-top:4px;">' + payBadge + '</div></td>' +
+                        '<td style="color:#10B981; font-weight:600;">' + ((parseFloat(st.fee) || (cls ? parseFloat(cls.fee) : 0) || 0) > 0 ? ((parseFloat(st.fee) || (cls ? parseFloat(cls.fee) : 0) || 0).toLocaleString('vi-VN') + ' đ' + feeBadge) : '-') + '<div style="margin-top:4px;">' + payBadge + '</div></td>' +
                         '<td style="text-align:center; vertical-align:middle; white-space:nowrap;">' +
                             '<div style="display:inline-flex; align-items:center; justify-content:center; gap:8px;">' +
                                 '<button onclick="openClassInvoice(\'' + st.studentId + '\')" style="background:rgba(255,210,63,0.1); border:1px solid rgba(255,210,63,0.3); color:#FFD23F; cursor:pointer; padding:6px 10px; border-radius:15px; font-weight:700; font-size:12px; display:inline-flex; align-items:center; gap:4px;" title="Xuất hóa đơn & xác nhận đóng tiền"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa đơn</button>' +
@@ -3880,7 +3880,7 @@
                 activeStudents.forEach(function(student) {
                     var unpaidClasses = 0;
                     var totalClasses = 0;
-                    var feePerClass = parseInt(student.fee) || 0;
+                    var feePerClass = parseFloat(student.fee) || (cls ? parseFloat(cls.fee) : 0) || 0;
                     
                     if (activeClassLessonLogs) {
                         activeClassLessonLogs.forEach(function(log) {
@@ -3982,7 +3982,7 @@
                 thead.innerHTML = theadHtml;
 
                 activeStudents.forEach(function(student) {
-                    var feePerMonth = parseInt(student.fee) || 0;
+                    var feePerMonth = parseFloat(student.fee) || (cls ? parseFloat(cls.fee) : 0) || 0;
                     totalExpected += feePerMonth; // Cộng doanh thu dự kiến của 1 tháng
                     
                     var isCurrentMonthPaid = true; // Giả sử đã đóng, nếu có nợ trong tháng cuối thì false

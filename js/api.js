@@ -1,7 +1,7 @@
 /**
  * API GATEWAY SHIM FOR GOOGLE APPS SCRIPT
  * Tự động kết nối với Web App Google Apps Script mới của Thầy giáo
- * Hỗ trợ Hàng chờ nối đuôi (Sequential Queue) để xử lý sửa dữ liệu liên tục 100% không mất dữ liệu.
+ * Hỗ trợ Hàng chờ nối đuôi (Sequential Queue) & Cảnh báo chống mất dữ liệu khi đóng trang
  */
 const SCRIPT_URL = (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFIG.SCRIPT_URL)
     ? window.APP_CONFIG.SCRIPT_URL 
@@ -11,7 +11,46 @@ const SCRIPT_URL = (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFI
 const apiQueue = [];
 let isQueueProcessing = false;
 
+// Cảnh báo đóng trình duyệt nếu hàng chờ chưa đồng bộ xong
+if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', function (e) {
+        if (apiQueue.length > 0 || isQueueProcessing) {
+            const confirmationMessage = '⚠️ Dữ liệu vừa chỉnh sửa đang được lưu lên Google Sheets. Bạn có chắc chắn muốn đóng web ngay bây giờ?';
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
+    });
+}
+
+// Cập nhật trạng thái đồng bộ ở góc màn hình
+function updateSyncIndicator() {
+    if (typeof document === 'undefined' || !document.body) return;
+    let indicator = document.getElementById('globalSyncQueueBadge');
+    const remaining = apiQueue.length + (isQueueProcessing ? 1 : 0);
+    
+    if (remaining > 0) {
+        if (!indicator) {
+            indicator = document.createElement('div');
+            indicator.id = 'globalSyncQueueBadge';
+            indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: rgba(18, 16, 42, 0.95); border: 1px solid #8E4DFF; color: #FFF; padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: bold; font-family: sans-serif; box-shadow: 0 4px 20px rgba(142,77,255,0.4); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(10px); transition: all 0.3s ease;';
+            document.body.appendChild(indicator);
+        }
+        indicator.style.display = 'flex';
+        indicator.style.borderColor = '#8E4DFF';
+        indicator.innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-spin" style="color: #FFD23F; font-size: 15px;"></i> Đang đồng bộ lên Sheet (' + remaining + ' thao tác...);';
+    } else if (indicator) {
+        indicator.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10B981; font-size: 15px;"></i> Đã đồng bộ xong!';
+        indicator.style.borderColor = '#10B981';
+        setTimeout(() => {
+            if (indicator && apiQueue.length === 0 && !isQueueProcessing) {
+                indicator.style.display = 'none';
+            }
+        }, 2000);
+    }
+}
+
 function processNextApiTask() {
+    updateSyncIndicator();
     if (isQueueProcessing || apiQueue.length === 0) return;
     isQueueProcessing = true;
     
@@ -20,6 +59,7 @@ function processNextApiTask() {
         .finally(() => {
             apiQueue.shift();
             isQueueProcessing = false;
+            updateSyncIndicator();
             setTimeout(processNextApiTask, 50);
         });
 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
@@ -703,6 +703,7 @@
                                     <th>Tên bài học</th>
                                     <th>Link file đã nộp</th>
                                     <th>Trạng thái</th>
+                                    <th>Điểm</th>
                                     <th style="text-align: center;">Thao tác</th>
                                 </tr>
                             </thead>
@@ -1216,8 +1217,6 @@
                     else if (isImage) viewText = '<i class="fa-solid fa-image"></i> Xem hình ảnh';
 
                     var finalUrl = item.fileUrl;
-                    // Xóa logic rewrite uc?export=download vì Zalo Webview/Mobile chặn download trực tiếp gây lỗi ERR_FILE_NOT_FOUND
-
 
                     var rowHtml = "<tr>";
                     rowHtml += "<td>" + item.timestamp + "</td>";
@@ -1232,6 +1231,19 @@
                         statusBadge = "<span style='color: #10B981; font-weight:600;'><i class='fa-solid fa-circle-check'></i> Đã nộp</span>";
                     }
                     rowHtml += "<td>" + statusBadge + "</td>";
+
+                    // Phần hiển thị Điểm
+                    var scoreHtml = "";
+                    if (item.score && item.score.toString().trim() !== "") {
+                        var safeComment = item.comment ? item.comment.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "";
+                        scoreHtml = "<div style='color:#FFD23F; font-weight:800; font-size:16px;'>" + item.score + "</div>";
+                        if (safeComment) {
+                            scoreHtml += "<div style='color:#A6ADCE; font-size:12px; margin-top:2px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;' title='" + safeComment + "'>" + safeComment + "</div>";
+                        }
+                    } else {
+                        scoreHtml = "<span style='color:#6B7280; font-size:13px; font-style:italic;'>Chưa chấm</span>";
+                    }
+                    rowHtml += "<td>" + scoreHtml + "</td>";
 
                     var isToday = (item.submissionDate === todayStr);
                     var isRowLocked = !isToday;
@@ -1276,6 +1288,17 @@
                     mobileHtml += "  <div class='accordion-body' id='hw-accordion-body-" + idx + "' style='display: none;'>";
                     mobileHtml += "    <div class='accordion-body-row'><span class='accordion-body-label'>Thời gian nộp</span><span class='accordion-body-val'>" + item.timestamp + "</span></div>";
                     mobileHtml += "    <div class='accordion-body-row'><span class='accordion-body-label'>Bài nộp</span><span class='accordion-body-val'><a href='" + finalUrl + "' target='_blank' style='color:#FFD23F; font-weight:600; text-decoration:none;'>" + viewText + "</a></span></div>";
+                    
+                    if (item.score && item.score.toString().trim() !== "") {
+                        var safeComment = item.comment ? item.comment.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "";
+                        mobileHtml += "    <div class='accordion-body-row'><span class='accordion-body-label'>Điểm số</span><span class='accordion-body-val' style='color:#FFD23F; font-weight:800; font-size: 15px;'>" + item.score + "</span></div>";
+                        if (safeComment) {
+                            mobileHtml += "    <div class='accordion-body-row'><span class='accordion-body-label'>Nhận xét</span><span class='accordion-body-val' style='color:#A6ADCE;'>" + safeComment + "</span></div>";
+                        }
+                    } else {
+                        mobileHtml += "    <div class='accordion-body-row'><span class='accordion-body-label'>Điểm số</span><span class='accordion-body-val' style='color:#6B7280; font-style:italic;'>Chưa chấm</span></div>";
+                    }
+
                     mobileHtml += "    <div class='accordion-body-row'><span class='accordion-body-label'>Thao tác</span><span class='accordion-body-val'>" + mobileActionsHtml + "</span></div>";
                     mobileHtml += "  </div>";
                     mobileHtml += "</div>";
@@ -1286,7 +1309,7 @@
                     var remaining = totalCount - hwDisplayLimit;
                     if (!showAll) {
                         // Thêm dòng Xem thêm vào bảng desktop
-                        body.innerHTML += "<tr><td colspan='5' style='text-align:center; padding:10px;'>"
+                        body.innerHTML += "<tr><td colspan='6' style='text-align:center; padding:10px;'>"
                             + "<button onclick=\"renderHomeworkList(true)\" style=\"background:none; border:1px solid #4B5563; color:#FFD23F; padding:6px 20px; border-radius:8px; cursor:pointer; font-size:13px;\">"
                             + "<i class='fa-solid fa-chevron-down' style='margin-right:5px;'></i>Xem thêm " + remaining + " bài nộp cũ hơn"
                             + "</button></td></tr>";
@@ -1297,7 +1320,7 @@
                             + "</button></div>";
                     } else {
                         // Nút Thu gọn
-                        body.innerHTML += "<tr><td colspan='5' style='text-align:center; padding:10px;'>"
+                        body.innerHTML += "<tr><td colspan='6' style='text-align:center; padding:10px;'>"
                             + "<button onclick=\"renderHomeworkList(false)\" style=\"background:none; border:1px solid #4B5563; color:#9CA3AF; padding:6px 20px; border-radius:8px; cursor:pointer; font-size:13px;\">"
                             + "<i class='fa-solid fa-chevron-up' style='margin-right:5px;'></i>Thu gọn"
                             + "</button></td></tr>";

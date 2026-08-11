@@ -413,9 +413,18 @@
                 var fc = document.getElementById('filterClass');
                 var ft = document.getElementById('filterTopic');
                 var fl = document.getElementById('filterLesson');
-                res.classes.forEach(function(c) { fc.innerHTML += '<option value="'+c+'">'+c+'</option>'; });
-                res.topics.forEach(function(t) { ft.innerHTML += '<option value="'+t+'">'+t+'</option>'; });
-                res.lessons.forEach(function(l) { fl.innerHTML += '<option value="'+l+'">'+l+'</option>'; });
+                if (res.classes && Array.isArray(res.classes)) {
+                    res.classes.forEach(function(c) { fc.innerHTML += '<option value="'+c+'">'+c+'</option>'; });
+                }
+                if (res.topics && Array.isArray(res.topics)) {
+                    res.topics.forEach(function(t) { ft.innerHTML += '<option value="'+t+'">'+t+'</option>'; });
+                }
+                if (res.lessons && Array.isArray(res.lessons)) {
+                    res.lessons.forEach(function(l) { fl.innerHTML += '<option value="'+l+'">'+l+'</option>'; });
+                }
+            })
+            .withFailureHandler(function(e) {
+                console.warn('loadFilterOptions lỗi:', e);
             })
             .getVideoFilterOptions();
     }

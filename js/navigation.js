@@ -144,11 +144,24 @@ function dangNhapThanhCong(data, role) {
         return;
     }
     
-    // Lưu vào localStorage
+    // Xóa sạch session/local storage cũ để tránh dính dữ liệu học sinh trước
+    sessionStorage.clear();
+    localStorage.removeItem('dashboardData');
+    localStorage.removeItem('userPhone');
+    localStorage.removeItem('selectedStudentName');
+    localStorage.removeItem('userRole');
+
+    var sName = data.tenHocSinh || data.name || data.studentName || data.code || '';
+
+    sessionStorage.setItem('dashboardData', JSON.stringify(data));
+    sessionStorage.setItem('userRole', role || 'student');
+    sessionStorage.setItem('userPhone', globalInputPhone);
+    sessionStorage.setItem('selectedStudentName', sName);
+
     localStorage.setItem('dashboardData', JSON.stringify(data));
-    localStorage.setItem('userRole', role);
+    localStorage.setItem('userRole', role || 'student');
     localStorage.setItem('userPhone', globalInputPhone);
-    localStorage.setItem('selectedStudentName', data.name || data.code);
+    localStorage.setItem('selectedStudentName', sName);
     
     // Chuyển hướng
     window.location.href = 'parent-dashboard.html';

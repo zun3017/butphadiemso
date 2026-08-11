@@ -171,33 +171,31 @@
         window.addEventListener('DOMContentLoaded', () => {
             var dataStr = sessionStorage.getItem('dashboardData') || localStorage.getItem('dashboardData');
             var role = sessionStorage.getItem('userRole') || localStorage.getItem('userRole');
+            var phone = sessionStorage.getItem('userPhone') || localStorage.getItem('userPhone');
+            var studentName = sessionStorage.getItem('selectedStudentName') || localStorage.getItem('selectedStudentName');
+
             var data = null;
             try {
                 if (dataStr) data = JSON.parse(dataStr);
             } catch(e) {}
 
-            if (data && role === 'student') {
+            if (data && (role === 'student' || role === 'parent')) {
                 renderStudentView(data);
+            } else if (!phone) {
+                window.location.href = 'parent-login.html';
+                return;
             }
 
-            var phone = sessionStorage.getItem('userPhone') || localStorage.getItem('userPhone');
-            var studentName = sessionStorage.getItem('selectedStudentName') || localStorage.getItem('selectedStudentName');
             if (phone) {
                 google.script.run.withSuccessHandler(function(res) {
-                    if (res && res.role === 'student' && res.data && res.data.timThay) {
+                    if (res && (res.role === 'student' || res.role === 'parent') && res.data && res.data.timThay) {
                         sessionStorage.setItem('userRole', 'student');
                         sessionStorage.setItem('dashboardData', JSON.stringify(res.data));
                         localStorage.setItem('userRole', 'student');
                         localStorage.setItem('dashboardData', JSON.stringify(res.data));
                         renderStudentView(res.data);
-                    } else if (!data) {
-                        window.location.href = 'parent-login.html';
                     }
-                }).withFailureHandler(function() {
-                    if (!data) window.location.href = 'parent-login.html';
                 }).loginSystem(phone, "", studentName);
-            } else if (!data) {
-                window.location.href = 'parent-login.html';
             }
         });
     </script>

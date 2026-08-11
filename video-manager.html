@@ -348,6 +348,34 @@
         </div>
     </div>
 
+    <!-- MODAL: Sửa khóa học / Thêm bớt video -->
+    <div class="vm-overlay" id="editCourseModal">
+        <div class="vm-modal" style="max-width: 600px;">
+            <div class="vm-modal-title"><i class="fa-solid fa-pen-to-square"></i> Sửa Mã Khóa Học <span id="editCourseCodeHeader" style="color:#8E4DFF;"></span></div>
+            <input type="hidden" id="editCourseCode">
+            <div style="margin-bottom:14px;">
+                <label class="vm-label">📝 Tên khóa học</label>
+                <input type="text" id="editCourseNameInput" class="vm-input">
+            </div>
+            <div style="margin-bottom:14px;">
+                <label class="vm-label">🧑‍🎓 Ghi chú học sinh (tên, SĐT...)</label>
+                <input type="text" id="editCourseNoteInput" class="vm-input">
+            </div>
+            <div style="margin-bottom:14px;">
+                <label class="vm-label">🎬 Chọn danh sách video cho khóa học này:</label>
+                <div id="editCourseVideoList" style="max-height: 240px; overflow-y: auto; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px;">
+                </div>
+            </div>
+            <span id="editCourseAlert" class="alert-msg" style="display:block; margin-bottom:8px;"></span>
+            <div class="vm-modal-footer">
+                <button class="vm-btn vm-btn-outline" onclick="closeModal('editCourseModal')">Hủy</button>
+                <button class="vm-btn vm-btn-primary" onclick="submitEditCourse()" id="btnSubmitEditCourse">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/api.js?v=1.9.1"></script>
     <script>
     // ==========================================
@@ -701,8 +729,26 @@
     }
 
     // ==========================================
-    // COURSE HISTORY
+    // COURSE HISTORY & EDITING
     // ==========================================
+    var allCoursesMap = {};
+
+    function formatDateDisplay(dStr) {
+        if (!dStr) return '—';
+        try {
+            var d = new Date(dStr);
+            if (isNaN(d.getTime())) return dStr;
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ('0' + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+            var hours = ('0' + d.getHours()).slice(-2);
+            var mins = ('0' + d.getMinutes()).slice(-2);
+            return day + '/' + month + '/' + year + ' ' + hours + ':' + mins;
+        } catch(e) {
+            return dStr;
+        }
+    }
+
     function loadCourseList() {
         var tbody = document.getElementById('courseHistoryBody');
         tbody.innerHTML = '<tr><td colspan="7" class="vm-loading"><div class="spinner"></div></td></tr>';
@@ -716,24 +762,27 @@
                     return;
                 }
                 var courses = res.courses || [];
+                allCoursesMap = {};
                 if (courses.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">📭 Chưa có mã khóa học nào được tạo</td></tr>';
                     return;
                 }
                 var html = '';
                 courses.forEach(function(c) {
+                    allCoursesMap[c.courseCode] = c;
                     var statusHtml = c.status === 'active'
                         ? '<span class="vm-status-active">✅ Đang hoạt động</span>'
                         : '<span class="vm-status-locked">🔒 Đã khóa</span>';
-                    var toggleLabel = c.status === 'active' ? '🔒 Khóa mã' : '🔓 Mở mã';
+                    var toggleLabel = c.status === 'active' ? '🔒 Khóa' : '🔓 Mở';
                     html += '<tr>';
                     html += '<td><strong style="color:#FFD23F; font-size:15px; letter-spacing:1px;">' + c.courseCode + '</strong></td>';
                     html += '<td>' + escHtml(c.courseName) + '</td>';
                     html += '<td style="color:#A6ADCE;">' + escHtml(c.studentNote || '—') + '</td>';
                     html += '<td><span style="color:#8E4DFF; font-weight:700;">' + c.videoCount + '</span> video</td>';
-                    html += '<td style="color:#A6ADCE; font-size:12.5px;">' + escHtml(c.createdAt) + '</td>';
+                    html += '<td style="color:#A6ADCE; font-size:12.5px;">' + formatDateDisplay(c.createdAt) + '</td>';
                     html += '<td>' + statusHtml + '</td>';
                     html += '<td><div style="display:flex; gap:6px; flex-wrap:wrap;">';
+                    html += '<button class="vm-btn vm-btn-primary vm-btn-sm" onclick="openEditCourseModal(\'' + c.courseCode + '\')"><i class="fa-solid fa-pen-to-square"></i> Sửa / Bớt Video</button>';
                     html += '<button class="vm-btn vm-btn-outline vm-btn-sm" onclick="toggleCourse(\'' + c.courseCode + '\')">' + toggleLabel + '</button>';
                     html += '<button class="vm-btn vm-btn-danger vm-btn-sm" onclick="deleteCourseCode(\'' + c.courseCode + '\')"><i class="fa-solid fa-trash"></i> Xóa mã</button>';
                     html += '</div></td>';
@@ -745,6 +794,69 @@
                 tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">❌ Lỗi kết nối: ' + e + '</td></tr>';
             })
             .getCourseList(session.phone || '');
+    }
+
+    function openEditCourseModal(code) {
+        var c = allCoursesMap[code];
+        if (!c) return;
+        document.getElementById('editCourseCode').value = c.courseCode;
+        document.getElementById('editCourseCodeHeader').textContent = '(' + c.courseCode + ')';
+        document.getElementById('editCourseNameInput').value = c.courseName || '';
+        document.getElementById('editCourseNoteInput').value = c.studentNote || '';
+
+        var currentVideoIds = new Set(c.videoIds || []);
+
+        var container = document.getElementById('editCourseVideoList');
+        if (!allVideos || allVideos.length === 0) {
+            container.innerHTML = '<p style="color:#A6ADCE; font-size:13px; text-align:center; padding:10px;">Chưa có video nào trong Thư viện</p>';
+        } else {
+            var html = '';
+            allVideos.forEach(function(v) {
+                var isChecked = currentVideoIds.has(v.videoId);
+                html += '<div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.05); gap:10px;">';
+                html += '<label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:13.5px; color:#FFF; flex:1; min-width:0;">';
+                html += '<input type="checkbox" class="edit-course-cb" value="' + v.videoId + '" ' + (isChecked ? 'checked' : '') + ' style="accent-color:#8E4DFF; width:18px; height:18px;">';
+                html += '<span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + escHtml(v.name) + '</span>';
+                html += '</label>';
+                html += '<span style="font-size:11.5px; color:#A6ADCE; flex-shrink:0;">' + escHtml(v.classLevel || '') + (v.topic ? ' · ' + escHtml(v.topic) : '') + '</span>';
+                html += '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        showAlert('editCourseAlert', '', '');
+        openModal('editCourseModal');
+    }
+
+    function submitEditCourse() {
+        var code = document.getElementById('editCourseCode').value;
+        var name = document.getElementById('editCourseNameInput').value.trim();
+        var note = document.getElementById('editCourseNoteInput').value.trim();
+
+        var checkedBoxes = document.querySelectorAll('.edit-course-cb:checked');
+        var selectedVideoIds = Array.from(checkedBoxes).map(function(cb) { return cb.value; });
+
+        if (!name) { showAlert('editCourseAlert', 'Vui lòng nhập tên khóa học!', 'error'); return; }
+        if (selectedVideoIds.length === 0) { showAlert('editCourseAlert', 'Vui lòng chọn ít nhất 1 video!', 'error'); return; }
+
+        var btn = document.getElementById('btnSubmitEditCourse');
+        btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Đang lưu...';
+
+        google.script.run
+            .withSuccessHandler(function(res) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi';
+                if (res && res.success) {
+                    closeModal('editCourseModal');
+                    loadCourseList();
+                } else {
+                    showAlert('editCourseAlert', '❌ ' + (res ? res.message : 'Lỗi cập nhật'), 'error');
+                }
+            })
+            .withFailureHandler(function(e) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi';
+                showAlert('editCourseAlert', '❌ Lỗi: ' + e, 'error');
+            })
+            .updateCourse(code, name, note, selectedVideoIds);
     }
 
     function toggleCourse(code) {

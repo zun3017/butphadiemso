@@ -4520,11 +4520,24 @@
                     btn.disabled = false;
                     btn.innerHTML = oldText;
                     if (res && res.success) {
-                        showToast('✅ Đề thi đã được lưu! Mã đề: ' + res.examId, 'success');
-                        document.getElementById('azotaExamName').value = '';
-                        document.getElementById('azotaExamLink').value = '';
-                        document.getElementById('azotaGrade').value    = '';
-                        switchClassExamTab('manage');
+                        showToast("✅ Đề thi đã được lưu! Mã đề: " + res.examId, "success");
+                        document.getElementById("azotaExamName").value = "";
+                        document.getElementById("azotaExamLink").value = "";
+                        document.getElementById("azotaGrade").value    = "";
+                        var newExam = {
+                            examId: res.examId,
+                            title: name.trim(),
+                            subject: subject || "Khác",
+                            timeLimit: 0,
+                            dateCreated: new Date().toLocaleDateString("vi-VN"),
+                            azotaLink: link.trim(),
+                            grade: grade.trim(),
+                            assignedClasses: "Chưa giao"
+                        };
+                        if (!activeTeacherExams) activeTeacherExams = [];
+                        activeTeacherExams.unshift(newExam);
+                        renderExamTable(activeTeacherExams);
+                        switchClassExamTab("manage");
                         loadTeacherExams();
                     } else {
                         showToast('Lỗi: ' + (res ? res.error : 'Không xác định'), 'error');
@@ -4706,9 +4719,22 @@
                 .withSuccessHandler(function(res) {
                     if (btn) { btn.disabled = false; btn.innerHTML = 'Giao đề ngay <i class="fa-solid fa-check" style="margin-left:6px"></i>'; }
                     if (res && res.success) {
-                        showSyncToast('success');
+                        showSyncToast("success");
                         showToast("Giao đề thi thành công cho " + className + "!", "success");
-                        closeModal('assignExamModal');
+                        closeModal("assignExamModal");
+                        if (activeTeacherExams && activeTeacherExams.length > 0) {
+                            activeTeacherExams.forEach(function(ex) {
+                                if (ex.examId === examId) {
+                                    if (!ex.assignedClasses || ex.assignedClasses === "Chưa giao") {
+                                        ex.assignedClasses = className;
+                                    } else if (ex.assignedClasses.indexOf(className) === -1) {
+                                        ex.assignedClasses += ", " + className;
+                                    }
+                                }
+                            });
+                            renderExamTable(activeTeacherExams);
+                        }
+                        loadTeacherExams();
                     } else {
                         showSyncToast('error');
                         showToast("Lỗi: " + (res ? res.error : "Không xác định"), "error");

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Khóa Học — Lớp Hóa Thầy Minh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.7.0">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: radial-gradient(circle at 50% 30%, #150F3B 0%, #08051A 100%) no-repeat fixed;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        .vm-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+        /* ---- TABS ---- */
+        .vm-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px; }
+        .vm-tab { padding: 10px 22px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; color: #A6ADCE; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .vm-tab.active { background: linear-gradient(135deg,#8E4DFF,#5B21B6); border-color: #8E4DFF; color: #FFF; }
+        .vm-tab:hover:not(.active) { background: rgba(255,255,255,0.08); color: #FFF; }
+
+        /* ---- CARD ---- */
+        .vm-card { background: rgba(11,8,38,0.85); border: 1px solid rgba(142,77,255,0.2); border-radius: 20px; padding: 25px; margin-bottom: 22px; backdrop-filter: blur(12px); }
+        .vm-card-title { font-size: 16px; font-weight: 700; color: #FFD23F; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+
+        /* ---- ADD VIDEO FORM ---- */
+        .vm-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .vm-form-grid.full { grid-template-columns: 1fr; }
+        .vm-label { font-size: 12.5px; font-weight: 600; color: #A6ADCE; margin-bottom: 6px; display: block; }
+        .vm-input, .vm-select {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px; padding: 11px 14px; color: #FFF; font-size: 14px; font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .vm-input:focus, .vm-select:focus { outline: none; border-color: #8E4DFF; }
+        .vm-select option { background: #1a1040; }
+        .vm-btn { padding: 11px 22px; border-radius: 20px; border: none; cursor: pointer; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+        .vm-btn-primary { background: linear-gradient(135deg,#8E4DFF,#5B21B6); color: #FFF; }
+        .vm-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(142,77,255,0.35); }
+        .vm-btn-danger { background: rgba(239,68,68,0.15); border: 1px solid #EF4444; color: #FCA5A5; }
+        .vm-btn-danger:hover { background: rgba(239,68,68,0.3); }
+        .vm-btn-success { background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #6EE7B7; }
+        .vm-btn-success:hover { background: rgba(16,185,129,0.3); }
+        .vm-btn-sm { padding: 7px 14px; font-size: 12.5px; border-radius: 12px; }
+        .vm-btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #A6ADCE; }
+        .vm-btn-outline:hover { border-color: #8E4DFF; color: #FFF; }
+
+        /* ---- FILTER BAR ---- */
+        .vm-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+        .vm-filter-bar .vm-select { width: auto; min-width: 150px; }
+
+        /* ---- VIDEO LIST ---- */
+        .vm-video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .vm-video-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; transition: all 0.2s; position: relative; }
+        .vm-video-card:hover { border-color: rgba(142,77,255,0.4); background: rgba(142,77,255,0.06); }
+        .vm-video-card.selected { border-color: #8E4DFF; background: rgba(142,77,255,0.12); }
+        .vm-video-card .cb { position: absolute; top: 12px; right: 12px; width: 20px; height: 20px; cursor: pointer; accent-color: #8E4DFF; }
+        .vm-video-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #4B5563; font-size: 32px; }
+        .vm-video-thumb iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
+        .vm-video-name { font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 6px; padding-right: 28px; line-height: 1.4; }
+        .vm-video-meta { font-size: 12px; color: #A6ADCE; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+        .vm-badge-meta { background: rgba(255,255,255,0.07); border-radius: 6px; padding: 2px 8px; }
+        .vm-video-actions { display: flex; gap: 8px; }
+
+        /* ---- SELECT SUMMARY BAR ---- */
+        .vm-select-bar { position: sticky; bottom: 20px; background: rgba(15,11,46,0.97); border: 1px solid #8E4DFF; border-radius: 16px; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 8px 30px rgba(142,77,255,0.3); backdrop-filter: blur(15px); transition: all 0.3s; flex-wrap: wrap; }
+        .vm-select-bar.hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+        .vm-select-count { font-size: 15px; font-weight: 700; color: #FFD23F; }
+
+        /* ---- HISTORY TABLE ---- */
+        .vm-table { width: 100%; border-collapse: collapse; }
+        .vm-table th { background: rgba(142,77,255,0.15); color: #A6ADCE; font-size: 12.5px; font-weight: 600; padding: 11px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .vm-table td { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13.5px; color: #E2E8F0; vertical-align: middle; }
+        .vm-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .vm-status-active { color: #10B981; font-weight: 700; }
+        .vm-status-locked { color: #EF4444; font-weight: 700; }
+
+        /* ---- MODALS ---- */
+        .vm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .vm-overlay.show { display: flex; }
+        .vm-modal { background: rgba(15,11,46,0.98); border: 1px solid #8E4DFF; border-radius: 24px; padding: 30px; max-width: 480px; width: 100%; box-shadow: 0 0 50px rgba(142,77,255,0.3); }
+        .vm-modal-title { font-size: 20px; font-weight: 800; color: #FFD23F; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .vm-modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 22px; }
+
+        /* ---- SUCCESS CODE POPUP ---- */
+        .vm-code-display { background: rgba(142,77,255,0.12); border: 2px dashed #8E4DFF; border-radius: 16px; padding: 20px; text-align: center; margin: 20px 0; }
+        .vm-code-text { font-size: 34px; font-weight: 900; color: #FFD23F; letter-spacing: 4px; display: block; margin-bottom: 8px; }
+        .vm-code-hint { font-size: 13px; color: #A6ADCE; }
+
+        /* ---- LOADING ---- */
+        .vm-loading { text-align: center; padding: 50px; color: #A6ADCE; }
+        .vm-empty { text-align: center; padding: 40px; color: #4B5563; font-size: 14px; }
+        .spinner { display: inline-block; width: 28px; height: 28px; border: 3px solid rgba(142,77,255,0.3); border-top-color: #8E4DFF; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .alert-msg { padding: 10px 14px; border-radius: 10px; font-size: 13.5px; font-weight: 600; margin-top: 12px; display: none; }
+        .alert-success { background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #6EE7B7; }
+        .alert-error { background: rgba(239,68,68,0.15); border: 1px solid #EF4444; color: #FCA5A5; }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-left" style="text-decoration:none; cursor:pointer;">
+                <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="nav-logo">
+                <div class="header-text"><h1>Video Khóa Học</h1><p>Quản lý & Bán khóa học</p></div>
+            </a>
+            <div class="nav-right">
+                <a href="index.html" class="nav-btn" id="btnNavHome"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                <a href="parent-login.html" class="nav-btn" id="btnNavParent"><i class="fa-solid fa-graduation-cap"></i> PH/ HS</a>
+                <a href="homework.html" class="nav-btn" id="btnNavHomework"><i class="fa-solid fa-file-arrow-up"></i> Bài tập</a>
+                <a href="class-dashboard.html" class="nav-btn" id="btnNavClass"><i class="fa-solid fa-arrow-left"></i> Quản lý lớp</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="vm-container">
+        <!-- Header -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:12px;">
+            <div>
+                <h2 style="font-size:22px; font-weight:800; color:#FFD23F; margin:0;">🎬 Quản Lý Video Khóa Học</h2>
+                <p style="font-size:14px; color:#A6ADCE; margin-top:4px;">Thêm link Drive, phân loại và bán video cho học sinh</p>
+            </div>
+            <a href="class-dashboard.html" class="vm-btn vm-btn-outline"><i class="fa-solid fa-arrow-left"></i> Về Quản lý lớp</a>
+        </div>
+
+        <!-- TABS -->
+        <div class="vm-tabs">
+            <button class="vm-tab active" id="tabLibrary" onclick="switchTab('library')">
+                <i class="fa-solid fa-film"></i> Thư viện video
+            </button>
+            <button class="vm-tab" id="tabHistory" onclick="switchTab('history')">
+                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử khóa học
+            </button>
+        </div>
+
+        <!-- ====== TAB: THƯ VIỆN VIDEO ====== -->
+        <div id="tabContentLibrary">
+            <!-- Thêm video mới -->
+            <div class="vm-card">
+                <div class="vm-card-title"><i class="fa-solid fa-plus-circle"></i> Thêm Video Mới</div>
+                <div class="vm-form-grid full" style="margin-bottom:14px;">
+                    <div>
+                        <label class="vm-label">🔗 Link Google Drive (bắt buộc bật chia sẻ "Mọi người có link")</label>
+                        <input type="text" id="addDriveLink" class="vm-input" placeholder="https://drive.google.com/file/d/...">
+                    </div>
+                </div>
+                <div class="vm-form-grid">
+                    <div>
+                        <label class="vm-label">📝 Tên video</label>
+                        <input type="text" id="addVideoName" class="vm-input" placeholder="VD: Bài 1 - Cấu tạo nguyên tử">
+                    </div>
+                    <div>
+                        <label class="vm-label">🏫 Lớp</label>
+                        <input type="text" id="addClassLevel" class="vm-input" list="classOptions" placeholder="VD: Lớp 10">
+                        <datalist id="classOptions">
+                            <option value="Lớp 8"><option value="Lớp 9"><option value="Lớp 10">
+                            <option value="Lớp 11"><option value="Lớp 12">
+                        </datalist>
+                    </div>
+                    <div>
+                        <label class="vm-label">📚 Chủ đề</label>
+                        <input type="text" id="addTopic" class="vm-input" placeholder="VD: Hóa Hữu Cơ">
+                    </div>
+                    <div>
+                        <label class="vm-label">📖 Bài học (không bắt buộc)</label>
+                        <input type="text" id="addLesson" class="vm-input" placeholder="VD: Bài 1: Ankan">
+                    </div>
+                    <div>
+                        <label class="vm-label">⏱️ Thời lượng (không bắt buộc)</label>
+                        <input type="text" id="addDuration" class="vm-input" placeholder="VD: 45:00">
+                    </div>
+                </div>
+                <div style="margin-top:16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <button class="vm-btn vm-btn-primary" onclick="submitAddVideo()" id="btnAddVideo">
+                        <i class="fa-solid fa-plus"></i> Thêm Video
+                    </button>
+                    <span id="addVideoAlert" class="alert-msg"></span>
+                </div>
+            </div>
+
+            <!-- Bộ lọc & danh sách -->
+            <div class="vm-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+                    <div class="vm-card-title" style="margin-bottom:0;"><i class="fa-solid fa-list-video"></i> Danh Sách Video</div>
+                    <button class="vm-btn vm-btn-outline vm-btn-sm" onclick="loadVideoList()"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+                </div>
+                <!-- Bộ lọc -->
+                <div class="vm-filter-bar">
+                    <select id="filterClass" class="vm-select" onchange="applyFilter()" style="min-width:130px;">
+                        <option value="">-- Tất cả lớp --</option>
+                    </select>
+                    <select id="filterTopic" class="vm-select" onchange="applyFilter()" style="min-width:160px;">
+                        <option value="">-- Tất cả chủ đề --</option>
+                    </select>
+                    <select id="filterLesson" class="vm-select" onchange="applyFilter()" style="min-width:160px;">
+                        <option value="">-- Tất cả bài học --</option>
+                    </select>
+                    <button class="vm-btn vm-btn-outline vm-btn-sm" onclick="clearFilters()"><i class="fa-solid fa-x"></i> Xóa lọc</button>
+                    <button class="vm-btn vm-btn-outline vm-btn-sm" onclick="selectAll()" id="btnSelectAll">
+                        <i class="fa-solid fa-check-double"></i> Chọn tất cả (<span id="visibleCount">0</span>)
+                    </button>
+                    <button class="vm-btn vm-btn-outline vm-btn-sm" onclick="deselectAll()"><i class="fa-solid fa-xmark"></i> Bỏ chọn</button>
+                </div>
+                <!-- Grid video -->
+                <div id="videoGrid" class="vm-video-grid">
+                    <div class="vm-loading"><div class="spinner"></div><p style="margin-top:12px;">Đang tải...</p></div>
+                </div>
+            </div>
+
+            <!-- Sticky bar tạo khóa học -->
+            <div class="vm-select-bar hidden" id="selectBar">
+                <div class="vm-select-count">✅ Đã chọn <span id="selectedCount">0</span> video</div>
+                <button class="vm-btn vm-btn-primary" onclick="openCreateCourseModal()">
+                    <i class="fa-solid fa-key"></i> Tạo Khóa Học Từ Video Này
+                </button>
+            </div>
+        </div>
+
+        <!-- ====== TAB: LỊCH SỬ KHÓA HỌC ====== -->
+        <div id="tabContentHistory" style="display:none;">
+            <div class="vm-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
+                    <div class="vm-card-title" style="margin-bottom:0;"><i class="fa-solid fa-receipt"></i> Lịch Sử Mã Khóa Học</div>
+                    <button class="vm-btn vm-btn-outline vm-btn-sm" onclick="loadCourseList()"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="vm-table" id="courseHistoryTable">
+                        <thead>
+                            <tr>
+                                <th>Mã KH</th>
+                                <th>Tên khóa học</th>
+                                <th>Học sinh</th>
+                                <th>Số video</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseHistoryBody">
+                            <tr><td colspan="7" class="vm-loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Tạo khóa học -->
+    <div class="vm-overlay" id="createCourseModal">
+        <div class="vm-modal">
+            <div class="vm-modal-title"><i class="fa-solid fa-key"></i> Tạo Mã Khóa Học</div>
+            <div style="margin-bottom:14px;">
+                <label class="vm-label">📝 Tên khóa học</label>
+                <input type="text" id="courseNameInput" class="vm-input" placeholder="VD: Hóa Lớp 10 cho em An">
+            </div>
+            <div style="margin-bottom:14px;">
+                <label class="vm-label">🧑‍🎓 Ghi chú học sinh (tên, liên hệ...)</label>
+                <input type="text" id="courseNoteInput" class="vm-input" placeholder="VD: Nguyễn Văn An - 0901234567">
+            </div>
+            <div style="font-size:13.5px; color:#A6ADCE; background:rgba(255,255,255,0.04); border-radius:10px; padding:12px; margin-bottom:4px;">
+                📦 Sẽ tạo khóa học gồm <strong id="modalVideoCount" style="color:#FFD23F;">0</strong> video đã chọn.
+            </div>
+            <span id="createCourseAlert" class="alert-msg" style="display:block; margin-bottom:4px;"></span>
+            <div class="vm-modal-footer">
+                <button class="vm-btn vm-btn-outline" onclick="closeModal('createCourseModal')">Hủy</button>
+                <button class="vm-btn vm-btn-primary" onclick="submitCreateCourse()" id="btnCreateCourse">
+                    <i class="fa-solid fa-key"></i> Tạo Mã Khóa Học
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Hiển thị mã thành công -->
+    <div class="vm-overlay" id="successCodeModal">
+        <div class="vm-modal" style="text-align:center;">
+            <div class="vm-modal-title" style="justify-content:center;"><i class="fa-solid fa-party-horn" style="color:#10B981;"></i> Tạo Thành Công!</div>
+            <p style="font-size:14px; color:#A6ADCE; margin-bottom:4px;">Đây là mã khóa học. Hãy gửi cho học sinh:</p>
+            <div class="vm-code-display">
+                <span class="vm-code-text" id="resultCode">KH-XXXXX</span>
+                <span class="vm-code-hint">Học sinh dùng mã này để đăng nhập tại trang PH/HS</span>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
+                <button class="vm-btn vm-btn-success" onclick="copyCode()"><i class="fa-solid fa-copy"></i> Copy mã</button>
+                <a id="resultFolderLink" href="#" target="_blank" class="vm-btn vm-btn-outline"><i class="fa-brands fa-google-drive"></i> Mở thư mục Drive</a>
+            </div>
+            <p style="font-size:12.5px; color:#A6ADCE; line-height:1.6;">
+                🔹 Mã này dùng cho <strong>1 học sinh</strong>.<br>
+                🔹 Học sinh có thể đăng nhập nhiều lần, nhiều thiết bị.<br>
+                🔹 Bạn có thể khóa mã bất kỳ lúc nào trong tab "Lịch sử khóa học".
+            </p>
+            <button class="vm-btn vm-btn-primary" onclick="closeModal('successCodeModal'); deselectAll();" style="margin-top:10px;">
+                <i class="fa-solid fa-check"></i> Đã hiểu, đóng
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: Sửa video -->
+    <div class="vm-overlay" id="editVideoModal">
+        <div class="vm-modal">
+            <div class="vm-modal-title"><i class="fa-solid fa-pen"></i> Sửa Video</div>
+            <input type="hidden" id="editVideoId">
+            <div class="vm-form-grid" style="margin-bottom:14px;">
+                <div>
+                    <label class="vm-label">📝 Tên video</label>
+                    <input type="text" id="editVideoName" class="vm-input">
+                </div>
+                <div>
+                    <label class="vm-label">🏫 Lớp</label>
+                    <input type="text" id="editClassLevel" class="vm-input" list="classOptions">
+                </div>
+                <div>
+                    <label class="vm-label">📚 Chủ đề</label>
+                    <input type="text" id="editTopic" class="vm-input">
+                </div>
+                <div>
+                    <label class="vm-label">📖 Bài học</label>
+                    <input type="text" id="editLesson" class="vm-input">
+                </div>
+            </div>
+            <div style="margin-bottom:14px;">
+                <label class="vm-label">⏱️ Thời lượng</label>
+                <input type="text" id="editDuration" class="vm-input" placeholder="VD: 45:00">
+            </div>
+            <span id="editVideoAlert" class="alert-msg" style="margin-bottom:8px; display:block;"></span>
+            <div class="vm-modal-footer">
+                <button class="vm-btn vm-btn-outline" onclick="closeModal('editVideoModal')">Hủy</button>
+                <button class="vm-btn vm-btn-primary" onclick="submitEditVideo()" id="btnEditVideo">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js?v=1.9.0"></script>
+    <script>
+    // ==========================================
+    // STATE
+    // ==========================================
+    var allVideos = [];
+    var selectedIds = new Set();
+    var currentFilterClass = '';
+    var currentFilterTopic = '';
+    var currentFilterLesson = '';
+
+    // ==========================================
+    // INIT
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kiểm tra session giáo viên
+        var session = sessionStorage.getItem('classSession') || localStorage.getItem('classSession');
+        if (!session) {
+            window.location.href = 'class-login.html';
+            return;
+        }
+        loadVideoList();
+        loadFilterOptions();
+    });
+
+    // ==========================================
+    // TABS
+    // ==========================================
+    function switchTab(tab) {
+        document.getElementById('tabContentLibrary').style.display = tab === 'library' ? '' : 'none';
+        document.getElementById('tabContentHistory').style.display = tab === 'history' ? '' : 'none';
+        document.getElementById('tabLibrary').classList.toggle('active', tab === 'library');
+        document.getElementById('tabHistory').classList.toggle('active', tab === 'history');
+        if (tab === 'history') loadCourseList();
+    }
+
+    // ==========================================
+    // LOAD VIDEOS
+    // ==========================================
+    function loadVideoList() {
+        document.getElementById('videoGrid').innerHTML = '<div class="vm-loading"><div class="spinner"></div><p style="margin-top:12px;">Đang tải...</p></div>';
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res && res.success) {
+                    allVideos = res.videos || [];
+                    renderVideoGrid(allVideos);
+                } else {
+                    document.getElementById('videoGrid').innerHTML = '<div class="vm-empty">⚠️ ' + (res ? res.message : 'Lỗi tải dữ liệu') + '</div>';
+                }
+            })
+            .withFailureHandler(function(e) {
+                document.getElementById('videoGrid').innerHTML = '<div class="vm-empty">❌ Lỗi kết nối: ' + e + '</div>';
+            })
+            .getVideoList('', '', '');
+    }
+
+    function loadFilterOptions() {
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (!res || !res.success) return;
+                var fc = document.getElementById('filterClass');
+                var ft = document.getElementById('filterTopic');
+                var fl = document.getElementById('filterLesson');
+                res.classes.forEach(function(c) { fc.innerHTML += '<option value="'+c+'">'+c+'</option>'; });
+                res.topics.forEach(function(t) { ft.innerHTML += '<option value="'+t+'">'+t+'</option>'; });
+                res.lessons.forEach(function(l) { fl.innerHTML += '<option value="'+l+'">'+l+'</option>'; });
+            })
+            .getVideoFilterOptions();
+    }
+
+    // ==========================================
+    // RENDER VIDEO GRID
+    // ==========================================
+    function renderVideoGrid(videos) {
+        var grid = document.getElementById('videoGrid');
+        if (!videos || videos.length === 0) {
+            grid.innerHTML = '<div class="vm-empty">📭 Chưa có video nào. Hãy thêm link Drive bên trên!</div>';
+            document.getElementById('visibleCount').textContent = '0';
+            return;
+        }
+        document.getElementById('visibleCount').textContent = videos.length;
+        var html = '';
+        videos.forEach(function(v) {
+            var isSelected = selectedIds.has(v.videoId);
+            html += '<div class="vm-video-card' + (isSelected ? ' selected' : '') + '" id="vcard-' + v.videoId + '">';
+            html += '<input type="checkbox" class="cb" ' + (isSelected ? 'checked' : '') + ' onchange="toggleSelect(\'' + v.videoId + '\', this.checked)">';
+            // Thumbnail / preview
+            if (v.fileId) {
+                html += '<div class="vm-video-thumb"><iframe src="https://drive.google.com/file/d/' + v.fileId + '/preview" title="preview" loading="lazy"></iframe></div>';
+            } else {
+                html += '<div class="vm-video-thumb"><i class="fa-solid fa-film"></i></div>';
+            }
+            html += '<div class="vm-video-name">' + escHtml(v.name) + '</div>';
+            html += '<div class="vm-video-meta">';
+            if (v.classLevel) html += '<span class="vm-badge-meta">🏫 ' + escHtml(v.classLevel) + '</span>';
+            if (v.topic) html += '<span class="vm-badge-meta">📚 ' + escHtml(v.topic) + '</span>';
+            if (v.lesson) html += '<span class="vm-badge-meta">📖 ' + escHtml(v.lesson) + '</span>';
+            if (v.duration) html += '<span class="vm-badge-meta">⏱️ ' + escHtml(v.duration) + '</span>';
+            html += '</div>';
+            html += '<div class="vm-video-actions">';
+            html += '<button class="vm-btn vm-btn-outline vm-btn-sm" onclick="openEditModal(\'' + v.videoId + '\')"><i class="fa-solid fa-pen"></i> Sửa</button>';
+            html += '<button class="vm-btn vm-btn-danger vm-btn-sm" onclick="confirmDeleteVideo(\'' + v.videoId + '\', \'' + escHtml(v.name) + '\')"><i class="fa-solid fa-trash"></i> Xóa</button>';
+            html += '</div>';
+            html += '</div>';
+        });
+        grid.innerHTML = html;
+        updateSelectBar();
+    }
+
+    // ==========================================
+    // FILTER
+    // ==========================================
+    function applyFilter() {
+        currentFilterClass = document.getElementById('filterClass').value;
+        currentFilterTopic = document.getElementById('filterTopic').value;
+        currentFilterLesson = document.getElementById('filterLesson').value;
+
+        var filtered = allVideos.filter(function(v) {
+            if (currentFilterClass && v.classLevel !== currentFilterClass) return false;
+            if (currentFilterTopic && v.topic !== currentFilterTopic) return false;
+            if (currentFilterLesson && v.lesson !== currentFilterLesson) return false;
+            return true;
+        });
+        renderVideoGrid(filtered);
+    }
+
+    function clearFilters() {
+        document.getElementById('filterClass').value = '';
+        document.getElementById('filterTopic').value = '';
+        document.getElementById('filterLesson').value = '';
+        currentFilterClass = currentFilterTopic = currentFilterLesson = '';
+        renderVideoGrid(allVideos);
+    }
+
+    // ==========================================
+    // SELECT / DESELECT
+    // ==========================================
+    function toggleSelect(videoId, checked) {
+        if (checked) selectedIds.add(videoId);
+        else selectedIds.delete(videoId);
+        var card = document.getElementById('vcard-' + videoId);
+        if (card) card.classList.toggle('selected', checked);
+        updateSelectBar();
+    }
+
+    function selectAll() {
+        // Chỉ chọn các video đang hiển thị (sau filter)
+        var cards = document.querySelectorAll('#videoGrid .vm-video-card');
+        cards.forEach(function(card) {
+            var id = card.id.replace('vcard-', '');
+            selectedIds.add(id);
+            card.classList.add('selected');
+            var cb = card.querySelector('.cb');
+            if (cb) cb.checked = true;
+        });
+        updateSelectBar();
+    }
+
+    function deselectAll() {
+        selectedIds.clear();
+        document.querySelectorAll('#videoGrid .vm-video-card').forEach(function(c) {
+            c.classList.remove('selected');
+            var cb = c.querySelector('.cb');
+            if (cb) cb.checked = false;
+        });
+        updateSelectBar();
+    }
+
+    function updateSelectBar() {
+        var bar = document.getElementById('selectBar');
+        var count = selectedIds.size;
+        document.getElementById('selectedCount').textContent = count;
+        bar.classList.toggle('hidden', count === 0);
+    }
+
+    // ==========================================
+    // ADD VIDEO
+    // ==========================================
+    function submitAddVideo() {
+        var link = document.getElementById('addDriveLink').value.trim();
+        var name = document.getElementById('addVideoName').value.trim();
+        var cls = document.getElementById('addClassLevel').value.trim();
+        var topic = document.getElementById('addTopic').value.trim();
+        var lesson = document.getElementById('addLesson').value.trim();
+        var duration = document.getElementById('addDuration').value.trim();
+
+        if (!link) { showAlert('addVideoAlert', 'Vui lòng nhập link Google Drive!', 'error'); return; }
+        if (!name) { showAlert('addVideoAlert', 'Vui lòng nhập tên video!', 'error'); return; }
+
+        var btn = document.getElementById('btnAddVideo');
+        btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Đang thêm...';
+
+        google.script.run
+            .withSuccessHandler(function(res) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-plus"></i> Thêm Video';
+                if (res && res.success) {
+                    showAlert('addVideoAlert', '✅ Thêm video thành công!', 'success');
+                    // Clear form
+                    ['addDriveLink','addVideoName','addClassLevel','addTopic','addLesson','addDuration'].forEach(function(id) { document.getElementById(id).value = ''; });
+                    loadVideoList(); loadFilterOptions();
+                } else {
+                    showAlert('addVideoAlert', '❌ ' + (res ? res.message : 'Lỗi không xác định'), 'error');
+                }
+            })
+            .withFailureHandler(function(e) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-plus"></i> Thêm Video';
+                showAlert('addVideoAlert', '❌ Lỗi kết nối: ' + e, 'error');
+            })
+            .addVideo(name, link, cls, topic, lesson, duration);
+    }
+
+    // ==========================================
+    // EDIT VIDEO
+    // ==========================================
+    function openEditModal(videoId) {
+        var v = allVideos.find(function(x) { return x.videoId === videoId; });
+        if (!v) return;
+        document.getElementById('editVideoId').value = v.videoId;
+        document.getElementById('editVideoName').value = v.name;
+        document.getElementById('editClassLevel').value = v.classLevel;
+        document.getElementById('editTopic').value = v.topic;
+        document.getElementById('editLesson').value = v.lesson;
+        document.getElementById('editDuration').value = v.duration;
+        showAlert('editVideoAlert', '', '');
+        openModal('editVideoModal');
+    }
+
+    function submitEditVideo() {
+        var videoId = document.getElementById('editVideoId').value;
+        var name = document.getElementById('editVideoName').value.trim();
+        var cls = document.getElementById('editClassLevel').value.trim();
+        var topic = document.getElementById('editTopic').value.trim();
+        var lesson = document.getElementById('editLesson').value.trim();
+        var duration = document.getElementById('editDuration').value.trim();
+
+        if (!name) { showAlert('editVideoAlert', 'Tên video không được để trống!', 'error'); return; }
+
+        var btn = document.getElementById('btnEditVideo');
+        btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Đang lưu...';
+
+        google.script.run
+            .withSuccessHandler(function(res) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi';
+                if (res && res.success) {
+                    closeModal('editVideoModal');
+                    loadVideoList(); loadFilterOptions();
+                } else {
+                    showAlert('editVideoAlert', '❌ ' + (res ? res.message : 'Lỗi'), 'error');
+                }
+            })
+            .withFailureHandler(function(e) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi';
+                showAlert('editVideoAlert', '❌ Lỗi: ' + e, 'error');
+            })
+            .updateVideo(videoId, name, cls, topic, lesson, duration);
+    }
+
+    // ==========================================
+    // DELETE VIDEO
+    // ==========================================
+    function confirmDeleteVideo(videoId, name) {
+        if (!confirm('Xóa video "' + name + '" khỏi hệ thống?\n(Chỉ xóa khỏi danh sách, không xóa file trên Drive)')) return;
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res && res.success) {
+                    selectedIds.delete(videoId);
+                    loadVideoList(); loadFilterOptions();
+                } else { alert('❌ ' + (res ? res.message : 'Lỗi xóa')); }
+            })
+            .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
+            .deleteVideo(videoId);
+    }
+
+    // ==========================================
+    // CREATE COURSE
+    // ==========================================
+    function openCreateCourseModal() {
+        if (selectedIds.size === 0) { alert('Chọn ít nhất 1 video trước!'); return; }
+        document.getElementById('modalVideoCount').textContent = selectedIds.size;
+        document.getElementById('courseNameInput').value = '';
+        document.getElementById('courseNoteInput').value = '';
+        showAlert('createCourseAlert', '', '');
+        openModal('createCourseModal');
+    }
+
+    function submitCreateCourse() {
+        var name = document.getElementById('courseNameInput').value.trim();
+        var note = document.getElementById('courseNoteInput').value.trim();
+        if (!name) { showAlert('createCourseAlert', 'Vui lòng nhập tên khóa học!', 'error'); return; }
+        if (selectedIds.size === 0) { showAlert('createCourseAlert', 'Không có video nào được chọn!', 'error'); return; }
+
+        var session = JSON.parse(sessionStorage.getItem('classSession') || localStorage.getItem('classSession') || '{}');
+        var tutorPhone = session.phone || '';
+
+        var btn = document.getElementById('btnCreateCourse');
+        btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Đang tạo...';
+
+        var videoIdsArr = Array.from(selectedIds);
+
+        google.script.run
+            .withSuccessHandler(function(res) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> Tạo Mã Khóa Học';
+                if (res && res.success) {
+                    closeModal('createCourseModal');
+                    document.getElementById('resultCode').textContent = res.courseCode;
+                    document.getElementById('resultFolderLink').href = res.folderLink || '#';
+                    openModal('successCodeModal');
+                    loadCourseList();
+                } else {
+                    showAlert('createCourseAlert', '❌ ' + (res ? res.message : 'Lỗi tạo khóa học'), 'error');
+                }
+            })
+            .withFailureHandler(function(e) {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> Tạo Mã Khóa Học';
+                showAlert('createCourseAlert', '❌ Lỗi kết nối: ' + e, 'error');
+            })
+            .createCourse(name, note, videoIdsArr, tutorPhone);
+    }
+
+    function copyCode() {
+        var code = document.getElementById('resultCode').textContent;
+        navigator.clipboard.writeText(code).then(function() {
+            var btn = event.target.closest('button');
+            var orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy!';
+            setTimeout(function() { btn.innerHTML = orig; }, 2000);
+        });
+    }
+
+    // ==========================================
+    // COURSE HISTORY
+    // ==========================================
+    function loadCourseList() {
+        var tbody = document.getElementById('courseHistoryBody');
+        tbody.innerHTML = '<tr><td colspan="7" class="vm-loading"><div class="spinner"></div></td></tr>';
+
+        var session = JSON.parse(sessionStorage.getItem('classSession') || localStorage.getItem('classSession') || '{}');
+
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (!res || !res.success) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">⚠️ ' + (res ? res.message : 'Lỗi tải') + '</td></tr>';
+                    return;
+                }
+                var courses = res.courses || [];
+                if (courses.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">📭 Chưa có mã khóa học nào được tạo</td></tr>';
+                    return;
+                }
+                var html = '';
+                courses.forEach(function(c) {
+                    var statusHtml = c.status === 'active'
+                        ? '<span class="vm-status-active">✅ Đang hoạt động</span>'
+                        : '<span class="vm-status-locked">🔒 Đã khóa</span>';
+                    var toggleLabel = c.status === 'active' ? '🔒 Khóa mã' : '🔓 Mở mã';
+                    html += '<tr>';
+                    html += '<td><strong style="color:#FFD23F; font-size:15px; letter-spacing:1px;">' + c.courseCode + '</strong></td>';
+                    html += '<td>' + escHtml(c.courseName) + '</td>';
+                    html += '<td style="color:#A6ADCE;">' + escHtml(c.studentNote || '—') + '</td>';
+                    html += '<td><span style="color:#8E4DFF; font-weight:700;">' + c.videoCount + '</span> video</td>';
+                    html += '<td style="color:#A6ADCE; font-size:12.5px;">' + escHtml(c.createdAt) + '</td>';
+                    html += '<td>' + statusHtml + '</td>';
+                    html += '<td><button class="vm-btn vm-btn-outline vm-btn-sm" onclick="toggleCourse(\'' + c.courseCode + '\')">' + toggleLabel + '</button></td>';
+                    html += '</tr>';
+                });
+                tbody.innerHTML = html;
+            })
+            .withFailureHandler(function(e) {
+                tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">❌ Lỗi kết nối: ' + e + '</td></tr>';
+            })
+            .getCourseList(session.phone || '');
+    }
+
+    function toggleCourse(code) {
+        if (!confirm('Bạn muốn thay đổi trạng thái mã "' + code + '"?')) return;
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res && res.success) { loadCourseList(); }
+                else { alert('❌ ' + (res ? res.message : 'Lỗi')); }
+            })
+            .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
+            .toggleCourseStatus(code);
+    }
+
+    // ==========================================
+    // UTILITIES
+    // ==========================================
+    function openModal(id) { document.getElementById(id).classList.add('show'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+    function showAlert(id, msg, type) {
+        var el = document.getElementById(id);
+        el.textContent = msg;
+        el.className = 'alert-msg';
+        if (msg) {
+            el.classList.add(type === 'success' ? 'alert-success' : 'alert-error');
+            el.style.display = 'block';
+        } else {
+            el.style.display = 'none';
+        }
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Click outside modal to close
+    document.querySelectorAll('.vm-overlay').forEach(function(overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('show');
+        });
+    });
+    </script>
+</body>
+</html>

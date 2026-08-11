@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa Học Của Bạn — Lớp Hóa Thầy Minh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.7.0">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background: radial-gradient(circle at 50% 20%, #150F3B 0%, #08051A 100%) no-repeat fixed;
+            color: #FFF; font-family: 'Inter', sans-serif; min-height: 100vh; margin: 0;
+        }
+
+        /* ---- LAYOUT ---- */
+        .cv-wrapper { display: flex; height: calc(100vh - 65px); overflow: hidden; }
+
+        /* ---- PLAYLIST (LEFT) ---- */
+        .cv-playlist {
+            width: 320px; min-width: 280px; flex-shrink: 0;
+            background: rgba(11,8,38,0.95); border-right: 1px solid rgba(255,255,255,0.08);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .cv-playlist-header { padding: 20px 18px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+        .cv-playlist-title { font-size: 15px; font-weight: 800; color: #FFD23F; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .cv-progress-bar { background: rgba(255,255,255,0.08); border-radius: 6px; height: 7px; overflow: hidden; margin-bottom: 6px; }
+        .cv-progress-fill { height: 100%; background: linear-gradient(90deg,#8E4DFF,#10B981); border-radius: 6px; transition: width 0.4s; }
+        .cv-progress-text { font-size: 12px; color: #A6ADCE; }
+
+        .cv-playlist-body { flex: 1; overflow-y: auto; padding: 10px 0; }
+        .cv-playlist-body::-webkit-scrollbar { width: 4px; }
+        .cv-playlist-body::-webkit-scrollbar-thumb { background: rgba(142,77,255,0.4); border-radius: 4px; }
+
+        .cv-topic-group { margin-bottom: 4px; }
+        .cv-topic-label { padding: 8px 18px; font-size: 11.5px; font-weight: 700; color: #8E4DFF; text-transform: uppercase; letter-spacing: 0.5px; }
+        .cv-playlist-item {
+            padding: 11px 18px; display: flex; align-items: center; gap: 12px; cursor: pointer;
+            transition: background 0.15s; border-left: 3px solid transparent;
+        }
+        .cv-playlist-item:hover { background: rgba(255,255,255,0.04); }
+        .cv-playlist-item.active { background: rgba(142,77,255,0.12); border-left-color: #8E4DFF; }
+        .cv-item-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .cv-item-icon.watched { background: rgba(16,185,129,0.2); color: #10B981; }
+        .cv-item-icon.active-icon { background: rgba(142,77,255,0.25); color: #8E4DFF; }
+        .cv-item-icon.unwatched { background: rgba(255,255,255,0.06); color: #4B5563; }
+        .cv-item-info { flex: 1; min-width: 0; }
+        .cv-item-name { font-size: 13px; font-weight: 600; color: #E2E8F0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cv-item-name.active { color: #FFF; }
+        .cv-item-meta { font-size: 11.5px; color: #4B5563; margin-top: 2px; }
+        .cv-item-star { font-size: 14px; color: #4B5563; cursor: pointer; flex-shrink: 0; }
+        .cv-item-star.starred { color: #FFD23F; }
+
+        /* ---- PLAYER (RIGHT) ---- */
+        .cv-player { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .cv-player-top { flex: 1; background: #000; position: relative; overflow: hidden; }
+        .cv-player-top iframe { width: 100%; height: 100%; border: none; display: block; }
+        .cv-player-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4B5563; gap: 16px; }
+        .cv-player-placeholder i { font-size: 64px; }
+
+        .cv-player-info { flex-shrink: 0; padding: 18px 22px; background: rgba(11,8,38,0.9); border-top: 1px solid rgba(255,255,255,0.07); }
+        .cv-current-title { font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 8px; line-height: 1.3; }
+        .cv-current-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; color: #A6ADCE; margin-bottom: 12px; }
+        .cv-current-meta span { display: flex; align-items: center; gap: 5px; }
+        .cv-info-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .cv-btn { padding: 9px 18px; border-radius: 20px; border: none; cursor: pointer; font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+        .cv-btn-primary { background: linear-gradient(135deg,#8E4DFF,#5B21B6); color: #FFF; }
+        .cv-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(142,77,255,0.3); }
+        .cv-btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #A6ADCE; }
+        .cv-btn-outline:hover { border-color: #8E4DFF; color: #FFF; }
+        .cv-btn-success { background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #10B981; }
+        .cv-btn-success:hover { background: rgba(16,185,129,0.3); }
+
+        /* ---- NOTES PANEL ---- */
+        .cv-notes-panel { display: none; flex-shrink: 0; padding: 14px 22px; background: rgba(11,8,38,0.95); border-top: 1px solid rgba(255,255,255,0.07); max-height: 200px; }
+        .cv-notes-panel.open { display: block; }
+        .cv-notes-label { font-size: 12.5px; font-weight: 700; color: #A6ADCE; margin-bottom: 8px; }
+        .cv-notes-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 14px; color: #FFF; font-size: 13.5px; font-family: 'Inter',sans-serif; resize: none; height: 90px; }
+        .cv-notes-input:focus { outline: none; border-color: #8E4DFF; }
+
+        /* ---- HISTORY SIDEBAR ---- */
+        .cv-history-item { padding: 8px 18px; font-size: 12px; color: #A6ADCE; display: flex; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .cv-history-item i { color: #8E4DFF; }
+
+        /* ---- LOADING ---- */
+        .cv-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 16px; color: #A6ADCE; }
+        .spinner { display: inline-block; width: 36px; height: 36px; border: 3px solid rgba(142,77,255,0.3); border-top-color: #8E4DFF; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---- MOBILE ---- */
+        @media (max-width: 768px) {
+            .cv-wrapper { flex-direction: column; height: auto; overflow: auto; }
+            .cv-playlist { width: 100%; min-width: unset; height: 260px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+            .cv-player { min-height: 280px; }
+            .cv-player-top { min-height: 200px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="header">
+        <div class="nav-container">
+            <a href="index.html" class="nav-left" style="text-decoration:none; cursor:pointer;">
+                <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="nav-logo">
+                <div class="header-text"><h1 id="courseNameHeader">Khóa Học Của Bạn</h1><p id="courseCodeHeader">Đang tải...</p></div>
+            </a>
+            <div class="nav-right">
+                <a href="index.html" class="nav-btn"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                <a href="parent-login.html" class="nav-btn"><i class="fa-solid fa-graduation-cap"></i> PH/ HS</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="cv-wrapper" id="cvWrapper">
+        <!-- Loading state -->
+        <div class="cv-loading" style="width:100%;" id="mainLoading">
+            <div class="spinner"></div>
+            <p>Đang tải khóa học của bạn...</p>
+        </div>
+    </div>
+
+    <script src="js/api.js?v=1.9.0"></script>
+    <script>
+    // ==========================================
+    // STATE
+    // ==========================================
+    var courseCode = '';
+    var courseVideos = [];
+    var currentVideoIndex = -1;
+    var watchHistory = {}; // { videoId: { watched: bool, lastPos: 0, lastTime: '', starred: bool, note: '' } }
+    var notesOpen = false;
+
+    // ==========================================
+    // INIT
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Đọc mã khóa học từ sessionStorage
+        courseCode = sessionStorage.getItem('courseCode') || '';
+        if (!courseCode) {
+            showError('Không tìm thấy mã khóa học. Vui lòng đăng nhập lại.');
+            return;
+        }
+
+        // Load dữ liệu tiến trình từ localStorage
+        var savedProgress = localStorage.getItem('cv_progress_' + courseCode);
+        if (savedProgress) {
+            try { watchHistory = JSON.parse(savedProgress); } catch(e) { watchHistory = {}; }
+        }
+
+        // Ghi log truy cập
+        google.script.run.logCourseAccess(courseCode, navigator.userAgent.substring(0, 100));
+
+        // Load videos
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (!res || !res.success) { showError(res ? res.message : 'Lỗi tải dữ liệu'); return; }
+                courseVideos = res.videos || [];
+                document.getElementById('courseNameHeader').textContent = res.courseName || 'Khóa Học';
+                document.getElementById('courseCodeHeader').textContent = 'Mã: ' + courseCode + ' · ' + courseVideos.length + ' video';
+                renderLayout();
+            })
+            .withFailureHandler(function(e) { showError('Lỗi kết nối: ' + e); })
+            .getCourseVideos(courseCode);
+    });
+
+    // ==========================================
+    // RENDER LAYOUT
+    // ==========================================
+    function renderLayout() {
+        document.getElementById('mainLoading').style.display = 'none';
+
+        var wrapper = document.getElementById('cvWrapper');
+        wrapper.innerHTML = '';
+
+        // Playlist
+        var playlistEl = document.createElement('div');
+        playlistEl.className = 'cv-playlist';
+        playlistEl.id = 'cvPlaylist';
+        playlistEl.innerHTML = buildPlaylistHTML();
+        wrapper.appendChild(playlistEl);
+
+        // Player
+        var playerEl = document.createElement('div');
+        playerEl.className = 'cv-player';
+        playerEl.id = 'cvPlayer';
+        playerEl.innerHTML = [
+            '<div class="cv-player-top" id="playerTop">',
+            '  <div class="cv-player-placeholder"><i class="fa-solid fa-film"></i><p style="font-size:15px;">Chọn một video để bắt đầu</p></div>',
+            '</div>',
+            '<div class="cv-player-info" id="playerInfo">',
+            '  <div class="cv-current-title" id="currentTitle">Chọn video để xem</div>',
+            '  <div class="cv-current-meta" id="currentMeta"></div>',
+            '  <div class="cv-info-actions" id="playerActions">',
+            '    <button class="cv-btn cv-btn-success" id="btnMarkWatched" onclick="markCurrentWatched()" style="display:none;"><i class="fa-solid fa-check"></i> Đánh dấu đã xem</button>',
+            '    <button class="cv-btn cv-btn-outline" id="btnStar" onclick="toggleStarCurrent()" style="display:none;"><i class="fa-regular fa-star"></i> Yêu thích</button>',
+            '    <button class="cv-btn cv-btn-outline" onclick="toggleNotes()" id="btnNotes" style="display:none;"><i class="fa-solid fa-note-sticky"></i> Ghi chú</button>',
+            '    <button class="cv-btn cv-btn-outline" onclick="playNext()" id="btnNext" style="display:none;"><i class="fa-solid fa-forward-step"></i> Video tiếp theo</button>',
+            '  </div>',
+            '</div>',
+            '<div class="cv-notes-panel" id="notesPanel">',
+            '  <div class="cv-notes-label"><i class="fa-solid fa-note-sticky" style="color:#FFD23F;"></i> Ghi chú cho video này:</div>',
+            '  <textarea class="cv-notes-input" id="notesInput" placeholder="Ghi chú của bạn..." oninput="saveNote()"></textarea>',
+            '</div>'
+        ].join('');
+        wrapper.appendChild(playerEl);
+
+        // Auto play first video
+        if (courseVideos.length > 0) playVideo(0);
+    }
+
+    // ==========================================
+    // PLAYLIST HTML
+    // ==========================================
+    function buildPlaylistHTML() {
+        var watched = 0;
+        courseVideos.forEach(function(v) { if (watchHistory[v.videoId] && watchHistory[v.videoId].watched) watched++; });
+        var pct = courseVideos.length > 0 ? Math.round(watched / courseVideos.length * 100) : 0;
+
+        var html = '<div class="cv-playlist-header">';
+        html += '<div class="cv-playlist-title"><i class="fa-solid fa-list-video"></i> Danh sách bài học</div>';
+        html += '<div class="cv-progress-bar"><div class="cv-progress-fill" id="progressFill" style="width:' + pct + '%"></div></div>';
+        html += '<div class="cv-progress-text">Đã xem: <strong style="color:#10B981;">' + watched + '/' + courseVideos.length + '</strong> video — <strong style="color:#8E4DFF;">' + pct + '%</strong></div>';
+        html += '</div>';
+        html += '<div class="cv-playlist-body" id="playlistBody">';
+
+        // Nhóm theo chủ đề
+        var topicOrder = [];
+        var topicMap = {};
+        courseVideos.forEach(function(v, idx) {
+            var t = v.topic || 'Bài học';
+            if (!topicMap[t]) { topicMap[t] = []; topicOrder.push(t); }
+            topicMap[t].push({ video: v, idx: idx });
+        });
+
+        topicOrder.forEach(function(topic) {
+            html += '<div class="cv-topic-group">';
+            html += '<div class="cv-topic-label"><i class="fa-solid fa-folder-open"></i> ' + escHtml(topic) + '</div>';
+            topicMap[topic].forEach(function(item) {
+                var v = item.video;
+                var idx = item.idx;
+                var prog = watchHistory[v.videoId] || {};
+                var isActive = idx === currentVideoIndex;
+                var isWatched = prog.watched;
+                var isStarred = prog.starred;
+                var iconClass = isActive ? 'active-icon' : (isWatched ? 'watched' : 'unwatched');
+                var iconContent = isActive ? '<i class="fa-solid fa-play"></i>' : (isWatched ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-circle-dot"></i>');
+                html += '<div class="cv-playlist-item' + (isActive ? ' active' : '') + '" id="pitem-' + idx + '" onclick="playVideo(' + idx + ')">';
+                html += '<div class="cv-item-icon ' + iconClass + '">' + iconContent + '</div>';
+                html += '<div class="cv-item-info">';
+                html += '<div class="cv-item-name' + (isActive ? ' active' : '') + '">' + escHtml(v.name) + '</div>';
+                html += '<div class="cv-item-meta">' + (v.classLevel ? escHtml(v.classLevel) : '') + (v.duration ? ' · ' + escHtml(v.duration) : '') + (prog.lastTime ? ' · Xem lần cuối: ' + prog.lastTime : '') + '</div>';
+                html += '</div>';
+                html += '<span class="cv-item-star' + (isStarred ? ' starred' : '') + '" onclick="event.stopPropagation(); toggleStar(' + idx + ')" title="Đánh dấu yêu thích">';
+                html += isStarred ? '★' : '☆';
+                html += '</span>';
+                html += '</div>';
+            });
+            html += '</div>';
+        });
+
+        html += '</div>'; // playlist-body
+        return html;
+    }
+
+    function refreshPlaylist() {
+        var playlistEl = document.getElementById('cvPlaylist');
+        if (playlistEl) playlistEl.innerHTML = buildPlaylistHTML();
+    }
+
+    // ==========================================
+    // PLAY VIDEO
+    // ==========================================
+    function playVideo(idx) {
+        if (idx < 0 || idx >= courseVideos.length) return;
+        currentVideoIndex = idx;
+        var v = courseVideos[idx];
+
+        // Update player
+        var playerTop = document.getElementById('playerTop');
+        if (v.embedUrl) {
+            playerTop.innerHTML = '<iframe src="' + v.embedUrl + '" allowfullscreen allow="autoplay" title="' + escHtml(v.name) + '"></iframe>';
+        } else {
+            playerTop.innerHTML = '<div class="cv-player-placeholder"><i class="fa-solid fa-triangle-exclamation"></i><p>Không thể tải video này. Link Drive có thể bị lỗi.</p></div>';
+        }
+
+        // Update info panel
+        document.getElementById('currentTitle').textContent = v.name;
+        var metaArr = [];
+        if (v.classLevel) metaArr.push('<span><i class="fa-solid fa-school"></i>' + escHtml(v.classLevel) + '</span>');
+        if (v.topic) metaArr.push('<span><i class="fa-solid fa-book"></i>' + escHtml(v.topic) + '</span>');
+        if (v.lesson) metaArr.push('<span><i class="fa-solid fa-bookmark"></i>' + escHtml(v.lesson) + '</span>');
+        if (v.duration) metaArr.push('<span><i class="fa-regular fa-clock"></i>' + escHtml(v.duration) + '</span>');
+        document.getElementById('currentMeta').innerHTML = metaArr.join('');
+
+        // Update buttons visibility
+        document.getElementById('btnMarkWatched').style.display = '';
+        document.getElementById('btnStar').style.display = '';
+        document.getElementById('btnNotes').style.display = '';
+        document.getElementById('btnNext').style.display = idx < courseVideos.length - 1 ? '' : 'none';
+
+        // Update mark watched button
+        var prog = watchHistory[v.videoId] || {};
+        var btnMark = document.getElementById('btnMarkWatched');
+        btnMark.innerHTML = prog.watched
+            ? '<i class="fa-solid fa-check-double"></i> Đã xem ✓'
+            : '<i class="fa-solid fa-check"></i> Đánh dấu đã xem';
+        btnMark.className = prog.watched ? 'cv-btn cv-btn-success' : 'cv-btn cv-btn-outline';
+
+        // Update star button
+        var btnStar = document.getElementById('btnStar');
+        btnStar.innerHTML = prog.starred
+            ? '<i class="fa-solid fa-star" style="color:#FFD23F;"></i> Yêu thích'
+            : '<i class="fa-regular fa-star"></i> Yêu thích';
+
+        // Update notes
+        var notesInput = document.getElementById('notesInput');
+        if (notesInput) notesInput.value = prog.note || '';
+
+        // Ghi thời gian xem gần nhất
+        if (!watchHistory[v.videoId]) watchHistory[v.videoId] = {};
+        watchHistory[v.videoId].lastTime = formatTime(new Date());
+        saveProgress();
+
+        // Refresh playlist (active state)
+        refreshPlaylist();
+
+        // Scroll playlist item vào view
+        setTimeout(function() {
+            var pitem = document.getElementById('pitem-' + idx);
+            if (pitem) pitem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+
+    // ==========================================
+    // ACTIONS
+    // ==========================================
+    function markCurrentWatched() {
+        if (currentVideoIndex < 0) return;
+        var v = courseVideos[currentVideoIndex];
+        if (!watchHistory[v.videoId]) watchHistory[v.videoId] = {};
+        watchHistory[v.videoId].watched = !watchHistory[v.videoId].watched;
+        saveProgress();
+        playVideo(currentVideoIndex); // Re-render
+    }
+
+    function toggleStarCurrent() {
+        if (currentVideoIndex < 0) return;
+        toggleStar(currentVideoIndex);
+        // Re-render button
+        var v = courseVideos[currentVideoIndex];
+        var prog = watchHistory[v.videoId] || {};
+        var btnStar = document.getElementById('btnStar');
+        btnStar.innerHTML = prog.starred
+            ? '<i class="fa-solid fa-star" style="color:#FFD23F;"></i> Yêu thích'
+            : '<i class="fa-regular fa-star"></i> Yêu thích';
+    }
+
+    function toggleStar(idx) {
+        var v = courseVideos[idx];
+        if (!watchHistory[v.videoId]) watchHistory[v.videoId] = {};
+        watchHistory[v.videoId].starred = !watchHistory[v.videoId].starred;
+        saveProgress();
+        refreshPlaylist();
+    }
+
+    function toggleNotes() {
+        var panel = document.getElementById('notesPanel');
+        notesOpen = !notesOpen;
+        panel.classList.toggle('open', notesOpen);
+    }
+
+    function saveNote() {
+        if (currentVideoIndex < 0) return;
+        var v = courseVideos[currentVideoIndex];
+        if (!watchHistory[v.videoId]) watchHistory[v.videoId] = {};
+        watchHistory[v.videoId].note = document.getElementById('notesInput').value;
+        saveProgress();
+    }
+
+    function playNext() {
+        if (currentVideoIndex < courseVideos.length - 1) playVideo(currentVideoIndex + 1);
+    }
+
+    // ==========================================
+    // PERSISTENCE
+    // ==========================================
+    function saveProgress() {
+        try { localStorage.setItem('cv_progress_' + courseCode, JSON.stringify(watchHistory)); } catch(e) {}
+    }
+
+    // ==========================================
+    // UTILITIES
+    // ==========================================
+    function showError(msg) {
+        var wrapper = document.getElementById('cvWrapper');
+        if (wrapper) wrapper.innerHTML = '<div class="cv-loading"><i class="fa-solid fa-triangle-exclamation" style="font-size:48px; color:#EF4444;"></i><p style="color:#FCA5A5;">' + msg + '</p><a href="parent-login.html" style="color:#8E4DFF; font-size:14px; font-weight:700;">← Quay lại đăng nhập</a></div>';
+        var loading = document.getElementById('mainLoading');
+        if (loading) loading.style.display = 'none';
+    }
+
+    function formatTime(d) {
+        return d.toLocaleDateString('vi-VN') + ' ' + d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    </script>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <a href="tel:0824231314" class="fab-btn fab-phone" data-tooltip="Gọi Hotline"><i class="fa-solid fa-phone"></i></a>
+        <a href="https://zalo.me/0824231314" target="_blank" class="fab-btn fab-zalo" data-tooltip="Nhắn Zalo"><b style="font-family:Arial,sans-serif;font-size:17px;font-weight:800;letter-spacing:0.5px;">Zalo</b></a>
+    </div>
+</body>
+</html>

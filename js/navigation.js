@@ -23,7 +23,7 @@ function xuLyTraCuu(roleType) {
     var maHocSinh = document.getElementById('maHocSinh').value;
     
     if (!maHocSinh || maHocSinh.trim() === '') {
-        showError('Vui lòng nhập Số điện thoại hoặc Mã học sinh!');
+        showError('Vui lòng nhập Số điện thoại hoặc Mã khóa học!');
         return;
     }
 
@@ -36,7 +36,37 @@ function xuLyTraCuu(roleType) {
     if (btn) btn.disabled = true;
 
     globalInputPhone = maHocSinh.trim();
+    var cleanCode = globalInputPhone.toUpperCase();
 
+    // Bước 1: Nếu có dạng KH-... → kiểm tra mã khóa học trước
+    if (cleanCode.startsWith('KH-')) {
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (btn) btn.disabled = false;
+
+                if (!res) { showError('Lỗi không xác định.'); return; }
+                if (!res.success) { showError(res.message || 'Mã không hợp lệ.'); return; }
+
+                if (res.type === 'course') {
+                    // Lưu mã vào sessionStorage rồi chuyển sang trang xem
+                    sessionStorage.setItem('courseCode', res.courseCode);
+                    sessionStorage.setItem('courseName', res.courseName || '');
+                    window.location.href = 'course-viewer.html';
+                } else {
+                    showError('Mã không hợp lệ.');
+                }
+            })
+            .withFailureHandler(function(err) {
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (btn) btn.disabled = false;
+                showError('Lỗi kết nối server: ' + err);
+            })
+            .checkLoginCode(globalInputPhone);
+        return;
+    }
+
+    // Bước 2: Không phải mã KH → đăng nhập thông thường (SĐT)
     google.script.run
         .withSuccessHandler(function(res) {
             if (loadingEl) loadingEl.style.display = 'none';
@@ -54,16 +84,17 @@ function xuLyTraCuu(roleType) {
                     dangNhapThanhCong(res.data, globalRole);
                 }
             } else {
-                showError("Đăng nhập thất bại. Vai trò không hợp lệ.");
+                showError('Đăng nhập thất bại. Vai trò không hợp lệ.');
             }
         })
         .withFailureHandler(function(err) {
             if (loadingEl) loadingEl.style.display = 'none';
             if (btn) btn.disabled = false;
-            showError("Lỗi kết nối server: " + err);
+            showError('Lỗi kết nối server: ' + err);
         })
-        .loginSystem(globalInputPhone, "", null); // pin rỗng, childName null
+        .loginSystem(globalInputPhone, '', null);
 }
+
 
 function hienThiChonCon(childrenList) {
     var modal = document.getElementById('childSelectorModal');

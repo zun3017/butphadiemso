@@ -1005,9 +1005,15 @@
                     <option value="Tiếng Anh">Tiếng Anh</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Lịch học cố định hàng tuần</label>
-                <input type="text" id="newClassSchedule" class="form-control" placeholder="Ví dụ: Thứ 2 & Thứ 5 (18:00 - 20:00)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                <div>
+                    <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">THỨ TRONG TUẦN</label>
+                    <input type="text" id="newClassDays" class="form-control" placeholder="Ví dụ: Thứ 2 & Thứ 5" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                </div>
+                <div>
+                    <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">KHUNG GIỜ HỌC</label>
+                    <input type="text" id="newClassTime" class="form-control" placeholder="Ví dụ: 14h30 - 15h30" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                </div>
             </div>
             <div class="form-group">
                 <label>Hình thức thu học phí</label>
@@ -1083,9 +1089,15 @@
                     <option value="Tiếng Anh">Tiếng Anh</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Lịch học cố định</label>
-                <input type="text" id="editClassSchedule" class="form-control">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                <div>
+                    <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">THỨ TRONG TUẦN</label>
+                    <input type="text" id="editClassDays" class="form-control" placeholder="Ví dụ: Thứ 2 & Thứ 5" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                </div>
+                <div>
+                    <label style="display: block; color: #A6ADCE; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px;">KHUNG GIỜ HỌC</label>
+                    <input type="text" id="editClassTime" class="form-control" placeholder="Ví dụ: 14h30 - 15h30" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 15px; color: #FFF; font-size: 14px; width: 100%; outline: none;">
+                </div>
             </div>
             <div class="form-group">
                 <label>Hình thức thu học phí mặc định của lớp</label>
@@ -2025,7 +2037,9 @@
         function saveNewClass(btn) {
             var name = document.getElementById("newClassName").value.trim();
             var subject = document.getElementById("newClassSubject").value.trim();
-            var schedule = document.getElementById("newClassSchedule").value.trim();
+            var days = document.getElementById("newClassDays") ? document.getElementById("newClassDays").value.trim() : "";
+            var time = document.getElementById("newClassTime") ? document.getElementById("newClassTime").value.trim() : "";
+            var schedule = (days && time) ? (days + " (" + time + ")") : (days || time || "Chưa cập nhật");
             var feeType = document.getElementById("newClassFeeType").value;
             var fee = document.getElementById("newClassMonthlyFee") ? document.getElementById("newClassMonthlyFee").value.trim() : "";
 
@@ -2084,7 +2098,8 @@
             closeModal("addClassModal");
             document.getElementById("newClassName").value = "";
             document.getElementById("newClassSubject").value = "";
-            document.getElementById("newClassSchedule").value = "";
+            if (document.getElementById("newClassDays")) document.getElementById("newClassDays").value = "";
+            if (document.getElementById("newClassTime")) document.getElementById("newClassTime").value = "";
             document.getElementById("newClassMonthlyFee").value = "";
             document.getElementById("newClassMonthlyFeeGroup").style.display = "block";
 
@@ -2125,7 +2140,17 @@
             }
             document.getElementById("editClassName").value = cls.className;
             document.getElementById("editClassSubject").value = cls.subject || "";
-            document.getElementById("editClassSchedule").value = cls.schedule || "";
+            var sched = cls.schedule || "";
+            var days = sched;
+            var time = "";
+            if (sched.indexOf("(") !== -1 && sched.indexOf(")") !== -1) {
+                var p1 = sched.indexOf("(");
+                var p2 = sched.indexOf(")");
+                days = sched.substring(0, p1).trim();
+                time = sched.substring(p1 + 1, p2).trim();
+            }
+            if (document.getElementById("editClassDays")) document.getElementById("editClassDays").value = days;
+            if (document.getElementById("editClassTime")) document.getElementById("editClassTime").value = time;
             document.getElementById("editClassFeeType").value = cls.feeType || "per_session";
             
             var feeGroup = document.getElementById("editClassMonthlyFeeGroup");
@@ -2149,7 +2174,9 @@
             if (!cls) return;
             var name = document.getElementById("editClassName").value.trim();
             var subject = document.getElementById("editClassSubject").value.trim();
-            var schedule = document.getElementById("editClassSchedule").value.trim();
+            var days = document.getElementById("editClassDays") ? document.getElementById("editClassDays").value.trim() : "";
+            var time = document.getElementById("editClassTime") ? document.getElementById("editClassTime").value.trim() : "";
+            var schedule = (days && time) ? (days + " (" + time + ")") : (days || time || "Chưa cập nhật");
             var feeType = document.getElementById("editClassFeeType").value;
             var fee = document.getElementById("editClassMonthlyFee") ? document.getElementById("editClassMonthlyFee").value.trim() : "";
 

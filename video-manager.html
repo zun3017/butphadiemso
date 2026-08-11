@@ -386,6 +386,8 @@
     var currentFilterClass = '';
     var currentFilterTopic = '';
     var currentFilterLesson = '';
+    var allCoursesList = [];
+    var allCoursesMap = {};
 
     // ==========================================
     // INIT
@@ -750,6 +752,35 @@
         }
     }
 
+    function renderCourseHistoryTable() {
+        var tbody = document.getElementById('courseHistoryBody');
+        if (!allCoursesList || allCoursesList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">📭 Chưa có mã khóa học nào được tạo</td></tr>';
+            return;
+        }
+        var html = '';
+        allCoursesList.forEach(function(c) {
+            var statusHtml = c.status === 'active'
+                ? '<span class="vm-status-active">✅ Đang hoạt động</span>'
+                : '<span class="vm-status-locked">🔒 Đã khóa</span>';
+            var toggleLabel = c.status === 'active' ? '🔒 Khóa' : '🔓 Mở';
+            html += '<tr>';
+            html += '<td><strong style="color:#FFD23F; font-size:15px; letter-spacing:1px;">' + c.courseCode + '</strong></td>';
+            html += '<td>' + escHtml(c.courseName) + '</td>';
+            html += '<td style="color:#A6ADCE;">' + escHtml(c.studentNote || '—') + '</td>';
+            html += '<td><span style="color:#8E4DFF; font-weight:700;">' + c.videoCount + '</span> video</td>';
+            html += '<td style="color:#A6ADCE; font-size:12.5px;">' + formatDateDisplay(c.createdAt) + '</td>';
+            html += '<td>' + statusHtml + '</td>';
+            html += '<td><div style="display:flex; gap:6px; flex-wrap:wrap;">';
+            html += '<button class="vm-btn vm-btn-primary vm-btn-sm" onclick="openEditCourseModal(\'' + c.courseCode + '\')"><i class="fa-solid fa-pen-to-square"></i> Sửa / Bớt Video</button>';
+            html += '<button class="vm-btn vm-btn-outline vm-btn-sm" onclick="toggleCourse(\'' + c.courseCode + '\')">' + toggleLabel + '</button>';
+            html += '<button class="vm-btn vm-btn-danger vm-btn-sm" onclick="deleteCourseCode(\'' + c.courseCode + '\')"><i class="fa-solid fa-trash"></i> Xóa mã</button>';
+            html += '</div></td>';
+            html += '</tr>';
+        });
+        tbody.innerHTML = html;
+    }
+
     function loadCourseList() {
         var tbody = document.getElementById('courseHistoryBody');
         tbody.innerHTML = '<tr><td colspan="7" class="vm-loading"><div class="spinner"></div></td></tr>';
@@ -762,34 +793,12 @@
                     tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">⚠️ ' + (res ? res.message : 'Lỗi tải') + '</td></tr>';
                     return;
                 }
-                var courses = res.courses || [];
+                allCoursesList = res.courses || [];
                 allCoursesMap = {};
-                if (courses.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">📭 Chưa có mã khóa học nào được tạo</td></tr>';
-                    return;
-                }
-                var html = '';
-                courses.forEach(function(c) {
+                allCoursesList.forEach(function(c) {
                     allCoursesMap[c.courseCode] = c;
-                    var statusHtml = c.status === 'active'
-                        ? '<span class="vm-status-active">✅ Đang hoạt động</span>'
-                        : '<span class="vm-status-locked">🔒 Đã khóa</span>';
-                    var toggleLabel = c.status === 'active' ? '🔒 Khóa' : '🔓 Mở';
-                    html += '<tr>';
-                    html += '<td><strong style="color:#FFD23F; font-size:15px; letter-spacing:1px;">' + c.courseCode + '</strong></td>';
-                    html += '<td>' + escHtml(c.courseName) + '</td>';
-                    html += '<td style="color:#A6ADCE;">' + escHtml(c.studentNote || '—') + '</td>';
-                    html += '<td><span style="color:#8E4DFF; font-weight:700;">' + c.videoCount + '</span> video</td>';
-                    html += '<td style="color:#A6ADCE; font-size:12.5px;">' + formatDateDisplay(c.createdAt) + '</td>';
-                    html += '<td>' + statusHtml + '</td>';
-                    html += '<td><div style="display:flex; gap:6px; flex-wrap:wrap;">';
-                    html += '<button class="vm-btn vm-btn-primary vm-btn-sm" onclick="openEditCourseModal(\'' + c.courseCode + '\')"><i class="fa-solid fa-pen-to-square"></i> Sửa / Bớt Video</button>';
-                    html += '<button class="vm-btn vm-btn-outline vm-btn-sm" onclick="toggleCourse(\'' + c.courseCode + '\')">' + toggleLabel + '</button>';
-                    html += '<button class="vm-btn vm-btn-danger vm-btn-sm" onclick="deleteCourseCode(\'' + c.courseCode + '\')"><i class="fa-solid fa-trash"></i> Xóa mã</button>';
-                    html += '</div></td>';
-                    html += '</tr>';
                 });
-                tbody.innerHTML = html;
+                renderCourseHistoryTable();
             })
             .withFailureHandler(function(e) {
                 tbody.innerHTML = '<tr><td colspan="7" class="vm-empty">❌ Lỗi kết nối: ' + e + '</td></tr>';
@@ -862,24 +871,56 @@
 
     function toggleCourse(code) {
         showCustomConfirm('Bạn muốn thay đổi trạng thái mã "' + code + '"?', function() {
+            // Optimistic UI Update
+            var c = allCoursesMap[code];
+            if (c) {
+                c.status = (c.status === 'active') ? 'locked' : 'active';
+                renderCourseHistoryTable(); // Render lại ngay lập tức
+            }
+
             google.script.run
                 .withSuccessHandler(function(res) {
-                    if (res && res.success) { loadCourseList(); }
-                    else { showCustomAlert('Lỗi: ' + (res ? res.message : '')); }
+                    if (!res || !res.success) {
+                        // Rollback nếu thất bại
+                        if (c) { c.status = (c.status === 'active') ? 'locked' : 'active'; renderCourseHistoryTable(); }
+                        showCustomAlert('Lỗi: ' + (res ? res.message : ''));
+                    }
+                    // Nếu thành công thì không làm gì thêm vì UI đã cập nhật
                 })
-                .withFailureHandler(function(e) { showCustomAlert('Lỗi: ' + e); })
+                .withFailureHandler(function(e) {
+                    // Rollback nếu thất bại
+                    if (c) { c.status = (c.status === 'active') ? 'locked' : 'active'; renderCourseHistoryTable(); }
+                    showCustomAlert('Lỗi kết nối: ' + e); 
+                })
                 .toggleCourseStatus(code);
         });
     }
 
     function deleteCourseCode(code) {
         showCustomConfirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN mã khóa học "' + code + '"?\nHọc sinh sẽ không còn dùng mã này để xem video được nữa.', function() {
+            // Optimistic UI Update cho Xóa
+            var idx = allCoursesList.findIndex(function(x) { return x.courseCode === code; });
+            var deletedCourse = null;
+            if (idx !== -1) {
+                deletedCourse = allCoursesList[idx];
+                allCoursesList.splice(idx, 1);
+                delete allCoursesMap[code];
+                renderCourseHistoryTable();
+            }
+
             google.script.run
                 .withSuccessHandler(function(res) {
-                    if (res && res.success) { loadCourseList(); }
-                    else { showCustomAlert('Lỗi xóa mã: ' + (res ? res.message : '')); }
+                    if (!res || !res.success) {
+                        // Rollback
+                        if (deletedCourse) { allCoursesList.splice(idx, 0, deletedCourse); allCoursesMap[code] = deletedCourse; renderCourseHistoryTable(); }
+                        showCustomAlert('Lỗi xóa mã: ' + (res ? res.message : ''));
+                    }
                 })
-                .withFailureHandler(function(e) { showCustomAlert('Lỗi: ' + e); })
+                .withFailureHandler(function(e) {
+                    // Rollback
+                    if (deletedCourse) { allCoursesList.splice(idx, 0, deletedCourse); allCoursesMap[code] = deletedCourse; renderCourseHistoryTable(); }
+                    showCustomAlert('Lỗi: ' + e); 
+                })
                 .deleteCourse(code);
         });
     }

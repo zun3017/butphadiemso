@@ -2332,7 +2332,7 @@
             // Chá»‰ báº¯t buá»™c nháº­p há»c phÃ­ náº¿u lá»›p thu theo buá»•i
             var cls = currentClasses[activeClassIndex];
             var classFeeType = cls ? (cls.feeType || "per_session") : "per_session";
-            if (classFeeType !== "monthly" && !fee) {
+            if (classFeeType !== "monthly" && feeType !== "" && feeType !== "monthly" && !fee) {
                 showToast("Vui lÃ²ng nháº­p há»c phÃ­ (VNÄ) cho há»c sinh!", "error");
                 return;
             }

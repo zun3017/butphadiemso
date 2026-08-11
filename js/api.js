@@ -57,42 +57,54 @@ if (typeof google === 'undefined' || typeof google.script === 'undefined' || typ
                 return;
             }
             
-            fetch(urlToUse, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8'
-                },
-                body: JSON.stringify({
-                    functionName: functionName,
-                    arguments: args
+            const maxRetries = 2;
+            const self = this;
+            
+            function doFetch(retriesLeft) {
+                fetch(urlToUse, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        functionName: functionName,
+                        arguments: args
+                    })
                 })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Lỗi phản hồi HTTP server: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    if (this._failureHandler) {
-                        this._failureHandler(data.error);
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Lỗi phản hồi HTTP server: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        if (self._failureHandler) {
+                            self._failureHandler(data.error);
+                        } else {
+                            console.error("API Server Error:", data.error);
+                        }
                     } else {
-                        console.error("API Server Error:", data.error);
+                        if (self._successHandler) {
+                            self._successHandler(data.result);
+                        }
                     }
-                } else {
-                    if (this._successHandler) {
-                        this._successHandler(data.result);
+                })
+                .catch(err => {
+                    if (retriesLeft > 0) {
+                        console.warn(`Lỗi kết nối API (${functionName}). Thử lại lần nữa... (${retriesLeft} lần thử còn lại)`);
+                        setTimeout(() => doFetch(retriesLeft - 1), 1500); // Đợi 1.5s trước khi thử lại
+                    } else {
+                        console.error("API Call Exception (Đã hết số lần thử):", err);
+                        if (self._failureHandler) {
+                            self._failureHandler(err.toString());
+                        }
                     }
-                }
-            })
-            .catch(err => {
-                console.error("API Call Exception:", err);
-                if (this._failureHandler) {
-                    this._failureHandler(err.toString());
-                }
-            });
+                });
+            }
+            
+            doFetch(maxRetries);
         }
     }
 

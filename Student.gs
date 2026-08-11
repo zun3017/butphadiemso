@@ -203,7 +203,9 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
         ""                   // Nhận xét Giáo viên
       ]);
       
-      clearHomeworkPortalCache(ma);
+      if (typeof clearHomeworkPortalCache === 'function') {
+        try { clearHomeworkPortalCache(ma); } catch(e) {}
+      }
       
       return {
         success: true,

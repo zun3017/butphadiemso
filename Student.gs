@@ -242,7 +242,7 @@ function editHomeworkFile(rowIndex, lessonName, fileBase64OrList, fileName, mime
     }
     
     var studentName = data[r - 1][4];
-    var oldUrl = data[r - 1][6];
+    var oldUrl = data[r - 1][8];
     
     sheetSub.getRange(r, 2).setValue(lessonName);
     var fileUrl = oldUrl;
@@ -339,7 +339,7 @@ function editHomeworkFile(rowIndex, lessonName, fileBase64OrList, fileName, mime
         fileUrl = zipFile.getUrl();
       }
       
-      sheetSub.getRange(r, 7).setValue(fileUrl);
+      sheetSub.getRange(r, 9).setValue(fileUrl);
     }
     
     SpreadsheetApp.flush();
@@ -545,19 +545,37 @@ function xacThucMaBaiTap(ma) {
       if (sheetSub) {
         var dataSub = sheetSub.getDataRange().getDisplayValues();
         for (var j = 1; j < dataSub.length; j++) {
-          if (dataSub[j].length >= 9 && dataSub[j][4] === studentId) {  // Fix: index 4 = Mã học sinh
-            var hwIdVal = dataSub[j][1]; // index 1 = Mã bài tập (hwId)
+          var rowData = dataSub[j];
+          if (!rowData || rowData.length < 4) continue;
+          
+          var subStudentId = String(rowData[3] || "").trim();    // Index 3 = Mã học sinh (Cột D)
+          var subStudentName = String(rowData[4] || "").trim();  // Index 4 = Tên học sinh (Cột E)
+          var subParentPhone = String(rowData[5] || "").trim();  // Index 5 = SĐT Phụ huynh (Cột F)
+
+          var isSubMatch = false;
+          if (studentId && subStudentId === String(studentId).trim()) isSubMatch = true;
+          if (!isSubMatch && studentName && subStudentName.toLowerCase() === String(studentName).trim().toLowerCase()) isSubMatch = true;
+          if (!isSubMatch && parentPhone && subParentPhone === String(parentPhone).trim()) isSubMatch = true;
+          if (!isSubMatch && cleanMa) {
+            var normCleanMa = normalizePhone(cleanMa);
+            if (normCleanMa !== "" && (normalizePhone(subStudentId) === normCleanMa || normalizePhone(subParentPhone) === normCleanMa)) {
+              isSubMatch = true;
+            }
+          }
+
+          if (isSubMatch) {
+            var hwIdVal = rowData[1]; // Index 1 = Mã bài tập (Cột B)
             submissions.push({
-              subId:          dataSub[j][0] || "",
+              subId:          rowData[0] || "",
               hwId:           hwIdVal,
-              timestamp:      dataSub[j][7] || "",  // Fix: index 7 = Thời gian nộp
-              studentName:    dataSub[j][5] || "",  // Fix: index 5 = Tên học sinh
+              timestamp:      rowData[7] || "",  // Index 7 = Thời gian nộp (Cột H)
+              studentName:    subStudentName,
               lessonName:     hwTitleMap[hwIdVal] || hwIdVal || "Bài tập lớp học",
-              fileUrl:        dataSub[j][8] || "",  // Fix: index 8 = File URL
-              score:          dataSub[j][9] || "",  // index 9 = Điểm số
-              comment:        dataSub[j][10] || "", // index 10 = Nhận xét GV
+              fileUrl:        rowData[8] || "",  // Index 8 = File URL (Cột I)
+              score:          rowData[9] || "",  // Index 9 = Điểm số (Cột J)
+              comment:        rowData[10] || "", // Index 10 = Nhận xét (Cột K)
               ma:             cleanMa,
-              submissionDate: dataSub[j][7] ? dataSub[j][7].split(" ")[0] : "",  // Fix: từ timestamp
+              submissionDate: rowData[7] ? rowData[7].split(" ")[0] : "",
               status:         "Active",
               rowIndex:       j + 1
             });

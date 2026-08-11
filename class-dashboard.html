@@ -1105,7 +1105,7 @@
                     <option value="monthly">🟣 Trọn gói theo tháng (Học phí cố định/tháng)</option>
                 </select>
             </div>
-            <div class="form-group" id="editClassMonthlyFeeGroup" style="display:none;">
+            <div class="form-group" id="editClassMonthlyFeeGroup" style="display:block;">
                 <label>💰 Học phí cố định theo tháng (VNĐ)</label>
                 <input type="number" id="editClassMonthlyFee" class="form-control" placeholder="Ví dụ: 1500000" min="0" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
                 <small style="color:#A6ADCE; font-size:12px; margin-top:4px; display:block;">Số tiền thu cố định mỗi tháng, không phụ thuộc số buổi học.</small>
@@ -2138,6 +2138,13 @@
             document.getElementById("editClassSubject").value = cls.subject || "";
             document.getElementById("editClassSchedule").value = cls.schedule || "";
             document.getElementById("editClassFeeType").value = cls.feeType || "per_session";
+            
+            var feeGroup = document.getElementById("editClassMonthlyFeeGroup");
+            if (feeGroup) feeGroup.style.display = "block";
+            
+            var feeInput = document.getElementById("editClassMonthlyFee");
+            if (feeInput) feeInput.value = cls.fee || "";
+
             openModal("editClassModal");
         }
 
@@ -2155,6 +2162,7 @@
             var subject = document.getElementById("editClassSubject").value.trim();
             var schedule = document.getElementById("editClassSchedule").value.trim();
             var feeType = document.getElementById("editClassFeeType").value;
+            var fee = document.getElementById("editClassMonthlyFee") ? document.getElementById("editClassMonthlyFee").value.trim() : "";
 
             if (!name) { showToast("Vui lòng nhập tên lớp!", "error"); return; }
 
@@ -2162,13 +2170,16 @@
             cls.subject = subject;
             cls.schedule = schedule;
             cls.feeType = feeType;
+            cls.fee = fee;
 
             showSyncToast('pending');
-            google.script.run.withSuccessHandler(function() { showSyncToast('success'); }).updateClassInfo(cls.classId, name, subject, schedule, feeType);
+            google.script.run.withSuccessHandler(function() {
+                showSyncToast('success');
+                loadStudentsForActiveClass();
+            }).updateClassInfo(cls.classId, name, subject, schedule, feeType, fee);
             closeModal("editClassModal");
             selectClass(activeClassIndex);
         }
-
         function deleteClass(classId) {
             var cls = currentClasses.find(function(c) { return c.classId === classId; });
             if (!cls) return;

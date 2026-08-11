@@ -5,7 +5,7 @@
  */
 const SCRIPT_URL = (typeof window.APP_CONFIG !== 'undefined' && window.APP_CONFIG.SCRIPT_URL)
     ? window.APP_CONFIG.SCRIPT_URL 
-    : 'https://script.google.com/macros/s/AKfycbwdm-2eycYmtF0YkHKP0ixBh6ix121_rggF4gJ_3z0YwZ7x4tQsoB5UdFMlTBauWY7A/exec';
+    : 'https://script.google.com/macros/s/AKfycbyEMBJsr3dxa01bM-GLQxPRwUgJQXZ4_KFQ0fC_dw08-GTYAGD9oEijEFZaDMv6Yr-p/exec';
 
 // Hàng chờ Request FIFO để đảm bảo các thao tác ghi dữ liệu liên tục không bị đè đụng độ
 const apiQueue = [];

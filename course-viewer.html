@@ -386,9 +386,16 @@
 
                     document.getElementById('cvNav').style.display = '';
                     document.getElementById('cvBody').style.display = '';
+                    
+                    // Auto-resume from last accessed video position
+                    var startIdx = 0;
+                    if (typeof watchHistory._lastVideoIndex === 'number' && watchHistory._lastVideoIndex >= 0 && watchHistory._lastVideoIndex < courseVideos.length) {
+                        startIdx = watchHistory._lastVideoIndex;
+                    }
+                    
                     renderSidebar();
                     updateProgressBar();
-                    playVideo(0);
+                    playVideo(startIdx);
                 } catch(err) {
                     showError('Lỗi hiển thị: ' + err.message);
                 }
@@ -404,6 +411,13 @@
         if (idx < 0 || idx >= courseVideos.length) return;
         currentIdx = idx;
         var v = courseVideos[idx];
+
+        // AUTO-MARK AS WATCHED & SAVE LAST ACCESSED POSITION
+        if (!watchHistory[v.videoId]) watchHistory[v.videoId] = {};
+        watchHistory[v.videoId].watched = true;
+        watchHistory[v.videoId].lastTime = fmtTime(new Date());
+        watchHistory._lastVideoIndex = idx;
+        saveProgress();
 
         // Update player
         var wrap = document.getElementById('playerWrap');
@@ -424,8 +438,11 @@
         document.getElementById('videoNav').style.display = '';
         document.getElementById('infoTitle').textContent = v.name;
 
-        // Tags
+        // Tags (shows auto-watched & last seen timestamp)
+        var prog = watchHistory[v.videoId] || {};
         var tags = '';
+        tags += '<span class="cv-tag cv-tag-green"><i class="fa-solid fa-circle-check"></i> Đã tự động tính xem (' + (idx + 1) + '/' + courseVideos.length + ')</span>';
+        if (prog.lastTime) tags += '<span class="cv-tag cv-tag-purple"><i class="fa-solid fa-clock-rotate-left"></i> Xem lần cuối: ' + esc(prog.lastTime) + '</span>';
         if (v.classLevel) tags += '<span class="cv-tag cv-tag-purple"><i class="fa-solid fa-school"></i> ' + esc(v.classLevel) + '</span>';
         if (v.topic)      tags += '<span class="cv-tag cv-tag-green"><i class="fa-solid fa-book-open"></i> ' + esc(v.topic) + '</span>';
         if (v.lesson)     tags += '<span class="cv-tag cv-tag-amber"><i class="fa-solid fa-bookmark"></i> ' + esc(v.lesson) + '</span>';
@@ -433,16 +450,10 @@
         document.getElementById('infoTags').innerHTML = tags;
 
         // Buttons state
-        var prog = watchHistory[v.videoId] || {};
         refreshActionBtns(prog);
 
         // Notes
         document.getElementById('notesInput').value = prog.note || '';
-
-        // Track last seen
-        if (!watchHistory[v.videoId]) watchHistory[v.videoId] = {};
-        watchHistory[v.videoId].lastTime = fmtTime(new Date());
-        saveProgress();
 
         // Sidebar & navbar
         renderSidebar();
@@ -562,11 +573,12 @@
                 var iconClass = isActive ? 'playing' : (prog.watched ? 'watched' : 'unwatched');
                 var iconHtml = isActive ? '<i class="fa-solid fa-play"></i>' : (prog.watched ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-regular fa-circle"></i>');
                 var starClass = prog.starred ? 'cv-lesson-star starred' : 'cv-lesson-star';
+                var activeBadge = isActive ? ' <span style="background:rgba(124,58,237,0.35); color:#DDD6FE; font-size:10.5px; padding:1px 6px; border-radius:4px; font-weight:700; border:1px solid rgba(124,58,237,0.5);">📌 ĐANG XEM</span>' : '';
                 html += '<div class="cv-lesson ' + (isActive ? 'active' : '') + '" id="sitem-' + i + '" onclick="playVideo(' + i + ')">';
                 html += '<div class="cv-lesson-icon ' + iconClass + '">' + iconHtml + '</div>';
                 html += '<div class="cv-lesson-content">';
-                html += '<div class="cv-lesson-name">' + esc(v.name) + '</div>';
-                html += '<div class="cv-lesson-meta">' + (v.duration || '') + (prog.lastTime ? (v.duration ? ' · ' : '') + 'Xem lần cuối: ' + prog.lastTime : '') + '</div>';
+                html += '<div class="cv-lesson-name">' + esc(v.name) + activeBadge + '</div>';
+                html += '<div class="cv-lesson-meta">' + (v.duration || '') + (prog.lastTime ? (v.duration ? ' · ' : '') + 'Lần cuối: ' + prog.lastTime : '') + '</div>';
                 html += '</div>';
                 html += '<span class="' + starClass + '" onclick="event.stopPropagation(); toggleStarAt(' + i + ')">★</span>';
                 html += '</div>';

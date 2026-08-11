@@ -49,10 +49,12 @@ function xuLyTraCuu(roleType) {
                 if (!res.success) { showError(res.message || 'Mã không hợp lệ.'); return; }
 
                 if (res.type === 'course') {
-                    // Lưu mã vào sessionStorage rồi chuyển sang trang xem
+                    // Lưu mã vào cả sessionStorage và localStorage để không bị văng phiên
                     sessionStorage.setItem('courseCode', res.courseCode);
                     sessionStorage.setItem('courseName', res.courseName || '');
-                    window.location.href = 'course-viewer.html';
+                    localStorage.setItem('courseCode', res.courseCode);
+                    localStorage.setItem('courseName', res.courseName || '');
+                    window.location.href = 'course-viewer.html?code=' + encodeURIComponent(res.courseCode);
                 } else {
                     showError('Mã không hợp lệ.');
                 }

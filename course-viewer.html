@@ -353,8 +353,19 @@
     // INIT
     // ==========================================
     document.addEventListener('DOMContentLoaded', function() {
-        courseCode = sessionStorage.getItem('courseCode') || '';
-        if (!courseCode) { showError('Không tìm thấy mã khóa học. Vui lòng đăng nhập lại.'); return; }
+        // Đọc mã khóa học từ URL param, sessionStorage hoặc localStorage
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlCode = urlParams.get('code');
+        courseCode = (urlCode ? urlCode.trim().toUpperCase() : '') || sessionStorage.getItem('courseCode') || localStorage.getItem('courseCode') || '';
+        
+        if (!courseCode) { 
+            showError('Không tìm thấy mã khóa học. Vui lòng đăng nhập lại.'); 
+            return; 
+        }
+
+        // Đồng bộ giữ phiên đăng nhập lâu dài
+        sessionStorage.setItem('courseCode', courseCode);
+        localStorage.setItem('courseCode', courseCode);
 
         // Load saved progress
         try {

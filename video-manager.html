@@ -660,16 +660,17 @@
     // DELETE VIDEO
     // ==========================================
     function confirmDeleteVideo(videoId, name) {
-        if (!confirm('Xóa video "' + name + '" khỏi hệ thống?\n(Chỉ xóa khỏi danh sách, không xóa file trên Drive)')) return;
-        google.script.run
-            .withSuccessHandler(function(res) {
-                if (res && res.success) {
-                    selectedIds.delete(videoId);
-                    loadVideoList(); loadFilterOptions();
-                } else { alert('❌ ' + (res ? res.message : 'Lỗi xóa')); }
-            })
-            .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
-            .deleteVideo(videoId);
+        showCustomConfirm('Xóa video "' + name + '" khỏi hệ thống?\n(Chỉ xóa khỏi danh sách, không xóa file trên Drive)', function() {
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        selectedIds.delete(videoId);
+                        loadVideoList(); loadFilterOptions();
+                    } else { showCustomAlert('Lỗi xóa: ' + (res ? res.message : '')); }
+                })
+                .withFailureHandler(function(e) { showCustomAlert('Lỗi: ' + e); })
+                .deleteVideo(videoId);
+        });
     }
 
     // ==========================================
@@ -860,32 +861,110 @@
     }
 
     function toggleCourse(code) {
-        if (!confirm('Bạn muốn thay đổi trạng thái mã "' + code + '"?')) return;
-        google.script.run
-            .withSuccessHandler(function(res) {
-                if (res && res.success) { loadCourseList(); }
-                else { alert('❌ ' + (res ? res.message : 'Lỗi')); }
-            })
-            .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
-            .toggleCourseStatus(code);
+        showCustomConfirm('Bạn muốn thay đổi trạng thái mã "' + code + '"?', function() {
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) { loadCourseList(); }
+                    else { showCustomAlert('Lỗi: ' + (res ? res.message : '')); }
+                })
+                .withFailureHandler(function(e) { showCustomAlert('Lỗi: ' + e); })
+                .toggleCourseStatus(code);
+        });
     }
 
     function deleteCourseCode(code) {
-        if (!confirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN mã khóa học "' + code + '"?\nHọc sinh sẽ không còn dùng mã này để xem video được nữa.')) return;
-        google.script.run
-            .withSuccessHandler(function(res) {
-                if (res && res.success) { loadCourseList(); }
-                else { alert('❌ ' + (res ? res.message : 'Lỗi xóa mã')); }
-            })
-            .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
-            .deleteCourse(code);
+        showCustomConfirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN mã khóa học "' + code + '"?\nHọc sinh sẽ không còn dùng mã này để xem video được nữa.', function() {
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) { loadCourseList(); }
+                    else { showCustomAlert('Lỗi xóa mã: ' + (res ? res.message : '')); }
+                })
+                .withFailureHandler(function(e) { showCustomAlert('Lỗi: ' + e); })
+                .deleteCourse(code);
+        });
     }
 
     // ==========================================
-    // UTILITIES
+    // UTILITIES & MODALS
     // ==========================================
     function openModal(id) { document.getElementById(id).classList.add('show'); }
     function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+    function showCustomConfirm(message, callback) {
+        var modal = document.createElement('div');
+        modal.style.position = 'fixed'; modal.style.top = '0'; modal.style.left = '0';
+        modal.style.width = '100vw'; modal.style.height = '100vh';
+        modal.style.background = 'rgba(3, 8, 29, 0.8)';
+        modal.style.backdropFilter = 'blur(8px)';
+        modal.style.zIndex = '99999'; modal.style.display = 'flex';
+        modal.style.alignItems = 'center'; modal.style.justifyContent = 'center';
+        
+        var box = document.createElement('div');
+        box.style.background = 'rgba(11, 8, 38, 0.95)';
+        box.style.border = '1px solid rgba(142, 77, 255, 0.3)';
+        box.style.borderRadius = '16px'; box.style.padding = '30px';
+        box.style.maxWidth = '400px'; box.style.width = '90%'; box.style.textAlign = 'center';
+        box.style.boxShadow = '0 20px 50px rgba(0,0,0,0.5)';
+        box.style.transform = 'scale(0.8)'; box.style.opacity = '0';
+        box.style.transition = 'all 0.3s ease';
+        
+        box.innerHTML = 
+            '<div style="font-size: 44px; color: #FFD23F; margin-bottom: 15px;"><i class="fa-solid fa-circle-question"></i></div>' +
+            '<h4 style="color: #FFF; margin: 0 0 10px; font-size: 18px; font-weight: 700;">Xác nhận</h4>' +
+            '<p style="color: #A6ADCE; font-size: 14px; margin: 0 0 24px; line-height: 1.5;">' + escHtml(message) + '</p>' +
+            '<div style="display: flex; gap: 12px; justify-content: center;">' +
+                '<button id="cfmCancel" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #A6ADCE; padding: 10px 24px; border-radius: 20px; font-size: 13px; font-weight:600; cursor: pointer; outline: none;">Hủy</button>' +
+                '<button id="cfmOk" style="background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; color: #FFF; padding: 10px 24px; border-radius: 20px; font-size: 13px; font-weight:600; cursor: pointer; box-shadow: 0 4px 10px rgba(142, 77, 255, 0.2); outline: none;">Đồng ý</button>' +
+            '</div>';
+            
+        modal.appendChild(box); document.body.appendChild(modal);
+        box.offsetHeight; // force reflow
+        box.style.transform = 'scale(1)'; box.style.opacity = '1';
+        
+        var closeConfirm = function(res) {
+            box.style.transform = 'scale(0.8)'; box.style.opacity = '0';
+            modal.style.opacity = '0';
+            setTimeout(function() { modal.remove(); if(res && callback) callback(); }, 300);
+        };
+        
+        box.querySelector('#cfmCancel').onclick = () => closeConfirm(false);
+        box.querySelector('#cfmOk').onclick = () => closeConfirm(true);
+    }
+
+    function showCustomAlert(message) {
+        var modal = document.createElement('div');
+        modal.style.position = 'fixed'; modal.style.top = '0'; modal.style.left = '0';
+        modal.style.width = '100vw'; modal.style.height = '100vh';
+        modal.style.background = 'rgba(3, 8, 29, 0.8)';
+        modal.style.backdropFilter = 'blur(8px)';
+        modal.style.zIndex = '99999'; modal.style.display = 'flex';
+        modal.style.alignItems = 'center'; modal.style.justifyContent = 'center';
+        
+        var box = document.createElement('div');
+        box.style.background = 'rgba(11, 8, 38, 0.95)';
+        box.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+        box.style.borderRadius = '16px'; box.style.padding = '30px';
+        box.style.maxWidth = '400px'; box.style.width = '90%'; box.style.textAlign = 'center';
+        box.style.boxShadow = '0 20px 50px rgba(0,0,0,0.5)';
+        box.style.transform = 'scale(0.8)'; box.style.opacity = '0';
+        box.style.transition = 'all 0.3s ease';
+        
+        box.innerHTML = 
+            '<div style="font-size: 44px; color: #EF4444; margin-bottom: 15px;"><i class="fa-solid fa-triangle-exclamation"></i></div>' +
+            '<h4 style="color: #FFF; margin: 0 0 10px; font-size: 18px; font-weight: 700;">Thông báo</h4>' +
+            '<p style="color: #A6ADCE; font-size: 14px; margin: 0 0 24px; line-height: 1.5;">' + escHtml(message) + '</p>' +
+            '<button id="alertOk" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 10px 30px; border-radius: 20px; font-size: 13px; font-weight:600; cursor: pointer; outline: none;">Đóng</button>';
+            
+        modal.appendChild(box); document.body.appendChild(modal);
+        box.offsetHeight;
+        box.style.transform = 'scale(1)'; box.style.opacity = '1';
+        
+        box.querySelector('#alertOk').onclick = function() {
+            box.style.transform = 'scale(0.8)'; box.style.opacity = '0';
+            modal.style.opacity = '0';
+            setTimeout(function() { modal.remove(); }, 300);
+        };
+    }
 
     function showAlert(id, msg, type) {
         var el = document.getElementById(id);

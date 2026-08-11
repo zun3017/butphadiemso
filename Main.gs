@@ -97,7 +97,7 @@ function doPost(e) {
         // Video Khóa Học
         'addVideo', 'getVideoList', 'getVideoFilterOptions', 'updateVideo', 'deleteVideo',
         'createCourse', 'getCourseList', 'toggleCourseStatus', 'deleteCourse', 'updateCourse',
-        'checkLoginCode', 'getCourseVideos', 'logCourseAccess',
+        'checkLoginCode', 'getCourseVideos',
         'saveStudentNote', 'getStudentNotes',
       ];
       if (ALLOWED_FUNCTIONS.indexOf(funcName) === -1) {

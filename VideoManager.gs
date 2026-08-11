@@ -32,17 +32,7 @@ function initVideoSheets() {
     sheetKH.setFrozenRows(1);
   }
 
-  // Sheet: Truy_Cap_KH
-  var sheetLog = ss.getSheetByName('Truy_Cap_KH');
-  if (!sheetLog) {
-    sheetLog = ss.insertSheet('Truy_Cap_KH');
-    sheetLog.getRange(1, 1, 1, 3).setValues([[
-      'Ma_KH', 'Thoi_gian', 'Thiet_bi'
-    ]]);
-    sheetLog.setFrozenRows(1);
-  }
-
-  return { sheetLib: sheetLib, sheetKH: sheetKH, sheetLog: sheetLog };
+  return { sheetLib: sheetLib, sheetKH: sheetKH };
 }
 
 // ---- Trích xuất File ID từ Google Drive Link ----
@@ -536,21 +526,7 @@ function getCourseVideos(courseCode) {
   }
 }
 
-/**
- * Ghi log truy cập khóa học
- */
-function logCourseAccess(courseCode, device) {
-  try {
-    initVideoSheets();
-    var ss = getVideoSpreadsheet();
-    var sheet = ss.getSheetByName('Truy_Cap_KH');
-    var now = Utilities.formatDate(new Date(), 'Asia/Ho_Chi_Minh', 'dd/MM/yyyy HH:mm:ss');
-    sheet.appendRow([courseCode || '', now, device || '']);
-    return { success: true };
-  } catch (e) {
-    return { success: false };
-  }
-}
+
 
 /**
  * Lưu ghi chú bài học của học sinh vào Google Sheet

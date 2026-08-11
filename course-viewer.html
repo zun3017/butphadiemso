@@ -373,8 +373,7 @@
             if (saved) watchHistory = JSON.parse(saved);
         } catch(e) { watchHistory = {}; }
 
-        // Log access (no handler needed)
-        google.script.run.logCourseAccess(courseCode, navigator.userAgent.substring(0, 100));
+
 
         // Fetch course data
         google.script.run

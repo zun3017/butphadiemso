@@ -22,11 +22,21 @@ if (typeof window !== 'undefined') {
     });
 }
 
-// Cập nhật trạng thái đồng bộ ở góc màn hình
+// Cập nhật trạng thái đồng bộ ở góc màn hình & Toast
 function updateSyncIndicator() {
+    const remaining = apiQueue.length + (isQueueProcessing ? 1 : 0);
+    
+    // Nếu có hàm showSyncToast của Dashboard thì đồng bộ luôn
+    if (typeof showSyncToast === 'function') {
+        if (remaining > 0) {
+            showSyncToast('pending');
+        } else {
+            showSyncToast('success');
+        }
+    }
+
     if (typeof document === 'undefined' || !document.body) return;
     let indicator = document.getElementById('globalSyncQueueBadge');
-    const remaining = apiQueue.length + (isQueueProcessing ? 1 : 0);
     
     if (remaining > 0) {
         if (!indicator) {
@@ -46,7 +56,7 @@ function updateSyncIndicator() {
             if (indicator && apiQueue.length === 0 && !isQueueProcessing) {
                 indicator.style.display = 'none';
             }
-        }, 1500);
+        }, 1200);
     }
 }
 
@@ -61,13 +71,14 @@ function processNextApiTask() {
             apiQueue.shift();
             isQueueProcessing = false;
             updateSyncIndicator();
-            setTimeout(processNextApiTask, 50);
+            // Lập tức thực hiện task tiếp theo không chờ đợi
+            processNextApiTask();
         });
 }
 
 // Chỉ tạo Shim giả lập nếu chạy ngoài môi trường Google Apps Script (ví dụ trên GitHub Pages / Localhost)
 if (typeof google === 'undefined' || typeof google.script === 'undefined' || typeof google.script.run === 'undefined') {
-    console.log('Chạy ngoài môi trường Google Apps Script. Kích hoạt API Gateway Shim với Hàng chờ Tuần tự...');
+    console.log('Chạy ngoài môi trường Google Apps Script. Kích hoạt API Gateway Shim siêu tốc...');
     
     class GoogleScriptRunInstance {
         constructor() {
@@ -114,62 +125,69 @@ if (typeof google === 'undefined' || typeof google.script === 'undefined' || typ
             const maxRetries = 2;
             const self = this;
 
-            // Đưa request vào Hàng chờ Tuần tự (FIFO Queue)
-            apiQueue.push({
-                execute: function() {
-                    return new Promise((resolve) => {
-                        function doFetch(retriesLeft) {
-                            fetch(urlToUse, {
-                                method: 'POST',
-                                mode: 'cors',
-                                headers: {
-                                    'Content-Type': 'text/plain;charset=utf-8'
-                                },
-                                body: JSON.stringify({
-                                    functionName: functionName,
-                                    arguments: args
-                                })
+            const executeFetch = function() {
+                return new Promise((resolve) => {
+                    function doFetch(retriesLeft) {
+                        fetch(urlToUse, {
+                            method: 'POST',
+                            mode: 'cors',
+                            headers: {
+                                'Content-Type': 'text/plain;charset=utf-8'
+                            },
+                            body: JSON.stringify({
+                                functionName: functionName,
+                                arguments: args
                             })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Lỗi phản hồi HTTP server: ' + response.status);
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                if (data.error) {
-                                    if (self._failureHandler) {
-                                        self._failureHandler(data.error);
-                                    } else {
-                                        console.error("API Server Error:", data.error);
-                                    }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Lỗi phản hồi HTTP server: ' + response.status);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                if (self._failureHandler) {
+                                    self._failureHandler(data.error);
                                 } else {
-                                    if (self._successHandler) {
-                                        self._successHandler(data.result);
-                                    }
+                                    console.error("API Server Error:", data.error);
+                                }
+                            } else {
+                                if (self._successHandler) {
+                                    self._successHandler(data.result);
+                                }
+                            }
+                            resolve();
+                        })
+                        .catch(err => {
+                            if (retriesLeft > 0) {
+                                console.warn(`Lỗi kết nối API (${functionName}). Thử lại lần nữa... (${retriesLeft} lần thử còn lại)`);
+                                setTimeout(() => doFetch(retriesLeft - 1), 1000);
+                            } else {
+                                console.error("API Call Exception (Đã hết số lần thử):", err);
+                                if (self._failureHandler) {
+                                    self._failureHandler(err.toString());
                                 }
                                 resolve();
-                            })
-                            .catch(err => {
-                                if (retriesLeft > 0) {
-                                    console.warn(`Lỗi kết nối API (${functionName}). Thử lại lần nữa... (${retriesLeft} lần thử còn lại)`);
-                                    setTimeout(() => doFetch(retriesLeft - 1), 1500);
-                                } else {
-                                    console.error("API Call Exception (Đã hết số lần thử):", err);
-                                    if (self._failureHandler) {
-                                        self._failureHandler(err.toString());
-                                    }
-                                    resolve();
-                                }
-                            });
-                        }
-                        
-                        doFetch(maxRetries);
-                    });
-                }
-            });
+                            }
+                        });
+                    }
+                    
+                    doFetch(maxRetries);
+                });
+            };
 
-            processNextApiTask();
+            // Phân loại: Các hàm đọc dữ liệu (get, read, check...) cho chạy đọc ngay lập tức song song không cần xếp hàng!
+            const fnLower = functionName.toLowerCase();
+            const isReadOnly = fnLower.startsWith('get') || fnLower.startsWith('read') || fnLower.startsWith('check') || fnLower.startsWith('fetch') || fnLower.startsWith('login') || fnLower.startsWith('xacthuc');
+
+            if (isReadOnly) {
+                executeFetch();
+            } else {
+                // Các hàm ghi dữ liệu (save, update, delete...) xếp hàng FIFO để ghi nối đuôi an toàn
+                apiQueue.push({ execute: executeFetch });
+                processNextApiTask();
+            }
         }
     }
 

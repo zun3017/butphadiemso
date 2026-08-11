@@ -106,6 +106,12 @@ function doPost(e) {
         })).setMimeType(ContentService.MimeType.JSON);
       }
       // === END WHITELIST ===
+      var lock = LockService.getScriptLock();
+      var hasLock = false;
+      try {
+        hasLock = lock.waitLock(10000); // Chờ tối đa 10s để tránh xung đột ghi đồng thời
+      } catch (lockErr) {}
+
       try {
         var result = this[funcName].apply(this, args);
         return ContentService.createTextOutput(JSON.stringify({ result: result }))
@@ -114,6 +120,10 @@ function doPost(e) {
         return ContentService.createTextOutput(JSON.stringify({ 
           error: "Lỗi chạy hàm '" + funcName + "': " + runErr.toString() 
         })).setMimeType(ContentService.MimeType.JSON);
+      } finally {
+        if (hasLock) {
+          try { lock.releaseLock(); } catch(e) {}
+        }
       }
     } else {
       return ContentService.createTextOutput(JSON.stringify({ error: "Hàm '" + funcName + "' không tồn tại trên server backend." }))

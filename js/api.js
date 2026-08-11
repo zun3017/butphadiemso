@@ -26,38 +26,29 @@ if (typeof window !== 'undefined') {
 function updateSyncIndicator() {
     const remaining = apiQueue.length + (isQueueProcessing ? 1 : 0);
     
-    // Nếu có hàm showSyncToast của Dashboard thì dùng duy nhất 1 toast của Dashboard
-    if (typeof showSyncToast === 'function') {
-        if (remaining > 0) {
-            showSyncToast('pending');
-        } else {
-            showSyncToast('success');
-        }
+    // Ưu tiên 1: Dùng hàm showSyncToast sẵn có của Dashboard
+    if (typeof window !== 'undefined' && typeof window.showSyncToast === 'function') {
+        if (remaining > 0) window.showSyncToast('pending');
+        else window.showSyncToast('success');
         return;
     }
-
-    if (typeof document === 'undefined' || !document.body) return;
-    let indicator = document.getElementById('globalSyncQueueBadge');
     
-    if (remaining > 0) {
-        if (!indicator) {
-            indicator = document.createElement('div');
-            indicator.id = 'globalSyncQueueBadge';
-            indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: rgba(18, 16, 42, 0.95); border: 1px solid #8E4DFF; color: #FFF; padding: 8px 16px; border-radius: 25px; font-size: 12.5px; font-weight: bold; font-family: sans-serif; box-shadow: 0 4px 15px rgba(142,77,255,0.3); display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); transition: all 0.3s ease;';
-            document.body.appendChild(indicator);
-        }
-        indicator.style.display = 'flex';
-        indicator.style.borderColor = '#8E4DFF';
-        var txt = remaining > 1 ? ('Đang đồng bộ (' + remaining + ')...') : 'Đang đồng bộ...';
-        indicator.innerHTML = '<i class="fa-solid fa-rotate fa-spin" style="color: #FFD23F; font-size: 13px;"></i> ' + txt;
-    } else if (indicator) {
-        indicator.innerHTML = '<i class="fa-solid fa-check" style="color: #10B981; font-size: 13px;"></i> Đã đồng bộ';
-        indicator.style.borderColor = '#10B981';
-        setTimeout(() => {
-            if (indicator && apiQueue.length === 0 && !isQueueProcessing) {
-                indicator.style.display = 'none';
+    // Ưu tiên 2: Dùng phần tử #syncToast trên giao diện HTML
+    if (typeof document !== 'undefined') {
+        const toast = document.getElementById('syncToast');
+        if (toast) {
+            if (remaining > 0) {
+                toast.className = 'sync-toast pending';
+                toast.innerHTML = '<i class="fa-solid fa-rotate fa-spin"></i> Đang đồng bộ...';
+                toast.style.display = 'flex';
+            } else {
+                toast.className = 'sync-toast success';
+                toast.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã đồng bộ';
+                toast.style.display = 'flex';
+                setTimeout(() => { if (apiQueue.length === 0 && !isQueueProcessing) toast.style.display = 'none'; }, 1500);
             }
-        }, 1200);
+            return;
+        }
     }
 }
 

@@ -1263,18 +1263,25 @@ function getClassSubmissions(classId) {
   var cleanClassId = String(classId || "").trim();
   for (var i = 1; i < data.length; i++) {
     if (String(data[i][2] || "").trim() === cleanClassId) {
+      var hwIdVal = data[i][1] || "";
+      var sName = data[i][4] || data[i][3] || "";
+      var tStamp = data[i][7] || "";
       submissions.push({
-        submissionId: data[i][0],
-        homeworkId: data[i][1],
-        classId: data[i][2],
-        subject: data[i][3],
-        studentId: data[i][4],
-        studentName: data[i][5],
-        parentPhone: data[i][6],
-        submitTime: data[i][7],
-        fileUrl: data[i][8],
-        score: data[i][9],
-        comment: data[i][10]
+        submissionId: data[i][0] || "",
+        homeworkId:   hwIdVal,
+        title:        hwIdVal,
+        lessonName:   hwIdVal,
+        classId:      data[i][2] || "",
+        studentId:    data[i][3] || "",
+        studentName:  sName,
+        parentPhone:  data[i][5] || "",
+        subject:      data[i][6] || "",
+        submitTime:   tStamp,
+        submittedAt:  tStamp,
+        timestamp:    tStamp,
+        fileUrl:      data[i][8] || "",
+        score:        data[i][9] || "",
+        comment:      data[i][10] || ""
       });
     }
   }

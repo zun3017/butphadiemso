@@ -1219,7 +1219,6 @@ function updateTutorAccountInfo(phone, name, pin) {
   var normPhone = normalizePhone(phone || "");
   var updated = false;
 
-  // Thử cập nhật trong sheet Mã Giáo viên
   var sTeacher = ss.getSheetByName('Mã Giáo viên') || ss.getSheetByName('Mã giáo viên') || ss.getSheetByName('Mã gia sư');
   if (sTeacher) {
     var data = sTeacher.getDataRange().getValues();
@@ -1233,7 +1232,6 @@ function updateTutorAccountInfo(phone, name, pin) {
     }
   }
 
-  // Thử cập nhật trong sheet Mã Admin nếu chưa tìm thấy
   if (!updated) {
     var sAdmin = ss.getSheetByName('Mã Admin') || ss.getSheetByName('Mã admin');
     if (sAdmin) {
@@ -1273,7 +1271,7 @@ function getClassSubmissions(classId) {
         lessonName:   hwIdVal,
         classId:      data[i][2] || "",
         studentId:    data[i][3] || "",
-        studentName:  sName,
+        studentName:  data[i][4] || sName,
         parentPhone:  data[i][5] || "",
         subject:      data[i][6] || "",
         submitTime:   tStamp,
@@ -1287,216 +1285,3 @@ function getClassSubmissions(classId) {
   }
   return submissions;
 }
-
-// Đánh dấu nhiều buổi học đã thu tiền (Bulk)
-function markClassInvoiceBulkPaid(logIds, studentId) {
-  return updateClassStudentPaymentStatusBulk(logIds, studentId, true);
-}
-
-// Cập nhật trạng thái thanh toán 1 buổi học cho 1 học sinh
-function updateClassStudentPaymentStatus(logId, studentId, isPaid) {
-  return updateClassStudentPaymentStatusBulk([logId], studentId, isPaid);
-}
-
-// Cập nhật trạng thái thanh toán nhiều buổi học cho 1 học sinh
-function updateClassStudentPaymentStatusBulk(logIds, studentId, isPaid) {
-  if (!logIds || !logIds.length || !studentId) return { success: false, error: "Thiếu thông tin" };
-  var ss = getClassSpreadsheet();
-  var sheet = ss.getSheetByName('Nhật ký chung');
-  if (!sheet) return { success: false, error: "Không tìm thấy sheet Nhật ký chung" };
-
-  var data = sheet.getDataRange().getValues();
-  var updatedCount = 0;
-
-  for (var i = 0; i < data.length; i++) {
-    var logId = String(data[i][0]).trim();
-    if (logIds.indexOf(logId) !== -1) {
-      // Đọc JSON nhận xét riêng ở cột 12 (index 11), cập nhật trạng thái paid
-      var jsonStr = data[i][11] ? String(data[i][11]).trim() : "";
-      var notes = {};
-      if (jsonStr) {
-        try { notes = JSON.parse(jsonStr); } catch(e) {}
-      }
-      if (!notes[studentId]) notes[studentId] = {};
-      if (typeof notes[studentId] === 'string') {
-        notes[studentId] = { note: notes[studentId], paid: isPaid };
-      } else {
-        notes[studentId].paid = isPaid;
-      }
-      sheet.getRange(i + 1, 12).setValue(JSON.stringify(notes));
-      updatedCount++;
-    }
-  }
-
-  SpreadsheetApp.flush();
-  return { success: true, updatedCount: updatedCount };
-}
-
-// Cập nhật thanh toán nhiều học sinh cùng lúc
-function updateMultipleStudentsPaymentStatus(updates) {
-  // updates = [{logId, studentId, isPaid}, ...]
-  if (!updates || !updates.length) return { success: false };
-  var ss = getClassSpreadsheet();
-  var sheet = ss.getSheetByName('Nhật ký chung');
-  if (!sheet) return { success: false, error: "Không tìm thấy sheet" };
-
-  var data = sheet.getDataRange().getValues();
-  var logIdMap = {};
-  for (var i = 0; i < data.length; i++) {
-    var lid = String(data[i][0]).trim();
-    if (lid) logIdMap[lid] = i;
-  }
-
-  updates.forEach(function(u) {
-    var rowIdx = logIdMap[String(u.logId).trim()];
-    if (rowIdx === undefined) return;
-    var jsonStr = data[rowIdx][11] ? String(data[rowIdx][11]).trim() : "";
-    var notes = {};
-    try { if (jsonStr) notes = JSON.parse(jsonStr); } catch(e) {}
-    if (!notes[u.studentId]) notes[u.studentId] = {};
-    if (typeof notes[u.studentId] === 'string') {
-      notes[u.studentId] = { note: notes[u.studentId], paid: u.isPaid };
-    } else {
-      notes[u.studentId].paid = u.isPaid;
-    }
-    sheet.getRange(rowIdx + 1, 12).setValue(JSON.stringify(notes));
-  });
-
-  SpreadsheetApp.flush();
-  return { success: true };
-}
-
-// Lấy toàn bộ thùng rác (cả nhật ký + bài tập đã xóa mềm) theo giáo viên
-function getClassTrashItems(tutorPhone, tutorCode) {
-  var ss = getClassSpreadsheet();
-  var classes = getClassList(tutorPhone, tutorCode);
-  var classIds = classes.map(function(c) { return c.classId; });
-  var items = [];
-
-  // Nhật ký bị xóa mềm
-  var sLogs = ss.getSheetByName('Nhật ký chung');
-  if (sLogs) {
-    var dataL = sLogs.getDataRange().getDisplayValues();
-    for (var i = 1; i < dataL.length; i++) {
-      var classId = String(dataL[i][1] || "").trim();
-      var deletedAt = String(dataL[i][12] || "").trim();
-      if (deletedAt !== "" && classIds.indexOf(classId) !== -1) {
-        items.push({
-          type: "log",
-          id: dataL[i][0],
-          classId: classId,
-          className: dataL[i][2],
-          label: "Nhật ký: " + (dataL[i][4] || "") + " - " + (dataL[i][5] || ""),
-          deletedAt: deletedAt
-        });
-      }
-    }
-  }
-
-  // Bài tập bị xóa mềm
-  var sHw = ss.getSheetByName('Bài tập lớp học');
-  if (sHw) {
-    var dataH = sHw.getDataRange().getDisplayValues();
-    for (var j = 1; j < dataH.length; j++) {
-      var hwClassId = String(dataH[j][1] || "").trim();
-      var hwDeleted = String(dataH[j][10] || "").trim();
-      if (hwDeleted !== "" && classIds.indexOf(hwClassId) !== -1) {
-        items.push({
-          type: "hw",
-          id: dataH[j][0],
-          classId: hwClassId,
-          className: dataH[j][2],
-          label: "Bài tập: " + (dataH[j][4] || ""),
-          deletedAt: hwDeleted
-        });
-      }
-    }
-  }
-
-  // Học sinh bị xóa mềm
-  var sSt = ss.getSheetByName('Học sinh lớp học');
-  if (sSt) {
-    var dataS = sSt.getDataRange().getDisplayValues();
-    for (var k = 1; k < dataS.length; k++) {
-      var stClassId = String(dataS[k][2] || "").trim();
-      var stDeleted = String(dataS[k][8] || "").trim();
-      if (stDeleted !== "" && classIds.indexOf(stClassId) !== -1) {
-        items.push({
-          type: "student",
-          id: dataS[k][0],
-          classId: stClassId,
-          className: "",
-          label: "Học sinh: " + (dataS[k][1] || ""),
-          deletedAt: stDeleted
-        });
-      }
-    }
-  }
-
-  // Sắp xếp mới nhất lên đầu
-  items.sort(function(a, b) { return b.deletedAt.localeCompare(a.deletedAt); });
-  return items;
-}
-
-// Phục hồi 1 mục khỏi thùng rác (log, hw, student)
-function restoreClassItem(type, itemId, className) {
-  if (type === "log") {
-    return restoreClassLessonLog(itemId, className);
-  } else if (type === "hw") {
-    if (typeof restoreClassHomework === 'function') return restoreClassHomework(itemId);
-    return { success: false, error: "Không tìm thấy hàm restoreClassHomework" };
-  } else if (type === "student") {
-    return restoreClassStudent(itemId);
-  }
-  return { success: false, error: "Loại không hợp lệ: " + type };
-}
-
-// Phục hồi nhật ký từ thùng rác (xóa ngày xóa ở cột 13)
-function restoreClassLessonLog(logId, className) {
-  var ss = getClassSpreadsheet();
-  var sheet = ss.getSheetByName('Nhật ký chung');
-  if (!sheet) return { success: false, error: "Không tìm thấy sheet" };
-  var data = sheet.getDataRange().getValues();
-  for (var i = 0; i < data.length; i++) {
-    if (String(data[i][0]).trim() === String(logId).trim()) {
-      sheet.getRange(i + 1, 13).setValue(""); // Xóa ngày xóa → khôi phục
-      var classId = data[i][1];
-      if (classId) clearClassCache(classId, "logs");
-      SpreadsheetApp.flush();
-      return { success: true };
-    }
-  }
-  return { success: false, error: "Không tìm thấy nhật ký" };
-}
-
-// Xóa vĩnh viễn 1 mục khỏi thùng rác
-function purgeClassItem(type, itemId, className) {
-  if (type === "log") {
-    return purgeClassLessonLog(itemId);
-  } else if (type === "hw") {
-    if (typeof purgeClassHomework === 'function') return purgeClassHomework(itemId);
-    return { success: false, error: "Không tìm thấy hàm purgeClassHomework" };
-  } else if (type === "student") {
-    return deleteClassStudentPermanently(itemId);
-  }
-  return { success: false, error: "Loại không hợp lệ" };
-}
-
-// Xóa vĩnh viễn nhật ký khỏi sheet
-function purgeClassLessonLog(logId) {
-  var ss = getClassSpreadsheet();
-  var sheet = ss.getSheetByName('Nhật ký chung');
-  if (!sheet) return { success: false, error: "Không tìm thấy sheet" };
-  var data = sheet.getDataRange().getValues();
-  for (var i = 0; i < data.length; i++) {
-    if (String(data[i][0]).trim() === String(logId).trim()) {
-      var classId = data[i][1];
-      sheet.deleteRow(i + 1);
-      if (classId) clearClassCache(classId, "logs");
-      SpreadsheetApp.flush();
-      return { success: true };
-    }
-  }
-  return { success: false, error: "Không tìm thấy nhật ký" };
-}
-

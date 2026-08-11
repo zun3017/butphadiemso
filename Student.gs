@@ -2,19 +2,19 @@
 
 // Tải file bài tập đơn lẻ lên (Tương thích ngược)
 function uploadHomeworkFile(ma, studentName, lessonName, fileBase64, fileName, mimeType) {
-  return uploadHomeworkFiles(ma, lessonName, lessonName, [{ fileBase64: fileBase64, fileName: fileName, mimeType: mimeType }]);
+  return uploadHomeworkFiles(ma, lessonName, lessonName, [{ fileBase64: fileBase64, fileName: fileName, mimeType: mimeType }], studentName);
 }
 
 // Lưu tệp nộp bài của học sinh (Hỗ trợ nén nhiều ảnh thành 1 file ZIP)
 // hwId: Mã bài tập cụ thể từ sheet 'Bài tập lớp học' (VD: HW_1234567890)
 // lessonName: Tên hiển thị để đặt tên file trên Drive
-function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
+function uploadHomeworkFiles(ma, hwId, lessonName, filesList, inputStudentName) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     
     var classId = "";
     var studentId = "";
-    var studentName = "";
+    var studentName = inputStudentName || "";
     var rawMa = String(ma || "").trim().toLowerCase();
     var normMa = normalizePhone(ma);
     
@@ -61,7 +61,7 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
 
           if (isMatch) {
             studentId = dataCS[i][0];
-            studentName = studentName || dataCS[i][1];
+            studentName = dataCS[i][1] || studentName;
             classId = dataCS[i][2];
             break;
           }
@@ -170,182 +170,45 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
       }
     }
     
-    if (ssClass) {
-      var sheetSub = ssClass.getSheetByName('Học sinh nộp bài lớp học');
-      if (!sheetSub) return { error: "Sheet Học sinh nộp bài lớp học chưa được tạo." };
-      
-      var subId = "SUB_LH_" + new Date().getTime();
-      
-      // Lấy SĐT Phụ huynh
-      var parentPhone = "";
-      var sheetCS = ssClass.getSheetByName('Học sinh lớp học');
-      if (sheetCS) {
-        var dataCS = sheetCS.getDataRange().getDisplayValues();
-        for (var i = 1; i < dataCS.length; i++) {
-          if (dataCS[i][0] === studentId) {
-            parentPhone = dataCS[i][3] || "";
-            break;
-          }
-        }
-      }
-      
-      sheetSub.appendRow([
-        subId,               // Cột A (0): Mã nộp bài
-        hwId || lessonName,  // Cột B (1): Mã bài tập (hwId thực sự)
-        classId,             // Cột C (2): Mã lớp
-        studentId,           // Cột D (3): Mã học sinh
-        studentName,         // Cột E (4): Tên học sinh
-        parentPhone,         // Cột F (5): SĐT Phụ huynh
-        subject || "",       // Cột G (6): Môn học
-        dateString,          // Cột H (7): Thời gian nộp
-        fileUrl,             // Cột I (8): Link bài nộp
-        "",                  // Cột J (9): Điểm số
-        ""                   // Cột K (10): Nhận xét Giáo viên
-      ]);
-      
-      if (typeof clearHomeworkPortalCache === 'function') {
-        try { clearHomeworkPortalCache(ma); } catch(e) {}
-      }
-      
-      return {
-        success: true,
-        fileUrl: fileUrl,
-        submissionDate: shortDateString,
-        timestamp: dateString,
-        status: "Active",
-        rowIndex: sheetSub.getLastRow()
-      };
-    } else {
-      return { error: "Không tìm thấy dữ liệu lớp học!" };
-    }
-
-  } catch (e) {
-    return { error: "Lỗi hệ thống: " + e.toString() };
-  }
-}
-
-// Chỉnh sửa bài tập đã nộp
-function editHomeworkFile(rowIndex, lessonName, fileBase64OrList, fileName, mimeType) {
-  try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var r = parseInt(rowIndex);
-
-    var ssClass = getClassSpreadsheet();
-    if (!ssClass) return { error: "Không tìm thấy dữ liệu lớp học!" };
-    
-    var sheetSub = ssClass.getSheetByName('Học sinh nộp bài lớp học');
-    if (!sheetSub) return { error: "Không tìm thấy dữ liệu bài nộp lớp học!" };
-    
-    var data = sheetSub.getDataRange().getDisplayValues();
-    if (isNaN(r) || r < 2 || r > data.length) {
-      return { error: "Vị trí dòng không hợp lệ." };
-    }
-    
-    var studentName = data[r - 1][4];
-    var oldUrl = data[r - 1][8];
-    
-    sheetSub.getRange(r, 2).setValue(lessonName);
-    var fileUrl = oldUrl;
-    
-    var filesList = [];
-    if (Array.isArray(fileBase64OrList)) {
-      filesList = fileBase64OrList;
-    } else if (fileBase64OrList && fileName) {
-      filesList = [{ fileBase64: fileBase64OrList, fileName: fileName, mimeType: mimeType }];
-    }
-    
-    if (filesList && filesList.length > 0) {
-      var driveApp = DriveApp;
-      if (oldUrl) {
-        var matches = oldUrl.match(/[-\w]{25,}/);
-        if (matches && matches[0]) {
-          try {
-            if (oldUrl.indexOf("/folders/") !== -1 || oldUrl.indexOf("/drive/folders/") !== -1) {
-              driveApp.getFolderById(matches[0]).setTrashed(true);
-            } else {
-              driveApp.getFileById(matches[0]).setTrashed(true);
-            }
-          } catch (deleteErr) {
-            Logger.log("Không thể dọn dẹp tệp cũ: " + deleteErr.toString());
-          }
-        }
-      }
-      var classId = "";
-      if (sheetSub) {
-        var cData = sheetSub.getDataRange().getValues();
-        for (var i = 1; i < cData.length; i++) {
-          if (String(cData[i][0]).trim() === ma) {
-            classId = String(cData[i][1]).trim(); // Mã lớp là cột 2 (index 1)
-            break;
-          }
-        }
-      }
-      var className = "Lớp không xác định";
-      var sheetClassList = ssClass.getSheetByName('Danh sách lớp học') || ssClass.getSheetByName('Mã lớp học');
-      if (sheetClassList && classId) {
-        var dataClassList = sheetClassList.getDataRange().getDisplayValues();
-        for (var c = 1; c < dataClassList.length; c++) {
-          if (dataClassList[c][0] === classId) {
-            className = dataClassList[c][1];
-            break;
-          }
-        }
-      }
-      
-      var parentFolder;
-      var folders = driveApp.getRootFolder().getFoldersByName("HỌC SINH NỘP BÀI");
-      if (folders.hasNext()) parentFolder = folders.next();
-      else parentFolder = driveApp.getRootFolder().createFolder("HỌC SINH NỘP BÀI");
-      
-      var baseFolder = parentFolder;
-      var classFolders = baseFolder.getFoldersByName(className);
-      if (classFolders.hasNext()) baseFolder = classFolders.next();
-      else baseFolder = baseFolder.createFolder(className);
-      
-      var studentFolders = baseFolder.getFoldersByName(studentName);
-      var studentFolder;
-      if (studentFolders.hasNext()) studentFolder = studentFolders.next();
-      else studentFolder = baseFolder.createFolder(studentName);
-      
-      var now = new Date();
-      var shortDateString = Utilities.formatDate(now, Session.getScriptTimeZone(), "dd/MM/yyyy");
-      var blobs = [];
-      for (var i = 0; i < filesList.length; i++) {
-        var fileObj = filesList[i];
-        if (!fileObj || !fileObj.fileBase64) continue;
+    if (ssClass && studentId !== "") {
+        var sheetSub = ssClass.getSheetByName('Học sinh nộp bài lớp học');
+        if (!sheetSub) return { error: "Sheet Học sinh nộp bài lớp học chưa được tạo." };
         
-        var fileData = Utilities.base64Decode(fileObj.fileBase64);
-        var ext = "";
-        var lastDot = fileObj.fileName.lastIndexOf(".");
-        if (lastDot !== -1) ext = fileObj.fileName.substring(lastDot);
-        else {
-          if (fileObj.mimeType === "application/pdf") ext = ".pdf";
-          else if (fileObj.mimeType === "image/png") ext = ".png";
-          else ext = ".jpg";
+        var subId = "SUB_LH_" + new Date().getTime();
+        
+        var parentPhone = "";
+        var sheetCS = ssClass.getSheetByName('Học sinh lớp học');
+        if (sheetCS) {
+          var dataCS = sheetCS.getDataRange().getDisplayValues();
+          for (var i = 1; i < dataCS.length; i++) {
+            if (dataCS[i][0] === studentId) {
+              parentPhone = dataCS[i][3] || "";
+              break;
+            }
+          }
         }
-        var newFileName = studentName + " - " + shortDateString.split('/').join('-') + " - " + lessonName + (filesList.length > 1 ? (" - " + (i + 1)) : "") + ext;
-        blobs.push(Utilities.newBlob(fileData, fileObj.mimeType, newFileName));
+        
+        sheetSub.appendRow([
+          subId,               // Cột A (0): Mã nộp bài
+          hwId || lessonName,  // Cột B (1): Mã bài tập
+          classId,             // Cột C (2): Mã lớp
+          studentId,           // Cột D (3): Mã học sinh
+          studentName,         // Cột E (4): Tên học sinh
+          parentPhone,         // Cột F (5): SĐT Phụ huynh
+          subject || "",       // Cột G (6): Môn học
+          dateString,          // Cột H (7): Thời gian nộp
+          fileUrl,             // Cột I (8): Link bài nộp
+          "",                  // Cột J (9): Điểm số
+          ""                   // Cột K (10): Nhận xét GV
+        ]);
+      } else { return { error: "Không tìm thấy học sinh trong lớp học. Học sinh 1-1 không còn được hỗ trợ." }; }
+      
+      SpreadsheetApp.flush();
+      if (typeof clearSheetCache === 'function') {
+        clearSheetCache('Bài tập nộp lớp');
       }
       
-      if (blobs.length === 1) {
-        var singleFile = studentFolder.createFile(blobs[0]);
-        try { singleFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (fErr) {}
-        fileUrl = singleFile.getUrl();
-      } else if (blobs.length > 1) {
-        var zipName = studentName + " - " + shortDateString.split('/').join('-') + " - " + lessonName + ".zip";
-        var zipBlob = Utilities.zip(blobs, zipName);
-        var zipFile = studentFolder.createFile(zipBlob);
-        try { zipFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (fErr) {}
-        fileUrl = zipFile.getUrl();
-      }
-      
-      sheetSub.getRange(r, 9).setValue(fileUrl);
-    }
-    
-    SpreadsheetApp.flush();
-    clearSheetCache('Bài tập nộp lớp');
-    
-    return { success: true, fileUrl: fileUrl };
+      return { success: true, fileUrl: fileUrl };
   } catch(e) {
     return { error: "Lỗi chỉnh sửa: " + e.toString() };
   }
@@ -437,53 +300,50 @@ function xacThucMaBaiTap(ma) {
     return { timThay: false, thongBao: "Vui lòng nhập mã bài tập của học sinh!" };
   }
   
-  // Kiểm tra bộ nhớ đệm trước
-  var cache = CacheService.getScriptCache();
-  var cacheKey = "student_hw_portal_" + normalizeMa(cleanMa);
-  var cached = cache.get(cacheKey);
-  if (cached) {
-    try {
-      return JSON.parse(cached);
-    } catch(e) {
-      Logger.log("Lỗi parse cache homework portal: " + e.toString());
-    }
-  }
-
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var ssClass = getClassSpreadsheet(); // Mở Sheet lớp học
     
-    // 1. Quét tìm học sinh 1-1 trước
-    var sheetHS = ss.getSheetByName('Mã học sinh');
     var isClassStudent = false;
     var studentName = "";
     var classId = "";
     var className = "Lớp học";
     var studentId = "";
+    var parentPhone = "";
     var foundRow = -1;
-    
-    if (sheetHS) {
-      var dataHS = getSheetDisplayValuesCached('Mã học sinh');
-      for (var i = 1; i < dataHS.length; i++) {
-        if (dataHS[i].length > 7 && normalizeMa(dataHS[i][7]) === normalizeMa(cleanMa)) {
-          foundRow = i;
-          studentName = dataHS[i][2];
-          break;
-        }
-      }
-    }
-    
-    // 2. Nếu không tìm thấy, quét tiếp trong Học sinh lớp học (trên sheet lớp)
-    if (foundRow === -1 && ssClass) {
+      
+    // Quét trong Học sinh lớp học (trên sheet lớp) để kiểm tra xem có phải học sinh lớp không
+    if (ssClass) {
       var sheetCS = ssClass.getSheetByName('Học sinh lớp học');
       if (sheetCS) {
         var dataCS = sheetCS.getDataRange().getDisplayValues();
+        var normClean = normalizeMa(cleanMa);
         for (var i = 1; i < dataCS.length; i++) {
-          if (dataCS[i].length > 7 && normalizeMa(dataCS[i][7]) === normalizeMa(cleanMa)) {
+          if (!dataCS[i] || dataCS[i].length < 1) continue;
+          var csId = String(dataCS[i][0] || "").trim();
+          var csName = String(dataCS[i][1] || "").trim();
+          var csClassId = String(dataCS[i][2] || "").trim();
+          var csPhone = String(dataCS[i][3] || "").trim();
+          var csCode = dataCS[i].length > 7 ? String(dataCS[i][7] || "").trim() : "";
+          
+          var isMatch = false;
+          if (normClean !== "") {
+            if (normalizeMa(csCode) === normClean || normalizeMa(csId) === normClean || normalizeMa(csPhone) === normClean) {
+              isMatch = true;
+            }
+          }
+          if (!isMatch) {
+            if (csCode.toUpperCase() === cleanMa || csId.toUpperCase() === cleanMa || csPhone.toUpperCase() === cleanMa) {
+              isMatch = true;
+            }
+          }
+          
+          if (isMatch) {
             foundRow = i;
-            studentId = dataCS[i][0];
-            studentName = dataCS[i][1];
-            classId = dataCS[i][2];
+            studentId = csId;
+            studentName = csName;
+            classId = csClassId;
+            parentPhone = csPhone;
             isClassStudent = true;
             break;
           }
@@ -526,7 +386,7 @@ function xacThucMaBaiTap(ma) {
           hwTitleMap[dataHwList[k][0]] = dataHwList[k][4]; // hwId -> Tên bài tập (cột E, index 4)
           
           var hwClassId = dataHwList[k][1] ? String(dataHwList[k][1]).trim() : "";
-          if (hwClassId === classId) {
+          if (hwClassId === classId || hwClassId === "Tất cả" || !hwClassId) {
             assignedList.push({
               hwId:         dataHwList[k][0] || "",   // Cột A = Mã BT
               rowIndex:     k + 1,
@@ -548,9 +408,9 @@ function xacThucMaBaiTap(ma) {
           var rowData = dataSub[j];
           if (!rowData || rowData.length < 4) continue;
           
-          var subStudentId = String(rowData[3] || "").trim();    // Index 3 = Mã học sinh (Cột D)
-          var subStudentName = String(rowData[4] || "").trim();  // Index 4 = Tên học sinh (Cột E)
-          var subParentPhone = String(rowData[5] || "").trim();  // Index 5 = SĐT Phụ huynh (Cột F)
+          var subStudentId = String(rowData[3] || "").trim();
+            var subStudentName = String(rowData[4] || "").trim();
+            var subParentPhone = String(rowData[5] || "").trim();
 
           var isSubMatch = false;
           if (studentId && subStudentId === String(studentId).trim()) isSubMatch = true;
@@ -582,53 +442,7 @@ function xacThucMaBaiTap(ma) {
           }
         }
       }
-    } else {
-      // 1-1 Tutor logic
-      var sheetHW = initHomeworkSheet(ss);
-      var dataHW = getSheetDisplayValuesCached('Bài tập');
-      var hwHeaders = getHeaderIndices(sheetHW);
-      
-      var colMa = hwHeaders["Mã bài tập"] !== undefined ? hwHeaders["Mã bài tập"] : 4;
-      var colTime = hwHeaders["Thời gian nộp"] !== undefined ? hwHeaders["Thời gian nộp"] : 0;
-      var colName = hwHeaders["Tên học sinh"] !== undefined ? hwHeaders["Tên học sinh"] : 1;
-      var colLesson = hwHeaders["Tên bài học"] !== undefined ? hwHeaders["Tên bài học"] : 2;
-      var colUrl = hwHeaders["Link Google Drive liên kết"] !== undefined ? hwHeaders["Link Google Drive liên kết"] : 3;
-      var colDate = hwHeaders["Ngày nộp"] !== undefined ? hwHeaders["Ngày nộp"] : 5;
-      var colStatus = hwHeaders["Trạng thái nộp"] !== undefined ? hwHeaders["Trạng thái nộp"] : 6;
-      
-      for (var j = 1; j < dataHW.length; j++) {
-        if (dataHW[j].length > colMa && normalizeMa(dataHW[j][colMa]) === normalizeMa(cleanMa)) {
-          submissions.push({
-            timestamp: dataHW[j][colTime] || "",
-            studentName: dataHW[j][colName] || "",
-            lessonName: dataHW[j][colLesson] || "",
-            fileUrl: dataHW[j][colUrl] || "",
-            ma: dataHW[j][colMa] || "",
-            submissionDate: dataHW[j][colDate] || "",
-            status: dataHW[j][colStatus] || "Active",
-            rowIndex: j + 1
-          });
-        }
-      }
-      
-      var sheetAssigned = ss.getSheetByName('Bài tập giao');
-      if (sheetAssigned) {
-        var dataAssigned = getSheetDisplayValuesCached('Bài tập giao');
-        for (var k = 1; k < dataAssigned.length; k++) {
-          if (dataAssigned[k].length > 6 && normalizeMa(dataAssigned[k][5]) === normalizeMa(cleanMa) && dataAssigned[k][6] === "Active") {
-            assignedList.push({
-              rowIndex: k + 1,
-              timestamp: dataAssigned[k][0],
-              studentName: dataAssigned[k][1],
-              title: dataAssigned[k][2],
-              releaseDate: dataAssigned[k][3],
-              fileUrl: dataAssigned[k][4],
-              externalLink: dataAssigned[k].length > 9 ? dataAssigned[k][9] : ""
-            });
-          }
-        }
-      }
-    }
+    } 
     
     var result = {
       timThay: true,
@@ -698,37 +512,7 @@ function guiPhanHoi(maHS, tenHocSinh, noiDung, isClass, classId, className) {
       return { thanhCong: true };
     }
 
-    // NẾU LÀ GIA SƯ 1 KÈM 1 -> LƯU VÀO FILE TỔNG (MAIN)
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheetName = "Ý kiến phụ huynh";
-    var sheet = ss.getSheetByName(sheetName);
-    
-    if (!sheet) {
-      sheet = ss.insertSheet(sheetName);
-      sheet.appendRow(["Thời gian", "Số điện thoại học sinh", "Tên học sinh", "Ý kiến phản hồi phụ huynh"]);
-      sheet.getRange(1, 1, 1, 4).setFontWeight("bold").setBackground("#f3f3f3");
-    }
-    
-    sheet.appendRow([new Date(), "'" + maHS, tenHocSinh, noiDung]);
-    cleanupOldFeedback(sheet, 0);
-    
-    var cache = CacheService.getScriptCache();
-    var sheetHS = ss.getSheetByName('Mã học sinh');
-    if (sheetHS) {
-      var dataHS = getSheetDisplayValuesCached('Mã học sinh');
-      var normHSPhone = normalizePhone(maHS);
-      for (var i = 1; i < dataHS.length; i++) {
-        if (normalizePhone(dataHS[i][3]) === normHSPhone) {
-          var tutorPhone = dataHS[i][6];
-          if (tutorPhone) {
-            cache.remove("tutor_feedback_" + normalizePhone(tutorPhone));
-          }
-          break;
-        }
-      }
-    }
-    
-    return { thanhCong: true };
+    return { thanhCong: false, thongBao: "Hệ thống 1 kèm 1 không còn được hỗ trợ." };
   } catch (error) {
     return { thanhCong: false, thongBao: error.toString() };
   }

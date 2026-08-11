@@ -1142,9 +1142,9 @@
                     // Nút Nộp Bài — đổi màu nếu đã nộp
                     if (alreadySubmitted) {
                         html += '      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:3px;">';
-                        html += '        <button onclick="openSubmitHomeworkFromAssigned(\''+ hw.hwId + '\', \'' + hw.title.replace(/'/g, "\\\'") + '\')" class="btn-submit-assigned" style="background: linear-gradient(135deg,#10B981,#059669); border: none; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">';
-                        html += '          <i class="fa-solid fa-check-circle"></i> Đã nộp — Nộp lại';
-                        html += '        </button>';
+                        html += '        <span style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; color: #6EE7B7; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; display: inline-flex; align-items: center; gap: 6px;">';
+                        html += '          <i class="fa-solid fa-circle-check"></i> Đã nộp';
+                        html += '        </span>';
                         html += '        <span style="font-size:11px; color:#6EE7B7;">Nộp lúc: ' + alreadySubmitted.submissionDate + '</span>';
                         html += '      </div>';
                     } else {
@@ -1588,7 +1588,7 @@
                                 clearInterval(interval);
                                 handleUploadError(err);
                             })
-                            .uploadHomeworkFiles(currentHW.ma, activeHwId || lessonName, lessonName, filesDataArray);
+                            .uploadHomeworkFiles(currentHW.ma, activeHwId || lessonName, lessonName, filesDataArray, studentName);
                     }
                 }).catch(function(err) {
                     statusTxt.innerText = "Lỗi đọc file: " + err.toString();

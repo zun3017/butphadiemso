@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
@@ -156,11 +156,20 @@
         // Load videos
         google.script.run
             .withSuccessHandler(function(res) {
-                if (!res || !res.success) { showError(res ? res.message : 'Lỗi tải dữ liệu'); return; }
-                courseVideos = res.videos || [];
-                document.getElementById('courseNameHeader').textContent = res.courseName || 'Khóa Học';
-                document.getElementById('courseCodeHeader').textContent = 'Mã: ' + courseCode + ' · ' + courseVideos.length + ' video';
-                renderLayout();
+                try {
+                    if (!res || !res.success) { showError(res ? res.message : 'Lỗi tải dữ liệu'); return; }
+                    courseVideos = res.videos || [];
+                    document.getElementById('courseNameHeader').textContent = res.courseName || 'Khóa Học';
+                    document.getElementById('courseCodeHeader').textContent = 'Mã: ' + courseCode + ' · ' + courseVideos.length + ' video';
+                    if (courseVideos.length === 0) {
+                        showError('Khóa học này chưa có video. Vui lòng liên hệ giáo viên.');
+                        return;
+                    }
+                    renderLayout();
+                } catch(err) {
+                    console.error('Lỗi render:', err);
+                    showError('Lỗi hiển thị: ' + err.message);
+                }
             })
             .withFailureHandler(function(e) { showError('Lỗi kết nối: ' + e); })
             .getCourseVideos(courseCode);
@@ -170,9 +179,11 @@
     // RENDER LAYOUT
     // ==========================================
     function renderLayout() {
-        document.getElementById('mainLoading').style.display = 'none';
+        var mainLoading = document.getElementById('mainLoading');
+        if (mainLoading) mainLoading.style.display = 'none';
 
         var wrapper = document.getElementById('cvWrapper');
+        if (!wrapper) return;
         wrapper.innerHTML = '';
 
         // Playlist

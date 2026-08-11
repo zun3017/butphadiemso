@@ -32,20 +32,21 @@ function updateSyncIndicator() {
         if (!indicator) {
             indicator = document.createElement('div');
             indicator.id = 'globalSyncQueueBadge';
-            indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: rgba(18, 16, 42, 0.95); border: 1px solid #8E4DFF; color: #FFF; padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: bold; font-family: sans-serif; box-shadow: 0 4px 20px rgba(142,77,255,0.4); display: flex; align-items: center; gap: 10px; backdrop-filter: blur(10px); transition: all 0.3s ease;';
+            indicator.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 999999; background: rgba(18, 16, 42, 0.95); border: 1px solid #8E4DFF; color: #FFF; padding: 8px 16px; border-radius: 25px; font-size: 12.5px; font-weight: bold; font-family: sans-serif; box-shadow: 0 4px 15px rgba(142,77,255,0.3); display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px); transition: all 0.3s ease;';
             document.body.appendChild(indicator);
         }
         indicator.style.display = 'flex';
         indicator.style.borderColor = '#8E4DFF';
-        indicator.innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-spin" style="color: #FFD23F; font-size: 15px;"></i> Đang đồng bộ lên Sheet (' + remaining + ' thao tác...);';
+        var txt = remaining > 1 ? ('Đang đồng bộ (' + remaining + ')...') : 'Đang đồng bộ...';
+        indicator.innerHTML = '<i class="fa-solid fa-rotate fa-spin" style="color: #FFD23F; font-size: 13px;"></i> ' + txt;
     } else if (indicator) {
-        indicator.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10B981; font-size: 15px;"></i> Đã đồng bộ xong!';
+        indicator.innerHTML = '<i class="fa-solid fa-check" style="color: #10B981; font-size: 13px;"></i> Đã đồng bộ';
         indicator.style.borderColor = '#10B981';
         setTimeout(() => {
             if (indicator && apiQueue.length === 0 && !isQueueProcessing) {
                 indicator.style.display = 'none';
             }
-        }, 2000);
+        }, 1500);
     }
 }
 

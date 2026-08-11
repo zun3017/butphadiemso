@@ -298,7 +298,7 @@ function createCourse(courseName, studentNote, videoIds, tutorPhone) {
     return {
       success: true,
       courseCode: code,
-      folderLink: folderLink,
+      folderLink: '',
       videoCount: Array.isArray(videoIds) ? videoIds.length : 0
     };
   } catch (e) {

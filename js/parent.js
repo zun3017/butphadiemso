@@ -387,7 +387,18 @@ function renderStudentView(ketQua) {
         // Mobile Accordion
         var htmlMobile = "<div class='mobile-cards-view'>";
 
-        lichSu.slice().reverse().forEach(function(item, idx) {
+                var sortedLichSu = lichSu.slice().sort(function(a, b) {
+            var dateA = a.ngay ? new Date(a.ngay.split('/').reverse().join('-')) : new Date(0);
+            var dateB = b.ngay ? new Date(b.ngay.split('/').reverse().join('-')) : new Date(0);
+            if (!isNaN(dateA.getTime()) && !isNaN(dateB.getTime()) && dateA.getTime() !== dateB.getTime()) {
+                return dateB.getTime() - dateA.getTime();
+            }
+            var tuanA = parseInt(a.tuan) || 0;
+            var tuanB = parseInt(b.tuan) || 0;
+            return tuanB - tuanA;
+        });
+
+        sortedLichSu.forEach(function(item, idx) {
             var styleStr = (idx >= 5) ? 'style="display: none;" class="history-row hidden-row"' : 'class="history-row"';
 
             var contentHtml = item.noiDung || '';

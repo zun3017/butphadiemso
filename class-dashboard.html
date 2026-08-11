@@ -2711,7 +2711,16 @@
                 return;
             }
 
-            tbody.innerHTML = activeClassLessonLogs.map(function(log) {
+            var sortedLogs = activeClassLessonLogs.slice().sort(function(a, b) {
+                var tA = a.logId ? parseInt(a.logId.replace(/\D/g, "")) || 0 : 0;
+                var tB = b.logId ? parseInt(b.logId.replace(/\D/g, "")) || 0 : 0;
+                if (tA && tB && tA !== tB) return tB - tA;
+                var weekA = parseInt(a.weekNum) || 0;
+                var weekB = parseInt(b.weekNum) || 0;
+                return weekB - weekA;
+            });
+
+            tbody.innerHTML = sortedLogs.map(function(log) {
                 var statusBadge = '';
                 var st = log.status || "Có mặt";
                 if (st === "Có mặt" || st === "Đã học") {

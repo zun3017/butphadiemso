@@ -1860,31 +1860,7 @@
             closeClassInvoice();
 
             var cls = currentClasses[idx];
-            var cacheKey = "class_cache_" + cls.classId;
-            var cached = sessionStorage.getItem(cacheKey);
-            
-            if (cached) {
-                try {
-                    var data = JSON.parse(cached);
-                    activeStudents = data.students || [];
-                    activeClassLessonLogs = data.lessonLogs || [];
-                    activeClassHomework = data.homeworkList || [];
-                    
-                    renderDashboardUI();
-                    
-                    var inputEl = document.getElementById("classQuickAnnouncementInput");
-                    if (inputEl) inputEl.value = data.announcement || "";
-                    
-                    renderRosterAndEvalGrid();
-                    renderClassLessonLogsTableUI();
-                    renderClassHomeworkListUI();
-                } catch(e) {
-                    console.error("Lỗi đọc cache local:", e);
-                    clearAndShowClassSpinners();
-                }
-            } else {
-                clearAndShowClassSpinners();
-            }
+            clearAndShowClassSpinners();
 
             var phone = (currentTutorData && currentTutorData.tutorPhone) ? currentTutorData.tutorPhone : (window.tutorPhone || "");
             var code = (currentTutorData && (currentTutorData.tutorCode || currentTutorData.tutorId)) ? (currentTutorData.tutorCode || currentTutorData.tutorId) : (window.tutorCode || "");

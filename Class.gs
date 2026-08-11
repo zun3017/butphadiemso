@@ -364,16 +364,6 @@ function getClassStudents(classId, ssParam) {
   var cleanClassId = String(classId || "").trim();
   if (cleanClassId === "") return [];
   
-  var cache = CacheService.getScriptCache();
-  var cacheKey = "class_students_" + cleanClassId;
-  var cached = cache.get(cacheKey);
-  if (cached) {
-    try {
-      return JSON.parse(cached);
-    } catch(e) {
-      Logger.log("Lỗi parse cache students: " + e.toString());
-    }
-  }
   
   var ss = ssParam || getClassSpreadsheet();
   var sheetStudents = ss.getSheetByName('Học sinh lớp học');
@@ -410,11 +400,6 @@ function getClassStudents(classId, ssParam) {
     }
   }
   
-  try {
-    cache.put(cacheKey, JSON.stringify(students), 600); // Lưu đệm 10 phút
-  } catch(e) {
-    Logger.log("Lỗi lưu cache students: " + e.toString());
-  }
   
   return students;
 }

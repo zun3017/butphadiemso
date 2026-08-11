@@ -614,6 +614,33 @@
                     </div>
                 </div>
 
+                <!-- Lịch sử nộp bài -->
+                <div class="hw-info-card">
+                    <div class="hw-info-title" style="color: #3399FF; border-color: rgba(51, 153, 255, 0.2);">
+                        <i class="fa-solid fa-clock-rotate-left"></i> File bài tập đã nộp
+                    </div>
+                    <div class="table-wrapper desktop-table-view">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Thời gian nộp</th>
+                                    <th>Tên bài học</th>
+                                    <th>Link file đã nộp</th>
+                                    <th>Trạng thái</th>
+                                    <th>Điểm</th>
+                                    <th style="text-align: center;">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="homeworkListBody">
+                                <!-- JS render lines -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="homeworkMobileList" class="mobile-cards-view">
+                        <!-- Rendered dynamically in JS -->
+                    </div>
+                </div>
+
                 <!-- Card Nộp bài -->
                 <div class="hw-info-card" id="hwFormCard">
                     <div class="hw-info-title" style="color: #8E4DFF; border-color: rgba(142, 77, 255, 0.2);">
@@ -688,33 +715,6 @@
                     </div>
                     
                     <p id="uploadStatusText" style="text-align: center; margin-top: 10px; font-size: 13px; display: none; font-weight: 500;"></p>
-                </div>
-
-                <!-- Lịch sử nộp bài -->
-                <div class="hw-info-card">
-                    <div class="hw-info-title" style="color: #3399FF; border-color: rgba(51, 153, 255, 0.2);">
-                        <i class="fa-solid fa-clock-rotate-left"></i> File bài tập đã nộp
-                    </div>
-                    <div class="table-wrapper desktop-table-view">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Thời gian nộp</th>
-                                    <th>Tên bài học</th>
-                                    <th>Link file đã nộp</th>
-                                    <th>Trạng thái</th>
-                                    <th>Điểm</th>
-                                    <th style="text-align: center;">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody id="homeworkListBody">
-                                <!-- JS render lines -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="homeworkMobileList" class="mobile-cards-view">
-                        <!-- Rendered dynamically in JS -->
-                    </div>
                 </div>
             </div>
         </div>
@@ -1255,7 +1255,7 @@
                     rowHtml += "<td>" + scoreHtml + "</td>";
 
                     var isToday = (item.submissionDate === todayStr);
-                    var isRowLocked = !isToday;
+                    var isRowLocked = false; // Cho phép học sinh tự do Sửa / Nộp lại bài làm của mình
 
                     rowHtml += "<td style='text-align: center; vertical-align: middle;'>";
                     var actionsHtml = "";

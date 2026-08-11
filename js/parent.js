@@ -451,12 +451,17 @@ function renderStudentView(ketQua) {
     var khuVucLichSuEl = document.getElementById('khuVucLichSu');
     if (khuVucLichSuEl) khuVucLichSuEl.innerHTML = htmlLichSu;
 
-    // Ẩn/Hiện nút Xem thêm
+    // Ẩn/Hiện nút Xem thêm 5 buổi
+    var btnLoadMore = document.getElementById('btnLoadMore');
     var loadMoreContainer = document.getElementById('loadMoreContainer');
     if (loadMoreContainer) {
-        loadMoreContainer.style.display = totalBuoi > 5 ? 'block' : 'none';
+        if (totalBuoi > 5) {
+            loadMoreContainer.style.display = 'block';
+            if (btnLoadMore) btnLoadMore.innerHTML = '<i class="fa-solid fa-ellipsis"></i> ... (Xem thêm 5 buổi kế tiếp)';
+        } else {
+            loadMoreContainer.style.display = 'none';
+        }
     }
-
     // --- 6. BÀI TẬP / FILE TẢI VỀ ---
     var khuVucBaiTapEl = document.getElementById('khuVucBaiTap');
     if (khuVucBaiTapEl) {
@@ -571,9 +576,12 @@ function hienThemBuoi() {
         }
     }
     var remainingHidden = document.querySelectorAll('.history-row.hidden-row');
+    var btn = document.getElementById('btnLoadMore');
+    var loadMoreContainer = document.getElementById('loadMoreContainer');
     if (remainingHidden.length === 0) {
-        var loadMoreContainer = document.getElementById('loadMoreContainer');
         if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+    } else if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-ellipsis"></i> ... (Xem thêm 5 buổi kế tiếp)';
     }
 }
 

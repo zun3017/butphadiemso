@@ -3742,6 +3742,8 @@
             });
         }
 
+        window.showAllTeacherHomework = window.showAllTeacherHomework || false;
+
         function renderClassHomeworkListUI() {
             var cls = currentClasses[activeClassIndex];
             var tbody = document.getElementById("classHwTableBody");
@@ -3756,7 +3758,12 @@
                 return;
             }
 
-            tbody.innerHTML = activeClassHomework.map(function(hw) {
+            // Đảm bảo bài tập MỚI NHẤT luôn hiển thị lên ĐẦU và chỉ hiện 5 bài gần nhất
+            var sortedHw = activeClassHomework.slice().reverse();
+            var totalCount = sortedHw.length;
+            var visibleHw = window.showAllTeacherHomework ? sortedHw : sortedHw.slice(0, 5);
+
+            tbody.innerHTML = visibleHw.map(function(hw) {
                 var attachStr = "";
                 if (hw.fileUrl) {
                     attachStr += '<a href="' + hw.fileUrl + '" target="_blank" style="color:#8E4DFF; font-weight:700; text-decoration:none; margin-right:10px;"><i class="fa-solid fa-paperclip"></i> ' + (hw.fileName || "Tải file") + '</a>';
@@ -3779,6 +3786,15 @@
                     '<td style="text-align:center; vertical-align: middle;">' + actionsHtml + '</td>' +
                 '</tr>';
             }).join('');
+
+            if (totalCount > 5) {
+                var remaining = totalCount - 5;
+                if (!window.showAllTeacherHomework) {
+                    tbody.innerHTML += '<tr><td colspan="4" style="text-align:center; padding:10px;"><button onclick="window.showAllTeacherHomework=true; renderClassHomeworkListUI();" style="background:none; border:1px solid #4B5563; color:#8E4DFF; padding:6px 20px; border-radius:8px; cursor:pointer; font-size:13px; width:100%;"><i class="fa-solid fa-ellipsis"></i> ... (Xem thêm ' + remaining + ' bài tập cũ hơn)</button></td></tr>';
+                } else {
+                    tbody.innerHTML += '<tr><td colspan="4" style="text-align:center; padding:10px;"><button onclick="window.showAllTeacherHomework=false; renderClassHomeworkListUI();" style="background:none; border:1px solid #4B5563; color:#9CA3AF; padding:6px 20px; border-radius:8px; cursor:pointer; font-size:13px; width:100%;"><i class="fa-solid fa-chevron-up"></i> Thu gọn 5 bài mới nhất</button></td></tr>';
+                }
+            }
         }
 
         function deleteClassHomework(hwId) {

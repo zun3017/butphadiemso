@@ -1218,7 +1218,7 @@
                 </button>
                 <div style="flex: 1; display: flex; gap: 10px;">
                     <button onclick="closeModal('editClassStudentModal')" style="flex: 1; padding: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #A6ADCE; font-weight: 700; font-size: 13.5px; cursor: pointer; outline: none;">Hủy</button>
-                    <button onclick="saveEditClassStudent()" style="flex: 1; padding: 13px; background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; border-radius: 12px; color: #FFF; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(142, 77, 255, 0.3); outline: none;">Cập Nhật</button>
+                    <button id="btnSaveEditClassStudent" onclick="saveEditClassStudent()" style="flex: 1; padding: 13px; background: linear-gradient(135deg, #8E4DFF 0%, #5B21B6 100%); border: none; border-radius: 12px; color: #FFF; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(142, 77, 255, 0.3); outline: none;">Cập Nhật</button>
                 </div>
             </div>
         </div>
@@ -2277,28 +2277,25 @@
             document.getElementById("editHomeworkCode").value = st.homeworkCode || "";
             document.getElementById("editStudentFeeType").value = st.feeType || "";
 
-            // Kiểm tra feeType của Lớp hiện tại
-            var cls = currentClasses[activeClassIndex];
-            var classFeeType = cls ? (cls.feeType || "per_session") : "per_session";
+            // Luôn hiển thị ô nhập học phí để người dùng sửa học phí bất kỳ lúc nào
             var feeCol = document.getElementById("editStudentFeeCol");
             var feeGroup = document.getElementById("editStudentFeeGroup");
-
-            if (classFeeType === "monthly") {
-                // Lớp thu theo tháng: Ẩn nhập học phí riêng (dùng monthlyFee của lớp)
-                if (feeCol) feeCol.style.display = "none";
-                // Cho mã bài tập chiếm toàn bộ hàng
-                if (feeGroup) feeGroup.style.gridTemplateColumns = "1fr";
-            } else {
-                // Lớp thu theo buổi: hiện ô nhập học phí
-                if (feeCol) feeCol.style.display = "block";
-                if (feeGroup) feeGroup.style.gridTemplateColumns = "1fr 1fr";
-            }
+            if (feeCol) feeCol.style.display = "block";
+            if (feeGroup) feeGroup.style.gridTemplateColumns = "1fr 1fr";
             
+            var cls = currentClasses[activeClassIndex];
+            var defaultFee = cls ? (cls.fee || "") : "";
+            var feeInput = document.getElementById("editStudentFee");
+            if (feeInput) {
+                feeInput.placeholder = defaultFee ? ("Mặc định lớp: " + parseFloat(defaultFee).toLocaleString('vi-VN') + "đ") : "Để trống = Mặc định lớp";
+            }
+
             openModal("editClassStudentModal");
         }
 
-        // 2. Lưu sửa thông tin học sinh (Optimistic UI)
+        // 2. Lưu sửa thông tin học sinh (Hiển thị Đang cập nhật...)
         function saveEditClassStudent() {
+            var btn = document.getElementById("btnSaveEditClassStudent");
             var studentId = document.getElementById("editStudentId").value;
             var name = document.getElementById("editStudentName").value.trim();
             var parentName = document.getElementById("editParentName").value.trim();
@@ -2312,22 +2309,34 @@
                 return;
             }
 
-            // Chỉ bắt buộc nhập học phí nếu lớp thu theo buổi
-            var cls = currentClasses[activeClassIndex];
-            var classFeeType = cls ? (cls.feeType || "per_session") : "per_session";
-            if (classFeeType !== "monthly" && feeType !== "" && feeType !== "monthly" && !fee) {
-                showToast("Vui lòng nhập học phí (VNĐ) cho học sinh!", "error");
-                return;
+            // Đổi trạng thái nút thành Đang cập nhật...
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang cập nhật...';
             }
 
-            google.script.run.withSuccessHandler(function(res) {
+            google.script.run
+            .withSuccessHandler(function(res) {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Cập Nhật';
+                }
                 if (res && res.success) {
                     closeModal("editClassStudentModal");
+                    showToast("Đã cập nhật thông tin học sinh thành công!", "success");
                     loadStudentsForActiveClass();
                 } else {
                     showToast("Lỗi cập nhật: " + (res.error || "Chưa xác định"), "error");
                 }
-            }).updateClassStudent(studentId, name, parentPhone, parentName, fee, homeworkCode, feeType);
+            })
+            .withFailureHandler(function(err) {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Cập Nhật';
+                }
+                showToast("Lỗi kết nối: " + err.toString(), "error");
+            })
+            .updateClassStudent(studentId, name, parentPhone, parentName, fee, homeworkCode, feeType);
         }
 
         // 3. Mở Thùng Rác Học Sinh Lớp Học

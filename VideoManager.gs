@@ -329,6 +329,7 @@ function getCourseList(tutorPhone) {
         courseCode: row[0],
         courseName: row[1],
         studentNote: row[2],
+        videoIds: videoIds,
         videoCount: videoIds.length,
         folderLink: row[4],
         createdAt: row[5],
@@ -362,6 +363,53 @@ function toggleCourseStatus(courseCode) {
         var newStatus = (data[i][6] === 'active') ? 'locked' : 'active';
         sheet.getRange(i + 1, 7).setValue(newStatus);
         return { success: true, newStatus: newStatus };
+      }
+    }
+    return { success: false, message: 'Không tìm thấy mã: ' + courseCode };
+  } catch (e) {
+    return { success: false, message: e.toString() };
+  }
+}
+
+/**
+ * Xóa vĩnh viễn một mã khóa học khỏi hệ thống
+ */
+function deleteCourse(courseCode) {
+  try {
+    var ss = getVideoSpreadsheet();
+    var sheet = ss.getSheetByName('Khoa_Hoc');
+    if (!sheet) return { success: false, message: 'Sheet không tồn tại' };
+
+    var data = sheet.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === courseCode) {
+        sheet.deleteRow(i + 1);
+        return { success: true };
+      }
+    }
+    return { success: false, message: 'Không tìm thấy mã: ' + courseCode };
+  } catch (e) {
+    return { success: false, message: e.toString() };
+  }
+}
+
+/**
+ * Cập nhật tên khóa học, ghi chú, hoặc danh sách video ID của khóa học
+ */
+function updateCourse(courseCode, courseName, studentNote, videoIds) {
+  try {
+    var ss = getVideoSpreadsheet();
+    var sheet = ss.getSheetByName('Khoa_Hoc');
+    if (!sheet) return { success: false, message: 'Sheet không tồn tại' };
+
+    var data = sheet.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === courseCode) {
+        var row = i + 1;
+        if (courseName !== undefined && courseName !== null) sheet.getRange(row, 2).setValue(courseName);
+        if (studentNote !== undefined && studentNote !== null) sheet.getRange(row, 3).setValue(studentNote);
+        if (Array.isArray(videoIds)) sheet.getRange(row, 4).setValue(videoIds.join(','));
+        return { success: true };
       }
     }
     return { success: false, message: 'Không tìm thấy mã: ' + courseCode };

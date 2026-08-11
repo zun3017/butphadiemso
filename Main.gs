@@ -96,7 +96,7 @@ function doPost(e) {
         'createClass', 'createHomework', 'deleteClass', 'deleteClassLessonLog', 'deleteClassStudent', 'deleteClassStudentPermanently', 'deleteHomeworkFile', 'editClassHomework', 'getClassDashboardData', 'getClassStudents', 'getClassTrashItems', 'getClassTrashStudents', 'getDeletedClassHomeworkList', 'getExamResults', 'getHomeworkList', 'markClassInvoiceBulkPaid', 'purgeClassHomework', 'purgeClassItem', 'restoreClassHomework', 'restoreClassItem', 'restoreClassStudent', 'restoreHomeworkFile', 'saveClassStudent', 'updateClassInfo', 'updateClassStudentPaymentStatus', 'updateClassStudentPaymentStatusBulk', 'updateMultipleStudentsPaymentStatus', 'updateTutorAccountInfo', 'uploadHomeworkFiles',
         // Video Khóa Học
         'addVideo', 'getVideoList', 'getVideoFilterOptions', 'updateVideo', 'deleteVideo',
-        'createCourse', 'getCourseList', 'toggleCourseStatus',
+        'createCourse', 'getCourseList', 'toggleCourseStatus', 'deleteCourse', 'updateCourse',
         'checkLoginCode', 'getCourseVideos', 'logCourseAccess',
         'saveStudentNote', 'getStudentNotes',
       ];

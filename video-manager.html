@@ -733,7 +733,10 @@
                     html += '<td><span style="color:#8E4DFF; font-weight:700;">' + c.videoCount + '</span> video</td>';
                     html += '<td style="color:#A6ADCE; font-size:12.5px;">' + escHtml(c.createdAt) + '</td>';
                     html += '<td>' + statusHtml + '</td>';
-                    html += '<td><button class="vm-btn vm-btn-outline vm-btn-sm" onclick="toggleCourse(\'' + c.courseCode + '\')">' + toggleLabel + '</button></td>';
+                    html += '<td><div style="display:flex; gap:6px; flex-wrap:wrap;">';
+                    html += '<button class="vm-btn vm-btn-outline vm-btn-sm" onclick="toggleCourse(\'' + c.courseCode + '\')">' + toggleLabel + '</button>';
+                    html += '<button class="vm-btn vm-btn-danger vm-btn-sm" onclick="deleteCourseCode(\'' + c.courseCode + '\')"><i class="fa-solid fa-trash"></i> Xóa mã</button>';
+                    html += '</div></td>';
                     html += '</tr>';
                 });
                 tbody.innerHTML = html;
@@ -753,6 +756,17 @@
             })
             .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
             .toggleCourseStatus(code);
+    }
+
+    function deleteCourseCode(code) {
+        if (!confirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN mã khóa học "' + code + '"?\nHọc sinh sẽ không còn dùng mã này để xem video được nữa.')) return;
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res && res.success) { loadCourseList(); }
+                else { alert('❌ ' + (res ? res.message : 'Lỗi xóa mã')); }
+            })
+            .withFailureHandler(function(e) { alert('❌ Lỗi: ' + e); })
+            .deleteCourse(code);
     }
 
     // ==========================================

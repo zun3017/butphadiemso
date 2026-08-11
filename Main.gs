@@ -265,17 +265,27 @@ function loginSystem(phone, pin, childName) {
       var csName = String(dataCS[i][1] || "").trim();
       var isMatch = false;
 
-      for (var col = 0; col < dataCS[i].length; col++) {
-        var val = String(dataCS[i][col] || "").trim();
-        if (val === "") continue;
-        if (normPhone !== "" && normalizePhone(val) === normPhone) {
-          isMatch = true;
-          break;
-        }
-        if (val.toLowerCase() === rawLower) {
-          isMatch = true;
-          break;
-        }
+      var csPhone = String(dataCS[i][3] || "").trim();
+      var csParentName = String(dataCS[i][5] || "").trim();
+      var csHwCode = String(dataCS[i][7] || "").trim();
+
+      var normCsPhone = normalizePhone(csPhone);
+      var normCsHwCode = normalizePhone(csHwCode);
+      var normCsId = normalizePhone(csId);
+
+      // Chỉ đối chiếu SĐT Phụ huynh, Mã Bài tập, Mã HS, Tên HS/PH (Tuyệt đối không đối chiếu Cột Học phí hoặc FeeType)
+      if (normPhone !== "") {
+        if (normCsPhone !== "" && normCsPhone === normPhone) isMatch = true;
+        else if (normCsHwCode !== "" && normCsHwCode === normPhone) isMatch = true;
+        else if (normCsId !== "" && normCsId === normPhone) isMatch = true;
+      }
+      
+      if (!isMatch && rawLower !== "") {
+        if (csPhone.toLowerCase() === rawLower) isMatch = true;
+        else if (csHwCode.toLowerCase() === rawLower) isMatch = true;
+        else if (csId.toLowerCase() === rawLower) isMatch = true;
+        else if (csName.toLowerCase() === rawLower) isMatch = true;
+        else if (csParentName.toLowerCase() === rawLower) isMatch = true;
       }
 
       if (isMatch) {

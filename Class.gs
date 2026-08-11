@@ -388,9 +388,6 @@ function getClassStudents(classId, ssParam) {
       if (deletedAt !== "") continue; // Bỏ qua học sinh nằm trong Thùng rác
       
       var phoneVal = data[i][3] !== null && data[i][3] !== undefined ? String(data[i][3]).trim() : "";
-      if (phoneVal && !phoneVal.startsWith("0") && /^\d+$/.test(phoneVal)) {
-        phoneVal = "0" + phoneVal;
-      }
       
       var joinDateVal = "";
       if (data[i][4] instanceof Date) {

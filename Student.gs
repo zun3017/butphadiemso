@@ -190,17 +190,17 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
       }
       
       sheetSub.appendRow([
-        subId,
-        hwId || lessonName,  // Mã bài tập (hwId thực sự)
-        classId,             // Mã lớp
-        subject || "",       // Môn học (lấy từ bài tập)
-        studentId,           // Mã học sinh
-        studentName,         // Tên học sinh
-        parentPhone,         // SĐT Phụ huynh
-        dateString,          // Thời gian nộp
-        fileUrl,             // Link bài nộp
-        "",                  // Điểm số
-        ""                   // Nhận xét Giáo viên
+        subId,               // Cột A (0): Mã nộp bài
+        hwId || lessonName,  // Cột B (1): Mã bài tập (hwId thực sự)
+        classId,             // Cột C (2): Mã lớp
+        studentId,           // Cột D (3): Mã học sinh
+        studentName,         // Cột E (4): Tên học sinh
+        parentPhone,         // Cột F (5): SĐT Phụ huynh
+        subject || "",       // Cột G (6): Môn học
+        dateString,          // Cột H (7): Thời gian nộp
+        fileUrl,             // Cột I (8): Link bài nộp
+        "",                  // Cột J (9): Điểm số
+        ""                   // Cột K (10): Nhận xét Giáo viên
       ]);
       
       if (typeof clearHomeworkPortalCache === 'function') {

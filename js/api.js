@@ -98,7 +98,9 @@ if (typeof google === 'undefined' || typeof google.script === 'undefined' || typ
 
     window.google = {
         script: {
-            run: new GoogleScriptRunInstance()
+            get run() {
+                return new GoogleScriptRunInstance();
+            }
         }
     };
 }

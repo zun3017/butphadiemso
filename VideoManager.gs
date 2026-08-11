@@ -251,8 +251,16 @@ function deleteVideo(videoId) {
  * @param {string[]} videoIds - Mảng các Video ID đã chọn
  * @param {string} tutorPhone - SĐT giáo viên (để định danh)
  */
-function createCourse(courseName, studentNote, videoIds, tutorPhone) {
+function createCourse(courseName, studentNote, videoIds, tutorPhone, requestId) {
   try {
+    var cache = CacheService.getScriptCache();
+    if (requestId) {
+      var cachedResult = cache.get("REQ_" + requestId);
+      if (cachedResult) {
+        return JSON.parse(cachedResult);
+      }
+    }
+    
     initVideoSheets();
     var ss = getVideoSpreadsheet();
 
@@ -285,12 +293,16 @@ function createCourse(courseName, studentNote, videoIds, tutorPhone) {
       tutorPhone || ''
     ]);
 
-    return {
+    var result = {
       success: true,
       courseCode: code,
       folderLink: '',
       videoCount: Array.isArray(videoIds) ? videoIds.length : 0
     };
+    if (requestId) {
+      cache.put("REQ_" + requestId, JSON.stringify(result), 600); // Lưu cache 10 phút
+    }
+    return result;
   } catch (e) {
     return { success: false, message: e.toString() };
   }

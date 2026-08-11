@@ -1004,7 +1004,8 @@ function getTeacherExams(tutorPhone) {
         });
       }
     }
-    return list;
+    // Trả về đề thi mới nhất xếp lên đầu
+    return list.reverse();
   } catch(e) {
     return [];
   }

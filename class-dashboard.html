@@ -4608,7 +4608,8 @@
             if (!tbody) return;
             var html = '';
             if (exams && exams.length > 0) {
-                exams.forEach(function(exam) {
+                var sortedExams = exams.slice().reverse();
+                sortedExams.forEach(function(exam) {
                     var grade = exam.grade ? 'Lớp ' + exam.grade : '';
                     var gradeStyle = grade ? 'color:#FFD23F; font-weight:700;' : 'color:#A6ADCE; font-style:italic;';
                     var assignedText = exam.assignedClasses || 'Chưa giao';

@@ -354,8 +354,9 @@
     // INIT
     // ==========================================
     document.addEventListener('DOMContentLoaded', function() {
-        // Kiểm tra session giáo viên
-        var session = sessionStorage.getItem('classSession') || localStorage.getItem('classSession');
+        // Kiểm tra session giáo viên (key đúng là classTutorData)
+        var session = sessionStorage.getItem('classTutorData') || sessionStorage.getItem('userTutorData')
+                    || localStorage.getItem('classTutorData') || localStorage.getItem('userTutorData');
         if (!session) {
             window.location.href = 'class-login.html';
             return;
@@ -630,8 +631,8 @@
         if (!name) { showAlert('createCourseAlert', 'Vui lòng nhập tên khóa học!', 'error'); return; }
         if (selectedIds.size === 0) { showAlert('createCourseAlert', 'Không có video nào được chọn!', 'error'); return; }
 
-        var session = JSON.parse(sessionStorage.getItem('classSession') || localStorage.getItem('classSession') || '{}');
-        var tutorPhone = session.phone || '';
+        var session = JSON.parse(sessionStorage.getItem('classTutorData') || sessionStorage.getItem('userTutorData') || localStorage.getItem('classTutorData') || localStorage.getItem('userTutorData') || '{}');
+        var tutorPhone = session.tutorPhone || session.phone || sessionStorage.getItem('userPhone') || localStorage.getItem('userPhone') || '';
 
         var btn = document.getElementById('btnCreateCourse');
         btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Đang tạo...';
@@ -675,7 +676,7 @@
         var tbody = document.getElementById('courseHistoryBody');
         tbody.innerHTML = '<tr><td colspan="7" class="vm-loading"><div class="spinner"></div></td></tr>';
 
-        var session = JSON.parse(sessionStorage.getItem('classSession') || localStorage.getItem('classSession') || '{}');
+        var session = JSON.parse(sessionStorage.getItem('classTutorData') || sessionStorage.getItem('userTutorData') || localStorage.getItem('classTutorData') || localStorage.getItem('userTutorData') || '{}');
 
         google.script.run
             .withSuccessHandler(function(res) {

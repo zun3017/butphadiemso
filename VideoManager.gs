@@ -281,41 +281,15 @@ function createCourse(courseName, studentNote, videoIds, tutorPhone) {
       maxRetry--;
     } while (existingCodes[code] && maxRetry > 0);
 
-    // Tạo thư mục Drive
-    var folderName = '[' + code + '] ' + (courseName || 'Khóa học');
-    var driveFolder = DriveApp.createFolder(folderName);
-    var folderLink = driveFolder.getUrl();
-
-    // Thêm shortcut video vào thư mục
-    var sheetLib = ss.getSheetByName('Video_Library');
-    var libData = sheetLib.getDataRange().getValues();
-    var videoMap = {};
-    for (var j = 1; j < libData.length; j++) {
-      videoMap[libData[j][0]] = libData[j]; // videoId -> row
-    }
-
-    if (Array.isArray(videoIds)) {
-      for (var k = 0; k < videoIds.length; k++) {
-        var vRow = videoMap[videoIds[k]];
-        if (vRow && vRow[3]) { // fileId
-          try {
-            var file = DriveApp.getFileById(vRow[3]);
-            file.makeCopy(vRow[1] || videoIds[k], driveFolder);
-          } catch (copyErr) {
-            // Nếu không copy được (không có quyền) thì bỏ qua, mã vẫn tạo được
-            Logger.log('Không thể copy video ' + videoIds[k] + ': ' + copyErr.toString());
-          }
-        }
-      }
-    }
-
+    // KHÔNG tạo thư mục Drive, KHÔNG copy file
+    // Hệ thống chỉ lưu mã + danh sách Video ID (link gốc của giáo viên được dùng trực tiếp)
     var now = Utilities.formatDate(new Date(), 'Asia/Ho_Chi_Minh', 'dd/MM/yyyy HH:mm');
     sheetKH.appendRow([
       code,
       courseName || 'Khóa học',
       studentNote || '',
       Array.isArray(videoIds) ? videoIds.join(',') : '',
-      folderLink,
+      '', // folderLink bỏ trống
       now,
       'active',
       tutorPhone || ''

@@ -2795,7 +2795,37 @@
         }
 
         function refreshClassHistory() {
-            renderClassLessonLogsTableUI();
+            var cls = currentClasses[activeClassIndex];
+            if (!cls) return;
+            var phone = currentTutorData ? (currentTutorData.tutorPhone || currentTutorData.phone || "") : "";
+            var tutorCode = currentTutorData ? (currentTutorData.tutorCode || "") : "";
+
+            var tbody = document.getElementById("classLessonLogsTableBody");
+            if (tbody) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#A6ADCE; padding: 25px;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải lại lịch sử học tập từ máy chủ...</td></tr>';
+            }
+
+            showSyncToast("pending");
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    showSyncToast("success");
+                    if (res && res.activeClass && res.activeClass.classId === cls.classId) {
+                        activeStudents = res.students || [];
+                        activeClassLessonLogs = res.lessonLogs || [];
+                        activeClassHomework = res.homeworkList || [];
+                        sessionStorage.setItem("class_cache_" + cls.classId, JSON.stringify(res));
+
+                        renderRosterAndEvalGrid();
+                        renderClassLessonLogsTableUI();
+                        renderClassHomeworkListUI();
+                        showToast("✅ Đã làm mới lịch sử và dữ liệu mới nhất!", "success");
+                    }
+                })
+                .withFailureHandler(function(err) {
+                    showSyncToast("error");
+                    showToast("Lỗi làm mới: " + err.toString(), "error");
+                })
+                .getClassDashboardData(phone, cls.classId, tutorCode);
         }
 
         // === QUICK ANNOUNCEMENT HANDLERS ===

@@ -3060,7 +3060,11 @@
         }
 
         function renderClassStudentInvoice(student) {
-            var feePerClass = parseFloat(student.fee) || 75000;
+            if (!student) {
+                student = activeStudents.find(function(s) { return s.studentId === activeInvoiceStudentId; });
+            }
+            if (!student) return;
+            var feePerClass = parseFloat(student.fee) || (currentClasses[activeClassIndex] ? parseFloat(currentClasses[activeClassIndex].fee) : 75000) || 75000;
             
             var presentClasses = 0;
             var lateClasses = 0;
@@ -3068,9 +3072,11 @@
             
             var doneHwCount = 0;
             var missHwCount = 0;
+            var lateHwCount = 0;
+            var hwNotes = [];
+            var absentDates = [];
             
             var unpaidClasses = 0;
-            
             var tableBody = document.getElementById("invoiceLessonsTableBody");
             tableBody.innerHTML = "";
             

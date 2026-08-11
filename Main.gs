@@ -273,7 +273,8 @@ function loginSystem(phone, pin, childName) {
       var normCsHwCode = normalizePhone(csHwCode);
       var normCsId = normalizePhone(csId);
 
-      // Chỉ đối chiếu SĐT Phụ huynh, Mã Bài tập, Mã HS, Tên HS/PH (Tuyệt đối không đối chiếu Cột Học phí hoặc FeeType)
+      // CHỈ ĐỐI CHIẾU SĐT PHỤ HUYNH (CỘT 3), MÃ BÀI TẬP (CỘT 7), HOẶC MÃ HỌC SINH (CỘT 0)
+      // Tuyệt đối KHÔNG dò theo Tên học sinh, Tên phụ huynh hay Học phí
       if (normPhone !== "") {
         if (normCsPhone !== "" && normCsPhone === normPhone) isMatch = true;
         else if (normCsHwCode !== "" && normCsHwCode === normPhone) isMatch = true;
@@ -284,8 +285,6 @@ function loginSystem(phone, pin, childName) {
         if (csPhone.toLowerCase() === rawLower) isMatch = true;
         else if (csHwCode.toLowerCase() === rawLower) isMatch = true;
         else if (csId.toLowerCase() === rawLower) isMatch = true;
-        else if (csName.toLowerCase() === rawLower) isMatch = true;
-        else if (csParentName.toLowerCase() === rawLower) isMatch = true;
       }
 
       if (isMatch) {

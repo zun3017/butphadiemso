@@ -35,15 +35,29 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
         var dataCS = sheetCS.getDataRange().getDisplayValues();
         for (var i = 1; i < dataCS.length; i++) {
           if (!dataCS[i] || dataCS[i].length < 1) continue;
+          var delDateCS = (dataCS[i].length > 8) ? String(dataCS[i][8]).trim() : "";
+          if (delDateCS !== "") continue; // Bỏ qua học sinh nằm trong Thùng rác
+
+          var csId = String(dataCS[i][0] || "").trim();
+          var csPhone = String(dataCS[i][3] || "").trim();
+          var csHwCode = String(dataCS[i][7] || "").trim();
+
+          var normCsPhone = normalizePhone(csPhone);
+          var normCsHwCode = normalizePhone(csHwCode);
+          var normCsId = normalizePhone(csId);
+
           var isMatch = false;
-          for (var col = 0; col < dataCS[i].length; col++) {
-            var val = String(dataCS[i][col] || "").trim();
-            if (val === "") continue;
-            if (val.toLowerCase() === rawMa || (normMa !== "" && normalizePhone(val) === normMa)) {
-              isMatch = true;
-              break;
-            }
+          if (normMa !== "") {
+            if (normCsPhone !== "" && normCsPhone === normMa) isMatch = true;
+            else if (normCsHwCode !== "" && normCsHwCode === normMa) isMatch = true;
+            else if (normCsId !== "" && normCsId === normMa) isMatch = true;
           }
+          if (!isMatch && rawMa !== "") {
+            if (csPhone.toLowerCase() === rawMa) isMatch = true;
+            else if (csHwCode.toLowerCase() === rawMa) isMatch = true;
+            else if (csId.toLowerCase() === rawMa) isMatch = true;
+          }
+
           if (isMatch) {
             studentId = dataCS[i][0];
             studentName = studentName || dataCS[i][1];

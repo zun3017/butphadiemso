@@ -19,6 +19,7 @@ function convertDriveLink(url) {
 
 // ==================== RENDER DASHBOARD PHỤ HUYNH ====================
 function renderStudentView(ketQua) {
+    window.currentStudentData = ketQua;
     // Hủy biểu đồ cũ nếu có
     if (currentChartInstance) {
         currentChartInstance.destroy();

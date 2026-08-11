@@ -14,6 +14,7 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList) {
     
     var classId = "";
     var studentId = "";
+    var studentName = "";
     var rawMa = String(ma || "").trim().toLowerCase();
     var normMa = normalizePhone(ma);
     

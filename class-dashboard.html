@@ -1016,8 +1016,8 @@
                     <option value="monthly">🟣 Trọn gói theo tháng (Học phí cố định/tháng)</option>
                 </select>
             </div>
-            <div class="form-group" id="newClassMonthlyFeeGroup" style="display:none;">
-                <label>💰 Học phí cố định theo tháng (VNĐ)</label>
+            <div class="form-group" id="newClassMonthlyFeeGroup" style="display:block;">
+                <label>💰 Học phí của lớp (VNĐ)</label>
                 <input type="number" id="newClassMonthlyFee" class="form-control" placeholder="Ví dụ: 1500000" min="0" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
                 <small style="color:#A6ADCE; font-size:12px; margin-top:4px; display:block;">Số tiền thu cố định mỗi tháng, không phụ thuộc số buổi học.</small>
             </div>
@@ -1095,7 +1095,7 @@
                 </select>
             </div>
             <div class="form-group" id="editClassMonthlyFeeGroup" style="display:block;">
-                <label>💰 Học phí cố định theo tháng (VNĐ)</label>
+                <label>💰 Học phí của lớp (VNĐ)</label>
                 <input type="number" id="editClassMonthlyFee" class="form-control" placeholder="Ví dụ: 1500000" min="0" style="background:#130D3A; color:#FFF; border-radius:12px; padding:12px;">
                 <small style="color:#A6ADCE; font-size:12px; margin-top:4px; display:block;">Số tiền thu cố định mỗi tháng, không phụ thuộc số buổi học.</small>
             </div>
@@ -2027,10 +2027,10 @@
             var subject = document.getElementById("newClassSubject").value.trim();
             var schedule = document.getElementById("newClassSchedule").value.trim();
             var feeType = document.getElementById("newClassFeeType").value;
-            var monthlyFee = feeType === "monthly" ? (parseInt(document.getElementById("newClassMonthlyFee").value) || 0) : 0;
+            var fee = document.getElementById("newClassMonthlyFee") ? document.getElementById("newClassMonthlyFee").value.trim() : "";
 
             if (!name) { showToast("Vui lòng nhập tên lớp học!", "error"); return; }
-            if (feeType === "monthly" && !monthlyFee) { showToast("Vui lòng nhập học phí theo tháng!", "error"); return; }
+            
 
             var phone = (currentTutorData && currentTutorData.tutorPhone) 
                 ? currentTutorData.tutorPhone 
@@ -2061,7 +2061,7 @@
                 schedule: schedule || "Chưa cập nhật",
                 maxStudents: "20",
                 feeType: feeType || "per_session",
-                monthlyFee: monthlyFee || 0,
+                fee: fee || "",
                 tutorPhone: phone || tutorCode,
                 tutorCode: tutorCode || phone
             };
@@ -2086,7 +2086,7 @@
             document.getElementById("newClassSubject").value = "";
             document.getElementById("newClassSchedule").value = "";
             document.getElementById("newClassMonthlyFee").value = "";
-            document.getElementById("newClassMonthlyFeeGroup").style.display = "none";
+            document.getElementById("newClassMonthlyFeeGroup").style.display = "block";
 
             renderDashboardUI();
             showSyncToast('pending');
@@ -2114,7 +2114,7 @@
                     }
                     console.error("Lỗi tạo lớp ngầm:", err);
                 })
-                .createClass(phone, name, subject, schedule, feeType, tutorCode);
+                .createClass(phone, name, subject, schedule, feeType, tutorCode, fee);
         }
 
         function openEditClassModal() {

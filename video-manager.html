@@ -412,6 +412,15 @@
                 var fc = document.getElementById('filterClass');
                 var ft = document.getElementById('filterTopic');
                 var fl = document.getElementById('filterLesson');
+                
+                var currentFc = fc.value;
+                var currentFt = ft.value;
+                var currentFl = fl.value;
+
+                fc.innerHTML = '<option value="">-- Tất cả lớp --</option>';
+                ft.innerHTML = '<option value="">-- Tất cả chủ đề --</option>';
+                fl.innerHTML = '<option value="">-- Tất cả bài học --</option>';
+
                 if (res.classes && Array.isArray(res.classes)) {
                     res.classes.forEach(function(c) { fc.innerHTML += '<option value="'+c+'">'+c+'</option>'; });
                 }
@@ -421,6 +430,10 @@
                 if (res.lessons && Array.isArray(res.lessons)) {
                     res.lessons.forEach(function(l) { fl.innerHTML += '<option value="'+l+'">'+l+'</option>'; });
                 }
+
+                fc.value = currentFc;
+                ft.value = currentFt;
+                fl.value = currentFl;
             })
             .withFailureHandler(function(e) {
                 console.warn('loadFilterOptions lỗi:', e);

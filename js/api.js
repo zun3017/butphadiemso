@@ -26,13 +26,14 @@ if (typeof window !== 'undefined') {
 function updateSyncIndicator() {
     const remaining = apiQueue.length + (isQueueProcessing ? 1 : 0);
     
-    // Nếu có hàm showSyncToast của Dashboard thì đồng bộ luôn
+    // Nếu có hàm showSyncToast của Dashboard thì dùng duy nhất 1 toast của Dashboard
     if (typeof showSyncToast === 'function') {
         if (remaining > 0) {
             showSyncToast('pending');
         } else {
             showSyncToast('success');
         }
+        return;
     }
 
     if (typeof document === 'undefined' || !document.body) return;

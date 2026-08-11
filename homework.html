@@ -1088,8 +1088,16 @@
                     var alreadySubmitted = null;
                     if (currentHW && currentHW.submissions) {
                         for (var si = 0; si < currentHW.submissions.length; si++) {
-                            if (currentHW.submissions[si].hwId === hw.hwId) {
-                                alreadySubmitted = currentHW.submissions[si];
+                            var sub = currentHW.submissions[si];
+                            var subHwId = String(sub.hwId || '').trim().toLowerCase();
+                            var subLesson = String(sub.lessonName || sub.title || '').trim().toLowerCase();
+                            var targetHwId = String(hw.hwId || '').trim().toLowerCase();
+                            var targetTitle = String(hw.title || '').trim().toLowerCase();
+
+                            if ((targetHwId !== '' && subHwId === targetHwId) ||
+                                (targetTitle !== '' && subLesson === targetTitle) ||
+                                (targetTitle !== '' && subHwId === targetTitle)) {
+                                alreadySubmitted = sub;
                                 break;
                             }
                         }

@@ -503,3 +503,62 @@ function logCourseAccess(courseCode, device) {
     return { success: false };
   }
 }
+
+/**
+ * Lưu ghi chú bài học của học sinh vào Google Sheet
+ */
+function saveStudentNote(courseCode, videoId, noteText) {
+  try {
+    initVideoSheets();
+    var ss = getVideoSpreadsheet();
+    var sheet = ss.getSheetByName('Ghi_Chu_KH');
+    if (!sheet) {
+      sheet = ss.insertSheet('Ghi_Chu_KH');
+      sheet.getRange(1, 1, 1, 4).setValues([['Ma_KH', 'Video_ID', 'Noi_Dung_Ghi_Chu', 'Cap_Nhat_Lan_Cuoi']]);
+      sheet.setFrozenRows(1);
+    }
+    
+    var data = sheet.getDataRange().getValues();
+    var now = Utilities.formatDate(new Date(), 'Asia/Ho_Chi_Minh', 'dd/MM/yyyy HH:mm:ss');
+    var found = false;
+    
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === courseCode && data[i][1] === videoId) {
+        sheet.getRange(i + 1, 3).setValue(noteText || '');
+        sheet.getRange(i + 1, 4).setValue(now);
+        found = true;
+        break;
+      }
+    }
+    
+    if (!found) {
+      sheet.appendRow([courseCode || '', videoId || '', noteText || '', now]);
+    }
+    
+    return { success: true };
+  } catch (e) {
+    return { success: false, message: e.toString() };
+  }
+}
+
+/**
+ * Lấy ghi chú bài học từ Google Sheet
+ */
+function getStudentNotes(courseCode) {
+  try {
+    var ss = getVideoSpreadsheet();
+    var sheet = ss.getSheetByName('Ghi_Chu_KH');
+    if (!sheet) return { success: true, notes: {} };
+    
+    var data = sheet.getDataRange().getValues();
+    var notesMap = {};
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === courseCode) {
+        notesMap[data[i][1]] = data[i][2]; // videoId -> noteText
+      }
+    }
+    return { success: true, notes: notesMap };
+  } catch (e) {
+    return { success: false, message: e.toString() };
+  }
+}

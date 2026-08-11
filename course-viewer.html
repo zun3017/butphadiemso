@@ -484,14 +484,27 @@
         renderSidebar();
     }
 
+    var noteSaveTimeout = null;
     function saveNote() {
         if (currentIdx < 0) return;
         var vid = courseVideos[currentIdx].videoId;
+        var noteVal = document.getElementById('notesInput').value;
         if (!watchHistory[vid]) watchHistory[vid] = {};
-        watchHistory[vid].note = document.getElementById('notesInput').value;
+        watchHistory[vid].note = noteVal;
         saveProgress();
         var hint = document.getElementById('notesHint');
-        hint.textContent = 'Đã lưu lúc ' + fmtTime(new Date());
+        hint.textContent = 'Đã lưu trên thiết bị lúc ' + fmtTime(new Date());
+
+        if (noteSaveTimeout) clearTimeout(noteSaveTimeout);
+        noteSaveTimeout = setTimeout(function() {
+            google.script.run
+                .withSuccessHandler(function(res) {
+                    if (res && res.success) {
+                        hint.textContent = '☁️ Đã đồng bộ ghi chú lên hệ thống lúc ' + fmtTime(new Date());
+                    }
+                })
+                .saveStudentNote(courseCode, vid, noteVal);
+        }, 1200);
     }
 
     function refreshActionBtns(prog) {

@@ -1398,6 +1398,69 @@
         </div>
     </div>
 
+    <!-- MODAL 6: Xem Bài Tập Nộp Trực Tiếp Trong Web (In-App Preview) -->
+    <div id="previewSubmissionModal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 920px; width: 95%; height: 86vh; padding: 20px; border-radius: 22px; background: #0D0826; border: 1px solid rgba(99, 102, 241, 0.4); box-shadow: 0 15px 50px rgba(0,0,0,0.9); display: flex; flex-direction: column;">
+            <div class="modal-header" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <h3 style="color: #A5B4FC; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <i class="fa-solid fa-file-eye" style="color: #6366F1;"></i> Xem bài làm: <span id="previewStudentNameTitle" style="color: #FFD23F;"></span>
+                </h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button id="btnPreviewGradeDirect" onclick="openGradeModalFromPreview()" style="background: rgba(249,115,22,0.2); border: 1px solid #F97316; color: #FED7AA; padding: 6px 14px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-pen"></i> Chấm điểm ngay
+                    </button>
+                    <a id="btnPreviewExternalLink" href="" target="_blank" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; padding: 6px 12px; border-radius: 10px; font-size: 12px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở tab mới
+                    </a>
+                    <button class="btn-close-modal" onclick="closeModal('previewSubmissionModal')" style="background: none; border: none; color: #A6ADCE; font-size: 22px; cursor: pointer;">&times;</button>
+                </div>
+            </div>
+            <div style="flex: 1; position: relative; background: #050314; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+                <div id="previewLoadingSpinner" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #A5B4FC; text-align: center;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 32px; margin-bottom: 10px;"></i>
+                    <div>Đang tải bản xem trước bài làm...</div>
+                </div>
+                <iframe id="submissionPreviewIframe" src="" style="width: 100%; height: 100%; border: none; position: relative; z-index: 2;" onload="document.getElementById('previewLoadingSpinner').style.display='none';"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 7: Chấm Điểm & Nhận Xét Bài Nộp (Giao diện tùy chỉnh chuẩn UI) -->
+    <div id="teacherGradeModal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 450px; width: 92%; padding: 25px; border-radius: 20px; background: #0D0826; border: 1px solid rgba(249, 115, 22, 0.4); box-shadow: 0 10px 40px rgba(0,0,0,0.85);">
+            <div class="modal-header" style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="color: #FFD23F; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <i class="fa-solid fa-pen-to-square" style="color: #F97316;"></i> Chấm điểm bài làm
+                </h3>
+                <button class="btn-close-modal" onclick="closeModal('teacherGradeModal')" style="background: none; border: none; color: #A6ADCE; font-size: 22px; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: #A6ADCE; font-size: 12px; font-weight: 700; margin-bottom: 6px;">HỌC SINH</label>
+                <input type="text" id="gradeStudentNameInput" readonly style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 14px; color: #FFF; font-weight: 700; font-size: 14px; width: 100%; outline: none;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; color: #A6ADCE; font-size: 12px; font-weight: 700; margin-bottom: 6px;">ĐIỂM SỐ <span style="color:#EF4444;">*</span></label>
+                <input type="text" id="gradeScoreInput" placeholder="Ví dụ: 8.5, 9, 10..." style="background: rgba(255,255,255,0.03); border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 10px; padding: 12px 14px; color: #FFD23F; font-weight: 800; font-size: 16px; width: 100%; outline: none;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; color: #A6ADCE; font-size: 12px; font-weight: 700; margin-bottom: 6px;">NHẬN XÉT CỦA GIÁO VIÊN</label>
+                <textarea id="gradeCommentInput" rows="3" placeholder="Nhập nhận xét (Bài làm tốt, cần chú ý câu 3...)" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 14px; color: #FFF; font-size: 13.5px; width: 100%; outline: none; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeModal('teacherGradeModal')" style="flex: 1; padding: 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #FFF; font-weight: 600; cursor: pointer;">
+                    Hủy bỏ
+                </button>
+                <button id="btnSaveSubmissionGrade" onclick="saveTeacherGrade()" style="flex: 1.5; padding: 12px; background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); border: none; border-radius: 12px; color: #FFF; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(249,115,22,0.35); display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu kết quả
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Sync Toast Badge giống Dành cho Giáo Viên -->
     <div id="syncToast" class="sync-toast" style="display:none;"></div>
 
@@ -2941,7 +3004,7 @@
                                 html += '<span style="font-weight:700;color:#6EE7B7;font-size:13px;"><i class="fa-solid fa-circle-check"></i> ' + escapeHtml(sub.studentName || '') + '</span>';
                                 html += '<span style="font-size:11.5px;color:#A6ADCE;">' + escapeHtml(sub.timestamp || '') + '</span>';
                                 html += '<div style="display:flex;gap:6px;align-items:center;">';
-                                if (sub.fileUrl) html += '<a href="' + sub.fileUrl + '" target="_blank" style="padding:4px 10px;background:rgba(99,102,241,0.15);border:1px solid #6366F1;border-radius:8px;color:#A5B4FC;font-size:12px;text-decoration:none;"><i class="fa-solid fa-file-arrow-down"></i> Xem bài</a>';
+                                if (sub.fileUrl) html += '<button onclick="openSubmissionPreviewModal(\'' + sub.subId + '\',\'' + escapeHtml(sub.studentName || '') + '\',\'' + sub.fileUrl.replace(/'/g, "\\'") + '\')" style="padding:4px 10px;background:rgba(99,102,241,0.15);border:1px solid #6366F1;border-radius:8px;color:#A5B4FC;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;"><i class="fa-solid fa-file-eye"></i> Xem bài</button>';
                                 if (sub.score) {
                                     html += '<span style="padding:4px 10px;background:rgba(255,210,63,0.15);border:1px solid #FFD23F;border-radius:8px;color:#FFD23F;font-size:12px;">Điểm: <b>' + sub.score + '</b></span>';
                                 } else {
@@ -2963,12 +3026,88 @@
                 .getClassSubmissionsGrouped(cls.classId);
         }
 
+        var activeGradingSubId = "";
+        var activeGradingStudentName = "";
+
+        function openSubmissionPreviewModal(subId, studentName, fileUrl) {
+            activeGradingSubId = subId;
+            activeGradingStudentName = studentName;
+
+            var titleEl = document.getElementById('previewStudentNameTitle');
+            var iframe = document.getElementById('submissionPreviewIframe');
+            var extBtn = document.getElementById('btnPreviewExternalLink');
+            var spinner = document.getElementById('previewLoadingSpinner');
+
+            if (titleEl) titleEl.textContent = studentName || '';
+            if (extBtn) extBtn.href = fileUrl || '#';
+            if (spinner) spinner.style.display = 'block';
+
+            var previewUrl = fileUrl || '';
+            if (fileUrl) {
+                var fileMatch = fileUrl.match(/\/file\/d\/([^\/]+)/) || fileUrl.match(/id=([^&]+)/);
+                if (fileMatch && fileMatch[1]) {
+                    previewUrl = 'https://drive.google.com/file/d/' + fileMatch[1] + '/preview';
+                } else if (fileUrl.indexOf('/folders/') !== -1 || fileUrl.indexOf('/drive/folders/') !== -1) {
+                    var folderMatch = fileUrl.match(/\/folders\/([^\/]+)/);
+                    if (folderMatch && folderMatch[1]) {
+                        previewUrl = 'https://drive.google.com/embeddedfolderview?id=' + folderMatch[1] + '#list';
+                    }
+                }
+            }
+
+            if (iframe) iframe.src = previewUrl;
+
+            var modal = document.getElementById('previewSubmissionModal');
+            if (modal) modal.classList.add('active');
+        }
+
+        function openGradeModalFromPreview() {
+            closeModal('previewSubmissionModal');
+            openGradeModal(activeGradingSubId, activeGradingStudentName);
+        }
+
         function openGradeModal(subId, studentName) {
-            var score = prompt('Nhập điểm cho ' + studentName + ' (ví dụ: 8.5):');
-            if (score === null) return;
-            var comment = prompt('Nhận xét của giáo viên (có thể để trống):') || '';
+            activeGradingSubId = subId;
+            activeGradingStudentName = studentName;
+
+            var nameInput = document.getElementById('gradeStudentNameInput');
+            var scoreInput = document.getElementById('gradeScoreInput');
+            var commentInput = document.getElementById('gradeCommentInput');
+
+            if (nameInput) nameInput.value = studentName || '';
+            if (scoreInput) scoreInput.value = '';
+            if (commentInput) commentInput.value = '';
+
+            var modal = document.getElementById('teacherGradeModal');
+            if (modal) modal.classList.add('active');
+        }
+
+        function saveTeacherGrade() {
+            var scoreInput = document.getElementById('gradeScoreInput');
+            var commentInput = document.getElementById('gradeCommentInput');
+
+            var score = scoreInput ? scoreInput.value.trim() : '';
+            var comment = commentInput ? commentInput.value.trim() : '';
+
+            if (!score) {
+                showToast('Vui lòng nhập điểm số!', 'warning');
+                return;
+            }
+
+            var btn = document.getElementById('btnSaveSubmissionGrade');
+            var oldText = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Đang lưu...';
+            }
+
             google.script.run
                 .withSuccessHandler(function(res) {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = oldText;
+                    }
+                    closeModal('teacherGradeModal');
                     if (res && res.success) {
                         showToast('Đã chấm điểm thành công!', 'success');
                         loadClassSubmissionsGrouped();
@@ -2976,8 +3115,14 @@
                         showToast('Lỗi: ' + (res ? res.error : 'Không rõ'), 'error');
                     }
                 })
-                .withFailureHandler(function(err) { showToast('Lỗi: ' + err.toString(), 'error'); })
-                .gradeSubmission(subId, score, comment);
+                .withFailureHandler(function(err) {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = oldText;
+                    }
+                    showToast('Lỗi: ' + err.toString(), 'error');
+                })
+                .gradeSubmission(activeGradingSubId, score, comment);
         }
 
         function loadClassParentFeedback() {

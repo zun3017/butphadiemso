@@ -3050,7 +3050,7 @@
                 } else if (fileUrl.indexOf('/folders/') !== -1 || fileUrl.indexOf('/drive/folders/') !== -1) {
                     var folderMatch = fileUrl.match(/\/folders\/([^\/]+)/);
                     if (folderMatch && folderMatch[1]) {
-                        previewUrl = 'https://drive.google.com/embeddedfolderview?id=' + folderMatch[1] + '#list';
+                        previewUrl = 'https://drive.google.com/embeddedfolderview?id=' + folderMatch[1] + '#grid';
                     }
                 }
             }

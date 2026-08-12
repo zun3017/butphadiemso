@@ -1,11 +1,9 @@
-
-
 // Tải file bài tập đơn lẻ lên (Tương thích ngược)
 function uploadHomeworkFile(ma, studentName, lessonName, fileBase64, fileName, mimeType) {
   return uploadHomeworkFiles(ma, lessonName, lessonName, [{ fileBase64: fileBase64, fileName: fileName, mimeType: mimeType }], studentName);
 }
 
-// Lưu tệp nộp bài của học sinh (Hỗ trợ nén nhiều ảnh thành 1 file ZIP)
+// Lưu tệp nộp bài của học sinh (Lưu trực tiếp từng ảnh/file vào thư mục, không nén zip)
 // hwId: Mã bài tập cụ thể từ sheet 'Bài tập lớp học' (VD: HW_1234567890)
 // lessonName: Tên hiển thị để đặt tên file trên Drive
 function uploadHomeworkFiles(ma, hwId, lessonName, filesList, inputStudentName) {
@@ -162,11 +160,13 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList, inputStudentName) 
         try { singleFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (fErr) {}
         fileUrl = singleFile.getUrl();
       } else if (blobs.length > 1) {
-        var zipName = studentName + " - " + shortDateString.split('/').join('-') + " - " + lessonName + ".zip";
-        var zipBlob = Utilities.zip(blobs, zipName);
-        var zipFile = studentFolder.createFile(zipBlob);
-        try { zipFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (fErr) {}
-        fileUrl = zipFile.getUrl();
+        // Lưu từng file/ảnh trực tiếp vào thư mục học sinh (KHÔNG nén zip để xem được ảnh trực tiếp trên web)
+        for (var b = 0; b < blobs.length; b++) {
+          var savedF = studentFolder.createFile(blobs[b]);
+          try { savedF.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (fErr) {}
+        }
+        try { studentFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (fErr) {}
+        fileUrl = studentFolder.getUrl();
       }
     }
     
@@ -214,7 +214,6 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList, inputStudentName) 
   }
 }
 
-// Xóa tạm thời bài nộp của học sinh
 function deleteHomeworkFile(rowIndex) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();

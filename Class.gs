@@ -1283,5 +1283,6 @@ function getClassSubmissions(classId) {
       });
     }
   }
-  return submissions;
+  // Sắp xếp bài nộp mới nhất lên đầu
+  return submissions.reverse();
 }

@@ -245,8 +245,8 @@ function getClassSubmissionsGrouped(classId) {
         if (!subsByHwId[hwId]) subsByHwId[hwId] = [];
         subsByHwId[hwId].push({
           subId:       dataSub[j][0],
-          studentId:   dataSub[j][4],
-          studentName: dataSub[j][5],
+          studentId:   dataSub[j][3] || dataSub[j][4] || '',
+          studentName: dataSub[j][4] || dataSub[j][3] || '',
           timestamp:   dataSub[j][7],
           fileUrl:     dataSub[j][8],
           score:       dataSub[j][9] || '',
@@ -264,6 +264,11 @@ function getClassSubmissionsGrouped(classId) {
       if (dataHW[i][9] && String(dataHW[i][9]).trim() !== '') continue; // đã xóa
       var hwId = dataHW[i][0];
       var subs = subsByHwId[hwId] || [];
+      
+      // Sắp xếp bài nộp: MỚI NHẤT LÊN ĐẦU (cũ nhất ở dưới cùng)
+      subs.sort(function(a, b) {
+        return (b.rowIndex || 0) - (a.rowIndex || 0);
+      });
 
       var submittedIds = {};
       for (var k = 0; k < subs.length; k++) {

@@ -753,3 +753,10 @@ body {
     .cta-grid { grid-template-columns: 1fr; }
     .results-stats { flex-direction: column; gap: 30px; text-align: center; }
 }
+
+/* Footer full width fix */
+.footer-section {
+    width: 100%;
+    box-sizing: border-box;
+    align-self: stretch;
+}

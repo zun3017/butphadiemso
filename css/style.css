@@ -210,10 +210,15 @@
                 width: 100%;
                 justify-content: center;
                 gap: 8px;
+                flex-wrap: wrap;
             }
             .nav-btn {
                 padding: 8px 14px;
                 font-size: 12.5px;
+            }
+            /* Ẩn nút Giáo viên trên điện thoại, chỉ giữ 3 nút */
+            #btnNavClass {
+                display: none !important;
             }
             .intro-buttons {
                 flex-direction: column;

@@ -317,8 +317,8 @@ function gradeSubmission(subId, score, comment) {
     var data = sheetSub.getDataRange().getDisplayValues();
     for (var i = 1; i < data.length; i++) {
       if (String(data[i][0]).trim() === String(subId).trim()) {
-        sheetSub.getRange(i + 1, 10).setValue(score || '');   // Cột J = Điểm số
-        sheetSub.getRange(i + 1, 11).setValue(comment || ''); // Cột K = Nhận xét GV
+        // Tối ưu hóa: Ghi mảng 1 lần từ cột 10 đến 11
+        sheetSub.getRange(i + 1, 10, 1, 2).setValues([[score || '', comment || '']]);
         SpreadsheetApp.flush();
         return { success: true };
       }

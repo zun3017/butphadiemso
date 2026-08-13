@@ -115,6 +115,18 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList, inputStudentName) 
     var lessonFolder;
     if (lessonFolders.hasNext()) {
       lessonFolder = lessonFolders.next();
+      // Xóa các thư mục trùng tên (nếu có) để tránh nhân bản
+      while (lessonFolders.hasNext()) {
+        try {
+          var dupLesson = lessonFolders.next();
+          // Di chuyển file từ thư mục trùng vào thư mục chính
+          var dupFiles = dupLesson.getFiles();
+          while (dupFiles.hasNext()) { try { dupFiles.next().setTrashed(true); } catch(e) {} }
+          var dupSubs = dupLesson.getFolders();
+          while (dupSubs.hasNext()) { try { dupSubs.next().setTrashed(true); } catch(e) {} }
+          dupLesson.setTrashed(true);
+        } catch(e) {}
+      }
     } else {
       lessonFolder = baseFolder.createFolder(lessonName);
     }
@@ -123,6 +135,20 @@ function uploadHomeworkFiles(ma, hwId, lessonName, filesList, inputStudentName) 
     var studentFolder;
     if (studentFolders.hasNext()) {
       studentFolder = studentFolders.next();
+      // Xóa TẤT CẢ thư mục học sinh trùng tên (nguyên nhân gây nhân bản ảnh)
+      while (studentFolders.hasNext()) {
+        try {
+          var dupStudent = studentFolders.next();
+          var dupStudentFiles = dupStudent.getFiles();
+          while (dupStudentFiles.hasNext()) { try { dupStudentFiles.next().setTrashed(true); } catch(e) {} }
+          dupStudent.setTrashed(true);
+        } catch(e) {}
+      }
+      // Xóa các file cũ trong thư mục để tránh nhân bản khi nộp lại
+      var oldFiles = studentFolder.getFiles();
+      while(oldFiles.hasNext()) {
+        try { oldFiles.next().setTrashed(true); } catch(e) {}
+      }
     } else {
       studentFolder = lessonFolder.createFolder(studentName);
     }

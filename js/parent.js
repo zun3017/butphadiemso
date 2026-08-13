@@ -50,7 +50,7 @@ function renderStudentView(ketQua) {
     var loiChaoEl = document.getElementById('loiChao');
     if (loiChaoEl) {
         loiChaoEl.innerHTML =
-            "<h3 style='color: #FFD23F; font-size: 20px; font-weight: 800; margin: 0 0 8px 0; text-align: center; font-family: Inter;'>Xin chào, <span style='color: #FFFFFF;'>" + (ketQua.tenHocSinh || 'Học sinh') + "</span> 👋</h3>" +
+            "<h3 style='color: #FFD23F; font-size: 22px; font-weight: 800; margin: 15px 0 8px 0; text-align: center; font-family: Inter;'>Xin chào, <span style='color: #FFFFFF;'>" + (ketQua.tenHocSinh || 'Học sinh') + "</span> 👋</h3>" +
             "<p style='color: #A6ADCE; font-size: 13px; text-align: center; margin: 0 0 25px 0; font-family: Inter;'>(" + lopHoc + " • Số điện thoại: " + studentPhone + ")</p>";
     }
     currentStudentName = ketQua.tenHocSinh || "";

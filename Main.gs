@@ -98,7 +98,7 @@ function doPost(e) {
         'addVideo', 'getVideoList', 'getVideoFilterOptions', 'updateVideo', 'deleteVideo',
         'createCourse', 'getCourseList', 'toggleCourseStatus', 'deleteCourse', 'updateCourse',
         'checkLoginCode', 'getCourseVideos',
-        'saveStudentNote', 'getStudentNotes',
+        'saveStudentNote', 'getStudentNotes', 'getDriveFolderImages'
       ];
       if (ALLOWED_FUNCTIONS.indexOf(funcName) === -1) {
         return ContentService.createTextOutput(JSON.stringify({

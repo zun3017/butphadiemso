@@ -256,22 +256,26 @@ function getClassDashboardData(tutorPhone, requestedClassId, tutorCode) {
     var submissions = getClassSubmissions(activeClass.classId);
     var totalStudents = students ? students.length : 0;
     
-    for (var h = 0; h < homeworkList.length; h++) {
-      var hw = homeworkList[h];
-      var submittedStudents = {};
-      var count = 0;
-      if (submissions) {
-        for (var s = 0; s < submissions.length; s++) {
-          if (submissions[s].homeworkId === hw.hwId) {
-             var sid = submissions[s].studentId || submissions[s].studentName || submissions[s].parentPhone;
-             if (sid && !submittedStudents[sid]) {
-                 submittedStudents[sid] = true;
-                 count++;
-             }
-          }
+    // Tối ưu hóa: Gom nhóm submissions theo homeworkId (Độ phức tạp O(N))
+    var submissionGroups = {};
+    if (submissions) {
+      for (var s = 0; s < submissions.length; s++) {
+        var sub = submissions[s];
+        if (!submissionGroups[sub.homeworkId]) {
+          submissionGroups[sub.homeworkId] = {};
+        }
+        var sid = sub.studentId || sub.studentName || sub.parentPhone;
+        if (sid) {
+          submissionGroups[sub.homeworkId][sid] = true;
         }
       }
-      hw.submittedCount = count;
+    }
+    
+    // Gán count cho từng homework (Độ phức tạp O(M)) thay vì lồng nhau O(N*M)
+    for (var h = 0; h < homeworkList.length; h++) {
+      var hw = homeworkList[h];
+      var group = submissionGroups[hw.hwId];
+      hw.submittedCount = group ? Object.keys(group).length : 0;
       hw.totalStudents = totalStudents;
     }
   }
@@ -318,11 +322,17 @@ function updateClassInfo(classId, className, subject, schedule, feeType, fee) {
   for (var i = 1; i < data.length; i++) {
     if (data[i][0] === classId) {
       var oldClassName = data[i][1];
-      sheetClasses.getRange(i + 1, 2).setValue(className);
-      sheetClasses.getRange(i + 1, 4).setValue(subject);
-      sheetClasses.getRange(i + 1, 5).setValue(schedule);
-      if (fee !== undefined && fee !== null) { sheetClasses.getRange(i + 1, 6).setValue(fee); }
-      sheetClasses.getRange(i + 1, 7).setValue(feeType || "per_session");
+      
+      // Tối ưu hóa: Ghi theo mảng từ cột 2 đến cột 7
+      var rowValues = [
+          className || "",
+          data[i][2] || "", // tutorCode giữ nguyên
+          subject || "",
+          schedule || "",
+          (fee !== undefined && fee !== null) ? fee : (data[i][5] || ""),
+          feeType || "per_session"
+      ];
+      sheetClasses.getRange(i + 1, 2, 1, 6).setValues([rowValues]);
       
       // Nếu đổi tên lớp, tự động đổi tên Tab Sheet tương ứng
       if (oldClassName && oldClassName !== className) {
@@ -465,21 +475,30 @@ function updateClassStudent(studentId, studentName, parentPhone, parentName, fee
   var data = sheetStudents.getDataRange().getDisplayValues();
   var rowIndex = -1;
   var classId = "";
+  var targetRowData = null;
   for (var i = 1; i < data.length; i++) {
     if (data[i][0] === studentId) {
       rowIndex = i + 1;
       classId = data[i][2];
+      targetRowData = data[i];
       break;
     }
   }
   
-  if (rowIndex !== -1) {
-    sheetStudents.getRange(rowIndex, 2).setValue(studentName || "").setFontFamily("Arial");
-    sheetStudents.getRange(rowIndex, 4).setValue("'" + (parentPhone || "")).setFontFamily("Arial");
-    sheetStudents.getRange(rowIndex, 6).setValue(parentName || "").setFontFamily("Arial");
-    sheetStudents.getRange(rowIndex, 7).setValue(fee || "").setFontFamily("Arial");
-    sheetStudents.getRange(rowIndex, 8).setValue(homeworkCode || "").setFontFamily("Arial");
-    sheetStudents.getRange(rowIndex, 10).setValue(feeType || "").setFontFamily("Arial");
+  if (rowIndex !== -1 && targetRowData) {
+    // Tối ưu hóa: Ghi mảng 1 lần từ cột 2 đến cột 10
+    var rowValues = [
+      studentName || "",
+      targetRowData[2], // classId
+      "'" + (parentPhone || ""),
+      targetRowData[4], // joinDate
+      parentName || "",
+      fee || "",
+      homeworkCode || "",
+      targetRowData[8] || "", // deletedAt
+      feeType || ""
+    ];
+    sheetStudents.getRange(rowIndex, 2, 1, 9).setValues([rowValues]).setFontFamily("Arial");
     if (classId) clearClassCache(classId, "students");
     SpreadsheetApp.flush();
     return { success: true };
@@ -1027,18 +1046,19 @@ function saveClassAnnouncement(classId, className, text) {
 
 
 // Lấy phản hồi từ phụ huynh cho giáo viên lớp học
-function getClassTutorFeedback(tutorPhone, tutorCode) {
+function getClassTutorFeedback(tutorPhone, tutorCode, targetClassId) {
   try {
     var ssClass = getClassSpreadsheet();
     if (!ssClass) return [];
 
-    // 1. Lấy danh sách các mã lớp học của giáo viên này
-    var classList = getClassList(tutorPhone, tutorCode);
-    if (!classList || classList.length === 0) return [];
-    
     var tutorClassIds = [];
-    for (var i = 0; i < classList.length; i++) {
-      tutorClassIds.push(String(classList[i].classId).trim());
+    // Nếu không truyền targetClassId (để tương thích ngược), lấy tất cả các lớp của giáo viên
+    if (!targetClassId) {
+      var classList = getClassList(tutorPhone, tutorCode);
+      if (!classList || classList.length === 0) return [];
+      for (var i = 0; i < classList.length; i++) {
+        tutorClassIds.push(String(classList[i].classId).trim().toUpperCase());
+      }
     }
 
     var sheetFeedback = ssClass.getSheetByName('Ý kiến Phụ huynh lớp học');
@@ -1078,11 +1098,27 @@ function traCuuDuLieuHocSinhLop(phone, hsRow, ss) {
   var studentId = hsRow[0];
   var studentName = hsRow[1];
   var classId = hsRow[2];
+
+  var tenLop = (classId && String(classId).trim() !== "") ? String(classId).trim() : "Đang cập nhật";
+  var sClasses = ss.getSheetByName('Danh sách lớp học') || ss.getSheetByName('Mã lớp học');
+  if (sClasses) {
+    var dataClasses = sClasses.getDataRange().getDisplayValues();
+    for (var c = 1; c < dataClasses.length; c++) {
+      var cId = String(dataClasses[c][0] || "").trim();
+      var cName = String(dataClasses[c][1] || "").trim();
+      if ((cId && cId === String(classId).trim()) || (cName && cName === String(classId).trim())) {
+        tenLop = cName || cId;
+        break;
+      }
+    }
+  }
   
   var ketQua = {
     timThay: true,
     studentId: studentId,
     classId: classId,
+    tenLop: tenLop,
+    className: tenLop,
     tenHocSinh: studentName,
     thongBaoHocSinh: "",
     lichSuHocTap: [],
@@ -1285,4 +1321,30 @@ function getClassSubmissions(classId) {
   }
   // Sắp xếp bài nộp mới nhất lên đầu
   return submissions.reverse();
+}
+
+// Lấy danh sách file ảnh trong một thư mục Drive
+function getDriveFolderImages(folderUrl) {
+  try {
+    var match = folderUrl.match(/\/folders\/([^\/]+)/) || folderUrl.match(/id=([^&]+)/);
+    if (!match || !match[1]) return [];
+    var folderId = match[1];
+    var folder = DriveApp.getFolderById(folderId);
+    var files = folder.getFiles();
+    var result = [];
+    while (files.hasNext()) {
+      var file = files.next();
+      var mimeType = file.getMimeType();
+      var isImage = mimeType.indexOf('image/') === 0;
+      result.push({
+        name: file.getName(),
+        id: file.getId(),
+        url: 'https://drive.google.com/thumbnail?id=' + file.getId() + '&sz=w800',
+        isImage: isImage
+      });
+    }
+    return result;
+  } catch (e) {
+    return [];
+  }
 }

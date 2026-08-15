@@ -3,5 +3,6 @@ node_modules/
 .DS_Store
 *.xlsx
 Gia sư/
+Gia sư - demo/
 chuyển đổi supabase/
 export-screenshots.html

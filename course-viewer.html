@@ -339,6 +339,7 @@
 
     </div>
 
+    <script src="js/demo-data.js"></script>
     <script src="js/api.js?v=1.9.0"></script>
     <script>
     // ==========================================
@@ -427,11 +428,16 @@
 
         // Update player
         var wrap = document.getElementById('playerWrap');
-        var embedUrl = v.fileId ? 'https://drive.google.com/file/d/' + v.fileId + '/preview' : '';
-        if (embedUrl) {
-            wrap.innerHTML = '<iframe src="' + embedUrl + '" allowfullscreen allow="autoplay" title="' + esc(v.name) + '"></iframe>';
+        var vUrl = v.videoUrl || v.driveUrl || '';
+        
+        if (vUrl && vUrl.includes('physics-demo-video.html')) {
+            wrap.innerHTML = '<iframe src="' + vUrl + '" allowfullscreen style="width: 100%; height: 100%; border: none; border-radius: 12px; background: #000;"></iframe>';
+        } else if (vUrl && (vUrl.includes('drive.google.com') || (v.fileId && v.fileId.length > 20))) {
+            var driveSrc = v.fileId ? ('https://drive.google.com/file/d/' + v.fileId + '/preview') : vUrl;
+            wrap.innerHTML = '<iframe src="' + driveSrc + '" allowfullscreen allow="autoplay" title="' + esc(v.name) + '"></iframe>';
         } else {
-            wrap.innerHTML = '<div class="cv-player-placeholder"><i class="fa-solid fa-triangle-exclamation" style="color:#EF4444;"></i><p>Không thể tải video. Kiểm tra lại link Drive.</p></div>';
+            // Mặc định nạp video demo HTML5 Vật Lý sống động
+            wrap.innerHTML = '<iframe src="physics-demo-video.html?lesson=' + (idx + 1) + '" allowfullscreen style="width: 100%; height: 100%; border: none; border-radius: 12px; background: #000;"></iframe>';
         }
 
         // Update info panel

@@ -4,7 +4,7 @@
     <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập Quản trị / Giáo viên</title>
+    <title>Đăng nhập Quản trị / Giáo viên - Demo Vật Lý</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -18,8 +18,8 @@
             <a href="index.html" class="nav-left" style="text-decoration: none; cursor: pointer;">
                 <img src="https://i.postimg.cc/66rKbPmb/trinh-duyet.png" alt="Logo" class="nav-logo">
                 <div class="header-text">
-                    <h1>Tra cứu học tập</h1>
-                    <p>Học tập thông minh</p>
+                    <h1>Lớp Vật Lý Thầy Nam</h1>
+                    <p>Hệ thống Demo</p>
                 </div>
             </a>
             <div class="nav-right">
@@ -34,10 +34,10 @@
     <div class="main-container">
         <div id="sectionClassLogin" class="page-section" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
             <div class="badge">
-                <span>🏫</span> CỔNG THÔNG TIN LỚP HỌC
+                <span>🏫</span> CỔNG THÔNG TIN LỚP HỌC (DEMO)
             </div>
-            <h1 class="main-title">Quản lý <span class="highlight">Lớp Học</span> 📚</h1>
-            <p class="sub-title" style="margin-bottom: 25px;">Đăng nhập bằng số điện thoại để quản lý lớp học, điểm danh và đánh giá tiến trình.</p>
+            <h1 class="main-title">Quản lý <span class="highlight">Lớp Học Vật Lý</span> 📚</h1>
+            <p class="sub-title" style="margin-bottom: 20px;">Đăng nhập để trải nghiệm bảng điều khiển giáo viên, quản lý lớp và chấm điểm.</p>
             
             <div class="search-card" style="max-width: 440px; width: 100%;">
                 <div class="search-title">
@@ -49,16 +49,16 @@
                     <label style="display: block; margin-bottom: 8px; color: #A6ADCE; font-size: 13px; font-weight: 500;">Số điện thoại giáo viên</label>
                     <div style="position: relative;">
                         <i class="fa-solid fa-phone" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #8E4DFF;"></i>
-                        <input type="text" id="classPhone" placeholder="Nhập số điện thoại giáo viên..." style="width: 100%; padding: 14px 16px 14px 45px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #FFF; font-size: 15px; transition: all 0.3s; outline: none;" onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+                        <input type="text" id="classPhone" value="0123456789" placeholder="Nhập số điện thoại giáo viên..." style="width: 100%; padding: 14px 16px 14px 45px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #FFF; font-size: 15px; transition: all 0.3s; outline: none;" onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
                     </div>
                 </div>
                 
                 <!-- PIN Input -->
                 <div class="modal-form-group" style="margin-bottom: 20px; text-align: left;">
-                    <label style="display: block; margin-bottom: 8px; color: #A6ADCE; font-size: 13px; font-weight: 500;">Mã PIN bảo mật (nếu có)</label>
+                    <label style="display: block; margin-bottom: 8px; color: #A6ADCE; font-size: 13px; font-weight: 500;">Mã PIN bảo mật</label>
                     <div style="position: relative;">
                         <i class="fa-solid fa-key" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #8E4DFF;"></i>
-                        <input type="password" id="classPin" placeholder="Nhập mã PIN (tùy chọn)..." maxlength="6" style="width: 100%; padding: 14px 16px 14px 45px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #FFF; font-size: 15px; transition: all 0.3s; outline: none;" onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+                        <input type="password" id="classPin" value="1234" placeholder="Nhập mã PIN (mặc định 1234)..." maxlength="6" style="width: 100%; padding: 14px 16px 14px 45px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #FFF; font-size: 15px; transition: all 0.3s; outline: none;" onfocus="this.style.borderColor='#8E4DFF'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
                     </div>
                 </div>
                 
@@ -66,31 +66,30 @@
                     Đăng nhập Lớp Học <i class="fa-solid fa-right-to-bracket" id="btnClassLoginIcon" style="margin-left: 6px;"></i>
                 </button>
                 
+                <!-- Gợi ý tài khoản demo 1 chạm -->
+                <div style="margin-top: 18px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 12.5px; color: #94A3B8; text-align: left;">
+                    <div style="margin-bottom: 6px; font-weight: 600; color: #CBD5E1;"><i class="fa-solid fa-bolt" style="color:#F59E0B;"></i> Tài khoản Dùng thử nhanh:</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" onclick="fillDemoAcc('0123456789', '1234')" style="background: rgba(142,77,255,0.15); border: 1px solid rgba(142,77,255,0.3); color: #C084FC; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer;">
+                            👨‍🏫 Thầy Nam (0123456789)
+                        </button>
+                    </div>
+                </div>
+                
                 <p id="classThongBaoLoi" class="error-msg" style="color: #EF4444; font-size: 13.5px; margin-top: 12px; display: none;"></p>
                 <p id="classLoadingText" class="loading-text" style="color: #A6ADCE; font-size: 13.5px; margin-top: 12px; display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải thông tin lớp học...</p>
             </div>
         </div>
     </div>
-    
-    <div class="desk-surface"></div>
-    <img src="https://i.postimg.cc/sDp8SmLJ/anh-be-trai-removebg-preview.png" class="character char-boy" alt="Boy" onerror="this.style.display='none'">
-    <img src="https://i.postimg.cc/1tJc0nQw/anh-be-gai-removebg-preview.png" class="character char-girl" alt="Girl" onerror="this.style.display='none'">
 
-    <!-- Space Background Decorations -->
-    <div class="star star-1"></div>
-    <div class="star star-2"></div>
-    <div class="star star-3"></div>
-    <div class="star star-4"></div>
-    <img src="https://i.postimg.cc/dQnZ1cs7/anh-hanh-tinh-removebg-preview.png" class="decor planet-left" alt="Planet" onerror="this.style.display='none'">
-    <img src="https://i.postimg.cc/QCZmdGhn/anh-hanh-tinh-1-removebg-preview.png" class="decor planet-right" alt="Planet" onerror="this.style.display='none'">
-    
-    <i class="fa-solid fa-star star-icon star-icon-1"></i>
-    <i class="fa-solid fa-star star-icon star-icon-2"></i>
-    <i class="fa-solid fa-star star-icon star-icon-3"></i>
-    <i class="fa-solid fa-star star-icon star-icon-4"></i>
-
-    <script src="js/api.js?v=1.9.0"></script>
+    <script src="js/demo-data.js"></script>
+    <script src="js/api.js"></script>
     <script>
+        function fillDemoAcc(phone, pin) {
+            document.getElementById("classPhone").value = phone;
+            document.getElementById("classPin").value = pin;
+        }
+
         function xuLyClassLogin() {
             var phone = document.getElementById("classPhone").value.trim();
             var pin = document.getElementById("classPin").value.trim();
@@ -110,6 +109,8 @@
 
             google.script.run.withSuccessHandler(function(res) {
                 loadingEl.style.display = "none";
+                if (btn) { btn.disabled = false; btn.innerHTML = 'Đăng nhập Lớp Học <i class="fa-solid fa-right-to-bracket"></i>'; }
+                
                 if (res && res.error) {
                     errEl.innerText = res.error;
                     errEl.style.display = "block";

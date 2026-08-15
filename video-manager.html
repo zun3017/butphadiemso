@@ -155,13 +155,12 @@
                 <div class="vm-form-grid">
                     <div>
                         <label class="vm-label">📝 Tên video</label>
-                        <input type="text" id="addVideoName" class="vm-input" placeholder="VD: Bài 1 - Cấu tạo nguyên tử">
+                        <input type="text" id="addVideoName" class="vm-input" placeholder="VD: Bài 1 - Đại cương Dao động điều hòa">
                     </div>
                     <div>
                         <label class="vm-label">🏫 Lớp</label>
                         <select id="addClassLevel" class="vm-select" style="height:44px;">
                             <option value="">-- Chọn lớp --</option>
-                            <option value="Lớp 8">Lớp 8</option>
                             <option value="Lớp 9">Lớp 9</option>
                             <option value="Lớp 10">Lớp 10</option>
                             <option value="Lớp 11">Lớp 11</option>
@@ -170,11 +169,11 @@
                     </div>
                     <div>
                         <label class="vm-label">📚 Chủ đề</label>
-                        <input type="text" id="addTopic" class="vm-input" placeholder="VD: Hóa Hữu Cơ">
+                        <input type="text" id="addTopic" class="vm-input" placeholder="VD: Dao động cơ">
                     </div>
                     <div>
                         <label class="vm-label">📖 Bài học (không bắt buộc)</label>
-                        <input type="text" id="addLesson" class="vm-input" placeholder="VD: Bài 1: Ankan">
+                        <input type="text" id="addLesson" class="vm-input" placeholder="VD: Bài 1: Con lắc lò xo">
                     </div>
                     <div>
                         <label class="vm-label">⏱️ Thời lượng (không bắt buộc)</label>
@@ -376,6 +375,7 @@
         </div>
     </div>
 
+    <script src="js/demo-data.js"></script>
     <script src="js/api.js?v=1.9.1"></script>
     <script>
     // ==========================================
@@ -487,12 +487,19 @@
             var isSelected = selectedIds.has(v.videoId);
             html += '<div class="vm-video-card' + (isSelected ? ' selected' : '') + '" id="vcard-' + v.videoId + '">';
             html += '<input type="checkbox" class="cb" ' + (isSelected ? 'checked' : '') + ' onchange="toggleSelect(\'' + v.videoId + '\', this.checked)">';
-            // Thumbnail / preview
-            if (v.fileId) {
-                html += '<div class="vm-video-thumb"><iframe src="https://drive.google.com/file/d/' + v.fileId + '/preview" title="preview" loading="lazy"></iframe></div>';
-            } else {
-                html += '<div class="vm-video-thumb"><i class="fa-solid fa-film"></i></div>';
+            // Thumbnail / poster preview
+            var thumbSrc = v.thumbUrl || 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=500&auto=format&fit=crop&q=80';
+            var playLink = v.videoUrl || v.driveUrl || 'physics-demo-video.html';
+            
+            html += '<div class="vm-video-thumb" onclick="window.open(\'' + playLink + '\', \'_blank\')" style="cursor: pointer; position: relative; background: linear-gradient(135deg, #1E1B4B 0%, #31104B 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 10px;">';
+            html += '<img src="' + thumbSrc + '" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.65; transition: transform 0.3s;" onmouseover="this.style.transform=\'scale(1.06)\'" onmouseout="this.style.transform=\'scale(1)\'">';
+            html += '<div style="position: absolute; width: 44px; height: 44px; border-radius: 50%; background: rgba(142,77,255,0.9); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); pointer-events: none;">';
+            html += '<i class="fa-solid fa-play" style="margin-left: 3px;"></i>';
+            html += '</div>';
+            if (v.duration) {
+                html += '<span style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: #FFF; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 700;">' + escHtml(v.duration) + '</span>';
             }
+            html += '</div>';
             html += '<div class="vm-video-name">' + escHtml(v.name) + '</div>';
             html += '<div class="vm-video-meta">';
             if (v.classLevel) html += '<span class="vm-badge-meta">🏫 ' + escHtml(v.classLevel) + '</span>';

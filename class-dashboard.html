@@ -1488,6 +1488,7 @@
     <!-- Sync Toast Badge giống Dành cho Giáo Viên -->
     <div id="syncToast" class="sync-toast" style="display:none;"></div>
 
+    <script src="js/demo-data.js"></script>
     <script src="js/api.js?v=1.9.0"></script>
     <script>
         var currentTutorData = null;
@@ -1794,12 +1795,17 @@
             var qrImg = document.getElementById("accQrImg");
             var qrText = document.getElementById("accQrText");
 
-            if (nameEl) nameEl.value = currentTutorData ? (currentTutorData.tutorName || "Giáo viên Lớp học") : "";
-            if (phoneEl) phoneEl.value = currentTutorData ? (currentTutorData.tutorPhone || "") : "";
-            if (pinEl) pinEl.value = currentTutorData ? (currentTutorData.tutorPin || currentTutorData.pin || "") : "";
+            var savedName = (currentTutorData && currentTutorData.tutorName) || sessionStorage.getItem('userName') || "Thầy Trần Hoàng Nam";
+            var savedPhone = (currentTutorData && (currentTutorData.tutorPhone || currentTutorData.phone)) || sessionStorage.getItem('userPhone') || "0123456789";
+            var savedPin = (currentTutorData && (currentTutorData.tutorPin || currentTutorData.pin)) || sessionStorage.getItem('userPin') || localStorage.getItem('userPin') || "1234";
+
+            if (nameEl) nameEl.value = savedName;
+            if (phoneEl) phoneEl.value = savedPhone;
+            if (pinEl) pinEl.value = savedPin;
             if (classCountEl) classCountEl.value = (currentClasses ? currentClasses.length : 0) + " lớp";
 
             var totalUnpaid = 0;
+            var cls = (currentClasses && activeClassIndex >= 0 && activeClassIndex < currentClasses.length) ? currentClasses[activeClassIndex] : null;
             if (activeClassLessonLogs && activeStudents) {
                 activeClassLessonLogs.forEach(function(log) {
                     var sNotes = log.studentNotes || {};
@@ -1816,7 +1822,7 @@
             }
             if (unpaidEl) unpaidEl.value = totalUnpaid.toLocaleString('vi-VN') + " VNĐ";
 
-            var qrUrl = currentTutorData ? (currentTutorData.qrUrl || currentTutorData.qrCodeUrl || "") : "";
+            var qrUrl = (currentTutorData && (currentTutorData.qrUrl || currentTutorData.qrCodeUrl)) || localStorage.getItem('teacherQrUrl') || "https://i.postimg.cc/mD47FmN8/qr-demo.png";
             if (qrUrl && qrImg) {
                 qrImg.src = qrUrl;
                 qrImg.style.display = "block";

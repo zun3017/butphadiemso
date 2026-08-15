@@ -1,12 +1,11 @@
 /**
  * CÔNG CỤ CHỤP ẢNH TOÀN TRANG HD (PNG) TỰ ĐỘNG CHO TẤT CẢ CÁC TRANG WEB
- * Đã dò và sửa triệt để tất cả các lỗi hiển thị:
- * 1. Chữ tiêu đề bị tối/mờ -> Ép màu #FFFFFF và #FFD23F sáng nét 100%
- * 2. Vệt cung tròn mặt bàn (desk-surface) đè lên ô tìm kiếm -> Hạ z-index = 1, đưa form tra cứu lên z-index = 100
- * 3. Chữ Gradient (-webkit-background-clip) -> Tự động chuyển màu sáng sắc nét
- * 4. Hiệu ứng cuộn fade-up/animation -> Mở sáng 100% toàn trang từ đầu đến chân trang
- * 5. Biểu đồ Chart.js & Canvas mô phỏng sóng -> Sao chép chính xác từng pixel sang ảnh
- * 6. Tự động ẩn các nút nổi (Zalo, Hotline, Nút chụp, Nút nộp bài tắt)
+ * Xử lý triệt để 100%:
+ * 1. Chữ tiêu đề không bao giờ bị mờ hay mất màu (Ép #FFFFFF & #FFD23F trực tiếp)
+ * 2. Khung tìm kiếm / Form đăng nhập sáng rõ, loại bỏ hoàn toàn vệt cung tròn đen
+ * 3. Trình phát video trong course-viewer.html: Tự động thay thế khung iframe đen bằng giao diện Video Player HD sống động
+ * 4. Biểu đồ Chart.js và Canvas mô phỏng sóng được sao chép chính xác 100%
+ * 5. Tự động ẩn các nút nổi Zalo, Hotline, Nút chụp
  */
 (function() {
     function loadScript(src, callback) {
@@ -77,88 +76,132 @@
                 scrollX: 0,
                 scrollY: 0,
                 onclone: function(clonedDoc) {
-                    // 1. Xóa các nút floating và thông báo tạm thời
-                    var clBtn = clonedDoc.getElementById('floatingScreenshotBtn');
-                    if (clBtn) clBtn.remove();
-                    var clToast = clonedDoc.getElementById('tempScreenshotToast');
-                    if (clToast) clToast.remove();
-                    var clFab = clonedDoc.querySelector('.fab-container');
-                    if (clFab) clFab.remove();
-                    var clHwBtn = clonedDoc.querySelector('.homework-shortcut-left');
-                    if (clHwBtn) clHwBtn.remove();
+                    // 1. Tiêm CSS Override cực mạnh vào clonedDoc để giải quyết 100% lỗi mờ, đè bóng, font chữ
+                    var styleOverride = clonedDoc.createElement('style');
+                    styleOverride.innerHTML = `
+                        /* Ẩn các nút nổi và thông báo */
+                        #floatingScreenshotBtn, #tempScreenshotToast, .fab-container, .homework-shortcut-left, .desk-surface {
+                            display: none !important;
+                        }
 
-                    // 2. Khắc phục lỗi mặt bàn (desk-surface) đè lên form tra cứu
-                    var deskEl = clonedDoc.querySelector('.desk-surface');
-                    if (deskEl) {
-                        deskEl.style.zIndex = '1';
-                        deskEl.style.transform = 'none';
-                        deskEl.style.left = '-25%';
-                        deskEl.style.width = '150%';
-                        deskEl.style.opacity = '0.7';
+                        /* Ép màu chữ tiêu đề sáng rõ 100% */
+                        .main-title, .main-title * {
+                            color: #FFFFFF !important;
+                            text-shadow: 0 0 20px rgba(255,255,255,0.4) !important;
+                            opacity: 1 !important;
+                            -webkit-text-fill-color: #FFFFFF !important;
+                        }
+                        .main-title .highlight, .highlight {
+                            color: #FFD23F !important;
+                            background: none !important;
+                            -webkit-text-fill-color: #FFD23F !important;
+                            text-shadow: 0 0 20px rgba(255,210,63,0.6) !important;
+                            opacity: 1 !important;
+                        }
+                        .sub-title {
+                            color: #CBD5E1 !important;
+                            opacity: 1 !important;
+                            text-shadow: none !important;
+                        }
+                        .badge {
+                            color: #E2D1FF !important;
+                            opacity: 1 !important;
+                            background: rgba(45, 20, 90, 0.95) !important;
+                            border: 1px solid #8E4DFF !important;
+                        }
+
+                        /* Khung tìm kiếm & Thẻ tính năng sáng rõ nổi bật */
+                        .search-card {
+                            background: #0F0B2E !important;
+                            border: 1.5px solid #8E4DFF !important;
+                            opacity: 1 !important;
+                            position: relative !important;
+                            z-index: 9999 !important;
+                            box-shadow: 0 15px 50px rgba(0,0,0,0.8) !important;
+                        }
+                        .search-card * {
+                            opacity: 1 !important;
+                        }
+                        .input-wrapper {
+                            background: #04020A !important;
+                            border: 1px solid rgba(142,77,255,0.5) !important;
+                        }
+                        .input-wrapper input {
+                            color: #FFFFFF !important;
+                        }
+
+                        .features-container {
+                            position: relative !important;
+                            z-index: 9999 !important;
+                            opacity: 1 !important;
+                        }
+                        .feature-card {
+                            background: #140E36 !important;
+                            border: 1px solid rgba(142,77,255,0.3) !important;
+                            opacity: 1 !important;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+                        }
+                        .feature-card * {
+                            opacity: 1 !important;
+                        }
+
+                        /* Trang chủ: Loại bỏ triệt để lỗi gradient text */
+                        .section-title {
+                            color: #FFFFFF !important;
+                            background: none !important;
+                            -webkit-text-fill-color: #FFFFFF !important;
+                        }
+                        .hero-title {
+                            color: #FFFFFF !important;
+                            opacity: 1 !important;
+                        }
+                        .hero-title .highlight {
+                            color: #C084FC !important;
+                            background: none !important;
+                            -webkit-text-fill-color: #C084FC !important;
+                        }
+                        .fade-up, .fade-in, [class*="fade"] {
+                            opacity: 1 !important;
+                            transform: none !important;
+                            visibility: visible !important;
+                            transition: none !important;
+                            animation: none !important;
+                        }
+                    `;
+                    clonedDoc.head.appendChild(styleOverride);
+
+                    // 2. Xử lý đặc biệt cho Trình phát video trong course-viewer.html (Thay iframe đen bằng Player UI thật)
+                    var playerWrap = clonedDoc.getElementById('playerWrap');
+                    if (playerWrap) {
+                        var curTitle = (document.getElementById('infoTitle') ? document.getElementById('infoTitle').textContent : '') || 'Bài 1: Dao động điều hòa & Phương trình li độ';
+                        playerWrap.innerHTML = `
+                            <div style="width: 100%; height: 100%; min-height: 480px; background: radial-gradient(circle at center, #1C1145 0%, #05040F 100%); border: 2px solid #8E4DFF; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between; padding: 25px; box-sizing: border-box; position: relative; overflow: hidden;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2;">
+                                    <span style="background: #8E4DFF; color: #FFF; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; letter-spacing: 0.5px;">VẬT LÝ THẦY NAM</span>
+                                    <span style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; color: #10B981; padding: 5px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700;">● MÔ PHỎNG VẬT LÝ 4K</span>
+                                </div>
+                                <div style="text-align: center; z-index: 2; margin: 35px 0;">
+                                    <div style="width: 76px; height: 76px; border-radius: 50%; background: linear-gradient(135deg, #FFD23F, #F59E0B); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; box-shadow: 0 0 35px rgba(255,210,63,0.7);">
+                                        <i class="fa-solid fa-play" style="font-size: 32px; color: #000; margin-left: 4px;"></i>
+                                    </div>
+                                    <h3 style="color: #FFF; font-size: 21px; font-weight: 800; margin-bottom: 8px;">` + curTitle + `</h3>
+                                    <p style="color: #C084FC; font-size: 14px; font-family: 'JetBrains Mono', monospace;">x = A·cos(ωt + φ) • v = -ωA·sin(ωt + φ) • W = 1/2 kA²</p>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; z-index: 2; background: rgba(10,8,28,0.9); border: 1px solid rgba(255,255,255,0.1); padding: 12px 18px; border-radius: 10px;">
+                                    <div style="display: flex; align-items: center; gap: 12px; color: #FFF; font-size: 13px;">
+                                        <i class="fa-solid fa-pause" style="color: #FFD23F;"></i>
+                                        <span>04:15 / 45:00</span>
+                                        <div style="width: 250px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden;">
+                                            <div style="width: 25%; height: 100%; background: #FFD23F;"></div>
+                                        </div>
+                                    </div>
+                                    <div style="color: #FFD23F; font-size: 13px; font-weight: 700;">1080p 60fps HD</div>
+                                </div>
+                            </div>
+                        `;
                     }
-                    var searchCard = clonedDoc.querySelector('.search-card');
-                    if (searchCard) {
-                        searchCard.style.zIndex = '100';
-                        searchCard.style.position = 'relative';
-                        searchCard.style.background = 'rgba(15, 11, 46, 0.95)';
-                    }
-                    var mainCont = clonedDoc.querySelector('.main-container');
-                    if (mainCont) {
-                        mainCont.style.zIndex = '50';
-                        mainCont.style.position = 'relative';
-                    }
 
-                    // 3. Ép toàn bộ các phần tử hiển thị rõ nét và sáng màu
-                    var allElements = clonedDoc.querySelectorAll('*');
-                    allElements.forEach(function(el) {
-                        var cStyle = window.getComputedStyle(el);
-
-                        // Mở hết opacity cho các thành phần đang đợi scroll
-                        if (cStyle.opacity === '0' || el.classList.contains('fade-up') || el.classList.contains('fade-in')) {
-                            el.style.opacity = '1';
-                            el.style.transform = 'none';
-                            el.style.visibility = 'visible';
-                            el.style.transition = 'none';
-                            el.style.animation = 'none';
-                        }
-
-                        // Sửa màu chữ cho main-title, highlight, sub-title
-                        if (el.classList.contains('main-title')) {
-                            el.style.color = '#FFFFFF';
-                            el.style.opacity = '1';
-                            el.style.textShadow = '0 0 20px rgba(255,255,255,0.4)';
-                        }
-                        if (el.classList.contains('highlight')) {
-                            el.style.color = '#FFD23F';
-                            el.style.background = 'none';
-                            el.style.webkitBackgroundClip = 'unset';
-                            el.style.backgroundClip = 'unset';
-                            el.style.webkitTextFillColor = 'initial';
-                            el.style.textShadow = '0 0 20px rgba(255,210,63,0.6)';
-                        }
-                        if (el.classList.contains('sub-title')) {
-                            el.style.color = '#CBD5E1';
-                            el.style.opacity = '1';
-                        }
-
-                        // Sửa triệt để lỗi gradient text (-webkit-background-clip)
-                        if (cStyle.webkitBackgroundClip === 'text' || cStyle.backgroundClip === 'text') {
-                            el.style.background = 'none';
-                            el.style.webkitBackgroundClip = 'unset';
-                            el.style.backgroundClip = 'unset';
-                            el.style.webkitTextFillColor = 'initial';
-                            
-                            if (el.classList.contains('highlight')) {
-                                el.style.color = '#C084FC';
-                            } else if (el.classList.contains('section-title') || el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H4') {
-                                el.style.color = '#FFFFFF';
-                            } else {
-                                el.style.color = '#FFFFFF';
-                            }
-                        }
-                    });
-
-                    // 4. Sao chép trực tiếp nội dung các thẻ Canvas (Biểu đồ Chart.js & Mô phỏng sóng)
+                    // 3. Sao chép trực tiếp nội dung các thẻ Canvas (Biểu đồ Chart.js & Canvas mô phỏng)
                     var origCanvases = document.querySelectorAll('canvas');
                     var clonedCanvases = clonedDoc.querySelectorAll('canvas');
                     for (var i = 0; i < origCanvases.length; i++) {
@@ -170,7 +213,7 @@
                         }
                     }
 
-                    // 5. Đảm bảo nền trang đồng nhất màu tối
+                    // 4. Đảm bảo nền trang đồng nhất màu tối sang trọng
                     clonedDoc.body.style.backgroundColor = '#0B0A1D';
                     clonedDoc.documentElement.style.backgroundColor = '#0B0A1D';
                 }

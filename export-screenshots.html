@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/66rKbPmb/trinh-duyet.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Ảnh Quảng Bá Web Demo Lớp Học - Tải Xuất PNG HD Tự Động</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas, JSZip, FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <style>
+        :root {
+            --bg-main: #0B0A1D;
+            --primary: #8E4DFF;
+            --accent: #FFD23F;
+            --success: #10B981;
+            --card-bg: rgba(25, 20, 56, 0.7);
+            --border-color: rgba(142, 77, 255, 0.25);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main);
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            padding: 30px 20px 80px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Bar */
+        .promo-header {
+            background: linear-gradient(135deg, rgba(142,77,255,0.2) 0%, rgba(30,20,60,0.8) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        .promo-header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFF 30%, #C084FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .promo-header p {
+            color: #CBD5E1;
+            font-size: 15px;
+            max-width: 700px;
+            margin: 0 auto 24px auto;
+            line-height: 1.6;
+        }
+
+        .main-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            border: none;
+        }
+        .btn-download-all {
+            background: linear-gradient(135deg, #FFD23F 0%, #F59E0B 100%);
+            color: #000;
+            box-shadow: 0 0 25px rgba(255,210,63,0.4);
+        }
+        .btn-download-all:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(255,210,63,0.6);
+        }
+        .btn-view-web {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #FFF;
+        }
+        .btn-view-web:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: #8E4DFF;
+        }
+
+        /* Status Toast */
+        #statusToast {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 11, 46, 0.95);
+            border: 1px solid #10B981;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            color: #FFF;
+            padding: 16px 24px;
+            border-radius: 14px;
+            z-index: 9999;
+            font-size: 14px;
+            font-weight: 600;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Showcase Item Wrapper */
+        .showcase-item {
+            margin-bottom: 50px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 25px;
+        }
+        .showcase-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .showcase-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #FFD23F;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-download-single {
+            background: rgba(142,77,255,0.2);
+            border: 1px solid rgba(142,77,255,0.4);
+            color: #C084FC;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-download-single:hover {
+            background: #8E4DFF;
+            color: #FFF;
+            box-shadow: 0 0 20px rgba(142,77,255,0.5);
+        }
+
+        /* Mockup Render Cards (1200x675 HD Aspect Ratio 16:9) */
+        .mockup-canvas-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+        }
+
+        .promo-poster {
+            width: 1080px;
+            min-height: 608px;
+            background: radial-gradient(circle at 80% 20%, #20134D 0%, #09071A 70%);
+            border: 2px solid rgba(142,77,255,0.3);
+            border-radius: 16px;
+            padding: 35px 40px;
+            position: relative;
+            box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Decorative Grid & Glow */
+        .poster-glow {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(142,77,255,0.35) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Poster Header */
+        .poster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        .poster-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,210,63,0.15);
+            border: 1px solid rgba(255,210,63,0.4);
+            color: #FFD23F;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .poster-heading {
+            font-size: 26px;
+            font-weight: 900;
+            color: #FFF;
+            line-height: 1.3;
+        }
+        .poster-heading span {
+            color: #C084FC;
+        }
+        .poster-brand-logo {
+            text-align: right;
+        }
+        .poster-brand-logo h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #FFF;
+        }
+        .poster-brand-logo p {
+            font-size: 12px;
+            color: #94A3B8;
+        }
+
+        /* Poster Body (UI Showcase) */
+        .poster-body {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        /* UI Mockup Window */
+        .ui-window {
+            background: rgba(15, 11, 46, 0.95);
+            border: 1px solid rgba(142, 77, 255, 0.4);
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+            flex: 1;
+        }
+        .ui-window-bar {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .ui-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .ui-dot.red { background: #EF4444; }
+        .ui-dot.yellow { background: #F59E0B; }
+        .ui-dot.green { background: #10B981; }
+        .ui-window-title {
+            margin-left: 10px;
+            font-size: 11.5px;
+            color: #94A3B8;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .ui-content {
+            padding: 20px;
+        }
+
+        /* Feature Bullet List on Right */
+        .poster-features {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .p-feat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .p-feat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(142,77,255,0.2);
+            color: #C084FC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .p-feat-text h5 {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 2px;
+        }
+        .p-feat-text p {
+            font-size: 11.5px;
+            color: #94A3B8;
+            line-height: 1.4;
+        }
+
+        /* Poster Footer */
+        .poster-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #94A3B8;
+            position: relative;
+            z-index: 2;
+        }
+        .poster-footer b { color: #10B981; }
+
+        /* Custom Mini UI Elements inside Posters */
+        .mini-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .mini-stat-card {
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .mini-stat-num { font-size: 18px; font-weight: 800; color: #FFD23F; }
+        .mini-stat-lbl { font-size: 11px; color: #94A3B8; }
+
+        .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+        }
+        .mini-table th {
+            text-align: left;
+            padding: 6px 8px;
+            background: rgba(142,77,255,0.15);
+            color: #C084FC;
+            font-weight: 700;
+        }
+        .mini-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #E2E8F0;
+        }
+
+        .badge-done { background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid rgba(16,185,129,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+        .badge-active { background: rgba(142,77,255,0.15); color: #C084FC; border: 1px solid rgba(142,77,255,0.3); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Main Action Header -->
+        <div class="promo-header">
+            <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(142,77,255,0.2); border:1px solid rgba(142,77,255,0.4); padding:6px 16px; border-radius:20px; color:#FFD23F; font-size:12px; font-weight:800; margin-bottom:12px;">
+                <i class="fa-solid fa-camera-retro"></i> CÔNG CỤ XUẤT ẢNH QUẢNG BÁ MARKETING TỰ ĐỘNG
+            </div>
+            <h1>Bộ Ảnh Showcase Giao Diện 100% Web Demo</h1>
+            <p>
+                Không cần phải chụp màn hình thủ công từng trang! Hệ thống đã dựng sẵn trọn bộ <strong>6 Poster Giới Thiệu Tính Năng HD</strong> cực đẹp, chuẩn phong cách hiện đại. Bạn chỉ cần nhấn 1 nút là tải ngay toàn bộ ảnh về máy!
+            </p>
+            <div class="main-actions">
+                <button class="btn-action btn-download-all" onclick="downloadAllPosters()">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> TẢI TOÀN BỘ BỘ ẢNH (ZIP 6 TẤM HD)
+                </button>
+                <a href="index.html" class="btn-action btn-view-web">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Lại Trang Web
+                </a>
+            </div>
+        </div>
+
+        <!-- 1. POSTER 1: TRANG CHỦ & KHÓA HỌC -->
+        <div class="showcase-item">
+            <div class="showcase-top">
+                <div class="showcase-title">
+                    <i class="fa-solid fa-house"></i> 01. Trang Chủ & Hệ Thống Khóa Học Vật Lý
+                </div>
+                <button class="btn-download-single" onclick="downloadSinglePoster('poster1', '01_trang_chu_khoa_hoc.png')">
+                    <i class="fa-solid fa-download"></i> Tải ảnh này (PNG HD)
+                </button>
+            </div>
+            <div class="mockup-canvas-wrapper">
+                <div class="promo-poster" id="poster1">
+                    <div class="poster-glow"></div>
+                    <div class="poster-header">
+                        <div>
+                            <div class="poster-badge"><i class="fa-solid fa-atom"></i> NỀN TẢNG GIẢNG DẠY 4.0</div>
+                            <h2 class="poster-heading">Chinh Phục Vật Lý <span>Từ Nền Tảng Đến Điểm 10</span></h2>
+                        </div>
+                        <div class="poster-brand-logo">
+                            <h3>Lớp Vật Lý Thầy Nam</h3>
+                            <p>Hệ thống Quản lý & Học tập thông minh</p>
+                        </div>
+                    </div>
+                    <div class="poster-body">
+                        <div class="ui-window">
+                            <div class="ui-window-bar">
+                                <div class="ui-dot red"></div><div class="ui-dot yellow"></div><div class="ui-dot green"></div>
+                                <span class="ui-window-title">https://butphadiemso.vn/index.html</span>
+                            </div>
+                            <div class="ui-content">
+                                <div class="mini-stat-grid">
+                                    <div class="mini-stat-card"><div class="mini-stat-num">100+</div><div class="mini-stat-lbl">Học Sinh Mỗi Năm</div></div>
+                                    <div class="mini-stat-card"><div class="mini-stat-num">6+</div><div class="mini-stat-lbl">Năm Kinh Nghiệm</div></div>
+                                    <div class="mini-stat-card"><div class="mini-stat-num">96%</div><div class="mini-stat-lbl">Bứt Phá Điểm Số</div></div>
+                                </div>
+                                <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px;">
+                                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(142,77,255,0.2); border-radius:8px; padding:10px;">
+                                        <span class="badge-active">Lớp 12 - THPT QG</span>
+                                        <h4 style="font-size:12px; margin:6px 0 2px;">Luyện Thi Bứt Tốc 9+</h4>
+                                        <p style="font-size:10px; color:#94A3B8;">Chiến thuật giải trắc nghiệm 30s</p>
+                                    </div>
+                                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(142,77,255,0.2); border-radius:8px; padding:10px;">
+                                        <span class="badge-active">Lớp 11 - Nâng Cao</span>
+                                        <h4 style="font-size:12px; margin:6px 0 2px;">Điện Trường & Cảm Ứng Từ</h4>
+                                        <p style="font-size:10px; color:#94A3B8;">Hiểu bản chất gốc rễ</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="poster-features">
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-user-tie"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Giáo Viên Nhiệt Huyết</h5>
+                                    <p>Thầy Nam tận tâm, giải thích dễ hiểu, bám sát đề thi 2027.</p>
+                                </div>
+                            </div>
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Đa Dạng Hình Thức</h5>
+                                    <p>Lớp học nhóm, Kèm 1-1, Online và Gói Video trọn đời.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="poster-footer">
+                        <div>📞 Hotline / Zalo: <b>0123.456.789</b></div>
+                        <div>🌐 Website: <b>zun3017.github.io/butphadiemso</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. POSTER 2: TRA CỨU ĐIỂM & TIẾN ĐỘ -->
+        <div class="showcase-item">
+            <div class="showcase-top">
+                <div class="showcase-title">
+                    <i class="fa-solid fa-chart-line"></i> 02. Cổng Tra Cứu Điểm Số & Biểu Đồ Real-time Phụ Huynh / Học Sinh
+                </div>
+                <button class="btn-download-single" onclick="downloadSinglePoster('poster2', '02_tra_cuu_diem_so_bieu_do.png')">
+                    <i class="fa-solid fa-download"></i> Tải ảnh này (PNG HD)
+                </button>
+            </div>
+            <div class="mockup-canvas-wrapper">
+                <div class="promo-poster" id="poster2">
+                    <div class="poster-glow"></div>
+                    <div class="poster-header">
+                        <div>
+                            <div class="poster-badge"><i class="fa-solid fa-chart-pie"></i> MINH BẠCH TIẾN ĐỘ</div>
+                            <h2 class="poster-heading">Tra Cứu Học Tập <span>Real-time Từng Buổi</span></h2>
+                        </div>
+                        <div class="poster-brand-logo">
+                            <h3>Cổng Tra Điểm Trực Tuyến</h3>
+                            <p>Phụ huynh đồng hành cùng con</p>
+                        </div>
+                    </div>
+                    <div class="poster-body">
+                        <div class="ui-window">
+                            <div class="ui-window-bar">
+                                <div class="ui-dot red"></div><div class="ui-dot yellow"></div><div class="ui-dot green"></div>
+                                <span class="ui-window-title">parent-dashboard.html?id=0987654321</span>
+                            </div>
+                            <div class="ui-content">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:8px;">
+                                    <div>
+                                        <h4 style="font-size:14px; color:#FFD23F;">👦 Nguyễn Văn An</h4>
+                                        <p style="font-size:11px; color:#94A3B8;">Lớp 12 - Luyện Thi THPT QG Vật Lý</p>
+                                    </div>
+                                    <div style="text-align:right;">
+                                        <div style="font-size:16px; font-weight:800; color:#10B981;">8.8 / 10</div>
+                                        <span class="badge-done">Tiến bộ vượt bậc</span>
+                                    </div>
+                                </div>
+                                <table class="mini-table">
+                                    <thead>
+                                        <tr><th>Tuần</th><th>Ngày</th><th>Chủ đề bài học</th><th>Đầu giờ</th><th>Giữa kỳ</th><th>Nhận xét</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Tuần 10</td><td>15/08</td><td>Giao thoa sóng cơ học</td><td><b style="color:#10B981">9.0</b></td><td><b style="color:#10B981">9.5</b></td><td>Làm bài cực kỳ xuất sắc!</td></tr>
+                                        <tr><td>Tuần 9</td><td>12/08</td><td>Con lắc lò xo & cơ năng</td><td>8.5</td><td>9.0</td><td>Nắm chắc dạng bài cực trị.</td></tr>
+                                        <tr><td>Tuần 8</td><td>08/08</td><td>Đại cương dao động điều hòa</td><td>8.0</td><td>8.5</td><td>Tiếp thu nhanh, chăm chỉ.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="poster-features">
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Biểu Đồ Trực Quan</h5>
+                                    <p>Tự động vẽ đường cong tiến bộ điểm số qua từng tuần học.</p>
+                                </div>
+                            </div>
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Lời Phê Sát Sao</h5>
+                                    <p>Thầy nhận xét chi tiết ưu điểm và điểm cần cải thiện của từng em.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="poster-footer">
+                        <div>⚡ Tra cứu nhanh 1 chạm bằng số điện thoại: <b>0987654321</b></div>
+                        <div>📊 Minh bạch • Tức thì • Chính xác</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. POSTER 3: CỔNG NỘP BÀI TẬP -->
+        <div class="showcase-item">
+            <div class="showcase-top">
+                <div class="showcase-title">
+                    <i class="fa-solid fa-file-arrow-up"></i> 03. Cổng Giao - Nộp - Chấm Bài Tập Online 100%
+                </div>
+                <button class="btn-download-single" onclick="downloadSinglePoster('poster3', '03_cong_nop_bai_tap_online.png')">
+                    <i class="fa-solid fa-download"></i> Tải ảnh này (PNG HD)
+                </button>
+            </div>
+            <div class="mockup-canvas-wrapper">
+                <div class="promo-poster" id="poster3">
+                    <div class="poster-glow"></div>
+                    <div class="poster-header">
+                        <div>
+                            <div class="poster-badge"><i class="fa-solid fa-cloud-arrow-up"></i> BÀI TẬP 100% ONLINE</div>
+                            <h2 class="poster-heading">Giao & Nộp Bài Tập <span>Tiện Lợi Tức Thì</span></h2>
+                        </div>
+                        <div class="poster-brand-logo">
+                            <h3>Học Tập Chủ Động</h3>
+                            <p>Không lo quên bài, trễ hạn</p>
+                        </div>
+                    </div>
+                    <div class="poster-body">
+                        <div class="ui-window">
+                            <div class="ui-window-bar">
+                                <div class="ui-dot red"></div><div class="ui-dot yellow"></div><div class="ui-dot green"></div>
+                                <span class="ui-window-title">homework.html?code=0987654321</span>
+                            </div>
+                            <div class="ui-content">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                                    <div style="font-size:13px; font-weight:700; color:#FFF;"><i class="fa-solid fa-book"></i> Danh Sách Bài Tập Đã Giao</div>
+                                    <span class="badge-done">2/2 Đã hoàn thành</span>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px; margin-bottom:10px;">
+                                    <div style="display:flex; justify-content:space-between;">
+                                        <strong style="font-size:12px; color:#FFF;">Đề 01: Đại cương Dao động điều hòa (40 câu)</strong>
+                                        <span class="badge-done">Điểm: 9.0/10</span>
+                                    </div>
+                                    <p style="font-size:11px; color:#94A3B8; margin-top:4px;">Lời phê: Trình bày bài giải chi tiết, chuẩn xác!</p>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(142,77,255,0.3); border-radius:10px; padding:12px;">
+                                    <div style="display:flex; justify-content:space-between;">
+                                        <strong style="font-size:12px; color:#FFF;">Phiếu bài tập: Mạch RLC có L thay đổi</strong>
+                                        <span class="badge-active">Hạn nộp: 20/08</span>
+                                    </div>
+                                    <p style="font-size:11px; color:#94A3B8; margin-top:4px;">Đính kèm file PDF bài giải & Nộp ảnh trực tiếp.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="poster-features">
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Tải Đề Thi & Slide</h5>
+                                    <p>Tải trọn bộ file PDF bài giảng và đề luyện thi chất lượng cao.</p>
+                                </div>
+                            </div>
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-check-double"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Chấm Điểm & Phê Duyệt</h5>
+                                    <p>Giáo viên chấm chữa trực tiếp trên hệ thống có phản hồi ngay.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="poster-footer">
+                        <div>📁 Hỗ trợ gửi file: <b>Ảnh chụp bài làm, PDF, Word</b></div>
+                        <div>⚡ Tải lên an toàn • Không lo thất lạc</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. POSTER 4: QUẢN LÝ LỚP HỌC GIÁO VIÊN -->
+        <div class="showcase-item">
+            <div class="showcase-top">
+                <div class="showcase-title">
+                    <i class="fa-solid fa-chalkboard-user"></i> 04. Giao Diện Quản Lý Lớp Học Chuyên Nghiệp Dành Cho Giáo Viên
+                </div>
+                <button class="btn-download-single" onclick="downloadSinglePoster('poster4', '04_quan_ly_lop_hoc_giao_vien.png')">
+                    <i class="fa-solid fa-download"></i> Tải ảnh này (PNG HD)
+                </button>
+            </div>
+            <div class="mockup-canvas-wrapper">
+                <div class="promo-poster" id="poster4">
+                    <div class="poster-glow"></div>
+                    <div class="poster-header">
+                        <div>
+                            <div class="poster-badge"><i class="fa-solid fa-user-gear"></i> DÀNH CHO GIÁO VIÊN</div>
+                            <h2 class="poster-heading">Quản Lý Lớp Học <span>Toàn Diện & Tự Động Hóa</span></h2>
+                        </div>
+                        <div class="poster-brand-logo">
+                            <h3>Bảng Điều Khiển Giáo Viên</h3>
+                            <p>Thầy Trần Hoàng Nam (0123456789)</p>
+                        </div>
+                    </div>
+                    <div class="poster-body">
+                        <div class="ui-window">
+                            <div class="ui-window-bar">
+                                <div class="ui-dot red"></div><div class="ui-dot yellow"></div><div class="ui-dot green"></div>
+                                <span class="ui-window-title">class-dashboard.html</span>
+                            </div>
+                            <div class="ui-content">
+                                <div class="mini-stat-grid">
+                                    <div class="mini-stat-card"><div class="mini-stat-num" style="color:#C084FC;">4 Lớp</div><div class="mini-stat-lbl">Đang giảng dạy</div></div>
+                                    <div class="mini-stat-card"><div class="mini-stat-num" style="color:#10B981;">100%</div><div class="mini-stat-lbl">Tỷ lệ chuyên cần</div></div>
+                                    <div class="mini-stat-card"><div class="mini-stat-num" style="color:#FFD23F;">10 Buổi</div><div class="mini-stat-lbl">Đã ghi nhật ký</div></div>
+                                </div>
+                                <table class="mini-table">
+                                    <thead>
+                                        <tr><th>Họ và tên</th><th>SĐT PH</th><th>Học phí</th><th>Trạng thái</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Nguyễn Văn An</td><td>0987.654.321</td><td>500.000đ</td><td><span class="badge-done">Đã đóng</span></td></tr>
+                                        <tr><td>Lê Minh Thư</td><td>0912.345.678</td><td>500.000đ</td><td><span class="badge-done">Đã đóng</span></td></tr>
+                                        <tr><td>Phạm Hải Đăng</td><td>0905.123.456</td><td>500.000đ</td><td><span class="badge-done">Đã đóng</span></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="poster-features">
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Điểm Danh 1 Chạm</h5>
+                                    <p>Ghi nhận nhật ký buổi học, đánh giá bài tập và điểm số siêu tốc.</p>
+                                </div>
+                            </div>
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-wallet"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Báo Cáo Thu Học Phí</h5>
+                                    <p>Tự động thống kê doanh thu, theo dõi danh sách đã/chưa đóng phí.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="poster-footer">
+                        <div>🔑 Bảo mật mã PIN 4 số • Tích hợp mã QR Chuyển khoản học phí</div>
+                        <div>⚡ Tiết kiệm 80% thời gian quản lý sổ sách</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. POSTER 5: KHÓA HỌC VIDEO 24/7 -->
+        <div class="showcase-item">
+            <div class="showcase-top">
+                <div class="showcase-title">
+                    <i class="fa-solid fa-circle-play"></i> 05. Nền Tảng Video Khóa Học & Mô Phỏng Vật Lý 24/7
+                </div>
+                <button class="btn-download-single" onclick="downloadSinglePoster('poster5', '05_khoa_hoc_video_mo_phong.png')">
+                    <i class="fa-solid fa-download"></i> Tải ảnh này (PNG HD)
+                </button>
+            </div>
+            <div class="mockup-canvas-wrapper">
+                <div class="promo-poster" id="poster5">
+                    <div class="poster-glow"></div>
+                    <div class="poster-header">
+                        <div>
+                            <div class="poster-badge"><i class="fa-solid fa-video"></i> HỌC MÃI MÃI 24/7</div>
+                            <h2 class="poster-heading">Gói Video Bài Giảng <span>Mô Phỏng Sống Động</span></h2>
+                        </div>
+                        <div class="poster-brand-logo">
+                            <h3>Trình Xem Video Chuẩn E-Learning</h3>
+                            <p>Mã kích hoạt: KH-VATLY12</p>
+                        </div>
+                    </div>
+                    <div class="poster-body">
+                        <div class="ui-window">
+                            <div class="ui-window-bar">
+                                <div class="ui-dot red"></div><div class="ui-dot yellow"></div><div class="ui-dot green"></div>
+                                <span class="ui-window-title">course-viewer.html?code=KH-VATLY12</span>
+                            </div>
+                            <div class="ui-content" style="padding:15px; display:flex; gap:15px;">
+                                <div style="flex:1.4; background:#000; border-radius:8px; display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:140px; border:1px solid rgba(142,77,255,0.4);">
+                                    <i class="fa-solid fa-circle-play" style="font-size:36px; color:#FFD23F; margin-bottom:8px;"></i>
+                                    <span style="font-size:11px; color:#CBD5E1;">Mô phỏng sóng hình sin & con lắc lò xo</span>
+                                </div>
+                                <div style="flex:1; font-size:11px;">
+                                    <div style="color:#FFD23F; font-weight:700; margin-bottom:6px;">📚 Danh sách bài giảng:</div>
+                                    <div style="background:rgba(142,77,255,0.15); padding:4px 6px; border-radius:4px; margin-bottom:4px; color:#C084FC;">▶ Bài 1: Dao động điều hòa</div>
+                                    <div style="color:#94A3B8; padding:4px 6px;">• Bài 2: Con lắc lò xo</div>
+                                    <div style="color:#94A3B8; padding:4px 6px;">• Bài 3: Giao thoa sóng cơ</div>
+                                    <div style="color:#94A3B8; padding:4px 6px;">• Bài 4: Mạch RLC nối tiếp</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="poster-features">
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-infinity"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Sở Hữu Trọn Đời</h5>
+                                    <p>Mua 1 lần học mãi mãi, không lo hết hạn tài khoản.</p>
+                                </div>
+                            </div>
+                            <div class="p-feat-card">
+                                <div class="p-feat-icon"><i class="fa-solid fa-list-check"></i></div>
+                                <div class="p-feat-text">
+                                    <h5>Lưu Tiến Trình Tự Động</h5>
+                                    <p>Tự động ghi nhớ bài học đang xem dở và mục ghi chú cá nhân.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="poster-footer">
+                        <div>🎯 Đầy đủ chuyên đề: <b>Lớp 9, 10, 11, 12 THPT Quốc Gia</b></div>
+                        <div>💻 Xem mượt mà trên Điện thoại, Máy tính bảng, Laptop</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. POSTER 6: TỔNG QUAN TẤT CẢ TÍNH NĂNG (ALL-IN-ONE) -->
+        <div class="showcase-item">
+            <div class="showcase-top">
+                <div class="showcase-title">
+                    <i class="fa-solid fa-cubes"></i> 06. Banner Tổng Quan Toàn Bộ Hệ Thống All-in-One
+                </div>
+                <button class="btn-download-single" onclick="downloadSinglePoster('poster6', '06_tong_quan_he_thong_all_in_one.png')">
+                    <i class="fa-solid fa-download"></i> Tải ảnh này (PNG HD)
+                </button>
+            </div>
+            <div class="mockup-canvas-wrapper">
+                <div class="promo-poster" id="poster6" style="background: radial-gradient(circle at center, #241458 0%, #080614 100%);">
+                    <div class="poster-glow"></div>
+                    <div class="poster-header" style="text-align:center; display:block;">
+                        <div class="poster-badge" style="margin:0 auto 10px auto;"><i class="fa-solid fa-crown"></i> GIẢI PHÁP QUẢN LÝ & HỌC TẬP THÔNG MINH</div>
+                        <h2 class="poster-heading" style="font-size:28px;">Hệ Sinh Thái Giáo Dục <span>Lớp Vật Lý Thầy Nam</span></h2>
+                    </div>
+                    <div class="poster-body" style="justify-content:center;">
+                        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:15px; width:100%;">
+                            <div class="p-feat-card" style="flex-direction:column; text-align:center; align-items:center; padding:18px 12px;">
+                                <div class="p-feat-icon" style="margin-bottom:8px;"><i class="fa-solid fa-chart-line"></i></div>
+                                <h5>Tra Cứu Real-Time</h5>
+                                <p>Phụ huynh theo dõi điểm số & nhận xét sau mỗi buổi.</p>
+                            </div>
+                            <div class="p-feat-card" style="flex-direction:column; text-align:center; align-items:center; padding:18px 12px;">
+                                <div class="p-feat-icon" style="margin-bottom:8px;"><i class="fa-solid fa-file-circle-check"></i></div>
+                                <h5>Nộp Bài Online</h5>
+                                <p>Học sinh nộp bài tập, tải đề thi & xem điểm chấm trực tiếp.</p>
+                            </div>
+                            <div class="p-feat-card" style="flex-direction:column; text-align:center; align-items:center; padding:18px 12px;">
+                                <div class="p-feat-icon" style="margin-bottom:8px;"><i class="fa-solid fa-chalkboard-user"></i></div>
+                                <h5>Quản Lý Lớp Học</h5>
+                                <p>Giáo viên điểm danh, chấm bài & xuất báo cáo học phí.</p>
+                            </div>
+                            <div class="p-feat-card" style="flex-direction:column; text-align:center; align-items:center; padding:18px 12px;">
+                                <div class="p-feat-icon" style="margin-bottom:8px;"><i class="fa-solid fa-circle-play"></i></div>
+                                <h5>Video Khóa Học</h5>
+                                <p>Kho video mô phỏng bài giảng chất lượng cao 24/7.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="poster-footer" style="justify-content:center; gap:30px;">
+                        <div>✨ Trải nghiệm Demo trực tiếp: <b>zun3017.github.io/butphadiemso</b></div>
+                        <div>📞 Liên hệ tư vấn: <b>0123.456.789</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Status Toast Notification -->
+    <div id="statusToast">
+        <i class="fa-solid fa-circle-notch fa-spin" id="toastIcon"></i>
+        <span id="toastMsg" style="margin-left: 8px;">Đang tạo ảnh chất lượng cao...</span>
+    </div>
+
+    <script>
+        function showToast(msg, icon) {
+            var toast = document.getElementById('statusToast');
+            document.getElementById('toastMsg').innerText = msg;
+            if (icon) document.getElementById('toastIcon').className = icon;
+            toast.style.display = 'flex';
+        }
+
+        function hideToast(delay) {
+            setTimeout(function() {
+                document.getElementById('statusToast').style.display = 'none';
+            }, delay || 2000);
+        }
+
+        // Tải 1 ảnh đơn lẻ chất lượng cao PNG
+        function downloadSinglePoster(posterId, fileName) {
+            var el = document.getElementById(posterId);
+            if (!el) return;
+
+            showToast('Đang kết xuất ảnh ' + fileName + ' (HD)...', 'fa-solid fa-circle-notch fa-spin');
+
+            html2canvas(el, {
+                scale: 2, // 2x resolution for ultra-sharp Retina graphics
+                useCORS: true,
+                backgroundColor: null,
+                logging: false
+            }).then(function(canvas) {
+                canvas.toBlob(function(blob) {
+                    saveAs(blob, fileName);
+                    showToast('Đã tải xong ảnh ' + fileName + '!', 'fa-solid fa-circle-check');
+                    hideToast(2500);
+                }, 'image/png');
+            }).catch(function(err) {
+                showToast('Lỗi khi tải ảnh: ' + err, 'fa-solid fa-triangle-exclamation');
+                hideToast(3000);
+            });
+        }
+
+        // Tải toàn bộ 6 ảnh và nén thành file ZIP
+        async function downloadAllPosters() {
+            var posters = [
+                { id: 'poster1', name: '01_trang_chu_khoa_hoc.png' },
+                { id: 'poster2', name: '02_tra_cuu_diem_so_bieu_do.png' },
+                { id: 'poster3', name: '03_cong_nop_bai_tap_online.png' },
+                { id: 'poster4', name: '04_quan_ly_lop_hoc_giao_vien.png' },
+                { id: 'poster5', name: '05_khoa_hoc_video_mo_phong.png' },
+                { id: 'poster6', name: '06_tong_quan_he_thong_all_in_one.png' }
+            ];
+
+            var zip = new JSZip();
+            var folder = zip.folder("Bo_Anh_Quang_Ba_Web_Lop_Hoc");
+
+            showToast('Đang tạo toàn bộ 6 ảnh HD...', 'fa-solid fa-circle-notch fa-spin');
+
+            try {
+                for (var i = 0; i < posters.length; i++) {
+                    var p = posters[i];
+                    var el = document.getElementById(p.id);
+                    showToast('Đang xử lý ảnh ' + (i + 1) + '/6: ' + p.name + '...', 'fa-solid fa-circle-notch fa-spin');
+
+                    var canvas = await html2canvas(el, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: null,
+                        logging: false
+                    });
+
+                    var imgData = canvas.toDataURL('image/png').split(',')[1];
+                    folder.file(p.name, imgData, { base64: true });
+                }
+
+                showToast('Đang nén file ZIP...', 'fa-solid fa-file-zipper');
+                var content = await zip.generateAsync({ type: "blob" });
+                saveAs(content, "Bo_Anh_Quang_Ba_Web_Lop_Hoc_HD.zip");
+
+                showToast('Tải thành công trọn bộ 6 ảnh HD (ZIP)!', 'fa-solid fa-circle-check');
+                hideToast(3000);
+            } catch (err) {
+                console.error(err);
+                showToast('Có lỗi khi tạo bộ ảnh: ' + err, 'fa-solid fa-triangle-exclamation');
+                hideToast(3000);
+            }
+        }
+    </script>
+</body>
+</html>

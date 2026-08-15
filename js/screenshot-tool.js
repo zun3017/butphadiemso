@@ -1,11 +1,12 @@
 /**
  * CÔNG CỤ CHỤP ẢNH TOÀN TRANG HD (PNG) TỰ ĐỘNG CHO TẤT CẢ CÁC TRANG WEB
- * Xử lý toàn diện:
- * 1. Chữ gradient (-webkit-background-clip) -> Tự động chuyển màu sáng sắc nét
- * 2. Hiệu ứng cuộn/fade-in/animation -> Hiển thị 100% không bị mờ/tối
- * 3. Biểu đồ Chart.js & Canvas mô phỏng -> Sao chép chính xác từng pixel sang ảnh
- * 4. Tự động ẩn các nút nổi (Zalo, Hotline, Nút chụp)
- * 5. Độ phân giải cao 2x Retina HD
+ * Đã dò và sửa triệt để tất cả các lỗi hiển thị:
+ * 1. Chữ tiêu đề bị tối/mờ -> Ép màu #FFFFFF và #FFD23F sáng nét 100%
+ * 2. Vệt cung tròn mặt bàn (desk-surface) đè lên ô tìm kiếm -> Hạ z-index = 1, đưa form tra cứu lên z-index = 100
+ * 3. Chữ Gradient (-webkit-background-clip) -> Tự động chuyển màu sáng sắc nét
+ * 4. Hiệu ứng cuộn fade-up/animation -> Mở sáng 100% toàn trang từ đầu đến chân trang
+ * 5. Biểu đồ Chart.js & Canvas mô phỏng sóng -> Sao chép chính xác từng pixel sang ảnh
+ * 6. Tự động ẩn các nút nổi (Zalo, Hotline, Nút chụp, Nút nộp bài tắt)
  */
 (function() {
     function loadScript(src, callback) {
@@ -83,8 +84,31 @@
                     if (clToast) clToast.remove();
                     var clFab = clonedDoc.querySelector('.fab-container');
                     if (clFab) clFab.remove();
+                    var clHwBtn = clonedDoc.querySelector('.homework-shortcut-left');
+                    if (clHwBtn) clHwBtn.remove();
 
-                    // 2. Ép toàn bộ các phần tử hiệu ứng fade-in / fade-up / animation hiển thị 100%
+                    // 2. Khắc phục lỗi mặt bàn (desk-surface) đè lên form tra cứu
+                    var deskEl = clonedDoc.querySelector('.desk-surface');
+                    if (deskEl) {
+                        deskEl.style.zIndex = '1';
+                        deskEl.style.transform = 'none';
+                        deskEl.style.left = '-25%';
+                        deskEl.style.width = '150%';
+                        deskEl.style.opacity = '0.7';
+                    }
+                    var searchCard = clonedDoc.querySelector('.search-card');
+                    if (searchCard) {
+                        searchCard.style.zIndex = '100';
+                        searchCard.style.position = 'relative';
+                        searchCard.style.background = 'rgba(15, 11, 46, 0.95)';
+                    }
+                    var mainCont = clonedDoc.querySelector('.main-container');
+                    if (mainCont) {
+                        mainCont.style.zIndex = '50';
+                        mainCont.style.position = 'relative';
+                    }
+
+                    // 3. Ép toàn bộ các phần tử hiển thị rõ nét và sáng màu
                     var allElements = clonedDoc.querySelectorAll('*');
                     allElements.forEach(function(el) {
                         var cStyle = window.getComputedStyle(el);
@@ -96,6 +120,25 @@
                             el.style.visibility = 'visible';
                             el.style.transition = 'none';
                             el.style.animation = 'none';
+                        }
+
+                        // Sửa màu chữ cho main-title, highlight, sub-title
+                        if (el.classList.contains('main-title')) {
+                            el.style.color = '#FFFFFF';
+                            el.style.opacity = '1';
+                            el.style.textShadow = '0 0 20px rgba(255,255,255,0.4)';
+                        }
+                        if (el.classList.contains('highlight')) {
+                            el.style.color = '#FFD23F';
+                            el.style.background = 'none';
+                            el.style.webkitBackgroundClip = 'unset';
+                            el.style.backgroundClip = 'unset';
+                            el.style.webkitTextFillColor = 'initial';
+                            el.style.textShadow = '0 0 20px rgba(255,210,63,0.6)';
+                        }
+                        if (el.classList.contains('sub-title')) {
+                            el.style.color = '#CBD5E1';
+                            el.style.opacity = '1';
                         }
 
                         // Sửa triệt để lỗi gradient text (-webkit-background-clip)
@@ -115,7 +158,7 @@
                         }
                     });
 
-                    // 3. Sao chép trực tiếp nội dung các thẻ Canvas (Biểu đồ Chart.js & Mô phỏng sóng)
+                    // 4. Sao chép trực tiếp nội dung các thẻ Canvas (Biểu đồ Chart.js & Mô phỏng sóng)
                     var origCanvases = document.querySelectorAll('canvas');
                     var clonedCanvases = clonedDoc.querySelectorAll('canvas');
                     for (var i = 0; i < origCanvases.length; i++) {
@@ -127,7 +170,7 @@
                         }
                     }
 
-                    // 4. Đảm bảo nền trang đồng nhất màu tối
+                    // 5. Đảm bảo nền trang đồng nhất màu tối
                     clonedDoc.body.style.backgroundColor = '#0B0A1D';
                     clonedDoc.documentElement.style.backgroundColor = '#0B0A1D';
                 }

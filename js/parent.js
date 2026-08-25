@@ -88,54 +88,121 @@ function renderStudentView(ketQua) {
         }
     }
 
-    // --- 2. TÍNH TOÁN SỐ LIỆU TÓM TẮT THEO THÁNG HIỆN TẠI ---
+    // Hàm chuẩn hoá chuỗi loại bỏ dấu tiếng Việt để kiểm tra chính xác
+    function normalizeStr(str) {
+        if (!str) return "";
+        return String(str).toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .trim();
+    }
+
+    // Hàm nhận diện thông minh buổi nghỉ (dựa trên trạng thái hoặc nội dung ghi chú của gia sư)
+    function isAbsentSession(trangThai, noiDung) {
+        var normTt = normalizeStr(trangThai);
+        var normNd = normalizeStr(noiDung);
+        
+        // 1. Kiểm tra trạng thái rõ ràng
+        if (normTt.includes('nghi') || normTt.includes('huy') || normTt.includes('vang')) {
+            if (normTt.includes('hoc bu') || normTt.includes('da bu')) {
+                return false; // Là buổi học bù
+            }
+            return true;
+        }
+        
+        // 2. Tự động phát hiện nếu gia sư ghi chú là nghỉ nhưng quên đổi dropdown trạng thái
+        if (
+            normNd.includes('xin nghi') ||
+            normNd.includes('nghi hoc') ||
+            normNd.includes('bao nghi') ||
+            normNd.includes('hom nay nghi') ||
+            normNd.includes('cho be nghi') ||
+            normNd.includes('cho chau nghi') ||
+            normNd.includes('mua bao nen nghi') ||
+            normNd.includes('nghi mot buoi') ||
+            normNd.includes('nghi 1 buoi') ||
+            normNd.includes('nghi le') ||
+            normNd.includes('nghi tet')
+        ) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    // Trích xuất ngày tháng linh hoạt từ mọi định dạng
+    function parseLessonDate(rawStr) {
+        if (!rawStr) return null;
+        var s = String(rawStr).trim();
+        var mIso = s.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+        var mDmy = s.match(/(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+        var mDm = s.match(/(\d{1,2})[-/.](\d{1,2})/);
+        if (mIso) return { year: parseInt(mIso[1], 10), month: parseInt(mIso[2], 10) - 1 };
+        if (mDmy) return { year: parseInt(mDmy[3], 10), month: parseInt(mDmy[2], 10) - 1 };
+        if (mDm) return { year: currentYear, month: parseInt(mDm[2], 10) - 1 };
+        var d = new Date(s);
+        return isNaN(d.getTime()) ? null : { year: d.getFullYear(), month: d.getMonth() };
+    }
+
+    // --- 2. TÍNH TOÁN SỐ LIỆU TÓM TẮT THEO THÁNG ---
     var today = new Date();
     var currentMonth = today.getMonth(); // 0 - 11
     var currentYear = today.getFullYear();
 
-    // Thiết lập nhãn động cho tháng hiện tại
+    var lichSu = ketQua.lichSuHocTap || [];
+
+    var targetMonth = currentMonth;
+    var targetYear = currentYear;
+    var hasCurrentMonthLogs = false;
+
+    lichSu.forEach(function(item) {
+        var pd = parseLessonDate(item.ngay);
+        if (pd && pd.year === currentYear && pd.month === currentMonth) {
+            hasCurrentMonthLogs = true;
+        }
+    });
+
+    if (!hasCurrentMonthLogs && lichSu.length > 0) {
+        for (var idx = lichSu.length - 1; idx >= 0; idx--) {
+            var pDate = parseLessonDate(lichSu[idx].ngay);
+            if (pDate) {
+                targetMonth = pDate.month;
+                targetYear = pDate.year;
+                break;
+            }
+        }
+    }
+
+    // Thiết lập nhãn động cho tháng
     var elLblBuoiHoc = document.getElementById('lblBuoiHoc');
-    if (elLblBuoiHoc) elLblBuoiHoc.innerText = "Số buổi đã học (Tháng " + (currentMonth + 1) + ")";
+    if (elLblBuoiHoc) elLblBuoiHoc.innerText = "Số buổi đã học (Tháng " + (targetMonth + 1) + ")";
     var elLblBuoiNghi = document.getElementById('lblBuoiNghi');
-    if (elLblBuoiNghi) elLblBuoiNghi.innerText = "Số buổi nghỉ (Tháng " + (currentMonth + 1) + ")";
+    if (elLblBuoiNghi) elLblBuoiNghi.innerText = "Số buổi nghỉ (Tháng " + (targetMonth + 1) + ")";
 
     var buoiHocThangNay = 0;
     var buoiNghiThangNay = 0;
+    var totalPresentAllTime = 0;
+    var totalAbsentAllTime = 0;
     var listDiemDauGioThangNay = [];
     var listDiemDinhKiThangNay = [];
     var tongBTVNThangNay = 0;
     var completedBTVNThangNay = 0;
 
-    var lichSu = ketQua.lichSuHocTap || [];
-
     lichSu.forEach(function(item) {
-        var parsedDate = null;
-        if (item.ngay) {
-            var rawDateStr = String(item.ngay || "").trim();
-            var mIso = rawDateStr.match(/(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
-            var mDmy = rawDateStr.match(/(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
-            var mDm = rawDateStr.match(/(\d{1,2})[-/.](\d{1,2})/);
+        var parsedDate = parseLessonDate(item.ngay);
+        var isAbsent = isAbsentSession(item.trangThai, item.noiDung);
+        var isPresent = !isAbsent;
 
-            if (mIso) {
-                parsedDate = { year: parseInt(mIso[1], 10), month: parseInt(mIso[2], 10) - 1 };
-            } else if (mDmy) {
-                parsedDate = { year: parseInt(mDmy[3], 10), month: parseInt(mDmy[2], 10) - 1 };
-            } else if (mDm) {
-                parsedDate = { year: currentYear, month: parseInt(mDm[2], 10) - 1 };
-            } else {
-                var dateObj = new Date(rawDateStr);
-                if (!isNaN(dateObj.getTime())) {
-                    parsedDate = { year: dateObj.getFullYear(), month: dateObj.getMonth() };
-                }
-            }
+        // Tổng hợp toàn bộ lịch sử (All-time)
+        if (isAbsent) {
+            totalAbsentAllTime++;
+        } else {
+            totalPresentAllTime++;
         }
 
-        // Chỉ tính toán nếu buổi học nằm trong tháng hiện tại
-        if (parsedDate && parsedDate.year === currentYear && parsedDate.month === currentMonth) {
-            var tt = (item.trangThai || "").trim().toLowerCase();
-            var isAbsent = (tt.indexOf("hủy") !== -1 || tt.indexOf("nghỉ") !== -1 || tt.indexOf("vắng") !== -1);
-            var isPresent = !isAbsent && (tt === "đã học" || tt === "học bù" || tt === "đã bù" || tt === "có mặt" || tt === "có" || tt === "đi muộn" || tt === "" || tt === "đã dạy");
-
+        // Chỉ tính toán nếu buổi học nằm trong tháng mục tiêu
+        if (parsedDate && parsedDate.year === targetYear && parsedDate.month === targetMonth) {
             if (isAbsent) {
                 buoiNghiThangNay++;
             } else if (isPresent) {
@@ -353,16 +420,17 @@ function renderStudentView(ketQua) {
     var htmlLichSu = "";
     var totalBuoi = lichSu.length;
     if (totalBuoi > 0) {
-        var getStatusBadge = function(trangThai) {
-            var tt = (trangThai || "").trim().toLowerCase();
-            if (tt === "đã học" || tt === "có mặt") return '<span class="status-badge badge-dahoc">Có mặt</span>';
-            if (tt === "học bù") return '<span class="status-badge badge-hocbu">Học bù</span>';
-            if (tt === "đi muộn") return '<span class="status-badge badge-hocbu" style="background:rgba(245,158,11,0.15); border-color:rgba(245,158,11,0.4); color:#F59E0B;">Đi muộn</span>';
-            if (tt.indexOf("hủy") !== -1 || tt.indexOf("nghỉ") !== -1 || tt === "vắng" || tt === "vắng mặt") {
-                var label = (tt === "cả lớp nghỉ") ? "Cả lớp nghỉ" : "Vắng";
-                return '<span class="status-badge badge-nghi">' + label + '</span>';
-            }
-            return '<span class="status-badge" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #FFF;">' + trangThai + '</span>';
+        var historyHeaderEl = document.querySelector('#resultBox .result-section h4');
+        if (historyHeaderEl && historyHeaderEl.innerHTML.includes('Lịch sử')) {
+            historyHeaderEl.innerHTML = '<i class="fa-solid fa-clock-rotate-left"></i> Lịch sử Đánh giá Học tập <span style="font-size: 12px; color: #E2D1FF; font-weight: normal; margin-left: 8px;">(Tổng đã học: <b style="color:#10B981;">' + totalPresentAllTime + ' buổi</b> • Nghỉ: <b style="color:#F59E0B;">' + totalAbsentAllTime + ' buổi</b>)</span>';
+        }
+
+        var getStatusBadge = function(trangThai, noiDung) {
+            if (isAbsentSession(trangThai, noiDung)) return '<span class="status-badge badge-nghi">Hủy/Nghỉ</span>';
+            var normTt = normalizeStr(trangThai);
+            if (normTt.includes('hoc bu') || normTt.includes('da bu')) return '<span class="status-badge badge-hocbu">Học bù</span>';
+            if (normTt.includes('di muon')) return '<span class="status-badge badge-hocbu" style="background:rgba(245,158,11,0.15); border-color:rgba(245,158,11,0.4); color:#F59E0B;">Đi muộn</span>';
+            return '<span class="status-badge badge-dahoc">Có mặt</span>';
         };
         var getBtvnBadge = function(btvn) {
             var bt = (btvn || "").trim().toLowerCase();
@@ -378,7 +446,7 @@ function renderStudentView(ketQua) {
         // Mobile Accordion
         var htmlMobile = "<div class='mobile-cards-view'>";
 
-                var sortedLichSu = lichSu.slice().sort(function(a, b) {
+        var sortedLichSu = lichSu.slice().sort(function(a, b) {
             var dateA = a.ngay ? new Date(a.ngay.split('/').reverse().join('-')) : new Date(0);
             var dateB = b.ngay ? new Date(b.ngay.split('/').reverse().join('-')) : new Date(0);
             if (!isNaN(dateA.getTime()) && !isNaN(dateB.getTime()) && dateA.getTime() !== dateB.getTime()) {
@@ -391,6 +459,7 @@ function renderStudentView(ketQua) {
 
         sortedLichSu.forEach(function(item, idx) {
             var styleStr = (idx >= 5) ? 'style="display: none;" class="history-row hidden-row"' : 'class="history-row"';
+            var badgeHtml = getStatusBadge(item.trangThai, item.noiDung);
 
             var contentHtml = item.noiDung || '';
             if (item.nhanXetRieng) {
@@ -406,7 +475,7 @@ function renderStudentView(ketQua) {
             htmlLichSu += "<td>" + getBtvnBadge(item.danhGiaBTVN) + "</td>";
             htmlLichSu += "<td>" + (item.diemDauGio || '-') + "</td>";
             htmlLichSu += "<td>" + (item.diemDinhKi || '-') + "</td>";
-            htmlLichSu += "<td>" + getStatusBadge(item.trangThai) + "</td>";
+            htmlLichSu += "<td>" + badgeHtml + "</td>";
             htmlLichSu += "</tr>";
 
             // Mobile Card

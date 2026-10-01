@@ -30,11 +30,12 @@
 
 ## Trạng thái dự án
 
-🎉 **TẤT CẢ 17 TASKS ĐÃ HOÀN THÀNH 100%** (Cả bản Demo và Production)
+- 🎉 **Bản Demo (`Gia sư - demo/`):** Hoàn thành 100% tất cả 17 tasks qua 8 Phases. Sẵn sàng cho người dùng nghiệm thu và đánh giá.
+- 🔄 **Bản Production (`Gia sư/`):** Đã hoàn nguyên về nguyên trạng trước dự án (`origin/main`, commit `d827c23`) theo yêu cầu người dùng để chờ duyệt sau khi nghiệm thu xong bản Demo. Toàn bộ code cải tiến của production đã được sao lưu an toàn tại nhánh `backup-redesign-phase8`.
 
 ## Blockers
 
-Không có blocker nào. Hoàn tất toàn bộ yêu cầu.
+Không có blocker nào. Bản Demo sẵn sàng nghiệm thu.
 
 ---
 

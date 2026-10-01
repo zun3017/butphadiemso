@@ -445,18 +445,18 @@
 - [x] Áp dụng CSS variables cho FullCalendar components trong `tutor-calendar.html`. Tinh chỉnh `eventDidMount` để chip sự kiện tương thích dark/light theme, thêm helper `hexToRgb` và `darkenColor`.
 
 ### Task 12.5 — Theme Switcher UI (đầy đủ 36 theme như thiết kế)
-- [ ] Thêm nút mở theme switcher ở sidebar `tutor-dashboard.html` và header `tutor-calendar.html`. Xây dựng Modal panel switcher gồm: Nhóm A (5 presets), Nhóm B (15 themes × 2 variants = 30 thẻ grid scrollable), Nhóm C (custom color picker), nhãn theme hiện tại. Thêm logic `applyTheme()`.
+- [x] Thêm nút mở theme switcher ở sidebar `tutor-dashboard.html` và header `tutor-calendar.html`. Xây dựng Modal panel switcher gồm: Nhóm A (5 presets), Nhóm B (15 themes × 2 variants = 30 thẻ grid scrollable), Nhóm C (custom color picker), nhãn theme hiện tại. Thêm logic `applyTheme()`.
 
 ### Task 12.6 — Chart.js re-color khi đổi theme
-- [ ] Cập nhật hàm `rerenderChartsForTheme()` để đọc màu từ `--chart-bar` và re-render/update bar chart doanh thu khi đổi theme.
+- [x] Cập nhật hàm `rerenderChartsForTheme()` để đọc màu từ `--chart-bar` và re-render/update bar chart doanh thu và donut chart khi đổi theme.
 
 ### Task 12.7 — Custom color picker
-- [ ] Thêm logic color picker 2 chiều (color input + HEX input), hàm `applyCustomTheme()` tự sinh các biến màu và áp dụng ngay, lưu `custom:#HEX` vào localStorage và hỗ trợ phục hồi khi bootstrap trang.
+- [x] Thêm logic color picker 2 chiều (color input + HEX input), hàm `applyCustomTheme()` tự sinh các biến màu và áp dụng ngay, lưu `custom:#HEX` vào localStorage và hỗ trợ phục hồi khi bootstrap trang.
 
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
-| Phase 12 — Multi-Theme System | 7 | 4 |
-| **Tổng** | **34** | **31** |
+| Phase 12 — Multi-Theme System | 7 | 7 |
+| **Tổng** | **34** | **34** |

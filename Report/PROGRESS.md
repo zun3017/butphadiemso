@@ -29,6 +29,17 @@
 
 ## Task vừa hoàn thành
 
+- 🎓 **Tinh gọn Giao diện Chi tiết Học sinh (`tutor-dashboard.html`, `js/tutor.js` - demo only):**
+  - **Lược bỏ Khối thẻ thống kê & Khối biểu đồ điểm số:** Đã xóa bỏ hoàn toàn khối 3 thẻ thống kê ở trên (`Doanh thu dự kiến`, `Đã thanh toán`, `Tỷ lệ đi học`) và khối `Biểu đồ điểm số học tập` trong giao diện chi tiết học sinh (`#tutorStudentDetail`), giúp giao diện tập trung trực tiếp và liền mạch vào phần bài tập và nhật ký buổi học.
+  - **Lược bỏ Cột "Đóng tiền" & Checkbox:** Xóa bỏ hoàn toàn cột `Đóng tiền` kèm checkbox ở bảng lịch sử học tập (cả chế độ xem máy tính và điện thoại), chuyển toàn bộ nghiệp vụ quản lý thu học phí về đúng chuyên mục **Tab Học phí**.
+  - **Lược bỏ Dòng hướng dẫn đóng tiền:** Xóa dòng chữ hướng dẫn `Tích chọn ô vuông ⬜ ở cột Đóng tiền...` phía trên bảng lịch sử.
+  - **Lược bỏ Nút "Xuất Hóa Đơn (Phiếu Học Tập)" & Khối hóa đơn cũ:** Xóa nút bấm tím `#btnToggleInvoice` và toàn bộ khối container hóa đơn thu gọn `#invoiceCollapseContainer` phía dưới bảng nhật ký (vì hóa đơn phiếu học tập đã được quản lý chuyên nghiệp trong Tab Học phí).
+
+- 📄 **Nâng cấp Báo cáo học tập — Xuất file PDF & Tinh gọn nút Xem trước (`tutor-dashboard.html`, `js/tutor.js`, `css/style.css` - demo only):**
+  - **Thêm tính năng Xuất file PDF:** Tích hợp nút `[ 📄 Xuất file PDF ]` (`#btnExportReportPdf`) với hiệu ứng gradient đỏ sang trọng, chụp phiếu báo cáo độ phân giải cao và tạo file PDF vector chuẩn chuẩn kích thước (tự động mở rộng chiều cao trang phù hợp với số lượng buổi học, giữ nguyên độ nét từng con chữ và bảng biểu, không bị thu nhỏ co cụm).
+  - **Loại bỏ nút "Xem trước" dư thừa:** Báo cáo học tập đã có cơ chế tự động cập nhật thời gian thực ngay khi chuyển tab, đổi ngày (Từ ngày / Đến ngày) hoặc chọn học sinh khác; do đó nút "Xem trước" thủ công không còn cần thiết và đã được lược bỏ để thanh công cụ gọn gàng, trực quan.
+  - **Khắc phục lỗi vệt sáng (Light Streak Artifact) khi xuất ảnh:** Tiêu đề "BÁO CÁO TIẾN ĐỘ HỌC TẬP" trước đây sử dụng thuộc tính CSS `-webkit-background-clip: text;` kết hợp gradient nền, thuộc tính này không được thư viện chụp ảnh `html2canvas` hỗ trợ nên dẫn tới việc vẽ nguyên một khối hình chữ nhật sáng màu tím nhạt đè sau chữ. Đã chuyển sang màu chữ trắng thuần `#FFFFFF` sắc nét, triệt tiêu hoàn toàn khối sáng này khi xuất file ảnh PNG hoặc PDF.
+
 - 💰 **Task 11.1 — Đổi `feeStatus` từ flat field sang `feeStatusByMonth` (lưu theo từng tháng độc lập) (`js/tutor.js` - demo only):**
   - **Mục tiêu:** Khắc phục triệt để lỗi trạng thái học phí không reset khi chuyển sang tháng mới (trước đây lưu trường phẳng `st.feeStatus` khiến tháng mới bị dính trạng thái "Đã thu" của tháng cũ).
   - **Lưu trữ độc lập theo tháng (`st.feeStatusByMonth[monthKey]`):** Chuyển đổi cơ chế lưu trạng thái thành object theo key định dạng `"MM/YYYY"`. Khi đổi trạng thái học sinh ở tháng nào thì chỉ cập nhật đúng key của tháng đó.
@@ -56,8 +67,8 @@
 
 - 📊 **Task 10.4 — Bottom legend theo học sinh + Status bar (`tutor-calendar.html` - demo only):**
   - **Mục tiêu:** Thêm thanh công cụ phía dưới lịch gồm Legend màu học sinh và Thanh trạng thái (Status bar) thống kê tổng số buổi dạy trong tháng và số học sinh:
-    - **Legend màu học sinh (bên trái):** Danh sách trực quan từng học sinh với chấm tròn màu đồng bộ chính xác với màu ca học của học sinh đó trên lịch (`row.color`), kèm tên học sinh. Hỗ trợ cuộn ngang mượt mà khi có nhiều học sinh.
-    - **Thanh trạng thái (bên phải):** Thống kê chuẩn xác định dạng `"N buổi trong tháng · X học sinh"`, tự động cập nhật thời gian thực dựa trên các ca học thuộc tháng đang xem, tự động đồng bộ khi chuyển tháng hoặc bật/tắt bộ lọc "Ẩn đã hủy".
+    - **Legend màu học sinh (bên trái):** Danh sách trực quan từng học sinh với chấm tròn màu đồng bộ chính xác với màu ca học của học sinh đó trên lịch (`row.color`), kèm tên học sinh. Tự động lọc danh sách chỉ hiển thị các học sinh có lịch học trong tháng đang xem (hoặc tất cả nếu ngoài phạm vi), đồng bộ chuẩn xác với số lượng học sinh ở thanh trạng thái. Bổ sung `min-width: 0; flex: 1 1 0%;` và sự kiện lăn chuột (`wheel`) cho phép cuộn ngang mượt mà, triệt để loại bỏ lỗi tràn văn bản đè lên thanh trạng thái.
+    - **Thanh trạng thái (bên phải):** Thống kê chuẩn xác định dạng `"N buổi trong tháng · X học sinh"`, cố định góc phải với `flex-shrink: 0`, tự động cập nhật thời gian thực dựa trên các ca học thuộc tháng đang xem, tự động đồng bộ khi chuyển tháng hoặc bật/tắt bộ lọc "Ẩn đã hủy".
     - **Chỉ hiển thị ở Month view:** Tự động hiển thị khi ở chế độ xem Tháng (`dayGridMonth`), tự động ẩn khi chuyển sang Tuần (`timeGridWeek`) và Ngày (`timeGridDay`).
     - **Bố cục & Không gian:** Thanh bottom dạng `flex-shrink: 0` trên layout flexbox cột của body, kết hợp hàm `calendar.updateSize()` giúp lịch luôn vừa khít màn hình, không bao giờ che khuất hay đè lên hàng ngày cuối tháng.
     - **Kiểm thử cú pháp:** JS syntax đạt 100% hợp lệ, hoạt động ổn định và mượt mà.
@@ -291,6 +302,5 @@ Không có blocker nào. Bản Demo sẵn sàng nghiệm thu.
 - ✅ **Responsive & Polish:** Chuẩn hóa hiển thị cả trên mobile (375px) và desktop (1280px)
 - ✅ **Đồng bộ Production:** Hoàn tất đồng bộ code sang `Gia sư/`, hỗ trợ Supabase API backend
 - ✅ **Header Clean & Hidden:** Loại bỏ nút thừa và ẩn `tutor-header` cũ giải phóng không gian màn hình
-
-
-
+- ✅ **Phase 12 Task 12.1 (Multi-Theme System):** Tạo `css/themes.css` với đầy đủ 28-30 CSS variables cho 36 theme (5 presets + 15 themes x 2 variants). Thiết lập bootstrap script trong `<head>` của `tutor-dashboard.html` và `tutor-calendar.html`.
+- ✅ **Phase 12 Task 12.2 (Multi-Theme System):** Chuẩn hóa toàn bộ màu sắc hardcoded trong `css/style.css` và style/inline block của `tutor-dashboard.html` sang CSS variables. Bảo toàn nghiêm ngặt các màu semantic (đỏ error, xanh success, vàng warning, badge học phí, màu riêng học sinh và invoice card).

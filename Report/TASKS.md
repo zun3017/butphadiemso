@@ -423,3 +423,40 @@
   - [x] Tổng "Đã thu" / "Còn phải thu" ở banner tính đúng theo tháng đang xem
   - [x] Data cũ (`st.feeStatus`) được migrate: nếu học sinh cũ có `feeStatus = "Đã thu"` mà chưa có `feeStatusByMonth` → không crash, mặc định về "Chưa thu" (không migrate ngược)
   - [x] Fix áp dụng cho `js/tutor.js` trong `Gia sư - demo/` (production giữ nguyên an toàn vì tính năng quản lý học phí được xây dựng độc quyền trên demo)
+
+---
+
+## PHASE 12 — Hệ thống Theme đa giao diện (Multi-Theme System 36 Themes) — Demo only
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/`).
+> Chi tiết đầy đủ: xem **`PROMPT_PHASE12_THEME.md`**, **`THEME_PLAN.md`**, **`THEME_COMPREHENSIVE.md`** — 36 themes (5 presets + 15 themes × 2 variants + custom picker).
+> **Thứ tự bắt buộc:** 12.1 → 12.2 → 12.3 → 12.4 → 12.5 → 12.6 → 12.7. Không được đảo thứ tự.
+
+### Task 12.1 — Tạo css/themes.css + Bootstrap script (36 themes)
+- [x] Tạo file `css/themes.css` chứa đầy đủ 28 CSS variables cho 36 themes (5 presets + 15 themes x 2 variants + default). Thêm link stylesheet và script bootstrap vào `<head>` của `tutor-dashboard.html` và `tutor-calendar.html`.
+
+### Task 12.2 — Replace hardcoded colors trong style.css + HTML style block
+- [x] Replace các màu hardcoded theme trong `css/style.css` và style block của `tutor-dashboard.html` thành `var(--variable)`. Giữ nguyên màu semantic (đỏ danger, xanh success, vàng warning, badge học phí, màu riêng học sinh).
+
+### Task 12.3 — Replace hardcoded colors trong js/tutor.js (inline HTML strings)
+- [ ] Replace các màu theme phổ biến trong template strings của `js/tutor.js` thành `var(--variable)`.
+
+### Task 12.4 — Calendar theming: tutor-calendar.html <style> + eventDidMount
+- [ ] Áp dụng CSS variables cho FullCalendar components trong `tutor-calendar.html`. Tinh chỉnh `eventDidMount` để chip sự kiện tương thích dark/light theme, thêm helper `hexToRgb` và `darkenColor`.
+
+### Task 12.5 — Theme Switcher UI (đầy đủ 36 theme như thiết kế)
+- [ ] Thêm nút mở theme switcher ở sidebar `tutor-dashboard.html` và header `tutor-calendar.html`. Xây dựng Modal panel switcher gồm: Nhóm A (5 presets), Nhóm B (15 themes × 2 variants = 30 thẻ grid scrollable), Nhóm C (custom color picker), nhãn theme hiện tại. Thêm logic `applyTheme()`.
+
+### Task 12.6 — Chart.js re-color khi đổi theme
+- [ ] Cập nhật hàm `rerenderChartsForTheme()` để đọc màu từ `--chart-bar` và re-render/update bar chart doanh thu khi đổi theme.
+
+### Task 12.7 — Custom color picker
+- [ ] Thêm logic color picker 2 chiều (color input + HEX input), hàm `applyCustomTheme()` tự sinh các biến màu và áp dụng ngay, lưu `custom:#HEX` vào localStorage và hỗ trợ phục hồi khi bootstrap trang.
+
+## Thống kê
+
+| Phase | Tasks | Hoàn thành |
+|---|---|---|
+| Phase 1–11 | 27 | 27 |
+| Phase 12 — Multi-Theme System | 7 | 2 |
+| **Tổng** | **34** | **29** |

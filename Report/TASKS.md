@@ -102,8 +102,8 @@
 ## PHASE 6 — Polish & Sync
 
 ### Task 6.1 — Responsive kiểm tra toàn bộ
-- [ ] Kiểm tra toàn bộ 6 sections trên mobile (375px) và desktop (1280px)
-- [ ] Fix các layout bug nếu có
+- [x] Kiểm tra toàn bộ 6 sections trên mobile (375px) và desktop (1280px)
+- [x] Fix các layout bug nếu có (Đã fix unclosed media query ở line 2187 làm tràn layout desktop, bổ sung responsive padding/border-radius cho toolbar/cards/modals trên mobile 375px, xếp chồng message box & QR card trên mobile)
 
 ### Task 6.2 — Sync sang production
 - [ ] Copy các thay đổi đã verify từ `Gia sư - demo/` sang `Gia sư/`
@@ -117,8 +117,8 @@
 |---|---|---|
 | Phase 1 — Layout + Tổng quan | 3 | 3 |
 | Phase 2 — Nhật ký | 1 | 1 |
-| Phase 3 — Học sinh | 1 | 0 |
-| Phase 4 — Học phí | 1 | 0 |
-| Phase 5 — Báo cáo | 2 | 0 |
-| Phase 6 — Polish | 2 | 0 |
-| **Tổng** | **10** | **4** |
+| Phase 3 — Học sinh | 1 | 1 |
+| Phase 4 — Học phí | 1 | 1 |
+| Phase 5 — Báo cáo | 2 | 2 |
+| Phase 6 — Polish & Sync | 2 | 1 |
+| **Tổng** | **10** | **9** |

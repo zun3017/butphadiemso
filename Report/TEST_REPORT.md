@@ -90,3 +90,17 @@
 - **Detected Issues:** None
 - **Severity:** None
 - **Status:** PASS
+
+## [v6.0] - Task 6.1: Responsive kiểm tra toàn bộ 6 sections
+- **Timestamp:** 2026-10-01 12:05:00
+- **Scope:** Responsive styling across all 6 sections on mobile (375px) and desktop (1280px), Fix layout glitches, CSS brace validation.
+- **Verification Method:**
+  - Complete CSS AST/brace parse (`node script`): Detected missing closing brace `}` at `@media (max-width: 768px)` line 2187 which leaked mobile media query to all subsequent rules on desktop (1280px). Corrected and validated: 0 unclosed braces remaining.
+  - Mobile layout (375px) optimizations: Added compact padding (16px 14px) and rounded borders (16px) for `.diary-toolbar`, `.students-toolbar`, `.tuition-toolbar`, `.report-filter-card`.
+  - Modal overlay & dialogs: Increased `.modal-overlay` z-index to 2000 so it strictly covers the fixed bottom nav bar (z-index 1000). Set responsive padding (20px 16px) on `<= 480px`.
+  - Invoice modal on small screen: Configured `.metrics-grid` and `.bottom-action-container` to stack vertically (`1fr`) on `<= 480px` ensuring message box and VietQR card remain comfortable without horizontal distortion.
+  - Desktop layout (1280px): Verified 240px fixed sidebar, 4 KPI cards row, 2-column upcoming schedule, 3-column student cards grid, 3-card tuition banner, centered report capture card.
+- **Detected Issues:** 1 critical unclosed brace in `style.css` (FIXED).
+- **Severity:** High (resolved)
+- **Status:** PASS
+

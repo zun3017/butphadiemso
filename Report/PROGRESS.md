@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 5 Hoàn thành (2/2) — Chuyển sang Phase 6 (Polish & Sync)
+**Giai đoạn:** Phase 6 (Polish & Sync) — Đã xong Task 6.1 (9/10 tasks)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[████████░░] 80% (8/10 tasks)
+[█████████░] 90% (9/10 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -18,7 +18,7 @@
 | Phase 3 | Học sinh | 1/1 (Xong) |
 | Phase 4 | Học phí | 1/1 (Xong) |
 | Phase 5 | Báo cáo (Xuất ảnh) | 2/2 (Xong) |
-| Phase 6 | Polish & Sync | 0/2 |
+| Phase 6 | Polish & Sync | 1/2 |
 
 ---
 
@@ -32,10 +32,11 @@
 - ✅ **Task 4.1:** Section Học phí (Banner tổng thu nhập 3 thẻ: Tổng thu dự kiến / Đã thu / Còn phải thu, bảng từng học sinh kèm đơn giá và tổng tiền, toggle Đã thu / Chưa thu reactive lưu store, modal xem trước hóa đơn phiếu học tập kèm QR VietQR & xuất PNG)
 - ✅ **Task 5.1:** Section Báo cáo: Filter & Preview (Bộ lọc từ ngày, đến ngày bằng native date input, chọn học sinh hoặc tất cả, xem trước dạng card capture dọc chuyên nghiệp, empty state khi không có buổi nào)
 - ✅ **Task 5.2:** Section Báo cáo: Xuất ảnh PNG (Tích hợp `html2canvas` scale 2x, tải về file PNG tự động đặt tên theo format `BaoCao_[TenHocSinh]_[TuNgay]_[DenNgay].png`, loading state spinner trên nút)
+- ✅ **Task 6.1:** Responsive kiểm tra toàn bộ 6 sections (Fix unclosed media query làm tràn layout desktop, bổ sung responsive padding/border-radius cho toolbar/cards/modals trên mobile 375px, xếp chồng message box & QR card trên mobile)
 
 ## Task tiếp theo
 
-→ **Task 6.1:** Responsive kiểm tra toàn bộ 6 sections (mobile 375px & desktop 1280px, layout bugs)
+→ **Task 6.2:** Sync sang production (`Gia sư/`) và kiểm tra tích hợp Supabase API
 
 ## Blockers
 
@@ -50,13 +51,11 @@ Không có blocker nào.
 - ✅ **4 KPI Cards:** Thống kê trực quan số học sinh, buổi dạy, giờ tích lũy, học phí
 - ✅ **Lịch dạy sắp tới (Hôm nay & Ngày mai):** Phân nhóm ngày rõ ràng, hiển thị giờ, môn học, tag màu riêng biệt
 - ✅ **Nhật ký buổi học:** Tra cứu lịch sử toàn diện, lọc theo học sinh & tháng, xem và sửa nhận xét inline
-- ✅ Hiển thị Thứ kèm ngày dạy (`Thứ X, DD/MM`) *(đợt trước)*
-- ✅ Đại tu logic đánh giá BTVN *(đợt trước)*
-- ✅ Fix lỗi không đăng được bài tập của Gia sư *(đợt trước)*
+- ✅ **Quản lý học sinh:** Grid thẻ trực quan, avatar màu, xem chi tiết và nhật ký học sinh
+- ✅ **Quản lý học phí:** Banner 3 chỉ số, bảng tính học phí theo đơn giá & số buổi, toggle trạng thái thu, xem & xuất hóa đơn điện tử kèm VietQR
+- ✅ **Báo cáo chuyên nghiệp:** Lọc theo ngày & học sinh, card xem trước chuẩn mực, xuất ảnh PNG 2x
+- ✅ **Responsive & Polish:** Chuẩn hóa hiển thị cả trên mobile (375px) và desktop (1280px)
 
 ## Tính năng chờ triển khai
 
-- ⏳ Section Học sinh (Task 3.1)
-- ⏳ Section Học phí (Task 4.1)
-- ⏳ Báo cáo xuất ảnh PNG (Task 5.1 & 5.2)
-- ⏳ Polish & Sync sang production (Task 6.1 & 6.2)
+- ⏳ Task 6.2: Sync sang production (`Gia sư/`) và kiểm tra tích hợp Supabase API

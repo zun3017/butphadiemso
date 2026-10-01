@@ -99,6 +99,11 @@
     - Khi nhấn "Lưu bản nháp": huy hiệu bookmark bị tô đặc (`fa-solid fa-bookmark`, màu tím `#7C3AED`), nút chuyển sang trạng thái active `Đã lưu nháp` (`.btn-draft-saved`), dữ liệu lưu vào `localStorage`, toast thông báo thành công.
     - Khi nhấn một lần nữa: hủy lưu bản nháp, huy hiệu trở lại viền không tô (`fa-regular fa-bookmark`), nút trở lại `Lưu bản nháp`, xóa bản nháp khỏi `localStorage`, toast thông báo đã hủy lưu.
     - Khi mở modal của học sinh: tự động kiểm tra `localStorage`, nếu học sinh đã có bản nháp thì nút tự động hiển thị ở trạng thái đã tô và khôi phục dữ liệu nháp.
+  - **Nâng cấp tính năng Xuất PDF (Direct PDF Download):**
+    - Chuyển đổi hoàn toàn cơ chế cũ (trước đây gọi `window.print()` mở hộp thoại in) sang cơ chế tải trực tiếp tệp tin PDF (`.pdf`) về máy tính / điện thoại.
+    - Sử dụng `html2canvas` chụp chuẩn nét 2x card phiếu học tập `#tuitionInvoiceCard`, tự động đóng gói thành file tài liệu PDF chuẩn A4 (595.28 x 841.89 pt) căn giữa thẩm mỹ.
+    - Đặt tên file tự động theo học sinh và kỳ học: `PhieuHocPhi_[TênHọcSinh]_[KỳHọc].pdf`.
+    - Tự động kích hoạt tải xuống ngay lập tức trên trình duyệt mà không cần cài thêm thư viện ngoài.
   - Tự động đồng bộ tiêu đề kỳ học tương ứng theo mẫu khi chuyển đổi tab Mẫu 1 / Mẫu 2 nếu chưa nhập tiêu đề tùy chỉnh.
   - Bật/tắt bất kỳ toggle nào sẽ ẩn/hiện tức thì trường thông tin tương ứng trên live preview.
   - Đảm bảo đúng chuẩn giao diện dark/tím của Gia Sư, card phiếu nền trắng tương phản cao chuẩn mực.

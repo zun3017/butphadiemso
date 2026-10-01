@@ -28,6 +28,13 @@
 
 ## Task vừa hoàn thành
 
+- 💳 **Nâng cấp Cửa sổ Tài khoản Gia Sư — Tải ảnh mã QR & Dán link trực tiếp (`tutor-dashboard.html`, `js/tutor.js`, `js/api.js`, `js/demo-data.js` - demo only):**
+  - **Tải ảnh mã QR lên:** Hỗ trợ chọn file ảnh từ máy tính (PNG, JPG, JPEG), tự động nén tối ưu (canvas max 600x600 px trên nền trắng chuẩn) chuyển đổi thành base64 sắc nét, hiển thị preview tức thì.
+  - **Dán liên kết ảnh mã QR trực tiếp:** Hỗ trợ nhập/dán URL ảnh trực tuyến (`#accQrUrlInput`), tự động cập nhật preview ảnh QR theo thời gian thực.
+  - **Xóa ảnh mã QR:** Nút "Xóa ảnh" (`#btnRemoveTutorQr`) màu đỏ trực quan khi đã có ảnh, cho phép gỡ bỏ nhanh chóng.
+  - **Lưu & Đồng bộ dữ liệu toàn diện:** Khi nhấn "Cập nhật tài khoản", dữ liệu mã QR mới được đồng bộ hóa vào `tutorDataGlobal.qrCode`, lưu trữ cục bộ `localStorage` (`tutor_qr_code`), cập nhật dữ liệu tài khoản mock backend (`capNhatThongTinGiaSu`), và tự động cập nhật ngay trên Phiếu học phí (`#invQrImg`).
+  - **Khớp chuẩn ảnh mẫu:** Giao diện khu vực QR thanh toán với icon vàng `#FFD23F`, khung viền tím nét đứt `border: 1px dashed rgba(142, 77, 255, 0.35)`, các nút bấm tím gradient và đỏ cảnh báo khớp 100% hình ảnh thực tế.
+
 - 🎨 **Visual Refinement — Tinh chỉnh giao diện Month view khớp 100% hình ảnh tham chiếu (`tutor-calendar.html` - demo only):**
   - **Từng ô ngày là 1 thẻ Card độc lập:** Loại bỏ viền lưới bảng FullCalendar truyền thống ở Month view; mỗi ô ngày là một card trắng bo tròn `border-radius: 12px`, viền mảnh `#ECE3D8`, đổ bóng nhẹ `box-shadow` và có khoảng hở `padding: 3.5px` giữa các card.
   - **Tiêu đề cột các Thứ:** Định dạng chữ hoa gọn gàng không viền nền: `THỨ 2`, `THỨ 3`, `THỨ 4`, `THỨ 5`, `THỨ 6`, `THỨ 7`, `CN`, canh lề trái thẳng hàng với các cột card bên dưới.

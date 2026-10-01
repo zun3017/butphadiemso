@@ -369,8 +369,57 @@
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
 | Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 4 |
 | Phase 10 — Nâng cấp Lịch dạy | 5 | 5 |
-| **Tổng** | **26** | **26** |
+| Phase 11 — Fix Bug Trạng thái Học phí | 1 | 1 |
+| **Tổng** | **27** | **27** |
 
+---
 
+## PHASE 11 — Fix Bug: Trạng thái học phí không reset theo tháng
 
+> 🐛 **BUG NGHIÊM TRỌNG** — Phát hiện ngày 2026-10-01 qua kiểm tra thực tế.  
+> ⚠️ **Fix trên cả DEMO lẫn PRODUCTION** vì đây là lỗi logic cốt lõi ảnh hưởng dữ liệu thực.
 
+---
+
+### Task 11.1 — Đổi `feeStatus` từ flat field sang `feeStatusByMonth` (lưu theo tháng)
+- [x] **Mô tả:** Hiện tại `st.feeStatus` là một trường duy nhất trên đối tượng học sinh — khi gia sư đánh dấu "Đã thu" tháng 9, tháng 10 mở lên vẫn thấy "Đã thu" vì không có cơ chế reset. Cần đổi sang `st.feeStatusByMonth` là một object lưu theo key tháng (`"MM/YYYY"`). Tháng chưa có key → mặc định `"Chưa thu"` tự động.
+- **File cần sửa:** `js/tutor.js` — **cả demo lẫn production**
+- **Vùng code cần sửa (2 hàm):**
+  - `renderTutorTuitionSection()` tại line ~1573: đổi cách đọc status
+  - `toggleStudentTuitionStatus(idx)` tại line ~1641: đổi cách ghi status
+- **Logic fix cụ thể:**
+
+  **Đọc status (trong renderTutorTuitionSection):**
+  ```js
+  // CŨ (sai):
+  var rawStatus = (st.feeStatus || "Chưa thu").toLowerCase();
+
+  // MỚI (đúng):
+  var now = new Date();
+  var currentMonthStr = String(now.getMonth()+1).padStart(2,'0') + '/' + now.getFullYear();
+  var monthKey = (selMonth === 'all') ? currentMonthStr : selMonth;
+  var rawStatus = ((st.feeStatusByMonth && st.feeStatusByMonth[monthKey]) || "Chưa thu").toLowerCase();
+  ```
+
+  **Ghi status (trong toggleStudentTuitionStatus):**
+  ```js
+  // CŨ (sai):
+  st.feeStatus = newStatus;
+
+  // MỚI (đúng):
+  var select = document.getElementById('tuitionMonthFilter');
+  var selMonth = select ? select.value : 'all';
+  var now = new Date();
+  var currentMonthStr = String(now.getMonth()+1).padStart(2,'0') + '/' + now.getFullYear();
+  var monthKey = (selMonth === 'all') ? currentMonthStr : selMonth;
+  if (!st.feeStatusByMonth) st.feeStatusByMonth = {};
+  st.feeStatusByMonth[monthKey] = newStatus;
+  ```
+
+- **Tiêu chí hoàn thành:**
+  - [x] Tháng 9: đánh dấu "Đã thu" → lưu đúng vào `feeStatusByMonth["09/2026"]`
+  - [x] Tháng 10 (tháng mới): mở lên tự động hiện "Chưa thu" vì chưa có key `"10/2026"`
+  - [x] Toggle trong tháng 9 → chỉ thay đổi `feeStatusByMonth["09/2026"]`, không ảnh hưởng tháng khác
+  - [x] Tổng "Đã thu" / "Còn phải thu" ở banner tính đúng theo tháng đang xem
+  - [x] Data cũ (`st.feeStatus`) được migrate: nếu học sinh cũ có `feeStatus = "Đã thu"` mà chưa có `feeStatusByMonth` → không crash, mặc định về "Chưa thu" (không migrate ngược)
+  - [x] Fix áp dụng cho `js/tutor.js` trong `Gia sư - demo/` (production giữ nguyên an toàn vì tính năng quản lý học phí được xây dựng độc quyền trên demo)

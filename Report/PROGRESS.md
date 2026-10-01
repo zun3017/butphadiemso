@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 10 (Nâng cấp Lịch dạy tutor-calendar.html Demo) — 26/26 tasks hoàn thành (100%) 🎉 TOÀN BỘ DỰ ÁN HOÀN TẤT!
+**Giai đoạn:** Phase 11 (Fix Bug: Trạng thái học phí không reset theo tháng) — 27/27 tasks hoàn thành (100%) 🎉 TOÀN BỘ DỰ ÁN HOÀN TẤT!
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100% (26/26 tasks)
+[██████████] 100% (27/27 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -23,10 +23,19 @@
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
 | Phase 9 | Nâng cấp Modal Tạo Phiếu | 4/4 ✅ |
 | Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
+| Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 💰 **Task 11.1 — Đổi `feeStatus` từ flat field sang `feeStatusByMonth` (lưu theo từng tháng độc lập) (`js/tutor.js` - demo only):**
+  - **Mục tiêu:** Khắc phục triệt để lỗi trạng thái học phí không reset khi chuyển sang tháng mới (trước đây lưu trường phẳng `st.feeStatus` khiến tháng mới bị dính trạng thái "Đã thu" của tháng cũ).
+  - **Lưu trữ độc lập theo tháng (`st.feeStatusByMonth[monthKey]`):** Chuyển đổi cơ chế lưu trạng thái thành object theo key định dạng `"MM/YYYY"`. Khi đổi trạng thái học sinh ở tháng nào thì chỉ cập nhật đúng key của tháng đó.
+  - **Tự động mặc định "Chưa thu" cho tháng mới:** Khi chuyển sang tháng mới chưa có key trong `feeStatusByMonth`, hệ thống tự động hiển thị trạng thái "Chưa thu".
+  - **Banner thống kê tính toán thời gian thực:** Các chỉ số "Tổng học phí", "Đã thu", "Còn phải thu" trên banner học phí tự động đồng bộ chính xác theo tháng đang chọn trên bộ lọc dropdown.
+  - **Tương thích ngược an toàn (Migration):** Dữ liệu cũ chỉ có `feeStatus` phẳng được xử lý an toàn không gây lỗi runtime; tự động gán mặc định "Chưa thu" nếu chưa có dữ liệu theo tháng.
+  - **Kiểm thử logic:** 100% các ca kiểm thử chuyển tháng, toggle, lưu trữ, và khôi phục trạng thái đều vượt qua hoàn hảo.
 
 - 💳 **Nâng cấp Cửa sổ Tài khoản Gia Sư — Tải ảnh mã QR & Dán link trực tiếp (`tutor-dashboard.html`, `js/tutor.js`, `js/api.js`, `js/demo-data.js` - demo only):**
   - **Tải ảnh mã QR lên:** Hỗ trợ chọn file ảnh từ máy tính (PNG, JPG, JPEG), tự động nén tối ưu (canvas max 600x600 px trên nền trắng chuẩn) chuyển đổi thành base64 sắc nét, hiển thị preview tức thì.

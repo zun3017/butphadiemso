@@ -27,6 +27,10 @@
 
 ## Task vừa hoàn thành
 
+- 📌 **Cố định vị trí 5 nút thao tác ở bên trái, chuyển thông báo "Đã khôi phục bản nháp" sang góc phải (demo only):**
+  - **Hiện tượng:** Trước đây khi chưa khôi phục bản nháp, 5 nút thao tác (Hủy bỏ, Lưu bản nháp, Xuất PDF, Copy ảnh, Xuất phiếu) nằm ở bên trái. Khi có bản nháp được khôi phục, dòng chữ thông báo màu xanh "Đã khôi phục bản nháp lần trước" lại chiếm chỗ bên trái và đẩy toàn bộ 5 nút dạt sang bên phải, gây xáo trộn vị trí bấm của người dùng giữa các trạng thái.
+  - **Khắc phục:** Đặt container 5 nút thao tác làm phần tử đầu tiên luôn cố định chắc chắn ở góc bên trái footer; dòng thông báo khôi phục bản nháp chuyển ra sau cùng và căn chỉnh sang góc bên phải (`margin-left: auto`). Vị trí của 5 nút thao tác hoàn toàn không bao giờ bị xê dịch dù có hay không có bản nháp.
+
 - 🇻🇳 **Chuẩn hóa toàn bộ thời gian & ô chọn ngày sang định dạng Việt Nam "Ngày trước, Tháng sau" (`DD/MM/YYYY`) (demo only):**
   - **Hiện tượng:** Tại thanh công cụ lọc Báo cáo và Modal Tạo Phiếu Học Phí, các ô chọn ngày hiển thị định dạng kiểu Mỹ `MM/DD/YYYY` (ví dụ `09/01/2026` và `10/01/2026` khiến người dùng nhìn thấy tháng 9 và tháng 10 bị nhầm lẫn thành ngày 09/01 đến 10/01).
   - **Nguyên nhân cốt lõi:** Thẻ `<input type="date">` chuẩn HTML5 của trình duyệt (Chrome/Edge) trên hệ điều hành Windows mặc định phụ thuộc vào ngôn ngữ hiển thị của trình duyệt/hệ điều hành. Nếu trình duyệt đặt tiếng Anh (US), nó tự động ép hiển thị kiểu Mỹ `MM/DD/YYYY` và không có thuộc tính CSS/HTML nào ép trình duyệt đổi sang `DD/MM/YYYY`.

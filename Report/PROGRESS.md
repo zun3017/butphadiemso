@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 21/21 tasks hoàn thành (100%) 🎉
+**Giai đoạn:** Phase 10 (Nâng cấp Lịch dạy tutor-calendar.html Demo) — 24/26 tasks hoàn thành (92%) 🚀
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100% (21/21 tasks)
+[█████████░] 92% (24/26 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -22,10 +22,48 @@
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
 | Phase 9 | Nâng cấp Modal Tạo Phiếu | 4/4 ✅ |
+| Phase 10 | Nâng cấp Lịch dạy | 3/5 🔄 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🧭 **Task 10.2 — Custom header: Navigation + Tháng/Năm title + Filter "Ẩn đã hủy" (`tutor-calendar.html` - demo only):**
+  - **Mục tiêu:** Tinh gọn toàn diện thanh Header của lịch dạy, gom cụm điều hướng và bộ lọc vào một thanh công cụ duy nhất phía trên, tắt `headerToolbar` mặc định của FullCalendar để tối đa hóa không gian hiển thị lịch:
+    - **Cụm bên trái:**
+      - Nút **"Quay lại Dashboard"**: Desktop hiển thị đầy đủ icon `←` và nhãn chữ; trên Mobile (< 768px) tự động thu gọn thông minh thành icon tròn `←` tiết kiệm không gian.
+      - Nhóm nút điều hướng Lịch: `<` (lùi 1 tháng/tuần), `>` (tiến 1 tháng/tuần) và nút **"Hôm nay"** bo góc 8px thanh lịch, nhạy bén.
+      - Tiêu đề tháng/năm: `<h2 id="calendarHeaderTitle">` chữ lớn, font-weight 800, màu tím đậm `#7C3AED` sang trọng (ví dụ: **"Tháng 10 2026"**), tự động đồng bộ thời gian thực qua hook `datesSet` của FullCalendar mỗi khi nhấn prev, next, today hoặc đổi view.
+    - **Cụm bên phải:**
+      - Filter Pill **"Ẩn đã hủy"**: Nút toggle bo tròn 20px với icon con mắt gạch chéo `<i class="fa-solid fa-eye-slash"></i>`. Khi kích hoạt (active), chuyển sang nền hồng pastel viền `#C05E8E`, lọc bỏ toàn bộ các buổi học có trạng thái `cancelled` (`extendedProps.status === 'cancelled'`); khi bỏ chọn, hiển thị lại các ca học đã hủy kèm hiệu ứng gạch ngang chữ (`line-through`) và giảm opacity `0.55`.
+      - Toggle Pills **"Tháng / Tuần / Ngày"**: Thiết kế dạng segmented pill bar, highlight nổi bật view đang chọn và hỗ trợ chuyển đổi mượt mà giữa các chế độ xem mà không làm vỡ các tương tác lịch hiện có.
+      - Nút **"Lịch tóm tắt"**: Mở/đóng nhanh bảng dữ liệu sheets simulator phía dưới.
+    - **Dữ liệu mẫu trực quan:** Bổ sung ca học mẫu vào Thứ Bảy của học sinh Trần Thị B: `14:00 - 16:00 (Đã hủy) [CANCELLED]` giúp kiểm thử ngay lập tức bộ lọc ẩn/hiện buổi hủy.
+    - **Kiểm thử cú pháp:** Node syntax check đạt 100% hợp lệ, không có bất kỳ lỗi JavaScript nào.
+
+- 📅 **Task 10.1 — Thêm Month View + View toggle pills "Tháng / Tuần" (`tutor-calendar.html` - demo only):**
+  - **Mục tiêu:** Bổ sung chế độ xem theo tháng (`dayGridMonth`), đặt làm chế độ xem mặc định, tích hợp bộ chuyển đổi kiểu viên thuốc (toggle pills) và cơ chế hiển thị tối đa 3 sự kiện mỗi ngày kèm popover:
+    - **Mặc định Month view (`initialView: 'dayGridMonth'`):** Mở lịch lần đầu hiển thị ngay toàn cảnh lịch tháng hiện tại, các ô ngày được lấp đầy buổi dạy của tất cả các tuần trong tháng.
+    - **Toggle pills Tháng | Tuần | Ngày (`dayGridMonth,timeGridWeek,timeGridDay`):** Nhóm nút bo tròn 30px dạng segmented pill control, nút active nổi bật tone màu rose/pink `#C05E8E` chữ trắng, các nút còn lại nền kem chữ nâu ấm với hiệu ứng chuyển đổi mượt mà.
+    - **Giới hạn 3 sự kiện/ngày (`dayMaxEvents: 3`):** Mỗi ô ngày hiển thị tối đa 3 event chips dạng khối (`eventDisplay: 'block'`), phần sự kiện còn lại tự động hiển thị link `+N buổi nữa`.
+    - **Popover danh sách đầy đủ:** Nhấp vào `+N buổi nữa` hiển thị popup danh sách chi tiết các buổi học trong ngày theo chuẩn FullCalendar với giao diện sáng đồng bộ (`.fc-popover` nền `#FDF8F3`, viền `#E5D9CC`, header `#F3EDE4`).
+    - **Highlight ngày hôm nay:** Ô ngày hôm nay nền hồng phấn `#FFF0F6`, số ngày có badge tròn hồng `#FCE7F0` số đậm `#C05E8E`.
+    - **Giữ nguyên 100% tính năng:** Chuyển đổi qua lại giữa Tháng, Tuần (`timeGridWeek`), Ngày (`timeGridDay`) hoàn toàn mượt mà; các thao tác click xem chi tiết, chọn ô tạo ca học, kéo thả đều hoạt động chính xác.
+
+- 🎨 **Task 10.0 — Đổi theme lịch từ Dark → Light Cream/Beige (`tutor-calendar.html` - demo only):**
+  - **Mục tiêu:** Thay đổi toàn bộ giao diện `tutor-calendar.html` từ dark purple/navy sang tone màu **light cream/beige** ấm áp, thanh lịch đồng bộ với phong cách tham chiếu:
+    - Nền tổng thể `body`: `#F8F3EC` (kem ấm dịu mắt).
+    - Header bar (`.container`): `#F3EDE4`, viền dưới `1px solid #E5D9CC`.
+    - Tiêu đề lịch: icon và accent đổi sang `#C05E8E` (rose/pink), text `#2D1F0E` đậm rõ nét, phụ đề `#6B4226`.
+    - Lưới lịch FullCalendar: `#calendar` trong suốt, khung bảng `.fc-scrollgrid` nền `#FFFFFF`, viền `#E5D9CC`.
+    - Header cột (Thứ 2, Thứ 3...): Nền `#F3EDE4`, chữ `#6B4226` in đậm.
+    - Cột và ô ngày hôm nay: Nền `#FFF0F6` (hồng phấn rất nhạt), số ngày và tiêu đề cột màu `#C05E8E` font-weight 900.
+    - Ngày ngoài tháng (`.fc-day-other`): Nền `#F8F3EC`, text ngày `#BFA89A`.
+    - Trục thời gian & nhãn giờ: Nền `#F8F3EC`, text `#6B4226`, đường kẻ `#E5D9CC`, đường chỉ giờ hiện tại (Now Indicator) màu `#C05E8E`.
+    - Nút bấm FullCalendar (`.fc-button`): Nền `#E8DDD0`, chữ `#2D1F0E`, không viền; trạng thái active chuyển sang `#C05E8E` chữ trắng nổi bật.
+    - Event chips trong `eventDidMount`: Chuyển sang dạng pastel tinh tế (`linear-gradient(0deg, evColor + "25", evColor + "25), #FFFFFF`), viền trái `3px solid evColor`, viền ngoài `evColor + "40"`, chữ `color: evColor` font-weight 700 dễ đọc, không còn nền đen và chữ trắng.
+    - Modal thiết lập ca dạy, Popover chi tiết ca học, Hộp thoại sự kiện lặp lại: Đồng bộ nền `#FDF8F3`, viền `#E5D9CC`, form controls nền trắng, buttons rose/pink `#C05E8E`.
+    - Giữ nguyên 100% logic JavaScript: drag & drop, recurrence dialog, click modal, sheet simulator panel, các hàm fetch và load backend.
 
 - 💰 **Chuẩn hóa số liệu Biểu đồ Doanh thu sát thực tế dạy kèm 1-1 (Loại bỏ số liệu ảo 51 triệu/tháng - demo only):**
   - **Hiện tượng:** Biểu đồ doanh thu 12 tháng tại tab Tổng quan hiển thị các con số khổng lồ (Tháng 10: `51,7tr`, Tháng 11: `52,1tr`, Tháng 9: `36,5tr`, Tháng 8: `32,4tr`, Tổng cả năm lên tới `180.250.000 đ`). Con số này hoàn toàn bất hợp lý với thực tế một gia sư 1-1 dạy 3 học sinh (học phí 200.000đ/buổi).

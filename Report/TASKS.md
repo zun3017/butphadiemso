@@ -268,6 +268,93 @@
 
 ---
 
+## PHASE 10 — Nâng cấp Lịch dạy (`tutor-calendar.html`) — Demo only
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/tutor-calendar.html`). Không sửa production.  
+> File hiện tại dùng **FullCalendar v6** (đã import CDN). Chỉ được dùng API của FullCalendar, không import thêm thư viện lịch nào khác.  
+> GIỮ NGUYÊN: Lịch tuần, drag & drop, recurrence dialog, click event modal, sheet panel.  
+> **Task 10.0 PHẢI làm đầu tiên** — các task 10.1→10.4 phụ thuộc vào theme mới.
+
+---
+
+### Task 10.0 — Đổi theme lịch từ Dark → Light Cream/Beige (như ảnh tham chiếu)
+- [x] **Mô tả:** Thay toàn bộ màu sắc của `tutor-calendar.html` từ dark purple/navy sang **light cream/beige** giống ảnh tham chiếu. Đây là task style thuần túy — chỉ sửa CSS, không đụng logic JS nào. Các màu mục tiêu: nền tổng `#F8F3EC` (kem ấm), ô ngày `#FFFFFF`, viền `#E5D9CC`, text `#2D1F0E`, header `#F3EDE4`. Event chips: đổi từ dark overlay sang pastel — background nhạt của màu học sinh + text màu đậm hơn. Nút "hôm nay" và active state dùng màu `#C05E8E` (rose/pink) như ảnh, thay cho tím `#8E4DFF` chỉ trong file này (dashboard vẫn giữ tím).
+- **File cần sửa:** `tutor-calendar.html` *(demo only)* — chỉ phần `<style>` và `eventDidMount`
+- **Màu sắc cụ thể cần áp dụng:**
+  - `body` background: `#F8F3EC`
+  - `.container` (header bar): `background: #F3EDE4`, `border-bottom: 1px solid #E5D9CC`
+  - `#calendar` wrapper: `background: transparent`
+  - `.fc-scrollgrid` (bảng lịch): `background: #FFFFFF`, border `#E5D9CC`
+  - `.fc-col-header-cell` (Thứ 2, 3...): `background: #F3EDE4`, text `#6B4226`
+  - `.fc-daygrid-day` (ô ngày): `background: #FFFFFF`
+  - `.fc-day-today` (hôm nay): `background: #FFF0F6 !important` (hồng rất nhạt), số ngày hôm nay `color: #C05E8E; font-weight: 900`
+  - `.fc-daygrid-day-number` (số ngày): `color: #2D1F0E`
+  - `.fc-day-other` (ngày ngoài tháng): `background: #F8F3EC`, text `color: #BFA89A`
+  - Event chips trong `eventDidMount`: thay `#0F0A30` background thành `[evColor]25` (pastel 15%) + `color: [evColor]` + `border-left: 3px solid [evColor]`
+  - `.fc-button` (toolbar buttons): `background: #E8DDD0`, `color: #2D1F0E`, `border: none`
+  - `.fc-button-active`: `background: #C05E8E`, `color: #FFF`
+  - Modal/dialog panels: `background: #FDF8F3`, text `#2D1F0E` (nếu có)
+- **Tiêu chí hoàn thành:**
+  - [x] Nền tổng thể: kem/beige ấm, không còn màu tím/đen
+  - [x] Ô ngày trắng sáng, viền nhẹ nhàng
+  - [x] Text ngày dễ đọc trên nền sáng (không phải màu trắng nữa)
+  - [x] Event chips: pastel nhạt với text màu đậm hơn (không còn nền đen + chữ trắng)
+  - [x] Ngày hôm nay: nền hồng rất nhạt, số ngày màu rose đậm
+  - [x] Buttons toolbar FullCalendar: style lại theo theme sáng
+  - [x] Sheet panel (bảng dữ liệu bên dưới) có thể giữ dark hoặc đổi sang light tùy thẩm mỹ
+  - [x] Week view và Day view cũng phải đổi theme (không chỉ Month view)
+
+---
+
+### Task 10.1 — Thêm Month View + View toggle pills "Tháng / Tuần"
+- [x] **Mô tả:** Thêm `dayGridMonth` vào FullCalendar. Mặc định view = **Month** (không phải Week như hiện tại). Thêm toggle pills "Tháng" | "Tuần" | "Ngày" ở góc trên phải (thay thế nút mặc định FullCalendar). Khi ở month view: `dayMaxEvents: 3` để hiện "+N buổi nữa" khi tràn. Hôm nay highlight bằng viền/nền đặc biệt (FullCalendar tự xử lý qua `.fc-day-today`, chỉ cần custom CSS màu tím thay màu mặc định).
+- **File cần sửa:** `tutor-calendar.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [x] Mở lịch lần đầu → hiển thị Month view (tháng hiện tại)
+  - [x] Toggle "Tuần" → chuyển sang `timeGridWeek` (giữ nguyên mọi tính năng hiện có)
+  - [x] Toggle "Tháng" → chuyển về `dayGridMonth`
+  - [x] Month view: mỗi ô ngày hiển thị tối đa 3 event, phần còn lại hiện "+N buổi nữa"
+  - [x] Click "+N buổi nữa" → mở popover FullCalendar mặc định (danh sách đầy đủ)
+  - [x] Toggle pills có active state (màu tím `#8E4DFF` hoặc rose/pink `#C05E8E`, pill kia xám)
+  - [x] Ngày hôm nay: viền tím / rose + số ngày đậm hơn và badge tròn (custom CSS `.fc-day-today`)
+
+---
+
+### Task 10.2 — Custom header: Navigation + Tháng/Năm title + Filter "Ẩn đã hủy"
+- [x] **Mô tả:** Làm gọn lại header của lịch: bên trái = nút `<` `>` + nút "Hôm nay" + tiêu đề tháng/năm lớn (vd: **"Tháng 9 2026"** màu tím đậm). Bên phải = pills filter + toggle "Tháng/Tuần". Thêm toggle **"Ẩn buổi đã hủy"** (event có `extendedProps.status === 'cancelled'` sẽ bị ẩn khi bật). Điều chỉnh giữ lại nút "Quay lại Dashboard" nhưng thu gọn lại (chỉ icon `←` trên mobile).
+- **File cần sửa:** `tutor-calendar.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [x] Header: `<` `>` | "Hôm nay" | **"Tháng M YYYY"** (title to, màu tím) | [filter pills] | [toggle Tháng/Tuần]
+  - [x] Tiêu đề tháng/năm cập nhật đúng khi nhấn prev/next
+  - [x] Toggle "Ẩn buổi đã hủy": bật → lọc khỏi event list những event có status `cancelled`; tắt → hiện lại
+  - [x] Mobile: nút "Quay lại" thu gọn thành icon `←` (không có chữ)
+  - [x] Không làm vỡ navigation tháng/tuần hiện có
+
+---
+
+### Task 10.3 — Ngày lễ quốc gia Việt Nam trong ô ngày (Month view)
+- [ ] **Mô tả:** Hard-code danh sách ngày lễ quốc gia VN (cố định theo ngày/tháng). Khi render month view, nếu ô ngày trùng với ngày lễ → hiện text nhỏ tên ngày lễ bên cạnh số ngày (vd: "1 **Quốc khánh**"). Màu text ngày lễ: đỏ nhạt `#F87171`. Không cần background ảnh lễ hội (quá phức tạp). Danh sách tối thiểu: Tết Dương lịch (1/1), Giỗ Tổ (10/3 âm — bỏ qua âm lịch, chỉ dùng dương), 30/4, 1/5, 2/9. Ngày nghỉ bù nếu trùng cuối tuần tự tính theo luật VN (phần này optional, không bắt buộc).
+- **File cần sửa:** `tutor-calendar.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [ ] Danh sách 5 ngày lễ cố định hiển thị đúng trong ô ngày month view
+  - [ ] Text nhỏ màu đỏ nhạt bên cạnh số ngày, không đè lên event chips
+  - [ ] Hiển thị đúng mỗi năm (dùng tháng/ngày, không phụ thuộc năm cố định)
+  - [ ] Week view: không hiển thị (không cần thiết, không đủ không gian)
+
+---
+
+### Task 10.4 — Bottom legend theo học sinh + Status bar
+- [ ] **Mô tả:** Thêm thanh phía dưới lịch gồm 2 phần: **(1) Legend màu học sinh** — danh sách chấm tròn màu + tên học sinh (đồng bộ với màu event trên lịch). **(2) Status bar** bên phải — "N buổi trong tháng · X học sinh". Cả hai phần chỉ hiện trong **Month view**; trong Week/Day view ẩn đi (không cần vì đã có sheet panel).
+- **File cần sửa:** `tutor-calendar.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [ ] Legend: mỗi học sinh = 1 dot màu + tên, layout hàng ngang, có thể scroll nếu nhiều học sinh
+  - [ ] Dot màu đồng bộ chính xác với màu event của học sinh đó trên lịch
+  - [ ] Status bar: tính đúng số buổi trong tháng đang xem + số học sinh
+  - [ ] Chỉ hiện khi `currentView === 'dayGridMonth'`, ẩn khi Week/Day
+  - [ ] Không che khuất ô lịch cuối tháng (sticky bottom với padding hợp lý)
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
@@ -281,7 +368,9 @@
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
 | Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 4 |
-| **Tổng** | **21** | **21** |
+| Phase 10 — Nâng cấp Lịch dạy | 5 | 3 |
+| **Tổng** | **26** | **24** |
+
 
 
 

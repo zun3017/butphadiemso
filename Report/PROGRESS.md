@@ -27,6 +27,34 @@
 
 ## Task vừa hoàn thành
 
+- 🎨 **Căn chỉnh bố cục Modal Tạo Phiếu Học Phí & Phiếu Live Preview Mẫu 1 khớp 100% hình ảnh thực tế (demo only):**
+  - **Bảng màu & Khung Modal chuẩn:** Tone màu kem nhạt `#FAF7F8`, thẻ trắng `#FFFFFF` bo góc mềm mại 20px viền `#EADFE3`, màu nhấn Berry/Wine `#8E284D` sang trọng.
+  - **Header Modal:**
+    - Bên trái: Tiêu đề `Tạo Phiếu Học Phí` to đậm + dòng phụ `GV. Võ Trung Khánh · STK 0793017777`.
+    - Bên phải: Nhãn `Chọn mẫu` + 2 nút pill `Mẫu 1` (active berry) / `Mẫu 2` + nút đóng `✕`.
+  - **Cột trái — Tùy chỉnh thông tin:**
+    - Box 1: "Thông tin học sinh" với grid 2 cột chứa 8 thẻ toggle (Học sinh, Lớp / Môn, Học phí áp dụng, Số buổi học, Số giờ tích lũy, Ngày học, Giảm học phí, Phụ thu) và 1 thẻ full-width "Ảnh QR".
+    - Box 2: "Thông tin kỳ học" có badge `01` gồm 2 ô ngày side-by-side (Từ ngày / Đến ngày) và ô nhập tiêu đề kỳ học `HỌC PHÍ THÁNG X/YYYY`.
+  - **Cột phải — Live Preview:**
+    - Thanh đầu: `Phiếu hiển thị trực tiếp • Mẫu 1` + badge xanh lá `TRỰC TIẾP`.
+    - Thẻ phiếu `#tuitionInvoiceCard` khớp 100% hình ảnh:
+      - Dòng đầu: `GV. Võ Trung Khánh` | `SĐT: 0793017777`.
+      - Tiêu đề chính giữa in hoa đậm màu berry: `HỌC PHÍ THÁNG 8/2026`.
+      - Khối 2 cột: Cột trái "THÔNG TIN HỌC SINH" (Họ tên, Lớp, Học phí, Buổi học, Giờ học, chips Ngày học đỏ/berry dạng `DD/MM`) | Cột phải "TỔNG HỌC PHÍ" (Tổng tiền to đậm, mã VietQR vuông, STK & Ngân hàng & Chủ TK).
+      - Khối cuối: "NHẬN XÉT HỌC TẬP" với 3 gạch đầu dòng (Tổng quan, Đại số, Hình học) có thể chỉnh sửa trực tiếp.
+  - **Footer:** Dòng trạng thái `Đã khôi phục bản nháp lần trước` (màu xanh lá) bên trái và 5 nút thao tác đồng bộ bên phải (Hủy bỏ, Lưu bản nháp, Xuất PDF, Copy ảnh, Xuất phiếu (ảnh)).
+  - **Khôi phục hoàn toàn cấu trúc giao diện chuẩn của Ảnh 1:**
+    - Thanh viền gradient đa sắc 6px trên đỉnh card (`.invoice-container::before`).
+    - Header: Avatar vuông bo góc gradient tím có icon mũ tốt nghiệp 🎓, nhãn in hoa nhỏ `HỌC SINH` trên tên học sinh, pill trạng thái `KỲ HỌC THÁNG X` (tím trên nền tím nhạt) có icon lịch.
+    - Phần "TỔNG KẾT KẾT QUẢ KỲ NÀY": Gồm 2 card song song:
+      - **Chuyên cần:** Số buổi tổng kết (màu xanh lá) + 3 ô số liệu (Buổi học, Nghỉ phép, Đã bù) + box ghi chú ngày nghỉ phép (`Nghỉ phép: Không có` hoặc danh sách ngày).
+      - **Bài tập về nhà:** Số buổi tổng kết (màu tím) + 3 ô số liệu (Đủ bài, Thiếu bài, Nộp trễ) + box ghi chú thiếu bài (`Thiếu bài: Không thiếu bài` hoặc danh sách ngày thiếu).
+    - Phần "Học phí": Card nền gradient tím nhạt bo góc 16px với các dòng `Đơn giá mỗi buổi học:`, `Thời lượng học kỳ này:` và dòng tổng học phí in hoa đậm tím `TỔNG HỌC PHÍ KỲ NÀY` nổi bật.
+    - Phần "Lời nhắn & Mã QR": Bố cục 2 cột cạnh nhau:
+      - Bên trái: Lời nhắn gửi phụ huynh với câu mở đầu chuẩn mực, bôi đậm tên bé, số tiền và số buổi, kèm dòng chân trang nghiêng *"Đồng hành cùng sự tiến bộ của học sinh!"*.
+      - Bên phải: Card QR bo góc viền tím chứa hình ảnh minh họa / QR thanh toán sắc nét và nhãn `Quét VietQR` phía dưới.
+  - Tự động đồng bộ các toggle switch (Lớp & Môn, Số giờ, Ngày học mặc định ẩn để giữ thẻ phiếu thanh thoát y hệt Ảnh 1, có thể bật tùy chọn nếu cần).
+
 - 🐛 **Sửa lỗi hiển thị mục "Học phí" bị trống (demo only):**
   - **Nguyên nhân:** Thẻ `<div>` đóng của `#tutorSectionStudents` (line 1122) bị thiếu 1 cấp do container `#invoiceCollapseContainer` và `#tutorStudentDetail` chưa được đóng hết trước đó. Do đó, `#tutorSectionTuition` vô tình bị nằm lồng bên trong `#tutorSectionStudents`. Khi chuyển sang tab "Học phí", mã JS ẩn section Học sinh (`display: none`) đã vô tình ẩn luôn cả section Học phí.
   - **Khắc phục:** Đóng đầy đủ các thẻ `</div>` cho `#invoiceCollapseContainer`, `#tutorStudentDetail` và `#tutorSectionStudents`. Đồng thời, tối ưu `initTuitionMonthFilter` tự động chọn tháng gần nhất có lịch học (Tháng 9/2026) thay vì chọn tháng hiện tại (Tháng 10/2026) khi chưa có buổi dạy, giúp hiển thị ngay số liệu và danh sách học sinh đầy đủ.

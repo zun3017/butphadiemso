@@ -111,6 +111,98 @@
 
 ---
 
+## PHASE 7 — Bug Fix sau Review
+
+> Phát hiện bởi Planner qua code review ngày 2026-10-01. Cần fix trên **cả demo lẫn production**.
+
+### Task 7.1 — Xóa nút Tài khoản & Đăng xuất thừa trong tutor-header cũ
+- [x] **Mô tả:** Sau khi thêm sidebar, nút "Tài khoản" và "Đăng xuất" bị xuất hiện **hai lần**: một lần trong `div.tutor-sidebar-footer` (đúng, giữ lại) và một lần trong `div.tutor-header` cũ (thừa, cần xóa). Xóa đúng 2 thẻ `<button>` thừa trong `div.tutor-header`, không được xóa nhầm bộ button trong sidebar.
+- **File cần sửa:** `tutor-dashboard.html` (cả demo lẫn production)
+- **Tiêu chí hoàn thành:**
+  - [x] Chỉ còn đúng 1 bộ nút Tài khoản + Đăng xuất (trong sidebar footer)
+  - [x] Không xóa nhầm button trong sidebar
+  - [x] Giao diện header còn lại gọn, không có khoảng trống lạ
+
+---
+
+### Task 7.2 — Ẩn hoặc làm gọn `tutor-header` cũ
+- [ ] **Mô tả:** Sau Task 7.1, `div.tutor-header` chỉ còn lại dòng chữ "Xin chào, Gia sư" + "Tổng quan hệ thống giảng dạy". Phần này bị trùng lặp với thông tin gia sư đã hiển thị trong sidebar brand. Giải pháp: ẩn hoàn toàn `div.tutor-header` trên desktop (≥ 768px) vì sidebar đã đảm nhận vai trò đó; trên mobile có thể giữ lại như page title nhỏ nếu cần, hoặc ẩn luôn.
+- **File cần sửa:** `tutor-dashboard.html` và/hoặc `css/style.css` (cả demo lẫn production)
+- **Tiêu chí hoàn thành:**
+  - [ ] Desktop: `div.tutor-header` không hiển thị (hoặc ẩn bằng CSS `display: none` khi có class `.tutor-app-layout`)
+  - [ ] Mobile: kiểm tra xem có cần giữ lại tiêu đề trang không — nếu bottom nav đã rõ ràng thì ẩn luôn
+  - [ ] Không ảnh hưởng đến bất kỳ section nào bên dưới
+
+---
+
+### Task 7.3 — Sidebar Collapsible (Thu gọn / Mở rộng)
+- [ ] **Mô tả:** Thêm nút toggle `>` / `<` ở góc phải của sidebar. Khi nhấn `>`: sidebar thu gọn còn khoảng **60px**, chỉ hiển thị **icon**, ẩn text label. Khi nhấn `<`: sidebar mở rộng trở lại **240px** với đầy đủ icon + text. Trạng thái được nhớ vào `localStorage` để lần sau mở lại vẫn giữ nguyên.
+- **File cần sửa:** `tutor-dashboard.html`, `css/style.css` (cả demo lẫn production)
+- **Tiêu chí hoàn thành:**
+  - [ ] Nút toggle `>` hiển thị ở góc phải sidebar (trên cùng hoặc giữa), icon đổi thành `<` khi đã mở rộng
+  - [ ] Khi **collapsed** (60px): chỉ thấy icon, text label ẩn (`display: none` hoặc `opacity: 0`), main content tự mở rộng chiếm phần còn lại
+  - [ ] Khi **expanded** (240px): icon + text hiển thị đầy đủ như cũ
+  - [ ] Transition mượt (CSS `transition: width 0.25s ease`)
+  - [ ] Tooltip hiển thị tên mục khi hover vào icon lúc sidebar đang collapsed (ví dụ: hover vào icon calendar → tooltip "Lịch dạy")
+  - [ ] `localStorage.setItem('tutorSidebarCollapsed', true/false)` — nhớ trạng thái qua lần reload
+  - [ ] Trên **mobile**: tính năng này không áp dụng (mobile vẫn dùng bottom nav như cũ)
+  - [ ] Không làm vỡ layout các section bên trong main content
+
+---
+
+## PHASE 8 — Nâng cấp Tổng Quan (theo chuẩn UI Lớp Học)
+
+> Bổ sung các tính năng còn thiếu trong section Tổng Quan để đạt feature parity với UI tham chiếu (Web Lớp Học).  
+> **Lưu ý:** Chart.js đã được import sẵn ở line 1739 của `tutor-dashboard.html` — dùng lại, không import lại.
+
+### Task 8.1 — Month Selector (< Tháng X/YYYY >) trên Tổng Quan
+- [ ] **Mô tả:** Thêm bộ chọn tháng kiểu `< Tháng 9/2026 >` ở **góc trên bên phải** của section Tổng Quan. Khi thay đổi tháng → toàn bộ 4 KPI Cards và block "Lịch dạy sắp tới" phải re-render theo tháng đã chọn (filter data theo tháng đó). Mặc định là tháng hiện tại.
+- **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js` (cả demo lẫn production)
+- **Tiêu chí hoàn thành:**
+  - [ ] Hiển thị đúng format `< Tháng M/YYYY >`, nút `<` và `>` để điều hướng tháng trước/sau
+  - [ ] Mặc định = tháng hiện tại
+  - [ ] Khi chuyển tháng → `renderTutorKpiCards()` và `renderUpcomingSchedule()` chạy lại với tháng đã chọn
+  - [ ] Không thể chọn tháng tương lai (disable nút `>` nếu đang ở tháng hiện tại)
+
+---
+
+### Task 8.2 — Biểu đồ Doanh thu N tháng (Bar Chart)
+- [ ] **Mô tả:** Thêm block **"Doanh thu N tháng"** vào bên phải của Tổng Quan (layout 2 cột: trái = Lịch sắp tới, phải = charts). Hiển thị: tổng doanh thu lớn ở trên (`X.XXX.XXX đ`), bar chart bên dưới theo từng tháng. Có 3 dropdown filter: **Khoảng thời gian** (3 tháng / 6 tháng / 12 tháng), **Loại biểu đồ** (Biểu đồ cột — chỉ cần cột là đủ), **Năm**. Dữ liệu tính từ `logs` của tất cả học sinh trong mock store.
+- **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js` (cả demo lẫn production)
+- **Thư viện:** Dùng **Chart.js** đã có sẵn (line 1739), không import thêm
+- **Tiêu chí hoàn thành:**
+  - [ ] Bar chart render đúng số tháng theo dropdown (3/6/12 tháng gần nhất)
+  - [ ] Tổng doanh thu hiển thị đúng (tổng toàn kỳ đã chọn)
+  - [ ] Thay đổi dropdown → chart và tổng re-render ngay
+  - [ ] Responsive: trên mobile < 768px, block này nằm dưới Lịch sắp tới (không chia 2 cột)
+  - [ ] Chart dùng màu tím `#8E4DFF` làm màu cột chính, matching theme Gia Sư
+
+---
+
+### Task 8.3 — Doanh thu theo Học sinh (Donut Chart + List)
+- [ ] **Mô tả:** Thêm block **"Doanh thu theo học sinh"** bên dưới block bar chart (cùng cột phải). Hiển thị: dropdown chọn tháng (mặc định = tháng hiện tại), donut chart thể hiện tỉ lệ đóng góp doanh thu của từng học sinh, list bên phải liệt kê tên học sinh + số tiền (học phí × số buổi tháng đó), có màu dot tương ứng với slice trên donut. Tổng hiển thị ở giữa donut.
+- **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js` (cả demo lẫn production)
+- **Thư viện:** Dùng **Chart.js** đã có sẵn, kiểu `doughnut`
+- **Tiêu chí hoàn thành:**
+  - [ ] Donut chart render đúng số slice = số học sinh có buổi trong tháng
+  - [ ] Tổng hiển thị ở giữa donut (dùng Chart.js plugin hoặc overlay text)
+  - [ ] List học sinh sắp xếp giảm dần theo doanh thu
+  - [ ] Học sinh không có buổi trong tháng → hiển thị `0đ` ở cuối list, không có slice trên donut
+  - [ ] Mỗi học sinh có màu riêng nhất quán (đồng bộ với màu tag ở Lịch sắp tới)
+  - [ ] Dropdown tháng thay đổi → cả donut và list re-render
+
+---
+
+### Task 8.4 — Nút "Xem toàn bộ lịch dạy" trong block Lịch sắp tới
+- [ ] **Mô tả:** Thêm nút **"Xem toàn bộ lịch dạy"** ở góc trên phải của block Lịch dạy sắp tới, link sang `tutor-calendar.html`. Đây là tính năng nhỏ, đơn giản.
+- **File cần sửa:** `tutor-dashboard.html` (cả demo lẫn production)
+- **Tiêu chí hoàn thành:**
+  - [ ] Nút hiển thị đúng vị trí (góc phải header của block Lịch sắp tới)
+  - [ ] Click → mở `tutor-calendar.html` (same tab hoặc new tab đều được)
+  - [ ] Style đồng bộ với theme tím `#8E4DFF`
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
@@ -121,4 +213,7 @@
 | Phase 4 — Học phí | 1 | 1 |
 | Phase 5 — Báo cáo | 2 | 2 |
 | Phase 6 — Polish & Sync | 2 | 2 |
-| **Tổng** | **10** | **10** |
+| Phase 7 — Bug Fix sau Review | 3 | 1 |
+| Phase 8 — Nâng cấp Tổng Quan | 4 | 0 |
+| **Tổng** | **17** | **11** |
+

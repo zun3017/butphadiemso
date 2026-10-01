@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 4 Hoàn thành (1/1) — Chuyển sang Phase 5 (Báo cáo)
+**Giai đoạn:** Phase 5 Hoàn thành (2/2) — Chuyển sang Phase 6 (Polish & Sync)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████░░░░] 60% (6/10 tasks)
+[████████░░] 80% (8/10 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -17,7 +17,7 @@
 | Phase 2 | Nhật ký buổi học | 1/1 (Xong) |
 | Phase 3 | Học sinh | 1/1 (Xong) |
 | Phase 4 | Học phí | 1/1 (Xong) |
-| Phase 5 | Báo cáo (Xuất ảnh) | 0/2 |
+| Phase 5 | Báo cáo (Xuất ảnh) | 2/2 (Xong) |
 | Phase 6 | Polish & Sync | 0/2 |
 
 ---
@@ -30,10 +30,12 @@
 - ✅ **Task 2.1:** Section Nhật ký buổi học (Dropdown chọn học sinh hoặc Tất cả, lọc theo tháng linh hoạt, bảng desktop + card mobile, truncate nhận xét dài kèm Xem thêm/Thu gọn, sửa nhận xét inline lưu trực tiếp vào store)
 - ✅ **Task 3.1:** Section Học sinh (Grid thẻ học sinh 3 cột desktop / 1 cột mobile, avatar chữ cái màu đồng bộ, lịch cố định, quick info số buổi/BTVN/học phí, click thẻ highlight + mở chi tiết bên dưới, shortcut Xem nhật ký, nút Thêm học sinh & Thùng rác trên toolbar)
 - ✅ **Task 4.1:** Section Học phí (Banner tổng thu nhập 3 thẻ: Tổng thu dự kiến / Đã thu / Còn phải thu, bảng từng học sinh kèm đơn giá và tổng tiền, toggle Đã thu / Chưa thu reactive lưu store, modal xem trước hóa đơn phiếu học tập kèm QR VietQR & xuất PNG)
+- ✅ **Task 5.1:** Section Báo cáo: Filter & Preview (Bộ lọc từ ngày, đến ngày bằng native date input, chọn học sinh hoặc tất cả, xem trước dạng card capture dọc chuyên nghiệp, empty state khi không có buổi nào)
+- ✅ **Task 5.2:** Section Báo cáo: Xuất ảnh PNG (Tích hợp `html2canvas` scale 2x, tải về file PNG tự động đặt tên theo format `BaoCao_[TenHocSinh]_[TuNgay]_[DenNgay].png`, loading state spinner trên nút)
 
 ## Task tiếp theo
 
-→ **Task 5.1:** Section Báo cáo: Filter & Preview (Bộ lọc từ ngày, đến ngày, học sinh; xem trước danh sách buổi học dạng card đẹp mắt)
+→ **Task 6.1:** Responsive kiểm tra toàn bộ 6 sections (mobile 375px & desktop 1280px, layout bugs)
 
 ## Blockers
 

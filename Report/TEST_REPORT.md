@@ -77,3 +77,16 @@
 - **Detected Issues:** None
 - **Severity:** None
 - **Status:** PASS
+
+## [v5.0] - Task 5.1 & 5.2: Section Báo cáo (Filter, Preview & Xuất ảnh PNG)
+- **Timestamp:** 2026-10-01 11:57:00
+- **Scope:** Section Báo cáo, Form lọc ngày bắt đầu / ngày kết thúc bằng input date native, Chọn học sinh hoặc tất cả, Render card preview dọc in-page chuẩn bị sẵn cho chụp ảnh, Empty state khi không có buổi nào, Tích hợp html2canvas chụp card báo cáo với độ phân giải scale 2x, Đặt tên file tự động `BaoCao_[TenHocSinh]_[TuNgay]_[DenNgay].png`, Trạng thái loading spinner khi đang kết xuất ảnh
+- **Verification Method:**
+  - Automated syntax check (`node -c js/tutor.js`): PASS (Exit code 0)
+  - Date input & log date parsing: `parseDateInputYmd` and `parseLogDateDmy` tested in Node VM: PASS (10 sessions matched in valid range, 0 sessions in out-of-range)
+  - Empty state test: Correctly renders empty state illustration when 0 matching sessions: PASS
+  - Card layout: `#reportCaptureCard` formatted with branding, metadata pills, metrics and per-session timeline: PASS
+  - html2canvas PNG export: Correct download attribute format, scale 2x, background non-blank `#0E0B25`: PASS
+- **Detected Issues:** None
+- **Severity:** None
+- **Status:** PASS

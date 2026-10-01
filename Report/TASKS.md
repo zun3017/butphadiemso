@@ -79,23 +79,23 @@
 ## PHASE 5 — Báo cáo (Xuất ảnh)
 
 ### Task 5.1 — Section Báo cáo: Filter & Preview
-- [ ] **Mô tả:** Khi click "Báo cáo" trong sidebar, hiển thị: (1) Form chọn bộ lọc: "Từ ngày" (date picker), "Đến ngày" (date picker), "Học sinh" (dropdown: Tất cả / chọn 1 em). (2) Nút "Xem trước" → render danh sách buổi học trong khoảng ngày đó dưới dạng card đẹp (layout dọc, in-page, dùng được với html2canvas).
+- [x] **Mô tả:** Khi click "Báo cáo" trong sidebar, hiển thị: (1) Form chọn bộ lọc: "Từ ngày" (date picker), "Đến ngày" (date picker), "Học sinh" (dropdown: Tất cả / chọn 1 em). (2) Nút "Xem trước" → render danh sách buổi học trong khoảng ngày đó dưới dạng card đẹp (layout dọc, in-page, dùng được với html2canvas).
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] Date range picker hoạt động (native HTML date input)
-  - [ ] Preview hiển thị đúng các buổi học trong khoảng ngày chọn
-  - [ ] Nếu không có buổi nào → hiển thị empty state
+  - [x] Date range picker hoạt động (native HTML date input)
+  - [x] Preview hiển thị đúng các buổi học trong khoảng ngày chọn
+  - [x] Nếu không có buổi nào → hiển thị empty state
 
 ---
 
 ### Task 5.2 — Section Báo cáo: Xuất ảnh PNG
-- [ ] **Mô tả:** Sau khi preview hiển thị, nút "Xuất ảnh" dùng `html2canvas` để chụp vùng preview → download file PNG tên tự động theo format `BaoCao_[TenHocSinh]_[TuNgay]_[DenNgay].png`. Tích hợp trực tiếp vào tutor-dashboard.html (import html2canvas CDN nếu chưa có).
+- [x] **Mô tả:** Sau khi preview hiển thị, nút "Xuất ảnh" dùng `html2canvas` để chụp vùng preview → download file PNG tên tự động theo format `BaoCao_[TenHocSinh]_[TuNgay]_[DenNgay].png`. Tích hợp trực tiếp vào tutor-dashboard.html (import html2canvas CDN nếu chưa có).
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] File PNG tải về thành công, không bị blank/trắng
-  - [ ] Tên file đúng format
-  - [ ] Button có loading state khi đang xử lý (disable + spinner)
-  - [ ] Ảnh xuất ra đủ độ phân giải (scale 2x)
+  - [x] File PNG tải về thành công, không bị blank/trắng
+  - [x] Tên file đúng format
+  - [x] Button có loading state khi đang xử lý (disable + spinner)
+  - [x] Ảnh xuất ra đủ độ phân giải (scale 2x)
 
 ---
 

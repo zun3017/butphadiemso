@@ -181,16 +181,16 @@
 ---
 
 ### Task 8.3 — Doanh thu theo Học sinh (Donut Chart + List)
-- [ ] **Mô tả:** Thêm block **"Doanh thu theo học sinh"** bên dưới block bar chart (cùng cột phải). Hiển thị: dropdown chọn tháng (mặc định = tháng hiện tại), donut chart thể hiện tỉ lệ đóng góp doanh thu của từng học sinh, list bên phải liệt kê tên học sinh + số tiền (học phí × số buổi tháng đó), có màu dot tương ứng với slice trên donut. Tổng hiển thị ở giữa donut.
+- [x] **Mô tả:** Thêm block **"Doanh thu theo học sinh"** bên dưới block bar chart (cùng cột phải). Hiển thị: dropdown chọn tháng (mặc định = tháng hiện tại), donut chart thể hiện tỉ lệ đóng góp doanh thu của từng học sinh, list bên phải liệt kê tên học sinh + số tiền (học phí × số buổi tháng đó), có màu dot tương ứng với slice trên donut. Tổng hiển thị ở giữa donut.
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js` (cả demo lẫn production)
 - **Thư viện:** Dùng **Chart.js** đã có sẵn, kiểu `doughnut`
 - **Tiêu chí hoàn thành:**
-  - [ ] Donut chart render đúng số slice = số học sinh có buổi trong tháng
-  - [ ] Tổng hiển thị ở giữa donut (dùng Chart.js plugin hoặc overlay text)
-  - [ ] List học sinh sắp xếp giảm dần theo doanh thu
-  - [ ] Học sinh không có buổi trong tháng → hiển thị `0đ` ở cuối list, không có slice trên donut
-  - [ ] Mỗi học sinh có màu riêng nhất quán (đồng bộ với màu tag ở Lịch sắp tới)
-  - [ ] Dropdown tháng thay đổi → cả donut và list re-render
+  - [x] Donut chart render đúng số slice = số học sinh có buổi trong tháng
+  - [x] Tổng hiển thị ở giữa donut (dùng Chart.js plugin hoặc overlay text)
+  - [x] List học sinh sắp xếp giảm dần theo doanh thu
+  - [x] Học sinh không có buổi trong tháng → hiển thị `0đ` ở cuối list, không có slice trên donut
+  - [x] Mỗi học sinh có màu riêng nhất quán (đồng bộ với màu tag ở Lịch sắp tới)
+  - [x] Dropdown tháng thay đổi → cả donut và list re-render
 
 ---
 
@@ -215,7 +215,7 @@
 | Phase 5 — Báo cáo | 2 | 2 |
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
-| Phase 8 — Nâng cấp Tổng Quan | 4 | 2 |
-| **Tổng** | **17** | **15** |
+| Phase 8 — Nâng cấp Tổng Quan | 4 | 3 |
+| **Tổng** | **17** | **16** |
 
 

@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 8 (Nâng cấp Tổng Quan theo chuẩn UI Lớp Học) — 15/17 tasks hoàn thành (88%)
+**Giai đoạn:** Phase 8 (Nâng cấp Tổng Quan theo chuẩn UI Lớp Học) — 16/17 tasks hoàn thành (94%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████░] 88% (15/17 tasks)
+[█████████▉] 94% (16/17 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -20,17 +20,17 @@
 | Phase 5 | Báo cáo (Xuất ảnh) | 2/2 ✅ |
 | Phase 6 | Polish & Sync | 2/2 ✅ |
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
-| Phase 8 | Nâng cấp Tổng Quan | 2/4 ⏳ |
+| Phase 8 | Nâng cấp Tổng Quan | 3/4 ⏳ |
 
 ---
 
 ## Task vừa hoàn thành
 
-- ✅ **Task 8.2:** Biểu đồ Doanh thu N tháng (Bar Chart dùng Chart.js có sẵn, 3 filter 3/6/12 tháng - Biểu đồ cột - Năm 2026/2025, tổng doanh thu kỳ chọn, responsive chia 2 cột với Lịch sắp tới, áp dụng cả demo và production)
+- ✅ **Task 8.3:** Doanh thu theo Học sinh (Donut Chart + List học sinh kèm màu dot & doanh thu trong kỳ, tổng doanh thu chính giữa donut, sắp xếp giảm dần theo doanh thu, lọc tháng, áp dụng cả demo và production)
 
 ## Task tiếp theo
 
-→ **Task 8.3:** Doanh thu theo Học sinh (Donut Chart + List học sinh kèm màu dot & doanh thu trong tháng)
+→ **Task 8.4:** Nút "Xem toàn bộ lịch dạy" trong block Lịch sắp tới
 
 ## Blockers
 

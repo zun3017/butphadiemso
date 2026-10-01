@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 10 (Nâng cấp Lịch dạy tutor-calendar.html Demo) — 24/26 tasks hoàn thành (92%) 🚀
+**Giai đoạn:** Phase 10 (Nâng cấp Lịch dạy tutor-calendar.html Demo) — 25/26 tasks hoàn thành (96%) 🚀
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████░] 92% (24/26 tasks)
+[█████████▉] 96% (25/26 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -22,11 +22,24 @@
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
 | Phase 9 | Nâng cấp Modal Tạo Phiếu | 4/4 ✅ |
-| Phase 10 | Nâng cấp Lịch dạy | 3/5 🔄 |
+| Phase 10 | Nâng cấp Lịch dạy | 4/5 🔄 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🇻🇳 **Task 10.3 — Ngày lễ quốc gia Việt Nam trong ô ngày Month view (`tutor-calendar.html` - demo only):**
+  - **Mục tiêu:** Hiển thị tự động các ngày lễ quốc gia Việt Nam trong ô ngày của chế độ xem theo tháng (`dayGridMonth`), đảm bảo vị trí trang nhã, không đè lên event chips:
+    - **Danh mục 5 ngày lễ quốc gia cố định:**
+      - `1/1`: Tết Dương lịch
+      - `10/3`: Giỗ Tổ Hùng Vương
+      - `30/4`: Giải phóng miền Nam
+      - `1/5`: Quốc tế Lao động
+      - `2/9`: Quốc khánh
+    - **Thiết kế & Bố cục:** Badge tên ngày lễ `.fc-vn-holiday-badge` chữ đỏ nhạt `#F87171`, font-size 11px đậm nét, đặt gọn gàng ở thanh tiêu đề ô ngày (`.fc-daygrid-day-top`) nằm ngang hàng với số ngày, hoàn toàn không đè lên hay che khuất các ca học (`event chips`).
+    - **Tự động áp dụng mọi năm:** Tính toán linh hoạt theo ngày/tháng (`d + '/' + m`), tự động hoạt động chính xác cho bất kỳ năm nào được duyệt tới.
+    - **Phân tách view chặt chẽ:** Chỉ hiển thị khi đang ở `dayGridMonth`, tự động ẩn hoàn toàn trên chế độ Tuần (`timeGridWeek`) và Ngày (`timeGridDay`).
+    - **Kiểm thử cú pháp:** JS syntax đạt 100% hợp lệ, hoạt động ổn định và mượt mà.
 
 - 🧭 **Task 10.2 — Custom header: Navigation + Tháng/Năm title + Filter "Ẩn đã hủy" (`tutor-calendar.html` - demo only):**
   - **Mục tiêu:** Tinh gọn toàn diện thanh Header của lịch dạy, gom cụm điều hướng và bộ lọc vào một thanh công cụ duy nhất phía trên, tắt `headerToolbar` mặc định của FullCalendar để tối đa hóa không gian hiển thị lịch:

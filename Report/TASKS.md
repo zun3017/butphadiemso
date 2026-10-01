@@ -333,13 +333,13 @@
 ---
 
 ### Task 10.3 — Ngày lễ quốc gia Việt Nam trong ô ngày (Month view)
-- [ ] **Mô tả:** Hard-code danh sách ngày lễ quốc gia VN (cố định theo ngày/tháng). Khi render month view, nếu ô ngày trùng với ngày lễ → hiện text nhỏ tên ngày lễ bên cạnh số ngày (vd: "1 **Quốc khánh**"). Màu text ngày lễ: đỏ nhạt `#F87171`. Không cần background ảnh lễ hội (quá phức tạp). Danh sách tối thiểu: Tết Dương lịch (1/1), Giỗ Tổ (10/3 âm — bỏ qua âm lịch, chỉ dùng dương), 30/4, 1/5, 2/9. Ngày nghỉ bù nếu trùng cuối tuần tự tính theo luật VN (phần này optional, không bắt buộc).
+- [x] **Mô tả:** Hard-code danh sách ngày lễ quốc gia VN (cố định theo ngày/tháng). Khi render month view, nếu ô ngày trùng với ngày lễ → hiện text nhỏ tên ngày lễ bên cạnh số ngày (vd: "1 **Quốc khánh**"). Màu text ngày lễ: đỏ nhạt `#F87171`. Không cần background ảnh lễ hội (quá phức tạp). Danh sách tối thiểu: Tết Dương lịch (1/1), Giỗ Tổ (10/3 âm — bỏ qua âm lịch, chỉ dùng dương), 30/4, 1/5, 2/9. Ngày nghỉ bù nếu trùng cuối tuần tự tính theo luật VN (phần này optional, không bắt buộc).
 - **File cần sửa:** `tutor-calendar.html` *(demo only)*
 - **Tiêu chí hoàn thành:**
-  - [ ] Danh sách 5 ngày lễ cố định hiển thị đúng trong ô ngày month view
-  - [ ] Text nhỏ màu đỏ nhạt bên cạnh số ngày, không đè lên event chips
-  - [ ] Hiển thị đúng mỗi năm (dùng tháng/ngày, không phụ thuộc năm cố định)
-  - [ ] Week view: không hiển thị (không cần thiết, không đủ không gian)
+  - [x] Danh sách 5 ngày lễ cố định hiển thị đúng trong ô ngày month view
+  - [x] Text nhỏ màu đỏ nhạt bên cạnh số ngày, không đè lên event chips
+  - [x] Hiển thị đúng mỗi năm (dùng tháng/ngày, không phụ thuộc năm cố định)
+  - [x] Week view: không hiển thị (không cần thiết, không đủ không gian)
 
 ---
 
@@ -368,8 +368,8 @@
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
 | Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 4 |
-| Phase 10 — Nâng cấp Lịch dạy | 5 | 3 |
-| **Tổng** | **26** | **24** |
+| Phase 10 — Nâng cấp Lịch dạy | 5 | 4 |
+| **Tổng** | **26** | **25** |
 
 
 

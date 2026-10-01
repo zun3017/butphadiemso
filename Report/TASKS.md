@@ -228,15 +228,15 @@
 ---
 
 ### Task 9.2 — Toggle switches 9 trường + Live Preview real-time
-- [ ] **Mô tả:** Điền nội dung cột trái: 9 toggle switches, mỗi toggle có label + giá trị hiện tại bên dưới. Khi toggle bật/tắt → live preview bên phải cập nhật ngay lập tức (không reload modal). Hai trường **Giảm học phí** và **Phụ thu** có thêm ô nhập số (mặc định 0đ), thay đổi số → tổng tiền tự tính lại. Mẫu 1 và Mẫu 2 render khác nhau (Mẫu 1: full, Mẫu 2: chỉ tên + tổng + QR).
+- [x] **Mô tả:** Điền nội dung cột trái: 9 toggle switches, mỗi toggle có label + giá trị hiện tại bên dưới. Khi toggle bật/tắt → live preview bên phải cập nhật ngay lập tức (không reload modal). Hai trường **Giảm học phí** và **Phụ thu** có thêm ô nhập số (mặc định 0đ), thay đổi số → tổng tiền tự tính lại. Mẫu 1 và Mẫu 2 render khác nhau (Mẫu 1: full, Mẫu 2: chỉ tên + tổng + QR).
 - **File cần sửa:** `js/tutor.js`, `tutor-dashboard.html` *(demo only)*
 - **Tiêu chí hoàn thành:**
-  - [ ] 9 toggle switches: Học sinh / Lớp & Môn / Học phí áp dụng / Số buổi học / Số giờ tích lũy / Ngày học / Giảm học phí / Phụ thu / Ảnh QR
-  - [ ] Mỗi toggle: label + giá trị hiện tại (vd: "Học phí áp dụng — 200.000đ")
-  - [ ] Toggle off → field tương ứng ẩn khỏi preview ngay lập tức
-  - [ ] Giảm học phí & Phụ thu: input số → tổng tiền = (số buổi × đơn giá) − giảm + phụ thu, cập nhật preview
-  - [ ] Mẫu 2: chỉ hiển thị: tiêu đề + tên học sinh + tổng tiền lớn + QR + thông tin ngân hàng
-  - [ ] Live preview giữ đúng style Gia Sư hiện tại (white card trên dark background, màu tím)
+  - [x] 9 toggle switches: Học sinh / Lớp & Môn / Học phí áp dụng / Số buổi học / Số giờ tích lũy / Ngày học / Giảm học phí / Phụ thu / Ảnh QR
+  - [x] Mỗi toggle: label + giá trị hiện tại (vd: "Học phí áp dụng — 200.000đ")
+  - [x] Toggle off → field tương ứng ẩn khỏi preview ngay lập tức
+  - [x] Giảm học phí & Phụ thu: input số → tổng tiền = (số buổi × đơn giá) − giảm + phụ thu, cập nhật preview
+  - [x] Mẫu 2: chỉ hiển thị: tiêu đề + tên học sinh + tổng tiền lớn + QR + thông tin ngân hàng
+  - [x] Live preview giữ đúng style Gia Sư hiện tại (white card trên dark background, màu tím)
 
 ---
 
@@ -280,8 +280,8 @@
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
-| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 1 |
-| **Tổng** | **21** | **18** |
+| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 2 |
+| **Tổng** | **21** | **19** |
 
 
 

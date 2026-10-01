@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 18/21 tasks hoàn thành (86%)
+**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 19/21 tasks hoàn thành (90%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[████████░░] 86% (18/21 tasks)
+[█████████░] 90% (19/21 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -21,11 +21,21 @@
 | Phase 6 | Polish & Sync | 2/2 ✅ |
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
-| Phase 9 | Nâng cấp Modal Tạo Phiếu | 1/4 🔄 |
+| Phase 9 | Nâng cấp Modal Tạo Phiếu | 2/4 🔄 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- ✅ **Task 9.2 — Toggle switches 9 trường + Live Preview real-time (demo only):**
+  - Cung cấp đầy đủ 9 toggle switches tại cột trái: Học sinh, Lớp & Môn, Học phí áp dụng, Số buổi học, Số giờ tích lũy, Ngày học, Giảm học phí, Phụ thu, Ảnh QR.
+  - Mỗi toggle hiển thị rõ ràng label + giá trị hiện tại tương ứng của học sinh.
+  - Tích hợp 2 ô nhập số trực quan cho "Giảm học phí" và "Phụ thu", khi thay đổi số tiền tự động cập nhật tổng tiền học phí và live preview ngay lập tức.
+  - Hỗ trợ hiển thị 2 mẫu phiếu song song:
+    - **Mẫu 1 (Chi tiết đầy đủ):** Header, chuyên cần, BTVN, số buổi/giờ, bảng danh sách ngày học trong kỳ, bảng kê học phí, lời nhắn phụ huynh, mã VietQR.
+    - **Mẫu 2 (Gọn nhẹ):** Tiêu đề, tên học sinh, lớp môn, tổng tiền lớn nổi bật, mã QR VietQR và box thông tin chuyển khoản ngân hàng.
+  - Bật/tắt bất kỳ toggle nào sẽ ẩn/hiện tức thì trường thông tin tương ứng trên live preview.
+  - Đảm bảo đúng chuẩn giao diện dark/tím của Gia Sư, card phiếu nền trắng tương phản cao chuẩn mực.
 
 - ✅ **Task 9.1 — Khung modal 2 cột + Header + Chọn mẫu (demo only):**
   - Nâng cấp `#tutorTuitionInvoiceModal` thành modal 2 cột rộng chuẩn (`width: 95%`, `max-width: 1050px`), cuộn độc lập từng cột (`overflow-y: auto`, `max-height: calc(90vh - 145px)`), không tràn màn hình.

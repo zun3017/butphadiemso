@@ -78,9 +78,24 @@
   - Cung cấp đầy đủ 9 toggle switches tại cột trái: Học sinh, Lớp & Môn, Học phí áp dụng, Số buổi học, Số giờ tích lũy, Ngày học, Giảm học phí, Phụ thu, Ảnh QR.
   - Mỗi toggle hiển thị rõ ràng label + giá trị hiện tại tương ứng của học sinh.
   - Tích hợp 2 ô nhập số trực quan cho "Giảm học phí" và "Phụ thu", khi thay đổi số tiền tự động cập nhật tổng tiền học phí và live preview ngay lập tức.
-  - Hỗ trợ hiển thị 2 mẫu phiếu song song:
-    - **Mẫu 1 (Chi tiết đầy đủ):** Header, chuyên cần, BTVN, số buổi/giờ, bảng danh sách ngày học trong kỳ, bảng kê học phí, lời nhắn phụ huynh, mã VietQR.
-    - **Mẫu 2 (Gọn nhẹ):** Tiêu đề, tên học sinh, lớp môn, tổng tiền lớn nổi bật, mã QR VietQR và box thông tin chuyển khoản ngân hàng.
+  - Hỗ trợ hiển thị 2 mẫu phiếu song song (đã đảo mẫu chính xác theo yêu cầu người dùng):
+    - **Mẫu 1 (Phiếu điện tử E-Receipt - Ảnh 2):** Dải gradient tím đỉnh thẻ, icon mũ cử nhân tím, tag HỌC SINH + Tên, pill `📅 KỲ HỌC THÁNG X`, 2 box chỉ số chuyên cần & bài tập về nhà, bảng kê chi tiết học phí (đơn giá, số buổi, tổng tiền), box Lời nhắn gửi phụ huynh và mã Quét VietQR.
+    - **Mẫu 2 (Bố cục 2 cột & Nhận xét - đồng bộ theme tím Mẫu 1):** Header GV và SĐT, Tiêu đề căn giữa `HỌC PHÍ THÁNG X/YYYY` màu tím thương hiệu (`#6D28D9`), dải gradient màu ở đầu thẻ, bố cục 2 cột nền trắng/slate (`#F8FAFC` & viền `#E2E8F0`), chips ngày học màu tím nhạt (`#F3E8FF` / `#6D28D9`), box Tổng học phí tím hoàng gia (`#FAF5FF` / `#EDE9FE`) với tổng tiền và STK màu tím đậm, và box Nhận xét học tập nền slate sáng tinh tế.
+  - Loại bỏ hoàn toàn tone màu đỏ mận/hồng (`#8E284D`, `#FAF7F8`, `#F8E9EE`), chuyển toàn bộ modal và 2 mẫu phiếu sang theme tím - slate (`#7C3AED`, `#6D28D9`, `#F8FAFC`, `#E2E8F0`, `#0F172A`) đồng nhất và sang trọng.
+  - **Khắc phục triệt để lỗi ngày học ảo (Fix fake date chips):**
+    - Loại bỏ hoàn toàn 8 ngày học mẫu hardcoded cũ (`07/08, 10/08,...`).
+    - Chỉ trích xuất và hiển thị danh sách chip ngày học thực tế của các buổi có tham gia học (`có mặt` hoặc `đã bù`).
+    - Khi kỳ học không có buổi học nào (`0 buổi`), hiển thị thông báo rõ ràng `Chưa có buổi học nào` thay vì hiển thị ngày học giả.
+    - Cải tiến hàm mở modal: Khi bộ lọc là "Tất cả các tháng", modal tự động chọn tháng gần nhất mà học sinh có dữ liệu học tập thực tế (ví dụ: Tháng 9 đối với Nguyễn Hoàng Nam) giúp hiển thị đầy đủ số buổi và ngày học thực tế thay vì bị rỗng do mở sang tháng 10.
+  - **Chuẩn hóa định dạng ngày hiển thị chỉ gồm ngày và tháng (`DD/MM`):**
+    - Rút gọn toàn bộ các ngày hiển thị trên phiếu chỉ còn ngày/tháng, bỏ phần năm `/YYYY` (ví dụ: `17/09` thay vì `17/09/2026`).
+    - Áp dụng đồng bộ cho: ghi chú Nghỉ phép (`17/09`), ghi chú Thiếu bài (`26/09`, `22/09`), và các chip ngày học (`29/09`, `26/09`, `22/09`).
+  - **Đổi ô "Nhận xét học tập" ở Mẫu 2 thành "Lời nhắn gửi phụ huynh" (giống 100% Ảnh 2):**
+    - Thay thế các dòng gạch đầu dòng bullet points (Tổng quan, Đại số, Hình học) bằng box `.msg-box` đồng bộ.
+    - Header: Icon `fa-regular fa-comment-dots` màu tím + chữ `Lời nhắn gửi phụ huynh`.
+    - Body: Nội dung lời nhắn động theo số tiền, số buổi và tên học sinh (có thể chỉnh sửa trực tiếp qua `contenteditable="true"`).
+    - Footer: Câu chúc *Đồng hành cùng sự tiến bộ của học sinh!* màu xám nghiêng tinh tế.
+  - Tự động đồng bộ tiêu đề kỳ học tương ứng theo mẫu khi chuyển đổi tab Mẫu 1 / Mẫu 2 nếu chưa nhập tiêu đề tùy chỉnh.
   - Bật/tắt bất kỳ toggle nào sẽ ẩn/hiện tức thì trường thông tin tương ứng trên live preview.
   - Đảm bảo đúng chuẩn giao diện dark/tím của Gia Sư, card phiếu nền trắng tương phản cao chuẩn mực.
 

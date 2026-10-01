@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 11 (Fix Bug: Trạng thái học phí không reset theo tháng) — 27/27 tasks hoàn thành (100%) 🎉 TOÀN BỘ DỰ ÁN HOÀN TẤT!
+**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 35/39 tasks hoàn thành (89.7%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100% (27/27 tasks)
+[█████████░] 89.7% (35/39 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -24,10 +24,18 @@
 | Phase 9 | Nâng cấp Modal Tạo Phiếu | 4/4 ✅ |
 | Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
 | Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
+| Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
+| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 1/5 🚀 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🎨 **Task 13.1 — Tạo `css/public-theme.css` + import vào 5 file HTML (demo only):**
+  - **Tạo stylesheet chủ đề sáng:** Đã khởi tạo file `css/public-theme.css` định nghĩa 25+ biến CSS ánh sáng trắng - xanh pastel hiện đại: `--bg-page: #F0F7FF`, `--header-bg: rgba(255,255,255,0.95)`, `--bg-card: #FFFFFF`, `--border-color: #DBEAFE`, `--text-primary: #1E293B`, `--text-secondary: #64748B`, `--color-primary: #3B82F6`, `--nav-active-bg: #EFF6FF`, `--btn-bg: linear-gradient(135deg, #3B82F6, #1D4ED8)`, v.v.
+  - **Tích hợp vào 5 trang public:** Bổ sung `<link rel="stylesheet" href="css/public-theme.css">` sau `css/style.css` vào `<head>` của cả 5 trang: `index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`.
+  - **Cập nhật PWA/Browser Status Bar:** Chuyển đổi `<meta name="theme-color" content="#0B0826">` sang `<meta name="theme-color" content="#3B82F6">` trên toàn bộ 5 trang.
+
 
 - 🎓 **Tinh gọn Giao diện Chi tiết Học sinh (`tutor-dashboard.html`, `js/tutor.js` - demo only):**
   - **Lược bỏ Khối thẻ thống kê & Khối biểu đồ điểm số:** Đã xóa bỏ hoàn toàn khối 3 thẻ thống kê ở trên (`Doanh thu dự kiến`, `Đã thanh toán`, `Tỷ lệ đi học`) và khối `Biểu đồ điểm số học tập` trong giao diện chi tiết học sinh (`#tutorStudentDetail`), giúp giao diện tập trung trực tiếp và liền mạch vào phần bài tập và nhật ký buổi học.

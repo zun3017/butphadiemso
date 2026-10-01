@@ -453,10 +453,37 @@
 ### Task 12.7 — Custom color picker
 - [x] Thêm logic color picker 2 chiều (color input + HEX input), hàm `applyCustomTheme()` tự sinh các biến màu và áp dụng ngay, lưu `custom:#HEX` vào localStorage và hỗ trợ phục hồi khi bootstrap trang.
 
+---
+
+## PHASE 13 — Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh (Demo only)
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/`). Không sửa production `Gia sư/`.  
+> ⛔ KHÔNG sửa: `tutor-dashboard.html`, `tutor-calendar.html` (đã có Phase 12).  
+> Chi tiết: xem `PHASE13_PUBLIC_THEME.md`.
+
+### Task 13.1 — Tạo css/public-theme.css + import vào 5 file HTML
+- [x] **Mô tả:** Tạo file `css/public-theme.css` chứa 25+ CSS variables ánh sáng trắng - xanh. Thêm link stylesheet `css/public-theme.css` sau `css/style.css` trong `<head>` của 5 file HTML: `index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`. Đổi `<meta name="theme-color" content="#3B82F6">`.
+
+### Task 13.2 — Sửa css/style.css + css/home.css
+- [ ] **Mô tả:** Thay các màu hardcoded trong `css/style.css` và `css/home.css` theo bảng mapping. Chuyển title sang text tối, search-card sang trắng, button sang gradient xanh, nav-btn active sang xanh lam.
+
+### Task 13.3 — Sửa inline styles index.html
+- [ ] **Mô tả:** Sửa inline styles của hero section và quick-demo bar trong `index.html`. Quick-demo bar nền `#EFF6FF` viền dashed `#BFDBFE`, text/icon xanh lam `#2563EB` / `#3B82F6`. Button Gia sư xanh lam. Giữ nguyên màu semantic xanh lục.
+
+### Task 13.4 — Sửa inline styles student-login.html + tutor-login.html
+- [ ] **Mô tả:** Thay đổi input backgrounds, borders `#CBD5E1`, text tối, inline `onfocus`/`onblur` sang `#3B82F6` / `#CBD5E1`. Button đăng nhập gradient xanh lam, quick-login buttons nền `#EFF6FF` chữ xanh.
+
+### Task 13.5 — Sửa inline styles homework.html (phức tạp nhất)
+- [ ] **Mô tả:** Batch replace và kiểm soát context các mã màu neon tím `#8E4DFF` → `#3B82F6`, border/background rgba mờ sang `#F8FAFF` / `#E2E8F0`, text `#A6ADCE` → `#64748B`, text `#FFF` → `#1E293B` (chỉ khi là text color, giữ nguyên background `#FFF`), bảo toàn tuyệt đối `#FFD23F` và semantic colors `#EF4444`, `#10B981`, `#F59E0B`.
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
 | Phase 12 — Multi-Theme System | 7 | 7 |
-| **Tổng** | **34** | **34** |
+| Phase 13 — Public Pages Light Theme | 5 | 1 |
+| **Tổng** | **39** | **35** |
+

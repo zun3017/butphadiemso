@@ -35,6 +35,11 @@
   - Cột mờ track phía sau cho 12 tháng, cột xanh hoàng gia (`#4A72E8`) nổi bật phía trước.
   - Hiển thị đầy đủ số liệu phía trên từng cột (`0,0đ` cho T1-T7 và `32,4tr`, `36,5tr`, `51,7tr`, `52,3tr`, `7,5tr` cho T8-T12).
   - Ẩn hoàn toàn trục Y giúp biểu đồ thoáng đãng, sắc nét y hệt hình mẫu.
+- 🔧 **Khắc phục lỗi Tương tác Bộ lọc Biểu đồ Doanh thu (theo phản hồi người dùng):**
+  - Khắc phục sự cố `window.updateRevenueBarChart` chưa được gán ra phạm vi toàn cục khiến các sự kiện `onchange` của 3 dropdown không chạy được.
+  - Hỗ trợ chuyển đổi đầy đủ các mốc thời gian: `12 tháng`, `6 tháng`, `3 tháng` (tự động co giãn bề rộng cột tương ứng, cập nhật số liệu và tổng doanh thu).
+  - Hỗ trợ chuyển đổi các năm: `Năm 2026`, `Năm 2025`, `Năm 2024` (tự động cập nhật toàn bộ cột, nhãn trên đỉnh cột và tổng doanh thu theo từng năm).
+  - Hỗ trợ chuyển đổi loại biểu đồ linh hoạt: `Biểu đồ cột` (chuẩn Hình 2) và `Biểu đồ đường` (đường cong mềm mại, hiệu ứng gradient phát sáng).
 
 ## Trạng thái dự án
 

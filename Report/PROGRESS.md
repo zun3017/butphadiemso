@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 7 (Bug Fix sau Review) — 12/17 tasks hoàn thành (71%)
+**Giai đoạn:** Phase 8 (Nâng cấp Tổng Quan theo chuẩn UI Lớp Học) — 13/17 tasks hoàn thành (76%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[███████░░░] 71% (12/17 tasks)
+[████████░░] 76% (13/17 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -19,18 +19,18 @@
 | Phase 4 | Học phí | 1/1 ✅ |
 | Phase 5 | Báo cáo (Xuất ảnh) | 2/2 ✅ |
 | Phase 6 | Polish & Sync | 2/2 ✅ |
-| Phase 7 | Bug Fix sau Review | 2/3 ⏳ |
+| Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 0/4 ⏳ |
 
 ---
 
 ## Task vừa hoàn thành
 
-- ✅ **Task 7.2:** Ẩn hoàn toàn `div.tutor-header` cũ trên desktop và mobile (gọn gàng, tránh chiếm chỗ và trùng lặp thông tin với sidebar, áp dụng cả demo và production)
+- ✅ **Task 7.3:** Sidebar Collapsible (Nút toggle thu gọn 60px / mở rộng 240px, icon căn giữa, floating tooltip `data-title`, nhớ trạng thái `localStorage`, ẩn toggle trên mobile, áp dụng cả demo và production)
 
 ## Task tiếp theo
 
-→ **Task 7.3:** Sidebar Collapsible (Nút toggle thu gọn 60px / mở rộng 240px + nhớ localStorage)
+→ **Task 8.1:** Month Selector (< Tháng M/YYYY >) trên Tổng Quan (Góc trên phải Tổng Quan, re-render 4 KPI Cards và Upcoming Schedule theo tháng, không chọn tháng tương lai)
 
 ## Blockers
 

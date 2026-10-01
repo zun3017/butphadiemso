@@ -136,17 +136,17 @@
 ---
 
 ### Task 7.3 — Sidebar Collapsible (Thu gọn / Mở rộng)
-- [ ] **Mô tả:** Thêm nút toggle `>` / `<` ở góc phải của sidebar. Khi nhấn `>`: sidebar thu gọn còn khoảng **60px**, chỉ hiển thị **icon**, ẩn text label. Khi nhấn `<`: sidebar mở rộng trở lại **240px** với đầy đủ icon + text. Trạng thái được nhớ vào `localStorage` để lần sau mở lại vẫn giữ nguyên.
+- [x] **Mô tả:** Thêm nút toggle `>` / `<` ở góc phải của sidebar. Khi nhấn `>`: sidebar thu gọn còn khoảng **60px**, chỉ hiển thị **icon**, ẩn text label. Khi nhấn `<`: sidebar mở rộng trở lại **240px** với đầy đủ icon + text. Trạng thái được nhớ vào `localStorage` để lần sau mở lại vẫn giữ nguyên.
 - **File cần sửa:** `tutor-dashboard.html`, `css/style.css` (cả demo lẫn production)
 - **Tiêu chí hoàn thành:**
-  - [ ] Nút toggle `>` hiển thị ở góc phải sidebar (trên cùng hoặc giữa), icon đổi thành `<` khi đã mở rộng
-  - [ ] Khi **collapsed** (60px): chỉ thấy icon, text label ẩn (`display: none` hoặc `opacity: 0`), main content tự mở rộng chiếm phần còn lại
-  - [ ] Khi **expanded** (240px): icon + text hiển thị đầy đủ như cũ
-  - [ ] Transition mượt (CSS `transition: width 0.25s ease`)
-  - [ ] Tooltip hiển thị tên mục khi hover vào icon lúc sidebar đang collapsed (ví dụ: hover vào icon calendar → tooltip "Lịch dạy")
-  - [ ] `localStorage.setItem('tutorSidebarCollapsed', true/false)` — nhớ trạng thái qua lần reload
-  - [ ] Trên **mobile**: tính năng này không áp dụng (mobile vẫn dùng bottom nav như cũ)
-  - [ ] Không làm vỡ layout các section bên trong main content
+  - [x] Nút toggle `>` hiển thị ở góc phải sidebar (trên cùng hoặc giữa), icon đổi thành `<` khi đã mở rộng
+  - [x] Khi **collapsed** (60px): chỉ thấy icon, text label ẩn (`display: none` hoặc `opacity: 0`), main content tự mở rộng chiếm phần còn lại
+  - [x] Khi **expanded** (240px): icon + text hiển thị đầy đủ như cũ
+  - [x] Transition mượt (CSS `transition: width 0.25s ease`)
+  - [x] Tooltip hiển thị tên mục khi hover vào icon lúc sidebar đang collapsed (ví dụ: hover vào icon calendar → tooltip "Lịch dạy")
+  - [x] `localStorage.setItem('tutorSidebarCollapsed', true/false)` — nhớ trạng thái qua lần reload
+  - [x] Trên **mobile**: tính năng này không áp dụng (mobile vẫn dùng bottom nav như cũ)
+  - [x] Không làm vỡ layout các section bên trong main content
 
 ---
 

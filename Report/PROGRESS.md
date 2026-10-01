@@ -28,6 +28,13 @@
 
 - ✅ **Task 8.4:** Nút "Xem toàn bộ lịch dạy" trong block Lịch sắp tới (Nút điều hướng sang `tutor-calendar.html`, định vị chuẩn ở header Lịch sắp tới, style đồng bộ theme tím `#8E4DFF`)
 - ✨ **Tinh chỉnh Layout Tổng quan (theo yêu cầu người dùng):** Tách block "Lịch dạy sắp tới" ra thành 1 hàng ngang độc lập full-width (Hôm nay & Ngày mai 2 cột rộng rãi), đưa 2 block biểu đồ ("Doanh thu N tháng" & "Doanh thu theo học sinh") vào chung 1 hàng ngang song song cân đối.
+- 🎨 **Thiết kế Biểu đồ Doanh thu 12 tháng chuẩn Hình 2 (theo yêu cầu người dùng):**
+  - Hiển thị đủ 12 tháng (T1 đến T12) mặc định.
+  - Tiêu đề gọn "Doanh thu 12 tháng", tổng doanh thu màu xanh lá cây `180.250.000 đ`.
+  - Hàng 3 nút lọc dạng viên thuốc bo tròn màu trắng (`12 tháng`, `Biểu đồ cột`, `Năm 2026`).
+  - Cột mờ track phía sau cho 12 tháng, cột xanh hoàng gia (`#4A72E8`) nổi bật phía trước.
+  - Hiển thị đầy đủ số liệu phía trên từng cột (`0,0đ` cho T1-T7 và `32,4tr`, `36,5tr`, `51,7tr`, `52,3tr`, `7,5tr` cho T8-T12).
+  - Ẩn hoàn toàn trục Y giúp biểu đồ thoáng đãng, sắc nét y hệt hình mẫu.
 
 ## Trạng thái dự án
 

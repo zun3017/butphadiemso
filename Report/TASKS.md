@@ -474,7 +474,7 @@
 - [x] **Mô tả:** Thay đổi input backgrounds, borders `#CBD5E1`, text tối, inline `onfocus`/`onblur` sang `#3B82F6` / `#CBD5E1`. Button đăng nhập gradient xanh lam, quick-login buttons nền `#EFF6FF` chữ xanh.
 
 ### Task 13.5 — Sửa inline styles homework.html (phức tạp nhất)
-- [ ] **Mô tả:** Batch replace và kiểm soát context các mã màu neon tím `#8E4DFF` → `#3B82F6`, border/background rgba mờ sang `#F8FAFF` / `#E2E8F0`, text `#A6ADCE` → `#64748B`, text `#FFF` → `#1E293B` (chỉ khi là text color, giữ nguyên background `#FFF`), bảo toàn tuyệt đối `#FFD23F` và semantic colors `#EF4444`, `#10B981`, `#F59E0B`.
+- [x] **Mô tả:** Batch replace và kiểm soát context các mã màu neon tím `#8E4DFF` → `#3B82F6`, border/background rgba mờ sang `#F8FAFF` / `#E2E8F0`, text `#A6ADCE` → `#64748B`, text `#FFF` → `#1E293B` (chỉ khi là text color, giữ nguyên background `#FFF`), bảo toàn tuyệt đối `#FFD23F` (25 vị trí) và semantic colors `#EF4444`, `#10B981`, `#F59E0B`.
 
 ---
 
@@ -484,6 +484,6 @@
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
 | Phase 12 — Multi-Theme System | 7 | 7 |
-| Phase 13 — Public Pages Light Theme | 5 | 4 |
-| **Tổng** | **39** | **38** |
+| Phase 13 — Public Pages Light Theme | 5 | 5 |
+| **Tổng** | **39** | **39** |
 

@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 38/39 tasks hoàn thành (97.4%)
+**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — HOÀN THÀNH 100% (39/39 tasks)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████▉] 97.4% (38/39 tasks)
+[██████████] 100.0% (39/39 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -25,11 +25,21 @@
 | Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
 | Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
 | Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
-| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 4/5 🚀 |
+| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 5/5 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🎨 **Task 13.5 — Sửa styles và inline styles `homework.html` (demo only):**
+  - **Internal `<style>` Tag:** Đồng bộ toàn diện khối style 460 dòng sang ánh sáng trắng - xanh: `body` dùng biến `var(--bg-page)` và `var(--bg-page-gradient)`, `.badge` nền `#EFF6FF` viền `#BFDBFE` chữ `#2563EB`, `.main-title` chữ `var(--text-primary)`, `.search-card` nền `var(--bg-card)` viền `var(--border-card)`, `.input-wrapper` nền `var(--bg-input)` viền `#CBD5E1` chữ tối, `.btn-submit` gradient xanh `var(--btn-bg)`, 4 thẻ tính năng nền `var(--bg-card)`, `#resultBox` và `.hw-info-card` nền trắng viền nhạt đổ bóng dịu, `.upload-area` nền `#F8FAFF` viền nét đứt xanh `#BFDBFE`, `.avatar-circle` nền `#EFF6FF` icon xanh `#3B82F6`, `.progress-bar` gradient xanh, nút bấm `.action-btn-hw` nền sáng chữ `#2563EB`.
+  - **HTML Body & Inline Elements:** Sửa Quick demo bar bài tập sang `#EFF6FF` viền dashed `#BFDBFE`, tên học sinh profile chữ tối, form tải bài `hwStudentInput` nền `#F1F5F9` chữ tối, `uploadAreaMobile` nền `#F8FAFF` nút chụp ảnh gradient xanh và nút PDF `#EFF6FF`, hàng đợi file `fileQueueContainer` nền `#F8FAFF` viền `#E2E8F0` chữ `#1E293B`, modal preview bài nộp `previewSubmissionModal` nền trắng `#FFFFFF` viền `#DBEAFE` nền xem bài `#F1F5F9`.
+  - **Dynamic JS Templates:** Đồng bộ các template string trong JS: `toast` mặc định gradient xanh, hộp thoại xác nhận `showCustomConfirm` thẻ nền trắng viền `#DBEAFE` chữ `#1E293B` nút Hủy/Đồng ý chuẩn theme, danh sách bài tập được giao `assigned-hw-item` nền `#F8FAFF` viền `#BFDBFE` nút tải bài `#EFF6FF` chữ xanh, bảng lịch sử nộp bài chữ tiêu đề `#1E293B` nút xem bài `#EFF6FF` viền `#BFDBFE`, hàng đợi tệp tin chuẩn bị nộp `file-queue-item` nền `#F8FAFF` viền `#E2E8F0`.
+  - **Bảo toàn nghiêm ngặt các mã màu chuẩn:**
+    - `#8E4DFF` count = 0 (loại bỏ hoàn toàn neon tím).
+    - `background: #1E293B` count = 0 (không bị nhầm text color thành background color).
+    - `#FFD23F` count = 25 (bảo toàn 100% các ngôi sao và badge điểm thưởng vàng rực rỡ).
+    - `#EF4444` (14 chỗ), `#10B981` (4 chỗ), `#F59E0B` (2 chỗ) giữ nguyên tính trực quan semantic.
 
 - 🎨 **Task 13.4 — Sửa inline styles `student-login.html` + `tutor-login.html` (demo only):**
   - **Inputs & Focus States:** Nền input chuyển sang `var(--bg-input)`, viền `#CBD5E1`, text `var(--text-primary)`. Sự kiện inline `onfocus` đổi sang viền xanh `#3B82F6` và `onblur` trả về viền xám nhạt `#CBD5E1`.

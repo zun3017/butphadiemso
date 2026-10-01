@@ -66,13 +66,13 @@
 ## PHASE 4 — Học phí
 
 ### Task 4.1 — Section Học phí
-- [ ] **Mô tả:** Khi click "Học phí" trong sidebar, hiển thị: (1) Banner tổng thu nhập tháng hiện tại, (2) Bảng từng học sinh với: tên, số buổi tháng này, đơn giá/buổi, tổng tiền, trạng thái (Đã thu / Chưa thu / Nợ), nút "Xem hóa đơn". Trạng thái có thể toggle click.
+- [x] **Mô tả:** Khi click "Học phí" trong sidebar, hiển thị: (1) Banner tổng thu nhập tháng hiện tại, (2) Bảng từng học sinh với: tên, số buổi tháng này, đơn giá/buổi, tổng tiền, trạng thái (Đã thu / Chưa thu / Nợ), nút "Xem hóa đơn". Trạng thái có thể toggle click.
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] Tổng thu nhập tháng tính đúng từ mock data
-  - [ ] Toggle trạng thái Đã thu / Chưa thu lưu vào store
-  - [ ] Nút "Xem hóa đơn" mở preview-invoice (đã có) hoặc inline modal
-  - [ ] Filter theo tháng (dropdown tháng/năm)
+  - [x] Tổng thu nhập tháng tính đúng từ mock data
+  - [x] Toggle trạng thái Đã thu / Chưa thu lưu vào store
+  - [x] Nút "Xem hóa đơn" mở preview-invoice (đã có) hoặc inline modal
+  - [x] Filter theo tháng (dropdown tháng/năm)
 
 ---
 

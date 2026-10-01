@@ -64,3 +64,16 @@
 - **Detected Issues:** None
 - **Severity:** None
 - **Status:** PASS
+
+## [v4.0] - Task 4.1: Section Học phí
+- **Timestamp:** 2026-10-01 11:54:00
+- **Scope:** Section Học phí, Banner 3 thẻ thu nhập (Tổng thu dự kiến, Đã thu, Còn phải thu), Bảng từng học sinh (desktop table + mobile card), Dropdown lọc theo tháng, Click toggle trạng thái Đã thu / Chưa thu lưu vào store, Modal xem trước phiếu học tập / hóa đơn học phí kèm mã VietQR và chức năng xuất ảnh PNG
+- **Verification Method:**
+  - Automated syntax check (`node -c js/tutor.js`): PASS (Exit code 0)
+  - Income calculation verification: Sessions * unit fee summed across students matches mock data: PASS
+  - Status toggle verification: Clicking status badge switches state between "Đã thu" and "Chưa thu" and writes to `saveGiaSuDemoStore`: PASS
+  - Month filter verification: `initTuitionMonthFilter` extracts distinct months from logs and updates calculations: PASS
+  - Invoice modal & export: `openStudentInvoiceModal` renders complete receipt with metrics and VietQR, and `exportTuitionModalInvoice` triggers `html2canvas` 2x PNG download: PASS
+- **Detected Issues:** None
+- **Severity:** None
+- **Status:** PASS

@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 35/39 tasks hoàn thành (89.7%)
+**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 36/39 tasks hoàn thành (92.3%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████░] 89.7% (35/39 tasks)
+[█████████░] 92.3% (36/39 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -25,11 +25,29 @@
 | Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
 | Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
 | Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
-| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 1/5 🚀 |
+| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 2/5 🚀 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🎨 **Task 13.2 — Sửa `css/style.css` + `css/home.css` (demo only):**
+  - **Chuẩn hóa Global CSS (`style.css`):**
+    - Chuyển `.nav-btn.active` sang nền `var(--nav-active-bg)`, viền `var(--nav-active-border)` và chữ `var(--nav-active-text)` (#2563EB).
+    - Đổi `.badge` sang nền nhạt `#EFF6FF`, viền `#BFDBFE`, chữ `#2563EB`.
+    - Đổi `.main-title` và tiêu đề sang `var(--text-primary)`, subtitle sang `var(--text-secondary)`, `.highlight` sang `#2563EB`.
+    - Khung tìm kiếm `.search-card` chuyển từ nền tối sang `var(--bg-card)` trắng thanh lịch, border `var(--border-card)`, shadow mềm mại `var(--shadow-card)`.
+    - `.input-wrapper` và input (cả desktop và mobile) dùng `var(--bg-input)` và chữ `var(--text-primary)`.
+    - Nút submit `.btn-submit` chuyển sang gradient xanh `var(--btn-bg)` chữ trắng.
+    - 4 thẻ tính năng `.feature-card` chuyển sang nền trắng `var(--bg-card)` chữ đậm.
+  - **Landing Page CSS (`home.css`):**
+    - Hero badge nền `#EFF6FF` viền `#BFDBFE` chữ `#2563EB`.
+    - Hero title đổi sang `var(--text-primary)`, subtitle sang `var(--text-secondary)`.
+    - Nút CTA chính (Gia sư) chuyển từ tím sang gradient xanh dương `#3B82F6` → `#1D4ED8`.
+    - Toàn bộ cards: `.metric-card`, `.pillar-card`, `.vision-card`, `.step-card`, `.faq-item` chuyển sang nền thẻ trắng `var(--bg-card)` và text tương phản cao.
+    - Icon vision chuyển sang nền `#EFF6FF` icon `#3B82F6`.
+    - Footer chuyển từ tím đen sang nền trắng thanh lịch, viền `var(--border-color)`, logo border `#3B82F6`, social buttons `#EFF6FF` chữ xanh.
+    - Bảo toàn nghiêm ngặt các màu semantic: nút học sinh (`.btn-cta-student`), bài tập (`.btn-cta-hw`), xanh lá `#10B981`, đỏ `#EF4444`, vàng `#FFD23F`.
 
 - 🎨 **Task 13.1 — Tạo `css/public-theme.css` + import vào 5 file HTML (demo only):**
   - **Tạo stylesheet chủ đề sáng:** Đã khởi tạo file `css/public-theme.css` định nghĩa 25+ biến CSS ánh sáng trắng - xanh pastel hiện đại: `--bg-page: #F0F7FF`, `--header-bg: rgba(255,255,255,0.95)`, `--bg-card: #FFFFFF`, `--border-color: #DBEAFE`, `--text-primary: #1E293B`, `--text-secondary: #64748B`, `--color-primary: #3B82F6`, `--nav-active-bg: #EFF6FF`, `--btn-bg: linear-gradient(135deg, #3B82F6, #1D4ED8)`, v.v.

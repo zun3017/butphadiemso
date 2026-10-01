@@ -465,7 +465,7 @@
 - [x] **Mô tả:** Tạo file `css/public-theme.css` chứa 25+ CSS variables ánh sáng trắng - xanh. Thêm link stylesheet `css/public-theme.css` sau `css/style.css` trong `<head>` của 5 file HTML: `index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`. Đổi `<meta name="theme-color" content="#3B82F6">`.
 
 ### Task 13.2 — Sửa css/style.css + css/home.css
-- [ ] **Mô tả:** Thay các màu hardcoded trong `css/style.css` và `css/home.css` theo bảng mapping. Chuyển title sang text tối, search-card sang trắng, button sang gradient xanh, nav-btn active sang xanh lam.
+- [x] **Mô tả:** Thay các màu hardcoded trong `css/style.css` và `css/home.css` theo bảng mapping. Chuyển title sang text tối, search-card sang trắng, button sang gradient xanh, nav-btn active sang xanh lam.
 
 ### Task 13.3 — Sửa inline styles index.html
 - [ ] **Mô tả:** Sửa inline styles của hero section và quick-demo bar trong `index.html`. Quick-demo bar nền `#EFF6FF` viền dashed `#BFDBFE`, text/icon xanh lam `#2563EB` / `#3B82F6`. Button Gia sư xanh lam. Giữ nguyên màu semantic xanh lục.
@@ -484,6 +484,6 @@
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
 | Phase 12 — Multi-Theme System | 7 | 7 |
-| Phase 13 — Public Pages Light Theme | 5 | 1 |
-| **Tổng** | **39** | **35** |
+| Phase 13 — Public Pages Light Theme | 5 | 2 |
+| **Tổng** | **39** | **36** |
 

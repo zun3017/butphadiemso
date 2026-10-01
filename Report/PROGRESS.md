@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 8 (Nâng cấp Tổng Quan theo chuẩn UI Lớp Học) — 13/17 tasks hoàn thành (76%)
+**Giai đoạn:** Phase 8 (Nâng cấp Tổng Quan theo chuẩn UI Lớp Học) — 14/17 tasks hoàn thành (82%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[████████░░] 76% (13/17 tasks)
+[████████░░] 82% (14/17 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -20,17 +20,17 @@
 | Phase 5 | Báo cáo (Xuất ảnh) | 2/2 ✅ |
 | Phase 6 | Polish & Sync | 2/2 ✅ |
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
-| Phase 8 | Nâng cấp Tổng Quan | 0/4 ⏳ |
+| Phase 8 | Nâng cấp Tổng Quan | 1/4 ⏳ |
 
 ---
 
 ## Task vừa hoàn thành
 
-- ✅ **Task 7.3:** Sidebar Collapsible (Nút toggle thu gọn 60px / mở rộng 240px, icon căn giữa, floating tooltip `data-title`, nhớ trạng thái `localStorage`, ẩn toggle trên mobile, áp dụng cả demo và production)
+- ✅ **Task 8.1:** Month Selector (< Tháng M/YYYY >) trên Tổng Quan (Nút điều hướng tháng, format chuẩn, re-render 4 KPI Cards và Upcoming Schedule theo tháng đã chọn, chặn chọn tháng tương lai, áp dụng cả demo và production)
 
 ## Task tiếp theo
 
-→ **Task 8.1:** Month Selector (< Tháng M/YYYY >) trên Tổng Quan (Góc trên phải Tổng Quan, re-render 4 KPI Cards và Upcoming Schedule theo tháng, không chọn tháng tương lai)
+→ **Task 8.2:** Biểu đồ Doanh thu N tháng (Bar Chart dùng Chart.js sẵn có, 3 filter khoảng thời gian / loại biểu đồ / năm, responsive)
 
 ## Blockers
 

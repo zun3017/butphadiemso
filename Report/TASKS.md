@@ -156,13 +156,14 @@
 > **Lưu ý:** Chart.js đã được import sẵn ở line 1739 của `tutor-dashboard.html` — dùng lại, không import lại.
 
 ### Task 8.1 — Month Selector (< Tháng X/YYYY >) trên Tổng Quan
-- [ ] **Mô tả:** Thêm bộ chọn tháng kiểu `< Tháng 9/2026 >` ở **góc trên bên phải** của section Tổng Quan. Khi thay đổi tháng → toàn bộ 4 KPI Cards và block "Lịch dạy sắp tới" phải re-render theo tháng đã chọn (filter data theo tháng đó). Mặc định là tháng hiện tại.
+- [x] **Mô tả:** Thêm bộ chọn tháng kiểu `< Tháng 9/2026 >` ở **góc trên bên phải** của section Tổng Quan. Khi thay đổi tháng → toàn bộ 4 KPI Cards và block "Lịch dạy sắp tới" phải re-render theo tháng đã chọn (filter data theo tháng đó). Mặc định là tháng hiện tại.
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js` (cả demo lẫn production)
 - **Tiêu chí hoàn thành:**
-  - [ ] Hiển thị đúng format `< Tháng M/YYYY >`, nút `<` và `>` để điều hướng tháng trước/sau
-  - [ ] Mặc định = tháng hiện tại
-  - [ ] Khi chuyển tháng → `renderTutorKpiCards()` và `renderUpcomingSchedule()` chạy lại với tháng đã chọn
-  - [ ] Không thể chọn tháng tương lai (disable nút `>` nếu đang ở tháng hiện tại)
+  - [x] Hiển thị đúng format `< Tháng M/YYYY >`, nút `<` và `>` để điều hướng tháng trước/sau
+  - [x] Mặc định = tháng hiện tại
+  - [x] Khi chuyển tháng → `renderTutorKpiCards()` và `renderUpcomingSchedule()` chạy lại với tháng đã chọn
+  - [x] Không thể chọn tháng tương lai (disable nút `>` nếu đang ở tháng hiện tại)
+  - [x] Đồng bộ hiển thị đúng cả trên desktop lẫn mobile
 
 ---
 
@@ -213,7 +214,7 @@
 | Phase 4 — Học phí | 1 | 1 |
 | Phase 5 — Báo cáo | 2 | 2 |
 | Phase 6 — Polish & Sync | 2 | 2 |
-| Phase 7 — Bug Fix sau Review | 3 | 2 |
-| Phase 8 — Nâng cấp Tổng Quan | 4 | 0 |
-| **Tổng** | **17** | **12** |
+| Phase 7 — Bug Fix sau Review | 3 | 3 |
+| Phase 8 — Nâng cấp Tổng Quan | 4 | 1 |
+| **Tổng** | **17** | **14** |
 

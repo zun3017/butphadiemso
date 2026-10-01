@@ -106,8 +106,8 @@
 - [x] Fix các layout bug nếu có (Đã fix unclosed media query ở line 2187 làm tràn layout desktop, bổ sung responsive padding/border-radius cho toolbar/cards/modals trên mobile 375px, xếp chồng message box & QR card trên mobile)
 
 ### Task 6.2 — Sync sang production
-- [ ] Copy các thay đổi đã verify từ `Gia sư - demo/` sang `Gia sư/`
-- [ ] Kiểm tra lại với Supabase API thật (không phải mock)
+- [x] Copy các thay đổi đã verify từ `Gia sư - demo/` sang `Gia sư/`
+- [x] Kiểm tra lại với Supabase API thật (tích hợp `tutorSchedule`, `recentLessons`, `evaluations` vào `getTutorDashboardDataInternal`, bổ sung `suaNhanXetInline`, kết nối sync `capNhatDongHocPhiBuoiHoc` / `capNhatNhieuDongHocPhi`)
 
 ---
 
@@ -120,5 +120,5 @@
 | Phase 3 — Học sinh | 1 | 1 |
 | Phase 4 — Học phí | 1 | 1 |
 | Phase 5 — Báo cáo | 2 | 2 |
-| Phase 6 — Polish & Sync | 2 | 1 |
-| **Tổng** | **10** | **9** |
+| Phase 6 — Polish & Sync | 2 | 2 |
+| **Tổng** | **10** | **10** |

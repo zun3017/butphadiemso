@@ -104,3 +104,18 @@
 - **Severity:** High (resolved)
 - **Status:** PASS
 
+## [v6.1] - Task 6.2: Đồng bộ sang Production (`Gia sư/`) và kiểm tra Supabase API
+- **Timestamp:** 2026-10-01 12:13:00
+- **Scope:** Sync verified redesign to `Gia sư/` (`style.css`, `tutor-dashboard.html`, `js/tutor.js`, `js/api.js`). Verify Supabase API compatibility.
+- **Verification Method:**
+  - `css/style.css`: Synchronized verified CSS with 0 unclosed braces and 0 missing selectors. Verified responsive queries down to 375px and desktop 1280px.
+  - `tutor-dashboard.html`: Synchronized 6-section sidebar layout, `#tutorTuitionInvoiceModal`, retained production account modal (QR upload, announcement clearing) and production auth script (`sessionStorage.getItem('dashboardData')` + `refreshTutorDashboard()`).
+  - `js/api.js`: Augmented `getTutorDashboardDataInternal` to query and return `tutorSchedule`, `recentLessons`, and `evaluations` directly from Supabase tables `APP_CONFIG.TABLES.SCHEDULES` and `APP_CONFIG.TABLES.EVALUATIONS`. Added `suaNhanXetInline` PATCH handler for quick inline diary editing.
+  - `js/tutor.js`: Synced all 31 core functions into production `tutor.js`, preserved 5 existing production functions (`handleTutorQrFileSelect`, `handleTutorQrUrlInput`, `removeTutorQr`, `clearQuickAnnouncement`, `formatVNDateTime`). Connected inline diary edits and tuition status toggles to Supabase `google.script.run` backend calls.
+  - Automated Syntax Validation: `node -c "Gia sư/js/api.js"` and `node -c "Gia sư/js/tutor.js"` passed with exit code 0.
+  - VM Execution & Export Test: Ran `test_prod_tutor.js` in simulated browser VM. Verified all 18 essential window functions (`switchTutorNavTab`, `renderTutorKpiCards`, `renderUpcomingSchedule`, `renderTutorDiarySection`, `renderTutorStudentsGrid`, `renderTutorTuitionSection`, `toggleStudentTuitionStatus`, `openStudentInvoiceModal`, `exportTuitionModalInvoice`, `previewTutorReport`, `exportReportToPng`, `saveDiaryInlineComment`, `toggleDiaryComment`, QR functions). All PASS.
+- **Detected Issues:** None
+- **Severity:** None
+- **Status:** PASS
+
+

@@ -54,12 +54,12 @@
 ## PHASE 3 — Học sinh
 
 ### Task 3.1 — Section Học sinh
-- [ ] **Mô tả:** Khi click "Học sinh" trong sidebar, hiển thị grid danh sách học sinh (card view): avatar chữ cái, tên, môn học, lịch cố định, số buổi tháng này. Click card → expand chi tiết hoặc chuyển sang Nhật ký lọc sẵn học sinh đó. Nút "Thêm học sinh" (dùng lại modal đã có).
+- [x] **Mô tả:** Khi click "Học sinh" trong sidebar, hiển thị grid danh sách học sinh (card view): avatar chữ cái, tên, môn học, lịch cố định, số buổi tháng này. Click card → expand chi tiết hoặc chuyển sang Nhật ký lọc sẵn học sinh đó. Nút "Thêm học sinh" (dùng lại modal đã có).
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] Grid 2-3 cột trên desktop, 1 cột trên mobile
-  - [ ] Click card học sinh → highlight + hiển thị quick info (số buổi, BTVN %, học phí)
-  - [ ] Nút "Thêm học sinh" dùng lại `openAddStudentModal()` đã có
+  - [x] Grid 2-3 cột trên desktop, 1 cột trên mobile
+  - [x] Click card học sinh → highlight + hiển thị quick info (số buổi, BTVN %, học phí)
+  - [x] Nút "Thêm học sinh" dùng lại `openAddStudentModal()` đã có
 
 ---
 

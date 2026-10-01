@@ -50,3 +50,17 @@
 - **Detected Issues:** None
 - **Severity:** None
 - **Status:** PASS
+
+## [v3.0] - Task 3.1: Section Học sinh
+- **Timestamp:** 2026-10-01 11:50:00
+- **Scope:** Section Học sinh, Grid 3 cột desktop / 2 cột tablet / 1 cột mobile, Thẻ học sinh với avatar chữ cái (màu đồng bộ), Lịch cố định, Quick info (buổi tháng này, % BTVN, học phí/buổi), Click thẻ mở chi tiết bên dưới, Shortcut xem nhật ký đã filter theo học sinh, Toolbar với nút Thêm học sinh (`openAddStudentModal`) và Thùng rác (`openTrashModal`)
+- **Verification Method:**
+  - Automated syntax check (`node -c js/tutor.js`): PASS (Exit code 0)
+  - Layout & CSS verification: Grid responsive (`grid-template-columns: repeat(3, 1fr)` on desktop, 1fr on mobile): PASS
+  - Quick metrics extraction: Sessions this month from student logs, homework submission rate, fee formatting: PASS
+  - Student card highlight: Click card toggles active border `#FFD23F` and displays `#tutorStudentDetail`: PASS
+  - Navigation shortcut: `goToStudentDiary(name)` properly switches to Diary tab and sets student filter: PASS
+  - "Thêm học sinh" toolbar action: Reuses existing `openAddStudentModal()`: PASS
+- **Detected Issues:** None
+- **Severity:** None
+- **Status:** PASS

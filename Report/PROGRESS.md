@@ -28,6 +28,16 @@
 
 ## Task vừa hoàn thành
 
+- 🎨 **Visual Refinement — Tinh chỉnh giao diện Month view khớp 100% hình ảnh tham chiếu (`tutor-calendar.html` - demo only):**
+  - **Từng ô ngày là 1 thẻ Card độc lập:** Loại bỏ viền lưới bảng FullCalendar truyền thống ở Month view; mỗi ô ngày là một card trắng bo tròn `border-radius: 12px`, viền mảnh `#ECE3D8`, đổ bóng nhẹ `box-shadow` và có khoảng hở `padding: 3.5px` giữa các card.
+  - **Tiêu đề cột các Thứ:** Định dạng chữ hoa gọn gàng không viền nền: `THỨ 2`, `THỨ 3`, `THỨ 4`, `THỨ 5`, `THỨ 6`, `THỨ 7`, `CN`, canh lề trái thẳng hàng với các cột card bên dưới.
+  - **Số ngày ở góc trên bên trái:** Di chuyển số ngày về góc trên bên trái của mỗi card (`padding: 6px 8px 2px 8px`).
+  - **Highlight Hôm nay (Ngày 26):** Card có viền đỏ nổi bật `border: 1.5px solid #E11D48`, số ngày đặt trong huy hiệu tròn đỏ rực `background: #E11D48; color: #FFF; border-radius: 50%`.
+  - **Minh họa ngày lễ Quốc khánh 1/9, 2/9 & Trung thu:** Card ngày 1/9 & 2/9 có nền gradient ấm áp kèm watermark Ba Đình/Hà Nội và nhãn đỏ `Quốc khánh`; ngày 25/9 có gradient lồng đèn lễ hội.
+  - **Event Chips viên thuốc có chấm tròn màu:** Thiết kế chip viên thuốc `border-radius: 6px` nền pastel nhạt, viền cùng tông, chấm tròn màu đại diện học sinh, giờ bắt đầu in đậm và tên môn/lớp học.
+  - **Link "+N buổi nữa":** Dạng text xám thanh thoát góc trái thẻ, click mở popover chi tiết.
+  - **Dữ liệu demo khớp ảnh mẫu:** Tích hợp đầy đủ các lớp `GTPX 17`, `Pre-Inter A2+`, `GTPX 18`, `ARAVA GTPX 15`, `IELTS 5.0-6.0`, `ELE 04 - A1` với bảng màu chuẩn mực.
+
 - 📊 **Task 10.4 — Bottom legend theo học sinh + Status bar (`tutor-calendar.html` - demo only):**
   - **Mục tiêu:** Thêm thanh công cụ phía dưới lịch gồm Legend màu học sinh và Thanh trạng thái (Status bar) thống kê tổng số buổi dạy trong tháng và số học sinh:
     - **Legend màu học sinh (bên trái):** Danh sách trực quan từng học sinh với chấm tròn màu đồng bộ chính xác với màu ca học của học sinh đó trên lịch (`row.color`), kèm tên học sinh. Hỗ trợ cuộn ngang mượt mà khi có nhiều học sinh.

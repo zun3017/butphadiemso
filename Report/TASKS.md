@@ -29,12 +29,12 @@
 ---
 
 ### Task 1.3 — Tổng quan: Lịch dạy sắp tới (Hôm nay & Ngày mai)
-- [ ] **Mô tả:** Bên dưới 4 KPI cards, hiển thị danh sách buổi dạy sắp tới nhóm theo ngày: "Hôm nay - Thứ X, DD/MM" và "Ngày mai - Thứ X, DD/MM". Mỗi buổi dạy hiển thị: giờ bắt đầu-kết thúc, tên học sinh (có tag màu), môn học. Nếu không có buổi nào → hiển thị "Không có lịch dạy hôm nay 🎉".
+- [x] **Mô tả:** Bên dưới 4 KPI cards, hiển thị danh sách buổi dạy sắp tới nhóm theo ngày: "Hôm nay - Thứ X, DD/MM" và "Ngày mai - Thứ X, DD/MM". Mỗi buổi dạy hiển thị: giờ bắt đầu-kết thúc, tên học sinh (có tag màu), môn học. Nếu không có buổi nào → hiển thị "Không có lịch dạy hôm nay 🎉".
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] Nhóm đúng theo ngày hôm nay và ngày mai
-  - [ ] Tên học sinh có màu tag riêng (mỗi học sinh 1 màu nhất quán)
-  - [ ] Thứ hiển thị đúng (dùng hàm `formatDateWithDayOfWeek` đã có)
+  - [x] Nhóm đúng theo ngày hôm nay và ngày mai
+  - [x] Tên học sinh có màu tag riêng (mỗi học sinh 1 màu nhất quán)
+  - [x] Thứ hiển thị đúng (dùng hàm `formatDateWithDayOfWeek` đã có)
 
 ---
 
@@ -115,10 +115,10 @@
 
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
-| Phase 1 — Layout + Tổng quan | 3 | 2 |
+| Phase 1 — Layout + Tổng quan | 3 | 3 |
 | Phase 2 — Nhật ký | 1 | 0 |
 | Phase 3 — Học sinh | 1 | 0 |
 | Phase 4 — Học phí | 1 | 0 |
 | Phase 5 — Báo cáo | 2 | 0 |
 | Phase 6 — Polish | 2 | 0 |
-| **Tổng** | **10** | **2** |
+| **Tổng** | **10** | **3** |

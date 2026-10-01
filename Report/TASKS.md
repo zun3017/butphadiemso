@@ -468,7 +468,7 @@
 - [x] **Mô tả:** Thay các màu hardcoded trong `css/style.css` và `css/home.css` theo bảng mapping. Chuyển title sang text tối, search-card sang trắng, button sang gradient xanh, nav-btn active sang xanh lam.
 
 ### Task 13.3 — Sửa inline styles index.html
-- [ ] **Mô tả:** Sửa inline styles của hero section và quick-demo bar trong `index.html`. Quick-demo bar nền `#EFF6FF` viền dashed `#BFDBFE`, text/icon xanh lam `#2563EB` / `#3B82F6`. Button Gia sư xanh lam. Giữ nguyên màu semantic xanh lục.
+- [x] **Mô tả:** Sửa inline styles của hero section và quick-demo bar trong `index.html`. Quick-demo bar nền `#EFF6FF` viền dashed `#BFDBFE`, text/icon xanh lam `#2563EB` / `#3B82F6`. Button Gia sư xanh lam. Giữ nguyên màu semantic xanh lục.
 
 ### Task 13.4 — Sửa inline styles student-login.html + tutor-login.html
 - [ ] **Mô tả:** Thay đổi input backgrounds, borders `#CBD5E1`, text tối, inline `onfocus`/`onblur` sang `#3B82F6` / `#CBD5E1`. Button đăng nhập gradient xanh lam, quick-login buttons nền `#EFF6FF` chữ xanh.
@@ -484,6 +484,6 @@
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
 | Phase 12 — Multi-Theme System | 7 | 7 |
-| Phase 13 — Public Pages Light Theme | 5 | 2 |
-| **Tổng** | **39** | **36** |
+| Phase 13 — Public Pages Light Theme | 5 | 3 |
+| **Tổng** | **39** | **37** |
 

@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 36/39 tasks hoàn thành (92.3%)
+**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 37/39 tasks hoàn thành (94.9%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████░] 92.3% (36/39 tasks)
+[█████████▌] 94.9% (37/39 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -25,11 +25,18 @@
 | Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
 | Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
 | Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
-| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 2/5 🚀 |
+| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 3/5 🚀 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🎨 **Task 13.3 — Sửa inline styles `index.html` (demo only):**
+  - **Quick-demo bar 1-chạm:** Chuyển đổi hoàn toàn background từ `rgba(18,13,54,0.75)` sang nền sáng xanh nhạt `#EFF6FF` viền nét đứt `#BFDBFE`.
+  - **Text & Icon:** Đổi chữ "Trải nghiệm nhanh 1 chạm" sang màu xanh đậm `#2563EB`, icon tia sét sang `#3B82F6`.
+  - **Quick access buttons:** Nút "Xem Bảng Điểm PH/HS" và "Xem Bảng Quản Lý Gia Sư" chuyển sang nền `#EFF6FF` viền `#BFDBFE` chữ xanh `#2563EB`. Giữ nguyên nút xanh lục "Xem Cổng Nộp Bài Tập" với chữ `#047857` chuẩn tương phản trên nền sáng.
+  - **Pillar Cards:** Đồng bộ Pillar 1 và Pillar 3 sang badge/icon nền `#EFF6FF` màu xanh `#3B82F6` / `#2563EB`, nút CTA Gia sư gradient xanh `#3B82F6` → `#1D4ED8`.
+
 
 - 🎨 **Task 13.2 — Sửa `css/style.css` + `css/home.css` (demo only):**
   - **Chuẩn hóa Global CSS (`style.css`):**

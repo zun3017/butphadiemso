@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 19/21 tasks hoàn thành (90%)
+**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 20/21 tasks hoàn thành (95%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████░] 90% (19/21 tasks)
+[█████████▉] 95% (20/21 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -21,11 +21,19 @@
 | Phase 6 | Polish & Sync | 2/2 ✅ |
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
-| Phase 9 | Nâng cấp Modal Tạo Phiếu | 2/4 🔄 |
+| Phase 9 | Nâng cấp Modal Tạo Phiếu | 3/4 🔄 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- ✅ **Task 9.3 — Date range + Tiêu đề kỳ học + Draft save/restore (demo only):**
+  - Bổ sung section "Thông tin kỳ học & Khoảng ngày" ở cuối cột trái gồm bộ chọn ngày (Từ ngày / Đến ngày) mặc định từ đầu tháng đến cuối tháng.
+  - Lọc chính xác các buổi học trong khoảng ngày chọn; khi đổi khoảng ngày, số buổi học, số giờ tích lũy, danh sách ngày và tổng học phí trên Live Preview tự động tính lại ngay lập tức.
+  - Tự động sinh tiêu đề kỳ học thông minh (ví dụ: `HỌC PHÍ THÁNG M/YYYY` nếu cùng tháng hoặc `HỌC PHÍ DD/MM – DD/MM` nếu khác tháng), đồng thời cho phép người dùng tự sửa tay tùy ý.
+  - Tự động lưu bản nháp (`autoSaveTuitionDraft`) vào `localStorage` (`tuitionDraft_[studentName]`) mỗi khi thay đổi bất kỳ toggle, số tiền, ngày học, tiêu đề hoặc mẫu phiếu.
+  - Khôi phục bản nháp hoàn hảo khi mở lại modal và hiển thị banner thông báo màu xanh lá "Đã khôi phục bản nháp lần trước".
+  - Nút "Lưu bản nháp" trong footer lưu thủ công và hiển thị toast xác nhận thành công.
 
 - ✅ **Task 9.2 — Toggle switches 9 trường + Live Preview real-time (demo only):**
   - Cung cấp đầy đủ 9 toggle switches tại cột trái: Học sinh, Lớp & Môn, Học phí áp dụng, Số buổi học, Số giờ tích lũy, Ngày học, Giảm học phí, Phụ thu, Ảnh QR.

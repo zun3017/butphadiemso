@@ -241,16 +241,16 @@
 ---
 
 ### Task 9.3 — Date range + Tiêu đề kỳ học + Draft save/restore
-- [ ] **Mô tả:** Thêm section "Thông tin kỳ học" ở cuối cột trái gồm: **Từ ngày** / **Đến ngày** (native date input, mặc định = ngày đầu và cuối tháng hiện tại) + **Tiêu đề kỳ học** (text input, auto-generate "HỌC PHÍ THÁNG X/YYYY", có thể sửa tay). Khi đổi date range → live preview chỉ tính các buổi học trong khoảng đó + tiêu đề tự cập nhật. **Draft auto-save:** mỗi khi user thay đổi bất kỳ toggle/input → lưu state vào `localStorage` key `tuitionDraft_[studentName]`. Khi mở modal: nếu có draft → restore và hiện thông báo xanh lá "Đã khôi phục bản nháp lần trước".
+- [x] **Mô tả:** Thêm section "Thông tin kỳ học" ở cuối cột trái gồm: **Từ ngày** / **Đến ngày** (native date input, mặc định = ngày đầu và cuối tháng hiện tại) + **Tiêu đề kỳ học** (text input, auto-generate "HỌC PHÍ THÁNG X/YYYY", có thể sửa tay). Khi đổi date range → live preview chỉ tính các buổi học trong khoảng đó + tiêu đề tự cập nhật. **Draft auto-save:** mỗi khi user thay đổi bất kỳ toggle/input → lưu state vào `localStorage` key `tuitionDraft_[studentName]`. Khi mở modal: nếu có draft → restore và hiện thông báo xanh lá "Đã khôi phục bản nháp lần trước".
 - **File cần sửa:** `js/tutor.js` *(demo only)*
 - **Tiêu chí hoàn thành:**
-  - [ ] Date range picker: Từ ngày / Đến ngày, default = đầu tháng → cuối tháng hiện tại
-  - [ ] Đổi date range → preview chỉ count buổi học trong khoảng đó, tổng tiền tính lại
-  - [ ] Tiêu đề kỳ học: auto "HỌC PHÍ THÁNG M/YYYY" nếu cùng tháng, "HỌC PHÍ DD/MM – DD/MM" nếu khác tháng
-  - [ ] Tiêu đề sửa tay được, thay đổi → cập nhật preview
-  - [ ] Auto-save state (toggles + discount + extra + dates + title + mẫu) mỗi khi thay đổi
-  - [ ] Khi mở modal: có draft → restore state + hiện banner "Đã khôi phục bản nháp lần trước" màu xanh lá
-  - [ ] Nút "Lưu bản nháp" trong footer: save + toast "Đã lưu bản nháp!"
+  - [x] Date range picker: Từ ngày / Đến ngày, default = đầu tháng → cuối tháng hiện tại
+  - [x] Đổi date range → preview chỉ count buổi học trong khoảng đó, tổng tiền tính lại
+  - [x] Tiêu đề kỳ học: auto "HỌC PHÍ THÁNG M/YYYY" nếu cùng tháng, "HỌC PHÍ DD/MM – DD/MM" nếu khác tháng
+  - [x] Tiêu đề sửa tay được, thay đổi → cập nhật preview
+  - [x] Auto-save state (toggles + discount + extra + dates + title + mẫu) mỗi khi thay đổi
+  - [x] Khi mở modal: có draft → restore state + hiện banner "Đã khôi phục bản nháp lần trước" màu xanh lá
+  - [x] Nút "Lưu bản nháp" trong footer: save + toast "Đã lưu bản nháp!"
 
 ---
 
@@ -280,8 +280,8 @@
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
-| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 2 |
-| **Tổng** | **21** | **19** |
+| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 3 |
+| **Tổng** | **21** | **20** |
 
 
 

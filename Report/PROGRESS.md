@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 37/39 tasks hoàn thành (94.9%)
+**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — 38/39 tasks hoàn thành (97.4%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████▌] 94.9% (37/39 tasks)
+[█████████▉] 97.4% (38/39 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -25,11 +25,19 @@
 | Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
 | Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
 | Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
-| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 3/5 🚀 |
+| Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 4/5 🚀 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🎨 **Task 13.4 — Sửa inline styles `student-login.html` + `tutor-login.html` (demo only):**
+  - **Inputs & Focus States:** Nền input chuyển sang `var(--bg-input)`, viền `#CBD5E1`, text `var(--text-primary)`. Sự kiện inline `onfocus` đổi sang viền xanh `#3B82F6` và `onblur` trả về viền xám nhạt `#CBD5E1`.
+  - **Icons & Labels:** Icon trong input chuyển sang `#3B82F6`, label chuyển sang `#64748B`.
+  - **Nút đăng nhập:** Chuyển gradient từ tím `#8E4DFF` → `#5B21B6` sang xanh dương `#3B82F6` → `#1D4ED8`.
+  - **Quick-login area:** Viền ngăn cách `#DBEAFE`, text hướng dẫn `#64748B`, label `#475569`, nút đăng nhập nhanh nền `#EFF6FF` viền `#BFDBFE` chữ xanh `#2563EB`. Bảo toàn icon tia sét `#F59E0B`.
+  - **Modal chọn con (`childSelectorModal`):** Nền trắng `#FFFFFF`, viền `#DBEAFE`, text `#1E293B`, nút hủy bỏ viền `#CBD5E1`.
+
 
 - 🎨 **Task 13.3 — Sửa inline styles `index.html` (demo only):**
   - **Quick-demo bar 1-chạm:** Chuyển đổi hoàn toàn background từ `rgba(18,13,54,0.75)` sang nền sáng xanh nhạt `#EFF6FF` viền nét đứt `#BFDBFE`.

@@ -27,6 +27,14 @@
 
 ## Task vừa hoàn thành
 
+- 🐛 **Sửa lỗi không xem được báo cáo (Treo spinner vô tận - demo only):**
+  - **Hiện tượng:** Khi truy cập tab Báo cáo, chọn học sinh và khoảng ngày rồi nhấn xem trước, màn hình preview bị treo vĩnh viễn ở trạng thái spinner *"Đang tạo bản xem trước báo cáo..."* không thể tải báo cáo.
+  - **Nguyên nhân:** Trong hàm `previewTutorReport()` (`Gia sư - demo/js/tutor.js`), chuỗi HTML nối biến `endDisplay` (`startDisplay + ' → ' + endDisplay`), tuy nhiên biến `endDisplay` chưa từng được định nghĩa (`ReferenceError: endDisplay is not defined`). Lỗi này ngắt ngang luồng thực thi JS trước khi cập nhật DOM.
+  - **Khắc phục:**
+    1. Khai báo đầy đủ `var endDisplay = endInput && endInput.value ? endInput.value.split('-').reverse().join('/') : "Hiện tại";`.
+    2. Chuẩn hóa bộ chuyển đổi ngày `parseLogDateDmy(str)` xử lý an toàn các định dạng ngày `DD/MM/YYYY` và `DD/MM`.
+    3. Bọc toàn bộ hàm `previewTutorReport()` trong khối `try...catch` hiển thị card thông báo lỗi rõ ràng nếu có lỗi bất ngờ phát sinh thay vì để spinner xoay vô tận.
+
 - 🎨 **Căn chỉnh bố cục Modal Tạo Phiếu Học Phí & Phiếu Live Preview Mẫu 1 khớp 100% hình ảnh thực tế (demo only):**
   - **Bảng màu & Khung Modal chuẩn:** Tone màu kem nhạt `#FAF7F8`, thẻ trắng `#FFFFFF` bo góc mềm mại 20px viền `#EADFE3`, màu nhấn Berry/Wine `#8E284D` sang trọng.
   - **Header Modal:**

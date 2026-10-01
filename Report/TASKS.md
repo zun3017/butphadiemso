@@ -168,15 +168,15 @@
 ---
 
 ### Task 8.2 — Biểu đồ Doanh thu N tháng (Bar Chart)
-- [ ] **Mô tả:** Thêm block **"Doanh thu N tháng"** vào bên phải của Tổng Quan (layout 2 cột: trái = Lịch sắp tới, phải = charts). Hiển thị: tổng doanh thu lớn ở trên (`X.XXX.XXX đ`), bar chart bên dưới theo từng tháng. Có 3 dropdown filter: **Khoảng thời gian** (3 tháng / 6 tháng / 12 tháng), **Loại biểu đồ** (Biểu đồ cột — chỉ cần cột là đủ), **Năm**. Dữ liệu tính từ `logs` của tất cả học sinh trong mock store.
+- [x] **Mô tả:** Thêm block **"Doanh thu N tháng"** vào bên phải của Tổng Quan (layout 2 cột: trái = Lịch sắp tới, phải = charts). Hiển thị: tổng doanh thu lớn ở trên (`X.XXX.XXX đ`), bar chart bên dưới theo từng tháng. Có 3 dropdown filter: **Khoảng thời gian** (3 tháng / 6 tháng / 12 tháng), **Loại biểu đồ** (Biểu đồ cột — chỉ cần cột là đủ), **Năm**. Dữ liệu tính từ `logs` của tất cả học sinh trong mock store.
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js` (cả demo lẫn production)
 - **Thư viện:** Dùng **Chart.js** đã có sẵn (line 1739), không import thêm
 - **Tiêu chí hoàn thành:**
-  - [ ] Bar chart render đúng số tháng theo dropdown (3/6/12 tháng gần nhất)
-  - [ ] Tổng doanh thu hiển thị đúng (tổng toàn kỳ đã chọn)
-  - [ ] Thay đổi dropdown → chart và tổng re-render ngay
-  - [ ] Responsive: trên mobile < 768px, block này nằm dưới Lịch sắp tới (không chia 2 cột)
-  - [ ] Chart dùng màu tím `#8E4DFF` làm màu cột chính, matching theme Gia Sư
+  - [x] Bar chart render đúng số tháng theo dropdown (3/6/12 tháng gần nhất)
+  - [x] Tổng doanh thu hiển thị đúng (tổng toàn kỳ đã chọn)
+  - [x] Thay đổi dropdown → chart và tổng re-render ngay
+  - [x] Responsive: trên mobile < 768px, block này nằm dưới Lịch sắp tới (không chia 2 cột)
+  - [x] Chart dùng màu tím `#8E4DFF` làm màu cột chính, matching theme Gia Sư
 
 ---
 
@@ -215,6 +215,7 @@
 | Phase 5 — Báo cáo | 2 | 2 |
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
-| Phase 8 — Nâng cấp Tổng Quan | 4 | 1 |
-| **Tổng** | **17** | **14** |
+| Phase 8 — Nâng cấp Tổng Quan | 4 | 2 |
+| **Tổng** | **17** | **15** |
+
 

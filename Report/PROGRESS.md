@@ -27,6 +27,10 @@
 
 ## Task vừa hoàn thành
 
+- 🐛 **Sửa lỗi hiển thị mục "Học phí" bị trống (demo only):**
+  - **Nguyên nhân:** Thẻ `<div>` đóng của `#tutorSectionStudents` (line 1122) bị thiếu 1 cấp do container `#invoiceCollapseContainer` và `#tutorStudentDetail` chưa được đóng hết trước đó. Do đó, `#tutorSectionTuition` vô tình bị nằm lồng bên trong `#tutorSectionStudents`. Khi chuyển sang tab "Học phí", mã JS ẩn section Học sinh (`display: none`) đã vô tình ẩn luôn cả section Học phí.
+  - **Khắc phục:** Đóng đầy đủ các thẻ `</div>` cho `#invoiceCollapseContainer`, `#tutorStudentDetail` và `#tutorSectionStudents`. Đồng thời, tối ưu `initTuitionMonthFilter` tự động chọn tháng gần nhất có lịch học (Tháng 9/2026) thay vì chọn tháng hiện tại (Tháng 10/2026) khi chưa có buổi dạy, giúp hiển thị ngay số liệu và danh sách học sinh đầy đủ.
+
 - ✅ **Task 9.4 — Action buttons: Xuất PDF + Copy ảnh + Xuất phiếu (ảnh) (demo only):**
   - **Hủy bỏ:** Kiểm tra trạng thái có thay đổi chưa lưu (`tuitionInvoiceHasUnsavedChanges`), hiển thị hộp thoại xác nhận `confirm("Bỏ các thay đổi chưa lưu?")` trước khi đóng modal nếu có sửa đổi; đóng ngay tức thì nếu chưa có thay đổi nào. Áp dụng đồng bộ cho cả nút "Hủy bỏ", icon đóng "X" ở header và thao tác click ra ngoài vùng nền modal overlay.
   - **Lưu bản nháp:** Lưu toàn bộ trạng thái tùy chỉnh hiện tại vào `localStorage`, reset cờ thay đổi chưa lưu, hiển thị thông báo toast thành công "Đã lưu bản nháp thành công!" mà không làm gián đoạn hay đóng modal.

@@ -304,3 +304,4 @@ Không có blocker nào. Bản Demo sẵn sàng nghiệm thu.
 - ✅ **Header Clean & Hidden:** Loại bỏ nút thừa và ẩn `tutor-header` cũ giải phóng không gian màn hình
 - ✅ **Phase 12 Task 12.1 (Multi-Theme System):** Tạo `css/themes.css` với đầy đủ 28-30 CSS variables cho 36 theme (5 presets + 15 themes x 2 variants). Thiết lập bootstrap script trong `<head>` của `tutor-dashboard.html` và `tutor-calendar.html`.
 - ✅ **Phase 12 Task 12.2 (Multi-Theme System):** Chuẩn hóa toàn bộ màu sắc hardcoded trong `css/style.css` và style/inline block của `tutor-dashboard.html` sang CSS variables. Bảo toàn nghiêm ngặt các màu semantic (đỏ error, xanh success, vàng warning, badge học phí, màu riêng học sinh và invoice card).
+- ✅ **Phase 12 Task 12.3 (Multi-Theme System):** Thay thế toàn bộ màu theme hardcoded trong các template strings và inline styles của `js/tutor.js` sang CSS variables (`var(--bg-card)`, `var(--text-secondary)`, `var(--color-primary)`, `var(--btn-bg)`, v.v.).

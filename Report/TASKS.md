@@ -439,7 +439,7 @@
 - [x] Replace các màu hardcoded theme trong `css/style.css` và style block của `tutor-dashboard.html` thành `var(--variable)`. Giữ nguyên màu semantic (đỏ danger, xanh success, vàng warning, badge học phí, màu riêng học sinh).
 
 ### Task 12.3 — Replace hardcoded colors trong js/tutor.js (inline HTML strings)
-- [ ] Replace các màu theme phổ biến trong template strings của `js/tutor.js` thành `var(--variable)`.
+- [x] Replace các màu theme phổ biến trong template strings của `js/tutor.js` thành `var(--variable)`.
 
 ### Task 12.4 — Calendar theming: tutor-calendar.html <style> + eventDidMount
 - [ ] Áp dụng CSS variables cho FullCalendar components trong `tutor-calendar.html`. Tinh chỉnh `eventDidMount` để chip sự kiện tương thích dark/light theme, thêm helper `hexToRgb` và `darkenColor`.
@@ -458,5 +458,5 @@
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
-| Phase 12 — Multi-Theme System | 7 | 2 |
-| **Tổng** | **34** | **29** |
+| Phase 12 — Multi-Theme System | 7 | 3 |
+| **Tổng** | **34** | **30** |

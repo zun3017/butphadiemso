@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 20/21 tasks hoàn thành (95%)
+**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 21/21 tasks hoàn thành (100%) 🎉
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████▉] 95% (20/21 tasks)
+[██████████] 100% (21/21 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -21,11 +21,18 @@
 | Phase 6 | Polish & Sync | 2/2 ✅ |
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
-| Phase 9 | Nâng cấp Modal Tạo Phiếu | 3/4 🔄 |
+| Phase 9 | Nâng cấp Modal Tạo Phiếu | 4/4 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- ✅ **Task 9.4 — Action buttons: Xuất PDF + Copy ảnh + Xuất phiếu (ảnh) (demo only):**
+  - **Hủy bỏ:** Kiểm tra trạng thái có thay đổi chưa lưu (`tuitionInvoiceHasUnsavedChanges`), hiển thị hộp thoại xác nhận `confirm("Bỏ các thay đổi chưa lưu?")` trước khi đóng modal nếu có sửa đổi; đóng ngay tức thì nếu chưa có thay đổi nào. Áp dụng đồng bộ cho cả nút "Hủy bỏ", icon đóng "X" ở header và thao tác click ra ngoài vùng nền modal overlay.
+  - **Lưu bản nháp:** Lưu toàn bộ trạng thái tùy chỉnh hiện tại vào `localStorage`, reset cờ thay đổi chưa lưu, hiển thị thông báo toast thành công "Đã lưu bản nháp thành công!" mà không làm gián đoạn hay đóng modal.
+  - **Xuất PDF:** Tích hợp bộ quy tắc CSS in ấn `@media print` chuyên biệt, ẩn sạch sẽ toàn bộ sidebar, navbar, header, footer và cột form bên trái, chỉ hiển thị duy nhất thẻ phiếu `#tuitionInvoiceCard` ngay ngắn ở giữa trang giấy với màu sắc chuẩn mực (`print-color-adjust: exact`). Nút có loading state trước khi mở hộp thoại in của trình duyệt (`window.print()`).
+  - **Copy ảnh:** Chụp thẻ phiếu với độ phân giải cao 2x qua `html2canvas`, ghi trực tiếp vào clipboard của hệ điều hành dưới dạng `image/png` thông qua `navigator.clipboard.write([ClipboardItem])` và thông báo toast "Đã copy ảnh!". Nếu trình duyệt hạn chế quyền hoặc không hỗ trợ, tự động fallback hiển thị toast hướng dẫn "Nhấn chuột phải → Lưu ảnh để tải về!".
+  - **Xuất phiếu (ảnh):** Chụp thẻ phiếu preview với scale 2x nền trắng sắc nét và kích hoạt tải về file PNG với định dạng tên chuẩn hóa: `PhieuHocPhi_[TenHocSinh]_[ThangNam].png` (ví dụ: `PhieuHocPhi_Le_Minh_Thu_Thang09_2026.png`). Có hiệu ứng loading spinner và vô hiệu hóa nút trong suốt quá trình xử lý ảnh.
 
 - ✅ **Task 9.3 — Date range + Tiêu đề kỳ học + Draft save/restore (demo only):**
   - Bổ sung section "Thông tin kỳ học & Khoảng ngày" ở cuối cột trái gồm bộ chọn ngày (Từ ngày / Đến ngày) mặc định từ đầu tháng đến cuối tháng.

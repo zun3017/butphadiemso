@@ -255,16 +255,16 @@
 ---
 
 ### Task 9.4 — Action buttons: Xuất PDF + Copy ảnh + Xuất phiếu (ảnh)
-- [ ] **Mô tả:** Implement đầy đủ 5 nút trong footer modal. Nút "Hủy bỏ" đóng modal + hỏi xác nhận nếu có thay đổi chưa lưu. Nút "Xuất PDF" dùng `window.print()` với CSS `@media print` chỉ hiện preview card. Nút "Copy ảnh" dùng `html2canvas` → `navigator.clipboard.write`. Nút "Xuất phiếu (ảnh)" nâng cấp từ `exportTuitionModalInvoice()` hiện có: xuất đúng phần preview card, tên file = `PhieuHocPhi_[TenHocSinh]_[ThangNam].png`.
+- [x] **Mô tả:** Implement đầy đủ 5 nút trong footer modal. Nút "Hủy bỏ" đóng modal + hỏi xác nhận nếu có thay đổi chưa lưu. Nút "Xuất PDF" dùng `window.print()` với CSS `@media print` chỉ hiện preview card. Nút "Copy ảnh" dùng `html2canvas` → `navigator.clipboard.write`. Nút "Xuất phiếu (ảnh)" nâng cấp từ `exportTuitionModalInvoice()` hiện có: xuất đúng phần preview card, tên file = `PhieuHocPhi_[TenHocSinh]_[ThangNam].png`.
 - **File cần sửa:** `js/tutor.js`, `tutor-dashboard.html` *(demo only)*
 - **Tiêu chí hoàn thành:**
-  - [ ] **Hủy bỏ:** Nếu có thay đổi chưa lưu → confirm dialog "Bỏ các thay đổi chưa lưu?"; nếu không → đóng luôn
-  - [ ] **Lưu bản nháp:** Save localStorage + toast success, không đóng modal
-  - [ ] **Xuất PDF:** `window.print()`, CSS print chỉ hiện `#tuitionInvoiceCard`, ẩn toàn bộ form trái và buttons
-  - [ ] **Copy ảnh:** `html2canvas(card, {scale:2})` → `navigator.clipboard.write([ClipboardItem])` → toast "Đã copy ảnh!"
-  - [ ] **Xuất phiếu (ảnh):** `html2canvas(card, {scale:2})` → download PNG, tên file đúng format, loading state trên nút
-  - [ ] Tất cả nút có loading/disabled state khi đang xử lý async
-  - [ ] Fallback: nếu `navigator.clipboard` không hỗ trợ → toast hướng dẫn "Nhấn chuột phải → Lưu ảnh"
+  - [x] **Hủy bỏ:** Nếu có thay đổi chưa lưu → confirm dialog "Bỏ các thay đổi chưa lưu?"; nếu không → đóng luôn
+  - [x] **Lưu bản nháp:** Save localStorage + toast success, không đóng modal
+  - [x] **Xuất PDF:** `window.print()`, CSS print chỉ hiện `#tuitionInvoiceCard`, ẩn toàn bộ form trái và buttons
+  - [x] **Copy ảnh:** `html2canvas(card, {scale:2})` → `navigator.clipboard.write([ClipboardItem])` → toast "Đã copy ảnh!"
+  - [x] **Xuất phiếu (ảnh):** `html2canvas(card, {scale:2})` → download PNG, tên file đúng format, loading state trên nút
+  - [x] Tất cả nút có loading/disabled state khi đang xử lý async
+  - [x] Fallback: nếu `navigator.clipboard` không hỗ trợ → toast hướng dẫn "Nhấn chuột phải → Lưu ảnh"
 
 ---
 
@@ -280,8 +280,8 @@
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
-| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 3 |
-| **Tổng** | **21** | **20** |
+| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 4 |
+| **Tổng** | **21** | **21** |
 
 
 

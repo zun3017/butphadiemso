@@ -195,12 +195,12 @@
 ---
 
 ### Task 8.4 — Nút "Xem toàn bộ lịch dạy" trong block Lịch sắp tới
-- [ ] **Mô tả:** Thêm nút **"Xem toàn bộ lịch dạy"** ở góc trên phải của block Lịch dạy sắp tới, link sang `tutor-calendar.html`. Đây là tính năng nhỏ, đơn giản.
+- [x] **Mô tả:** Thêm nút **"Xem toàn bộ lịch dạy"** ở góc trên phải của block Lịch dạy sắp tới, link sang `tutor-calendar.html`. Đây là tính năng nhỏ, đơn giản.
 - **File cần sửa:** `tutor-dashboard.html` (cả demo lẫn production)
 - **Tiêu chí hoàn thành:**
-  - [ ] Nút hiển thị đúng vị trí (góc phải header của block Lịch sắp tới)
-  - [ ] Click → mở `tutor-calendar.html` (same tab hoặc new tab đều được)
-  - [ ] Style đồng bộ với theme tím `#8E4DFF`
+  - [x] Nút hiển thị đúng vị trí (góc phải header của block Lịch sắp tới)
+  - [x] Click → mở `tutor-calendar.html` (same tab hoặc new tab đều được)
+  - [x] Style đồng bộ với theme tím `#8E4DFF`
 
 ---
 
@@ -215,7 +215,7 @@
 | Phase 5 — Báo cáo | 2 | 2 |
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
-| Phase 8 — Nâng cấp Tổng Quan | 4 | 3 |
-| **Tổng** | **17** | **16** |
+| Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
+| **Tổng** | **17** | **17** |
 
 

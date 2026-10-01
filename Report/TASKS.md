@@ -19,12 +19,12 @@
 ---
 
 ### Task 1.2 — Tổng quan: 4 KPI Cards
-- [ ] **Mô tả:** Khi click "Tổng quan" trong sidebar, hiển thị section với 4 KPI cards: (1) Số học sinh đang dạy, (2) Tổng buổi đã dạy tháng này, (3) Tổng giờ tích lũy tháng này, (4) Học phí tháng này (tổng tất cả học sinh). Dữ liệu tính từ mock store.
+- [x] **Mô tả:** Khi click "Tổng quan" trong sidebar, hiển thị section với 4 KPI cards: (1) Số học sinh đang dạy, (2) Tổng buổi đã dạy tháng này, (3) Tổng giờ tích lũy tháng này, (4) Học phí tháng này (tổng tất cả học sinh). Dữ liệu tính từ mock store.
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] 4 cards hiển thị đúng giá trị tính từ mock data
-  - [ ] Responsive: 2 cột trên mobile, 4 cột trên desktop
-  - [ ] Cards có icon (Font Awesome), số lớn nổi bật, label nhỏ phía dưới
+  - [x] 4 cards hiển thị đúng giá trị tính từ mock data
+  - [x] Responsive: 2 cột trên mobile, 4 cột trên desktop
+  - [x] Cards có icon (Font Awesome), số lớn nổi bật, label nhỏ phía dưới
 
 ---
 
@@ -115,10 +115,10 @@
 
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
-| Phase 1 — Layout + Tổng quan | 3 | 1 |
+| Phase 1 — Layout + Tổng quan | 3 | 2 |
 | Phase 2 — Nhật ký | 1 | 0 |
 | Phase 3 — Học sinh | 1 | 0 |
 | Phase 4 — Học phí | 1 | 0 |
 | Phase 5 — Báo cáo | 2 | 0 |
 | Phase 6 — Polish | 2 | 0 |
-| **Tổng** | **10** | **1** |
+| **Tổng** | **10** | **2** |

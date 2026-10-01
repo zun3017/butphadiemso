@@ -204,6 +204,70 @@
 
 ---
 
+## PHASE 9 — Nâng cấp Modal "Tạo Phiếu Học Phí" (Demo only)
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/`). Không được sửa production (`Gia sư/`).  
+> Phiếu hiển thị trực tiếp (right panel) **giữ nguyên giao diện Gia Sư hiện tại** (dark/tím), không copy style hồng từ Lớp Học.  
+> Hàm hiện có cần nâng cấp: `openStudentInvoiceModal()`, `exportTuitionModalInvoice()` trong `js/tutor.js`.  
+> Modal HTML hiện có cần nâng cấp: `#tutorTuitionInvoiceModal` trong `tutor-dashboard.html`.
+
+---
+
+### Task 9.1 — Khung modal 2 cột + Header + Chọn mẫu
+- [x] **Mô tả:** Nâng cấp `#tutorTuitionInvoiceModal` từ modal đơn giản thành modal **2 cột rộng** (min-width 900px trên desktop). Layout: **Header** (Tạo Phiếu Học Phí + tên học sinh + STK) | **Cột trái** (form, ~45%) | **Cột phải** (live preview, ~55%) | **Footer** (action buttons). Góc trên phải header: pills "Mẫu 1" / "Mẫu 2" + nút X đóng.
+- **File cần sửa:** `tutor-dashboard.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [x] Modal rộng, 2 cột, không bị tràn màn hình (max-height 90vh, overflow-y: auto riêng từng cột)
+  - [x] Header hiển thị: icon 🎓 + "Tạo Phiếu Học Phí" + tên học sinh + số TK (lấy từ tutorDataGlobal)
+  - [x] Pills "Mẫu 1" / "Mẫu 2" active/inactive toggle, mặc định Mẫu 1
+  - [x] Cột trái: placeholder "Đang tải form..." (nội dung điền ở Task 9.2 và 9.3)
+  - [x] Cột phải: placeholder preview (nội dung điền ở 9.2)
+  - [x] Footer: 5 nút (Hủy bỏ | Lưu bản nháp | Xuất PDF | Copy ảnh | Xuất phiếu ảnh) — style matching theme tím
+  - [x] Mobile < 768px: 2 cột stack thành 1 cột dọc (form trên, preview dưới)
+
+---
+
+### Task 9.2 — Toggle switches 9 trường + Live Preview real-time
+- [ ] **Mô tả:** Điền nội dung cột trái: 9 toggle switches, mỗi toggle có label + giá trị hiện tại bên dưới. Khi toggle bật/tắt → live preview bên phải cập nhật ngay lập tức (không reload modal). Hai trường **Giảm học phí** và **Phụ thu** có thêm ô nhập số (mặc định 0đ), thay đổi số → tổng tiền tự tính lại. Mẫu 1 và Mẫu 2 render khác nhau (Mẫu 1: full, Mẫu 2: chỉ tên + tổng + QR).
+- **File cần sửa:** `js/tutor.js`, `tutor-dashboard.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [ ] 9 toggle switches: Học sinh / Lớp & Môn / Học phí áp dụng / Số buổi học / Số giờ tích lũy / Ngày học / Giảm học phí / Phụ thu / Ảnh QR
+  - [ ] Mỗi toggle: label + giá trị hiện tại (vd: "Học phí áp dụng — 200.000đ")
+  - [ ] Toggle off → field tương ứng ẩn khỏi preview ngay lập tức
+  - [ ] Giảm học phí & Phụ thu: input số → tổng tiền = (số buổi × đơn giá) − giảm + phụ thu, cập nhật preview
+  - [ ] Mẫu 2: chỉ hiển thị: tiêu đề + tên học sinh + tổng tiền lớn + QR + thông tin ngân hàng
+  - [ ] Live preview giữ đúng style Gia Sư hiện tại (white card trên dark background, màu tím)
+
+---
+
+### Task 9.3 — Date range + Tiêu đề kỳ học + Draft save/restore
+- [ ] **Mô tả:** Thêm section "Thông tin kỳ học" ở cuối cột trái gồm: **Từ ngày** / **Đến ngày** (native date input, mặc định = ngày đầu và cuối tháng hiện tại) + **Tiêu đề kỳ học** (text input, auto-generate "HỌC PHÍ THÁNG X/YYYY", có thể sửa tay). Khi đổi date range → live preview chỉ tính các buổi học trong khoảng đó + tiêu đề tự cập nhật. **Draft auto-save:** mỗi khi user thay đổi bất kỳ toggle/input → lưu state vào `localStorage` key `tuitionDraft_[studentName]`. Khi mở modal: nếu có draft → restore và hiện thông báo xanh lá "Đã khôi phục bản nháp lần trước".
+- **File cần sửa:** `js/tutor.js` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [ ] Date range picker: Từ ngày / Đến ngày, default = đầu tháng → cuối tháng hiện tại
+  - [ ] Đổi date range → preview chỉ count buổi học trong khoảng đó, tổng tiền tính lại
+  - [ ] Tiêu đề kỳ học: auto "HỌC PHÍ THÁNG M/YYYY" nếu cùng tháng, "HỌC PHÍ DD/MM – DD/MM" nếu khác tháng
+  - [ ] Tiêu đề sửa tay được, thay đổi → cập nhật preview
+  - [ ] Auto-save state (toggles + discount + extra + dates + title + mẫu) mỗi khi thay đổi
+  - [ ] Khi mở modal: có draft → restore state + hiện banner "Đã khôi phục bản nháp lần trước" màu xanh lá
+  - [ ] Nút "Lưu bản nháp" trong footer: save + toast "Đã lưu bản nháp!"
+
+---
+
+### Task 9.4 — Action buttons: Xuất PDF + Copy ảnh + Xuất phiếu (ảnh)
+- [ ] **Mô tả:** Implement đầy đủ 5 nút trong footer modal. Nút "Hủy bỏ" đóng modal + hỏi xác nhận nếu có thay đổi chưa lưu. Nút "Xuất PDF" dùng `window.print()` với CSS `@media print` chỉ hiện preview card. Nút "Copy ảnh" dùng `html2canvas` → `navigator.clipboard.write`. Nút "Xuất phiếu (ảnh)" nâng cấp từ `exportTuitionModalInvoice()` hiện có: xuất đúng phần preview card, tên file = `PhieuHocPhi_[TenHocSinh]_[ThangNam].png`.
+- **File cần sửa:** `js/tutor.js`, `tutor-dashboard.html` *(demo only)*
+- **Tiêu chí hoàn thành:**
+  - [ ] **Hủy bỏ:** Nếu có thay đổi chưa lưu → confirm dialog "Bỏ các thay đổi chưa lưu?"; nếu không → đóng luôn
+  - [ ] **Lưu bản nháp:** Save localStorage + toast success, không đóng modal
+  - [ ] **Xuất PDF:** `window.print()`, CSS print chỉ hiện `#tuitionInvoiceCard`, ẩn toàn bộ form trái và buttons
+  - [ ] **Copy ảnh:** `html2canvas(card, {scale:2})` → `navigator.clipboard.write([ClipboardItem])` → toast "Đã copy ảnh!"
+  - [ ] **Xuất phiếu (ảnh):** `html2canvas(card, {scale:2})` → download PNG, tên file đúng format, loading state trên nút
+  - [ ] Tất cả nút có loading/disabled state khi đang xử lý async
+  - [ ] Fallback: nếu `navigator.clipboard` không hỗ trợ → toast hướng dẫn "Nhấn chuột phải → Lưu ảnh"
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
@@ -216,6 +280,8 @@
 | Phase 6 — Polish & Sync | 2 | 2 |
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
-| **Tổng** | **17** | **17** |
+| Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 1 |
+| **Tổng** | **21** | **18** |
+
 
 

@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 8 (Nâng cấp Tổng Quan theo chuẩn UI Lớp Học) — 17/17 tasks hoàn thành (100% 🎉)
+**Giai đoạn:** Phase 9 (Nâng cấp Modal "Tạo Phiếu Học Phí" Demo) — 18/21 tasks hoàn thành (86%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100% (17/17 tasks)
+[████████░░] 86% (18/21 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -21,10 +21,20 @@
 | Phase 6 | Polish & Sync | 2/2 ✅ |
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
+| Phase 9 | Nâng cấp Modal Tạo Phiếu | 1/4 🔄 |
 
 ---
 
 ## Task vừa hoàn thành
+
+- ✅ **Task 9.1 — Khung modal 2 cột + Header + Chọn mẫu (demo only):**
+  - Nâng cấp `#tutorTuitionInvoiceModal` thành modal 2 cột rộng chuẩn (`width: 95%`, `max-width: 1050px`), cuộn độc lập từng cột (`overflow-y: auto`, `max-height: calc(90vh - 145px)`), không tràn màn hình.
+  - Header nổi bật với icon 🎓, tiêu đề "Tạo Phiếu Học Phí", tag học sinh, tên học sinh và thông tin tài khoản ngân hàng / STK.
+  - Bộ nút chuyển mẫu dạng pills "Mẫu 1" / "Mẫu 2" active toggle, mặc định Mẫu 1 (style theme tím `#8E4DFF`).
+  - Cột trái: placeholder form loading sẵn sàng cho Task 9.2 và Task 9.3.
+  - Cột phải: khung live preview cân đối (~55%).
+  - Footer: 5 nút thao tác đầy đủ (Hủy bỏ, Lưu bản nháp, Xuất PDF, Copy ảnh, Xuất phiếu ảnh) style tím sang trọng.
+  - Responsive: trên mobile < 768px, layout tự động chuyển sang dạng 1 cột dọc (form trên, preview dưới).
 
 - 🎯 **Loại bỏ tùy chọn "Tất cả học sinh" trong Báo cáo & Nhật ký buổi học (theo yêu cầu người dùng):**
   - Đã loại bỏ hoàn toàn tùy chọn `"all"` ("Tất cả học sinh") khỏi bộ lọc dropdown tại tab **Báo cáo** (`#reportStudentSelect`) và tab **Nhật ký buổi học** (`#diaryStudentFilter`).

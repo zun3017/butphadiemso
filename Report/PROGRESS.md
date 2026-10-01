@@ -95,6 +95,10 @@
     - Header: Icon `fa-regular fa-comment-dots` màu tím + chữ `Lời nhắn gửi phụ huynh`.
     - Body: Nội dung lời nhắn động theo số tiền, số buổi và tên học sinh (có thể chỉnh sửa trực tiếp qua `contenteditable="true"`).
     - Footer: Câu chúc *Đồng hành cùng sự tiến bộ của học sinh!* màu xám nghiêng tinh tế.
+  - **Hỗ trợ chuyển đổi trạng thái nút Lưu bản nháp (Toggle Draft Icon):**
+    - Khi nhấn "Lưu bản nháp": huy hiệu bookmark bị tô đặc (`fa-solid fa-bookmark`, màu tím `#7C3AED`), nút chuyển sang trạng thái active `Đã lưu nháp` (`.btn-draft-saved`), dữ liệu lưu vào `localStorage`, toast thông báo thành công.
+    - Khi nhấn một lần nữa: hủy lưu bản nháp, huy hiệu trở lại viền không tô (`fa-regular fa-bookmark`), nút trở lại `Lưu bản nháp`, xóa bản nháp khỏi `localStorage`, toast thông báo đã hủy lưu.
+    - Khi mở modal của học sinh: tự động kiểm tra `localStorage`, nếu học sinh đã có bản nháp thì nút tự động hiển thị ở trạng thái đã tô và khôi phục dữ liệu nháp.
   - Tự động đồng bộ tiêu đề kỳ học tương ứng theo mẫu khi chuyển đổi tab Mẫu 1 / Mẫu 2 nếu chưa nhập tiêu đề tùy chỉnh.
   - Bật/tắt bất kỳ toggle nào sẽ ẩn/hiện tức thì trường thông tin tương ứng trên live preview.
   - Đảm bảo đúng chuẩn giao diện dark/tím của Gia Sư, card phiếu nền trắng tương phản cao chuẩn mực.

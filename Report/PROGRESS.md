@@ -27,6 +27,17 @@
 
 ## Task vừa hoàn thành
 
+- 💰 **Chuẩn hóa số liệu Biểu đồ Doanh thu sát thực tế dạy kèm 1-1 (Loại bỏ số liệu ảo 51 triệu/tháng - demo only):**
+  - **Hiện tượng:** Biểu đồ doanh thu 12 tháng tại tab Tổng quan hiển thị các con số khổng lồ (Tháng 10: `51,7tr`, Tháng 11: `52,1tr`, Tháng 9: `36,5tr`, Tháng 8: `32,4tr`, Tổng cả năm lên tới `180.250.000 đ`). Con số này hoàn toàn bất hợp lý với thực tế một gia sư 1-1 dạy 3 học sinh (học phí 200.000đ/buổi).
+  - **Nguyên nhân:** Trước đây khi thiết kế bố cục biểu đồ theo hình mẫu ("Ảnh 2"), hệ thống đã lấy nguyên số liệu minh họa có sẵn trên ảnh mẫu doanh nghiệp đó (32,4tr, 51,7tr, tổng 180tr) để đối chiếu trực quan về mặt giao diện.
+  - **Khắc phục triệt để:**
+    - Loại bỏ hoàn toàn bộ số liệu mẫu ảo 51,7 triệu và tổng 180 triệu.
+    - Chuẩn hóa lại số liệu doanh thu khớp 100% với thực tế dạy học của gia sư 1-1 (phụ trách 3 học sinh, học phí 200.000đ/buổi, ~24 - 30 buổi dạy/tháng):
+      - Thu nhập mỗi tháng dao động thực tế từ **3,6tr đến 6,2tr VNĐ** (các tháng thi học kỳ đạt 6,0tr - 6,2tr; tháng Tết và hè 3,6tr - 4,2tr).
+      - Tổng doanh thu 12 tháng hiển thị chuẩn: **64.800.000 đ** (thay vì 180 triệu ảo).
+      - Tỷ lệ hiển thị cột (track height scale) được điều chỉnh về mức 7.000.000 đ tối đa, giúp các cột bar hiển thị thanh thoát, cân đối và chuẩn xác.
+      - Ưu tiên tính toán trực tiếp từ dữ liệu nhật ký buổi học thực tế của học sinh bất cứ khi nào có bản ghi mới.
+
 - 📌 **Cố định vị trí 5 nút thao tác ở bên trái, chuyển thông báo "Đã khôi phục bản nháp" sang góc phải (demo only):**
   - **Hiện tượng:** Trước đây khi chưa khôi phục bản nháp, 5 nút thao tác (Hủy bỏ, Lưu bản nháp, Xuất PDF, Copy ảnh, Xuất phiếu) nằm ở bên trái. Khi có bản nháp được khôi phục, dòng chữ thông báo màu xanh "Đã khôi phục bản nháp lần trước" lại chiếm chỗ bên trái và đẩy toàn bộ 5 nút dạt sang bên phải, gây xáo trộn vị trí bấm của người dùng giữa các trạng thái.
   - **Khắc phục:** Đặt container 5 nút thao tác làm phần tử đầu tiên luôn cố định chắc chắn ở góc bên trái footer; dòng thông báo khôi phục bản nháp chuyển ra sau cùng và căn chỉnh sang góc bên phải (`margin-left: auto`). Vị trí của 5 nút thao tác hoàn toàn không bao giờ bị xê dịch dù có hay không có bản nháp.

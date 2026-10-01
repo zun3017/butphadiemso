@@ -41,13 +41,13 @@
 ## PHASE 2 — Nhật ký buổi học
 
 ### Task 2.1 — Section Nhật ký buổi học
-- [ ] **Mô tả:** Khi click "Nhật ký buổi học" trong sidebar, hiển thị section có: dropdown chọn học sinh (hoặc "Tất cả"), filter theo tháng, bảng/list lịch sử buổi học. Mỗi row: Ngày (Thứ X, DD/MM), Giờ, Môn, Nội dung bài học, Nhận xét gia sư (expandable), Badge BTVN. Có nút "Sửa nhận xét" inline.
+- [x] **Mô tả:** Khi click "Nhật ký buổi học" trong sidebar, hiển thị section có: dropdown chọn học sinh (hoặc "Tất cả"), filter theo tháng, bảng/list lịch sử buổi học. Mỗi row: Ngày (Thứ X, DD/MM), Giờ, Môn, Nội dung bài học, Nhận xét gia sư (expandable), Badge BTVN. Có nút "Sửa nhận xét" inline.
 - **File cần sửa:** `tutor-dashboard.html`, `js/tutor.js`
 - **Tiêu chí hoàn thành:**
-  - [ ] Hiển thị đúng lịch sử từ mock data cho học sinh đang chọn
-  - [ ] Filter theo tháng hoạt động đúng
-  - [ ] Nhận xét dài → truncate + nút "Xem thêm"
-  - [ ] Nút "Sửa nhận xét" mở inline edit (không cần modal riêng)
+  - [x] Hiển thị đúng lịch sử từ mock data cho học sinh đang chọn
+  - [x] Filter theo tháng hoạt động đúng
+  - [x] Nhận xét dài → truncate + nút "Xem thêm"
+  - [x] Nút "Sửa nhận xét" mở inline edit (không cần modal riêng)
 
 ---
 
@@ -116,9 +116,9 @@
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
 | Phase 1 — Layout + Tổng quan | 3 | 3 |
-| Phase 2 — Nhật ký | 1 | 0 |
+| Phase 2 — Nhật ký | 1 | 1 |
 | Phase 3 — Học sinh | 1 | 0 |
 | Phase 4 — Học phí | 1 | 0 |
 | Phase 5 — Báo cáo | 2 | 0 |
 | Phase 6 — Polish | 2 | 0 |
-| **Tổng** | **10** | **3** |
+| **Tổng** | **10** | **4** |

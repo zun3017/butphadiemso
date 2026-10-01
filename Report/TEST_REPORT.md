@@ -37,3 +37,16 @@
 - **Detected Issues:** None
 - **Severity:** None
 - **Status:** PASS
+
+## [v2.0] - Task 2.1: Section Nhật ký buổi học
+- **Timestamp:** 2026-10-01 11:43:00
+- **Scope:** Section Nhật ký buổi học, Dropdown chọn học sinh/Tất cả, Dropdown lọc tháng, Truncate nhận xét dài kèm toggle Xem thêm, Inline edit nhận xét lưu trực tiếp vào store (không cần modal riêng)
+- **Verification Method:**
+  - Student filter verification (`all` vs specific student): PASS (10 sessions total, 4 sessions for Nam)
+  - Month filter verification: PASS (dynamic month extraction from logs)
+  - Long comment truncation test: PASS (> 60 chars truncated with Xem thêm / Thu gọn toggle)
+  - Inline comment edit test: PASS (textarea inline, save button writes to store, toast feedback)
+  - Automated syntax check (`node -c js/tutor.js`): PASS
+- **Detected Issues:** None
+- **Severity:** None
+- **Status:** PASS

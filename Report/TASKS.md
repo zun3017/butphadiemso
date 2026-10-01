@@ -442,7 +442,7 @@
 - [x] Replace các màu theme phổ biến trong template strings của `js/tutor.js` thành `var(--variable)`.
 
 ### Task 12.4 — Calendar theming: tutor-calendar.html <style> + eventDidMount
-- [ ] Áp dụng CSS variables cho FullCalendar components trong `tutor-calendar.html`. Tinh chỉnh `eventDidMount` để chip sự kiện tương thích dark/light theme, thêm helper `hexToRgb` và `darkenColor`.
+- [x] Áp dụng CSS variables cho FullCalendar components trong `tutor-calendar.html`. Tinh chỉnh `eventDidMount` để chip sự kiện tương thích dark/light theme, thêm helper `hexToRgb` và `darkenColor`.
 
 ### Task 12.5 — Theme Switcher UI (đầy đủ 36 theme như thiết kế)
 - [ ] Thêm nút mở theme switcher ở sidebar `tutor-dashboard.html` và header `tutor-calendar.html`. Xây dựng Modal panel switcher gồm: Nhóm A (5 presets), Nhóm B (15 themes × 2 variants = 30 thẻ grid scrollable), Nhóm C (custom color picker), nhãn theme hiện tại. Thêm logic `applyTheme()`.
@@ -458,5 +458,5 @@
 | Phase | Tasks | Hoàn thành |
 |---|---|---|
 | Phase 1–11 | 27 | 27 |
-| Phase 12 — Multi-Theme System | 7 | 3 |
-| **Tổng** | **34** | **30** |
+| Phase 12 — Multi-Theme System | 7 | 4 |
+| **Tổng** | **34** | **31** |

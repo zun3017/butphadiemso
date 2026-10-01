@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 7 (Bug Fix sau Review) — 11/17 tasks hoàn thành (65%)
+**Giai đoạn:** Phase 7 (Bug Fix sau Review) — 12/17 tasks hoàn thành (71%)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████░░░░] 65% (11/17 tasks)
+[███████░░░] 71% (12/17 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -19,18 +19,18 @@
 | Phase 4 | Học phí | 1/1 ✅ |
 | Phase 5 | Báo cáo (Xuất ảnh) | 2/2 ✅ |
 | Phase 6 | Polish & Sync | 2/2 ✅ |
-| Phase 7 | Bug Fix sau Review | 1/3 ⏳ |
+| Phase 7 | Bug Fix sau Review | 2/3 ⏳ |
 | Phase 8 | Nâng cấp Tổng Quan | 0/4 ⏳ |
 
 ---
 
 ## Task vừa hoàn thành
 
-- ✅ **Task 7.1:** Xóa nút Tài khoản & Đăng xuất thừa trong `div.tutor-header` cũ (giữ lại bộ nút chuẩn trong sidebar footer, áp dụng cả demo và production)
+- ✅ **Task 7.2:** Ẩn hoàn toàn `div.tutor-header` cũ trên desktop và mobile (gọn gàng, tránh chiếm chỗ và trùng lặp thông tin với sidebar, áp dụng cả demo và production)
 
 ## Task tiếp theo
 
-→ **Task 7.2:** Ẩn hoặc làm gọn `tutor-header` cũ trên desktop (≥ 768px)
+→ **Task 7.3:** Sidebar Collapsible (Nút toggle thu gọn 60px / mở rộng 240px + nhớ localStorage)
 
 ## Blockers
 
@@ -50,6 +50,7 @@ Không có blocker nào.
 - ✅ **Báo cáo chuyên nghiệp:** Lọc theo ngày & học sinh, card xem trước chuẩn mực, xuất ảnh PNG 2x
 - ✅ **Responsive & Polish:** Chuẩn hóa hiển thị cả trên mobile (375px) và desktop (1280px)
 - ✅ **Đồng bộ Production:** Hoàn tất đồng bộ code sang `Gia sư/`, hỗ trợ Supabase API backend
-- ✅ **Header Clean:** Loại bỏ nút thừa Tài khoản / Đăng xuất trong `tutor-header`
+- ✅ **Header Clean & Hidden:** Loại bỏ nút thừa và ẩn `tutor-header` cũ giải phóng không gian màn hình
+
 
 

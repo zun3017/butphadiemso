@@ -126,12 +126,12 @@
 ---
 
 ### Task 7.2 — Ẩn hoặc làm gọn `tutor-header` cũ
-- [ ] **Mô tả:** Sau Task 7.1, `div.tutor-header` chỉ còn lại dòng chữ "Xin chào, Gia sư" + "Tổng quan hệ thống giảng dạy". Phần này bị trùng lặp với thông tin gia sư đã hiển thị trong sidebar brand. Giải pháp: ẩn hoàn toàn `div.tutor-header` trên desktop (≥ 768px) vì sidebar đã đảm nhận vai trò đó; trên mobile có thể giữ lại như page title nhỏ nếu cần, hoặc ẩn luôn.
+- [x] **Mô tả:** Sau Task 7.1, `div.tutor-header` chỉ còn lại dòng chữ "Xin chào, Gia sư" + "Tổng quan hệ thống giảng dạy". Phần này bị trùng lặp với thông tin gia sư đã hiển thị trong sidebar brand. Giải pháp: ẩn hoàn toàn `div.tutor-header` trên desktop (≥ 768px) vì sidebar đã đảm nhận vai trò đó; trên mobile có thể giữ lại như page title nhỏ nếu cần, hoặc ẩn luôn.
 - **File cần sửa:** `tutor-dashboard.html` và/hoặc `css/style.css` (cả demo lẫn production)
 - **Tiêu chí hoàn thành:**
-  - [ ] Desktop: `div.tutor-header` không hiển thị (hoặc ẩn bằng CSS `display: none` khi có class `.tutor-app-layout`)
-  - [ ] Mobile: kiểm tra xem có cần giữ lại tiêu đề trang không — nếu bottom nav đã rõ ràng thì ẩn luôn
-  - [ ] Không ảnh hưởng đến bất kỳ section nào bên dưới
+  - [x] Desktop: `div.tutor-header` không hiển thị (hoặc ẩn bằng CSS `display: none` khi có class `.tutor-app-layout`)
+  - [x] Mobile: kiểm tra xem có cần giữ lại tiêu đề trang không — nếu bottom nav đã rõ ràng thì ẩn luôn
+  - [x] Không ảnh hưởng đến bất kỳ section nào bên dưới
 
 ---
 
@@ -213,7 +213,7 @@
 | Phase 4 — Học phí | 1 | 1 |
 | Phase 5 — Báo cáo | 2 | 2 |
 | Phase 6 — Polish & Sync | 2 | 2 |
-| Phase 7 — Bug Fix sau Review | 3 | 1 |
+| Phase 7 — Bug Fix sau Review | 3 | 2 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 0 |
-| **Tổng** | **17** | **11** |
+| **Tổng** | **17** | **12** |
 

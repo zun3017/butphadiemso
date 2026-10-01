@@ -104,6 +104,10 @@
     - Sử dụng `html2canvas` chụp chuẩn nét 2x card phiếu học tập `#tuitionInvoiceCard`, tự động đóng gói thành file tài liệu PDF chuẩn A4 (595.28 x 841.89 pt) căn giữa thẩm mỹ.
     - Đặt tên file tự động theo học sinh và kỳ học: `PhieuHocPhi_[TênHọcSinh]_[KỳHọc].pdf`.
     - Tự động kích hoạt tải xuống ngay lập tức trên trình duyệt mà không cần cài thêm thư viện ngoài.
+  - **Chuyển đổi toàn bộ hộp thoại thông báo/xác nhận sang In-App Web Dialog (Loại bỏ popup trình duyệt):**
+    - Thay thế hoàn toàn popup xác nhận mặc định của trình duyệt (`confirm("Bỏ các thay đổi chưa lưu?")`) bằng modal xác nhận riêng của web (`#customConfirmModal`).
+    - Giao diện modal web đồng bộ: Icon dấu hỏi vàng `fa-circle-question`, tiêu đề *Xác nhận yêu cầu*, nội dung câu hỏi rõ ràng, 2 nút bấm *Hủy* (tiếp tục chỉnh sửa) và *Đồng ý* (hủy bỏ thay đổi và đóng phiếu).
+    - Hỗ trợ đóng hộp thoại xác nhận khi nhấp ra vùng tối bên ngoài (backdrop dismiss).
   - Tự động đồng bộ tiêu đề kỳ học tương ứng theo mẫu khi chuyển đổi tab Mẫu 1 / Mẫu 2 nếu chưa nhập tiêu đề tùy chỉnh.
   - Bật/tắt bất kỳ toggle nào sẽ ẩn/hiện tức thì trường thông tin tương ứng trên live preview.
   - Đảm bảo đúng chuẩn giao diện dark/tím của Gia Sư, card phiếu nền trắng tương phản cao chuẩn mực.

@@ -344,14 +344,14 @@
 ---
 
 ### Task 10.4 — Bottom legend theo học sinh + Status bar
-- [ ] **Mô tả:** Thêm thanh phía dưới lịch gồm 2 phần: **(1) Legend màu học sinh** — danh sách chấm tròn màu + tên học sinh (đồng bộ với màu event trên lịch). **(2) Status bar** bên phải — "N buổi trong tháng · X học sinh". Cả hai phần chỉ hiện trong **Month view**; trong Week/Day view ẩn đi (không cần vì đã có sheet panel).
+- [x] **Mô tả:** Thêm thanh phía dưới lịch gồm 2 phần: **(1) Legend màu học sinh** — danh sách chấm tròn màu + tên học sinh (đồng bộ với màu event trên lịch). **(2) Status bar** bên phải — "N buổi trong tháng · X học sinh". Cả hai phần chỉ hiện trong **Month view**; trong Week/Day view ẩn đi (không cần vì đã có sheet panel).
 - **File cần sửa:** `tutor-calendar.html` *(demo only)*
 - **Tiêu chí hoàn thành:**
-  - [ ] Legend: mỗi học sinh = 1 dot màu + tên, layout hàng ngang, có thể scroll nếu nhiều học sinh
-  - [ ] Dot màu đồng bộ chính xác với màu event của học sinh đó trên lịch
-  - [ ] Status bar: tính đúng số buổi trong tháng đang xem + số học sinh
-  - [ ] Chỉ hiện khi `currentView === 'dayGridMonth'`, ẩn khi Week/Day
-  - [ ] Không che khuất ô lịch cuối tháng (sticky bottom với padding hợp lý)
+  - [x] Legend: mỗi học sinh = 1 dot màu + tên, layout hàng ngang, có thể scroll nếu nhiều học sinh
+  - [x] Dot màu đồng bộ chính xác với màu event của học sinh đó trên lịch
+  - [x] Status bar: tính đúng số buổi trong tháng đang xem + số học sinh
+  - [x] Chỉ hiện khi `currentView === 'dayGridMonth'`, ẩn khi Week/Day
+  - [x] Không che khuất ô lịch cuối tháng (sticky bottom với padding hợp lý)
 
 ---
 
@@ -368,8 +368,8 @@
 | Phase 7 — Bug Fix sau Review | 3 | 3 |
 | Phase 8 — Nâng cấp Tổng Quan | 4 | 4 |
 | Phase 9 — Nâng cấp Modal Tạo Phiếu | 4 | 4 |
-| Phase 10 — Nâng cấp Lịch dạy | 5 | 4 |
-| **Tổng** | **26** | **25** |
+| Phase 10 — Nâng cấp Lịch dạy | 5 | 5 |
+| **Tổng** | **26** | **26** |
 
 
 

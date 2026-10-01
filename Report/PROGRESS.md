@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 10 (Nâng cấp Lịch dạy tutor-calendar.html Demo) — 25/26 tasks hoàn thành (96%) 🚀
+**Giai đoạn:** Phase 10 (Nâng cấp Lịch dạy tutor-calendar.html Demo) — 26/26 tasks hoàn thành (100%) 🎉 TOÀN BỘ DỰ ÁN HOÀN TẤT!
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[█████████▉] 96% (25/26 tasks)
+[██████████] 100% (26/26 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -22,11 +22,19 @@
 | Phase 7 | Bug Fix sau Review | 3/3 ✅ |
 | Phase 8 | Nâng cấp Tổng Quan | 4/4 ✅ |
 | Phase 9 | Nâng cấp Modal Tạo Phiếu | 4/4 ✅ |
-| Phase 10 | Nâng cấp Lịch dạy | 4/5 🔄 |
+| Phase 10 | Nâng cấp Lịch dạy | 5/5 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 📊 **Task 10.4 — Bottom legend theo học sinh + Status bar (`tutor-calendar.html` - demo only):**
+  - **Mục tiêu:** Thêm thanh công cụ phía dưới lịch gồm Legend màu học sinh và Thanh trạng thái (Status bar) thống kê tổng số buổi dạy trong tháng và số học sinh:
+    - **Legend màu học sinh (bên trái):** Danh sách trực quan từng học sinh với chấm tròn màu đồng bộ chính xác với màu ca học của học sinh đó trên lịch (`row.color`), kèm tên học sinh. Hỗ trợ cuộn ngang mượt mà khi có nhiều học sinh.
+    - **Thanh trạng thái (bên phải):** Thống kê chuẩn xác định dạng `"N buổi trong tháng · X học sinh"`, tự động cập nhật thời gian thực dựa trên các ca học thuộc tháng đang xem, tự động đồng bộ khi chuyển tháng hoặc bật/tắt bộ lọc "Ẩn đã hủy".
+    - **Chỉ hiển thị ở Month view:** Tự động hiển thị khi ở chế độ xem Tháng (`dayGridMonth`), tự động ẩn khi chuyển sang Tuần (`timeGridWeek`) và Ngày (`timeGridDay`).
+    - **Bố cục & Không gian:** Thanh bottom dạng `flex-shrink: 0` trên layout flexbox cột của body, kết hợp hàm `calendar.updateSize()` giúp lịch luôn vừa khít màn hình, không bao giờ che khuất hay đè lên hàng ngày cuối tháng.
+    - **Kiểm thử cú pháp:** JS syntax đạt 100% hợp lệ, hoạt động ổn định và mượt mà.
 
 - 🇻🇳 **Task 10.3 — Ngày lễ quốc gia Việt Nam trong ô ngày Month view (`tutor-calendar.html` - demo only):**
   - **Mục tiêu:** Hiển thị tự động các ngày lễ quốc gia Việt Nam trong ô ngày của chế độ xem theo tháng (`dayGridMonth`), đảm bảo vị trí trang nhã, không đè lên event chips:

@@ -27,6 +27,23 @@
 
 ## Task vừa hoàn thành
 
+- 🇻🇳 **Chuẩn hóa toàn bộ thời gian & ô chọn ngày sang định dạng Việt Nam "Ngày trước, Tháng sau" (`DD/MM/YYYY`) (demo only):**
+  - **Hiện tượng:** Tại thanh công cụ lọc Báo cáo và Modal Tạo Phiếu Học Phí, các ô chọn ngày hiển thị định dạng kiểu Mỹ `MM/DD/YYYY` (ví dụ `09/01/2026` và `10/01/2026` khiến người dùng nhìn thấy tháng 9 và tháng 10 bị nhầm lẫn thành ngày 09/01 đến 10/01).
+  - **Nguyên nhân cốt lõi:** Thẻ `<input type="date">` chuẩn HTML5 của trình duyệt (Chrome/Edge) trên hệ điều hành Windows mặc định phụ thuộc vào ngôn ngữ hiển thị của trình duyệt/hệ điều hành. Nếu trình duyệt đặt tiếng Anh (US), nó tự động ép hiển thị kiểu Mỹ `MM/DD/YYYY` và không có thuộc tính CSS/HTML nào ép trình duyệt đổi sang `DD/MM/YYYY`.
+  - **Khắc phục triệt để:**
+    1. **Thiết kế Component Date Picker Việt Nam chuyên dụng (`.vn-date-picker-box`):**
+       - Thẻ hiển thị là ô text input hiển thị trực quan 100% chuẩn `DD/MM/YYYY` (ví dụ: `01/09/2026` và `01/10/2026`).
+       - Tích hợp icon lịch `📅` trên giao diện, đè lớp kích hoạt native date picker trực tiếp khi nhấp vào icon lịch giúp mở popup chọn ngày từ lịch một cách mượt mà.
+       - Hỗ trợ gõ tay thông minh: tự động chèn dấu `/` phân cách khi người dùng gõ số (ví dụ gõ `01092026` tự động thành `01/09/2026`).
+    2. **Áp dụng đồng bộ:**
+       - **Tab Báo cáo:** Cả 2 ô "Từ ngày" (`#reportStartDate`) và "Đến ngày" (`#reportEndDate`) hiển thị ngay `01/09/2026` và `01/10/2026`.
+       - **Modal Tạo Phiếu Học Phí:** Cả 2 ô "Từ ngày" (`#tuitionPeriodStartDate`) và "Đến ngày" (`#tuitionPeriodEndDate`) hiển thị `01/09/2026` và `30/09/2026`.
+       - **Live Preview & Thẻ Báo cáo:** Hiển thị chuẩn `01/09/2026 → 01/10/2026`, tiêu đề kỳ học `HỌC PHÍ THÁNG 9/2026` hoặc `HỌC PHÍ DD/MM – DD/MM/YYYY`.
+    3. **Tương thích toàn diện:**
+       - Bổ sung bộ chuyển đổi hai chiều `formatToDmy(val)` và `formatToYmd(val)`.
+       - Nâng cấp `parseInputDate(str)` và `parseDateInputYmd(str)` phân tích chuẩn xác cả hai định dạng `DD/MM/YYYY` và `YYYY-MM-DD`.
+       - Đảm bảo tên file xuất ảnh PNG chuẩn hóa theo định dạng ngày/tháng/năm (`01092026_01102026`).
+
 - 🐛 **Sửa lỗi không xem được báo cáo (Treo spinner vô tận - demo only):**
   - **Hiện tượng:** Khi truy cập tab Báo cáo, chọn học sinh và khoảng ngày rồi nhấn xem trước, màn hình preview bị treo vĩnh viễn ở trạng thái spinner *"Đang tạo bản xem trước báo cáo..."* không thể tải báo cáo.
   - **Nguyên nhân:** Trong hàm `previewTutorReport()` (`Gia sư - demo/js/tutor.js`), chuỗi HTML nối biến `endDisplay` (`startDisplay + ' → ' + endDisplay`), tuy nhiên biến `endDisplay` chưa từng được định nghĩa (`ReferenceError: endDisplay is not defined`). Lỗi này ngắt ngang luồng thực thi JS trước khi cập nhật DOM.

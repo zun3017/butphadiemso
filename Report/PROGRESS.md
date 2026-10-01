@@ -26,6 +26,12 @@
 
 ## Task vừa hoàn thành
 
+- 🎯 **Loại bỏ tùy chọn "Tất cả học sinh" trong Báo cáo & Nhật ký buổi học (theo yêu cầu người dùng):**
+  - Đã loại bỏ hoàn toàn tùy chọn `"all"` ("Tất cả học sinh") khỏi bộ lọc dropdown tại tab **Báo cáo** (`#reportStudentSelect`) và tab **Nhật ký buổi học** (`#diaryStudentFilter`).
+  - Dropdown giờ chỉ hiển thị danh sách từng học sinh cụ thể (`Lê Minh Thư`, `Nguyễn Hoàng Nam`, `Phạm Hải Đăng`).
+  - Mặc định khi mở tab sẽ chọn ngay học sinh đầu tiên trong danh sách thay vì chọn "Tất cả".
+  - Nội dung xem trước Báo cáo (`previewTutorReport`) và danh sách Nhật ký (`renderTutorDiarySection`) tự động lọc và hiển thị chính xác chỉ của riêng học sinh được chọn.
+  - Tên file xuất ảnh PNG báo cáo tự động định dạng theo tên của học sinh đang được xem (ví dụ: `BaoCao_Le_Minh_Thu_20260301_20260331.png`).
 - ✅ **Task 8.4:** Nút "Xem toàn bộ lịch dạy" trong block Lịch sắp tới (Nút điều hướng sang `tutor-calendar.html`, định vị chuẩn ở header Lịch sắp tới, style đồng bộ theme tím `#8E4DFF`)
 - ✨ **Tinh chỉnh Layout Tổng quan (theo yêu cầu người dùng):** Tách block "Lịch dạy sắp tới" ra thành 1 hàng ngang độc lập full-width (Hôm nay & Ngày mai 2 cột rộng rãi), đưa 2 block biểu đồ ("Doanh thu N tháng" & "Doanh thu theo học sinh") vào chung 1 hàng ngang song song cân đối.
 - 🎨 **Thiết kế Biểu đồ Doanh thu 12 tháng chuẩn Hình 2 (theo yêu cầu người dùng):**

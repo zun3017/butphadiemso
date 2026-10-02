@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-02  
-**Giai đoạn:** Phase 16 (Thiết kế lại toàn diện trang Bài Tập - homework.html) — 6/6 tasks (57/57 tasks, 100% HOÀN THÀNH)
+**Giai đoạn:** Phase 18 (Trang Chủ Redesign — Thiết kế lại trang chủ index.html) — 7/7 tasks (72/72 tasks, 100% HOÀN THÀNH)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100.0% (57/57 tasks)
+[██████████] 100.0% (72/72 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -29,12 +29,66 @@
 | Phase 14 | Tối ưu giao diện điện thoại (Mobile) | 6/6 ✅ |
 | Phase 15 | Thiết kế lại giao diện PH/HS (Student Dashboard) | 6/6 ✅ |
 | Phase 16 | Thiết kế lại toàn diện trang Bài Tập (homework.html) | 6/6 ✅ |
+| Phase 17 | Beautiful Mobile UI (Giao diện điện thoại đẹp) | 8/8 ✅ |
+| Phase 18 | Trang Chủ Redesign (Landing Page 4.0) | 7/7 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
 
-- 📚 **PHASE 16 — Thiết kế lại toàn diện trang Bài Tập (`homework.html`):**
+- 🚀 **PHASE 18 — Trang Chủ Redesign (Landing Page 4.0 — HOÀN THÀNH TOÀN DIỆN 7/7 TASKS):**
+  - **Task 18.7 — Footer Polish (`css/home.css`):**
+    - Giao diện Footer tối màu `#1E293B`, màu chữ sáng `#F1F5F9`, các liên kết đổi màu xanh lam `#60A5FA` khi hover.
+    - Nút Hotline gradient xanh dương nổi bật, nút mạng xã hội có hiệu ứng hover nhấc nhẹ.
+  - **Task 18.6 — Vision + Steps Timeline + FAQ Polish (`index.html`, `css/home.css`):**
+    - 4 thẻ Vision có hiệu ứng stagger mượt mà.
+    - Thay thế các khối bước đơn điệu bằng dòng thời gian `.steps-timeline` với số thứ tự tròn gradient nối nhau bằng đường kẻ ngang.
+    - FAQ accordion viền xanh dịu khi active và xoay biểu tượng chevron 180°.
+  - **Task 18.5 — Platform Preview Section (`index.html`, `css/home.css`):**
+    - Thêm phân hệ giới thiệu nền tảng 2 cột: Cột trái chứa Mockup browser frame (3 dots, URL, avatar, 3 KPI mini, biểu đồ cột) kèm 2 huy hiệu nổi "Bảo mật 100%" & "Real-time" lơ lửng ngược chiều. Cột phải là danh sách 4 tính năng then chốt cùng nút CTA "Khám phá ngay".
+  - **Task 18.4 — Pillar Cards Glassmorphism (`index.html`, `css/home.css`):**
+    - 3 thẻ trụ cột áp dụng kính mờ `backdrop-filter: blur(12px)`, viền trên 4px gradient phân biệt màu theo cổng, hover lift -8px scale(1.01) và stagger animation.
+  - **Task 18.3 — Hero Section Upgrade (`index.html`, `css/home.css`):**
+    - Hiệu ứng ánh sáng nền mờ `hero-glow` 6s, hiệu ứng hào quang `badge-pulse` 3s cho badge, chữ highlight gradient xanh dương và 3 nút CTA đổ bóng chuẩn visual.
+  - **Task 18.2 — Metrics Section → 4 Donut Charts + Animated Counter (`index.html`, `css/home.css`):**
+    - Chuyển đổi khối số liệu tĩnh thành 4 biểu đồ Donut Chart.js xoay tròn (`cutout: 72%`, animation 1.2s) kèm bộ đếm số requestAnimationFrame từ 0 đến 80%, 95%, 100%, 98% khi cuộn vào tầm nhìn.
+  - **Task 18.1 — Import Chart.js + Scroll Animation Engine (`index.html`, `css/home.css`):**
+    - Tích hợp CDN Chart.js, xây dựng bộ CSS Scroll Animations và engine IntersectionObserver tự động gắn class `.visible` khi cuộn trang.
+
+
+- 📱 **PHASE 17 — Beautiful Mobile UI (HOÀN THÀNH TOÀN DIỆN 8/8 TASKS):**
+  - **Task 17.8 — Global Polish:**
+    - Ngăn chặn hoàn toàn hiện tượng tràn ngang màn hình (`overflow-x: hidden`, `max-width: 100vw`).
+    - Thêm phản hồi animation co nhả khi chạm (`scale(0.95)`) cho tất cả các nút bấm và cards trên mobile.
+    - Chuẩn hóa touch target ≥ 44px cho mọi nút hành động, inputs đạt chuẩn 16px chống iOS auto-zoom, chặn pull-to-refresh iOS (`overscroll-behavior-y: contain`), tối ưu safe-area cho thanh Bottom Navigation.
+  - **Task 17.7 — Calendar Mobile (tutor-calendar.html):**
+    - Kiểm tra và đảm bảo thẻ viewport chuẩn responsive không có zoom ảo.
+    - Cấu hình FullCalendar chuyển đổi mượt mà sang `listWeek` dạng danh sách trực quan, tối ưu cho thao tác chạm và đọc lịch học theo dòng trên màn hình điện thoại (≤ 768px).
+    - Tinh chỉnh CSS cho thanh toolbar và các cushion tiêu đề ngày trong list view sáng sủa, đồng bộ tông màu xanh dương.
+  - **Task 17.6 — Tutor Dashboard Mobile:**
+    - Hoàn thiện trải nghiệm mobile cho `tutor-dashboard.html`: sidebar trượt từ trái (`transition: left 0.3s cubic-bezier(0.4,0,0.2,1)`), overlay mờ làm mờ hậu cảnh (`backdrop-filter: blur(2px)`).
+    - Hỗ trợ đầy đủ cử chỉ vuốt swipe trái đóng sidebar (`touchstart` + `touchend`), click overlay hoặc click nút đóng.
+    - Cố định KPI grid 2 cột gọn gàng và cho phép bảng học phí / nhật ký scroll ngang mượt mà với `-webkit-overflow-scrolling: touch`.
+  - **Task 17.5 — Charts Mobile:**
+    - Tối ưu layout biểu đồ trên mobile (≤ 480px) cho cả `student-dashboard.html` và `homework.html`.
+    - Chuyển `charts-grid` và `hw-charts-upload-grid` thành dạng 1 cột full-width, giới hạn chiều cao chart canvas 200px / 130px.
+    - Donut charts co thành 90-110px xếp ngang với `flex-direction: row`, ẩn legend quá nhỏ chống tràn, giữ KPI grid 2 cột cân đối.
+  - **Task 17.4 — Fluid Typography:**
+    - Chuẩn hóa typography mobile chống tràn và chống zoom tự động trên iOS Safari/Chrome (`-webkit-text-size-adjust: 100%`, input/select/textarea luôn đạt `font-size: 16px !important`).
+    - Override các class Tailwind font-size quá lớn (`.text-5xl`, `.text-6xl`, `.text-4xl`, `h1, h2`) trên `student-login.html` và `tutor-login.html`.
+    - Hero title trên `index.html` co giãn mượt mà: 24px (≤480px), 20px (≤360px), các nút CTA chuyển sang dạng full-width xếp dọc dễ thao tác chạm.
+  - **Task 17.3 — Toast Notifications Fix:**
+    - Khắc phục lỗi `min-w-[300px]` gây tràn ngang màn hình hẹp 375px trên `student-login.html` và `tutor-login.html`.
+    - Điều chỉnh container `id="toastNotification"` linh hoạt với `right-3 left-3 sm:left-auto sm:right-4 sm:min-w-[300px]` và card thông báo `w-full max-w-sm`.
+    - Bổ sung fallback CSS cho màn hình ≤ 480px trong `public-theme.css`.
+  - **Task 17.2 — Header Mobile Compact:**
+    - Thu gọn chiều cao header trên mobile: padding gọn gàng (8px 16px trên ≤768px, 6px 12px trên ≤480px), min-height ≤ 52px.
+    - Ẩn subtitle `p`, thu nhỏ icon/logo thành 32px và font-size tiêu đề `h1` thành 13-14px giúp tối ưu tối đa không gian hiển thị cho vùng nội dung chính.
+  - **Task 17.1 — Bottom Navigation Bar (Global — style.css, public-theme.css & 5 HTML files):**
+    - Đã thêm thanh Bottom Navigation Bar cố định ở đáy màn hình trên thiết bị mobile (< 768px) theo phong cách app native (Zalo, Instagram) cho cả 5 trang: `index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`.
+    - Tự động highlight active icon và nhấc nhẹ hiệu ứng chạm theo đúng trang hiện tại.
+    - Ẩn triệt để nút hamburger, dropdown menu cũ và navigation desktop trên mobile.
+    - Bổ sung padding-bottom cho body chống che phủ nội dung và tương thích safe-area iOS.
   - **Task 16.1 — Hero Banner + 4 KPI Cards:**
     - Tái cấu trúc giao diện `#homeworkDashboard` từ dạng 2 cột lệch sang layout full-width max-width 1100px sang trọng.
     - Hero Banner gradient xanh (`#1D4ED8` -> `#3B82F6` -> `#60A5FA`), hiển thị icon upload tròn kính mờ, tên học sinh, các chip `# Mã bài`, `Môn học`, badge trạng thái mở/khóa chốt nộp và nút Đăng xuất tiện lợi.

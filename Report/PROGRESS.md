@@ -39,10 +39,14 @@
     - Tái cấu trúc giao diện `#homeworkDashboard` từ dạng 2 cột lệch sang layout full-width max-width 1100px sang trọng.
     - Hero Banner gradient xanh (`#1D4ED8` -> `#3B82F6` -> `#60A5FA`), hiển thị icon upload tròn kính mờ, tên học sinh, các chip `# Mã bài`, `Môn học`, badge trạng thái mở/khóa chốt nộp và nút Đăng xuất tiện lợi.
     - 4 thẻ KPI tính toán trực tiếp từ dữ liệu: Tổng bài được giao (xanh dương), Đã nộp bài (xanh lá), Nộp đúng hạn (emerald), Chưa nộp (đỏ). Lưới 4 cột trên desktop, tự co thành 2 cột cân đối trên mobile không tràn ngang.
-  - **Task 16.2 — Thêm Chart.js + 2 Charts (Donut + Bar):**
+  - **Task 16.2 — Thêm Chart.js + 2 Charts (Donut + Line Chart) & Bố cục Hình 2:**
     - Tích hợp thư viện Chart.js qua CDN an toàn trong `<head>`.
     - Biểu đồ tròn Donut đo tỷ lệ nộp bài với 3 phân khúc chuẩn semantic: Đúng hạn (#10B981), Nộp trễ (#F59E0B), Chưa nộp (#EF4444); hiển thị số % Hoàn thành ở tâm và legend chi tiết số lượng bài.
-    - Biểu đồ cột Bar Chart thống kê số lượng bài nộp theo từng tuần, bo góc cột 8px hiện đại kèm tooltip tối màu `#1E293B`. Quản lý vòng đời chart instances `_hwDonutInst` và `_hwBarInst` tránh memory leak.
+    - **Biểu đồ đường (Line Chart):** Chuyển từ dạng cột sang biểu đồ đường mềm mại (`tension: 0.38`), dải màu nền xanh mờ trong suốt, thể hiện tiến độ nộp bài qua 4 tuần trong tháng với các mốc điểm tròn viền trắng nổi bật.
+    - **Tái cấu trúc bố cục 2 cột (Desktop/Laptop theo Hình 2):**
+      - Cột trái (370px): Xếp chồng 2 biểu đồ (Donut tỷ lệ nộp ở trên, Line Chart tiến độ tuần ở dưới).
+      - Cột phải: Thẻ "Nộp bài mới" được mở rộng cả về chiều ngang và chiều dọc (`flex: 1`, `min-height: 180px`), tạo vùng kéo thả tệp rộng rãi, trực quan và thao tác thoải mái.
+    - Quản lý vòng đời chart instances `_hwDonutInst` và `_hwBarInst` tránh memory leak.
   - **Task 16.3 — Upload Form Reskin (Giữ nguyên 100% logic JS):**
     - Khu vực kéo thả tệp viền đứt nét xanh dịu `#BFDBFE`, hiệu ứng hover/dragover xanh dương nhạt `#EFF6FF`.
     - Input tên bài học viền bo 12px, focus ring xanh lam `rgba(59,130,246,0.1)`.

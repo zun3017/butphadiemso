@@ -505,6 +505,69 @@
 
 ---
 
+## PHASE 15 — Thiết kế lại toàn diện giao diện PH/HS (Student Dashboard) (Demo only)
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/`). Không sửa production `Gia sư/`.  
+> Chi tiết: xem `PHASE15_STUDENT_DASHBOARD.md` và `PROMPT_PHASE15_STUDENT.md`.  
+> **Thứ tự bắt buộc:** 15.1 → 15.2 → 15.3 → 15.4 → 15.5 → 15.6.
+
+### Task 15.1 — Hero Profile Card
+- [x] **Mô tả:** Thay thế dòng text lời chào đơn giản bằng Hero Profile Card gradient xanh (`#1D4ED8` -> `#3B82F6` -> `#60A5FA`), avatar tròn chữ cái viết tắt, tên học sinh nổi bật, các tags (lớp/môn, gia sư, số điện thoại) và huy hiệu tháng hiện tại.
+- **File cần sửa:** `student-dashboard.html`, `js/student.js`
+- **Tiêu chí hoàn thành:**
+  - [x] Hero card nền gradient xanh đẹp mắt
+  - [x] Avatar hiển thị 2 chữ initials đúng (VD: "Lê Minh Thư" -> "LT")
+  - [x] Tags: lớp/môn, gia sư, sđt hiển thị gọn gàng
+  - [x] Tháng hiện tại hiển thị chính xác
+  - [x] Mobile 375px: responsive không tràn, month badge xuống dòng hợp lý
+
+### Task 15.2 — KPI Cards Enhancement
+- [x] **Mô tả:** Nâng cấp thị giác cho 6 KPI cards: bo góc 16px, shadow dịu nhẹ, hiệu ứng hover nhấc nhẹ -3px, cập nhật huy hiệu mức điểm `.score-badge-xs` (Xuất sắc ≥9, Giỏi ≥7, Khá ≥5, Cần cố gắng <5).
+- **File cần sửa:** `student-dashboard.html`, `js/student.js`
+- **Tiêu chí hoàn thành:**
+  - [x] Cards có border-radius 16px, box-shadow nhẹ nhàng
+  - [x] Hover effect nâng translateY(-3px)
+  - [x] Score badge màu chuẩn theo thang điểm
+  - [x] Grid 2 cột cân đối trên mobile 375px
+
+### Task 15.3 — Charts Grid + 2 Donut Charts
+- [x] **Mô tả:** Chuyển container biểu đồ thành grid 2 cột: cột trái là biểu đồ đường (line chart), cột phải là 2 biểu đồ tròn donut (Hoàn thành BTVN và Chuyên cần) với tỉ lệ % ở giữa và chú thích số buổi.
+- **File cần sửa:** `student-dashboard.html`, `js/student.js`
+- **Tiêu chí hoàn thành:**
+  - [x] Donut BTVN: 3 màu (Hoàn thành xanh lá, Chưa HT cam, Vắng xám)
+  - [x] Donut Chuyên cần: 2 màu (Có mặt xanh lam, Vắng đỏ)
+  - [x] Số phần trăm ở tâm và legend số buổi chính xác
+  - [x] Layout 2 cột desktop, xếp chồng mượt mà trên mobile
+
+### Task 15.4 — Line Chart Enhancement
+- [x] **Mô tả:** Nâng cấp biểu đồ đường điểm số: đường cong mềm mại (`tension: 0.4`), dải gradient mờ dưới đường, màu chuẩn (xanh `#3B82F6` đầu giờ, cam `#F59E0B` định kì), tooltip nền tối sang trọng.
+- **File cần sửa:** `js/student.js`
+- **Tiêu chí hoàn thành:**
+  - [x] Đường cong mượt mà tension 0.4
+  - [x] Fill màu trong suốt dưới đường
+  - [x] Đúng màu xanh lam (đầu giờ) và vàng cam (định kì)
+  - [x] Tooltip màu tối `#1E293B` sắc nét
+
+### Task 15.5 — History Table Enhancement
+- [x] **Mô tả:** Thiết kế lại bảng lịch sử học tập: chip ngày học, chip môn, chip BTVN màu sắc, màu điểm theo phân loại điểm, highlight hàng vắng và nút bấm chevron mở rộng nhận xét chi tiết của gia sư.
+- **File cần sửa:** `student-dashboard.html`, `js/student.js`
+- **Tiêu chí hoàn thành:**
+  - [x] Điểm số có màu theo thang điểm (≥9 xanh lá, ≥7 xanh lam, ≥5 vàng, <5 đỏ)
+  - [x] Dòng vắng học có nền highlight nhạt
+  - [x] Chip BTVN và Chuyên cần trực quan
+  - [x] Nhấn mũi tên mở/đóng nhận xét gia sư chi tiết mượt mà
+
+### Task 15.6 — Announcement Box + Feedback Form Redesign
+- [x] **Mô tả:** Tinh chỉnh khung thông báo (gradient xanh khi có tin, xám nét đứt khi không có) và hiện đại hóa khung phản hồi phụ huynh (card nền trắng, viền `#DBEAFE`, textarea focus ring xanh, nút CTA gradient).
+- **File cần sửa:** `student-dashboard.html`, `js/student.js`
+- **Tiêu chí hoàn thành:**
+  - [x] Announcement card gradient xanh khi có thông báo, xám dashed khi trống
+  - [x] Form phản hồi phụ huynh card trắng tinh gọn
+  - [x] Textarea focus viền xanh lam rõ ràng
+  - [x] Nút gửi phản hồi gradient xanh tương tác tốt
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
@@ -513,6 +576,7 @@
 | Phase 12 — Multi-Theme System | 7 | 7 |
 | Phase 13 — Public Pages Light Theme | 5 | 5 |
 | Phase 14 — Mobile Responsive Optimization | 6 | 6 |
-| **Tổng** | **45** | **45** |
+| Phase 15 — Student Dashboard Redesign | 6 | 6 |
+| **Tổng** | **51** | **51** |
 
 

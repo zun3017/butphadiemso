@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-02  
-**Giai đoạn:** Phase 14 (Tối ưu giao diện điện thoại Mobile Responsive) — HOÀN THÀNH 100% (45/45 tasks)
+**Giai đoạn:** Phase 15 (Thiết kế lại toàn diện giao diện PH/HS) — 6/6 tasks (51/51 tasks, 100% HOÀN THÀNH)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100.0% (45/45 tasks)
+[██████████] 100.0% (51/51 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -27,10 +27,50 @@
 | Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
 | Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 5/5 ✅ |
 | Phase 14 | Tối ưu giao diện điện thoại (Mobile) | 6/6 ✅ |
+| Phase 15 | Thiết kế lại giao diện PH/HS (Student Dashboard) | 6/6 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 📢 **Task 15.6 — Announcement Box + Feedback Form Redesign (`student-dashboard.html`, `js/student.js`):**
+  - **Khung Thông Báo 2 Biến Thể Đẹp Mắt:**
+    - Khi có thông báo: Card `.announce-card.announce-has` nền gradient xanh pastel thanh nhã (`#EFF6FF` → `#DBEAFE`), viền xanh `#BFDBFE`, icon loa thông báo `fa-bullhorn` trắng trên nền tròn xanh `#3B82F6`, tiêu đề xanh hoa lệ và nội dung rõ nét.
+    - Khi không có thông báo: Card `.announce-card.announce-empty` nền `#F8FAFF` viền nét đứt nhẹ `#DBEAFE`, icon chuông xám và thông điệp "Chưa có thông báo mới".
+  - **Khung Phản Hồi Phụ Huynh Hiện Đại:** Thẻ `#khuVucPhanHoiPhuHuynh` nền trắng `#FFFFFF`, viền `#DBEAFE`, tiêu đề icon chat xanh lam, textarea nhập liệu tự động focus ring xanh dương dịu mắt `rgba(59, 130, 246, 0.15)`.
+  - **Nút Gửi Phản Hồi Gradient Chuẩn Apple HIG:** Nút `.btn-submit-feedback` gradient xanh dương (`#3B82F6` → `#1D4ED8`), icon máy bay giấy gửi thư, chiều cao tối thiểu 44px chuẩn chạm bấm trên màn hình cảm ứng di động.
+  - **Vị Trí Hợp Lý:** Chuyển khối phản hồi xuống dưới cùng sau bảng lịch sử, đảm bảo trải nghiệm theo dõi tiến độ liền mạch từ trên xuống dưới.
+
+
+- 📋 **Task 15.5 — History Table Enhancement (`student-dashboard.html`, `js/student.js`):**
+  - **Bảng Lịch Sử Học Tập Tinh Tế:** Bảng `.history-table` với header xanh dịu `#F0F7FF`, chữ `#64748B`, viền đáy `#DBEAFE`, các cột thông tin rõ ràng và padding thoải mái.
+  - **Hệ Thống Badge & Chip Trực Quan:** Chip ngày học xanh lam nhạt `.date-badge`, chip môn học xanh lá cây `.subj-chip`, chip trạng thái BTVN `.btvn-chip` và chuyên cần `.status-chip` kèm icon phân biệt rõ nét.
+  - **Màu Sắc Điểm Số Semantic:** Hàm `scoreColor(val)` phân loại trực tiếp màu điểm theo 4 cấp bậc: ≥9 xanh lá `#059669`, ≥7 xanh lam `#2563EB`, ≥5 vàng `#D97706`, <5 đỏ `#DC2626`.
+  - **Nhận Xét Gia Sư Expandable:** Hàng chi tiết `.history-detail-row` có thể đóng/mở linh hoạt thông qua nút chevron `toggleRowDetail(btn)`, hiển thị khung nhận xét gia sư viền xanh lam tinh tế.
+  - **Hỗ Trợ Cuộn Ngang Mobile:** Kích hoạt cuộn mượt mà trên mobile với min-width 650px trong `.table-wrapper`.
+
+- 📈 **Task 15.4 — Line Chart Enhancement (`js/student.js`):**
+  - **Đường Cong Mượt Mà & Fill Nền:** Thiết lập đường vẽ `tension: 0.4` mềm mại, dải màu trong suốt tinh tế `rgba(59,130,246,0.08)` và `rgba(245,158,11,0.08)` phủ dưới các đường dữ liệu.
+  - **Màu Sắc Chuẩn Xác:** Đồng bộ màu xanh lam đậm `#3B82F6` cho Điểm đầu giờ và vàng hổ phách `#F59E0B` cho Điểm định kì; các điểm mốc tròn nổi bật viền trắng `pointBorderColor: '#fff'` bán kính hover 7px.
+  - **Dark Tooltip Hiện Đại:** Nâng cấp tooltip sang nền tối `#1E293B`, bo góc 10px, padding 12px, hiển thị chi tiết điểm số khi hover tương tác trên từng cột mốc ngày học.
+  - **Lưới Tọa Độ Sáng Sạch:** Lưới x/y màu xám dịu `rgba(226,232,240,0.5)`, trục tung định dạng số thập phân `v.toFixed(1)`.
+
+- 🍩 **Task 15.3 — Charts Grid + 2 Donut Charts (`student-dashboard.html`, `js/student.js`):**
+  - **Bố cục 2 Cột `.charts-grid`:** Cấu trúc lại khu vực đồ thị thành lưới 2 cột tỷ lệ `1.6fr 1fr`: bên trái dành cho biểu đồ đường diễn biến điểm số, bên phải chứa 2 thẻ biểu đồ tròn Donut tinh gọn.
+  - **Donut Chart BTVN:** Đo lường tỷ lệ hoàn thành bài tập với 3 phân khúc trực quan: Hoàn thành (xanh lá `#10B981`), Chưa hoàn thành (cam `#F97316`), Buổi vắng (xám `#E2E8F0`), hiển thị số phần trăm lớn ở tâm và chú thích thống kê chi tiết số buổi.
+  - **Donut Chart Chuyên Cần:** Đo lường mức độ tham gia lớp học với 2 trạng thái: Có mặt (xanh lam `#3B82F6`) và Vắng (đỏ `#EF4444`), cutout 72%, hiển thị tỷ lệ chuyên cần ngay giữa vòng tròn.
+  - **Responsive & Quản lý Instance:** Tự động xếp chồng ngang trên tablet/mobile lớn (≤768px) và xếp dọc trên điện thoại nhỏ (≤480px) với canvas kích thước 100x100px. Đảm bảo dọn dẹp instance `window._btvnInst` và `window._ccInst` khi chuyển trang hoặc hủy màn hình.
+
+- 📊 **Task 15.2 — KPI Cards Enhancement (`student-dashboard.html`, `js/student.js`):**
+  - **CSS Styling & Hover:** Nâng cấp 6 thẻ KPI với bo góc 16px, đổ bóng mềm mại `0 2px 12px rgba(59,130,246,0.07)`, hiệu ứng hover nhấc nhẹ `translateY(-3px)` với shadow mở rộng.
+  - **Huy hiệu mức điểm `.score-badge-xs`:** Bổ sung hàm `scoreLevelBadge(val)` phân loại trực quan theo 4 cấp: Xuất sắc (≥9.0 ⭐ nền xanh ngọc), Giỏi (≥7.0 👍 nền xanh lam nhạt), Khá (≥5.0 📚 nền vàng hổ phách), Cần cố gắng (<5.0 💪 nền đỏ cam).
+  - **Responsive 2 Cột trên Mobile:** Tinh chỉnh breakpoint mobile 375px/480px duy trì hiển thị 2 cột cân đối, font số 22px và icon 40px tránh tình trạng thẻ bị kéo dài 1 cột chiếm diện tích.
+
+- 🎯 **Task 15.1 — Hero Profile Card (`student-dashboard.html`, `js/student.js`):**
+  - **Hero Card Gradient:** Thiết kế thẻ thông tin học sinh dạng Hero Card bo cong 20px, nền gradient xanh lam hiện đại (`#1D4ED8` -> `#3B82F6` -> `#60A5FA`), đổ bóng mềm mại `0 8px 32px rgba(59,130,246,0.3)`.
+  - **Avatar Initials:** Tự động trích xuất 2 chữ cái đầu viết tắt từ tên học sinh (ví dụ "Lê Minh Thư" -> "LT"), đặt trong vòng tròn bán trong suốt viền kính mờ sang trọng.
+  - **Meta Tags & Badge:** Hiển thị gọn gàng các chip thông tin: lớp/môn học (`lopHoc`), tên gia sư phụ trách, số điện thoại liên hệ, cùng thẻ tháng hiện tại nổi bật.
+  - **Responsive Mobile:** Tối ưu hiển thị màn hình nhỏ ≤600px/375px: padding 18px 16px, kích thước avatar co gọn 50px, badge tháng trải rộng 100% cân đối không tràn dòng.
 
 - 📱 **Hotfix Mobile — Tối ưu Header Mobile & Khôi phục Giao diện, Tài khoản, Đăng xuất (`tutor-dashboard.html`):**
   - **Khôi phục 3 nút chức năng cốt lõi:** Đưa 3 nút Giao diện (`openThemeSwitcher()`), Cài đặt tài khoản (`openTutorAccountModal()`), và Đăng xuất (`quayLai()`) hiển thị trực tiếp trên thanh Mobile Header trên cùng của điện thoại, đồng thời hiển thị đầy đủ bên trong ngăn kéo Menu Drawer.

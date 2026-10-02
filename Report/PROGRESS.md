@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-02  
-**Giai đoạn:** Phase 15 (Thiết kế lại toàn diện giao diện PH/HS) — 6/6 tasks (51/51 tasks, 100% HOÀN THÀNH)
+**Giai đoạn:** Phase 16 (Thiết kế lại toàn diện trang Bài Tập - homework.html) — 6/6 tasks (57/57 tasks, 100% HOÀN THÀNH)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100.0% (51/51 tasks)
+[██████████] 100.0% (57/57 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -28,10 +28,36 @@
 | Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 5/5 ✅ |
 | Phase 14 | Tối ưu giao diện điện thoại (Mobile) | 6/6 ✅ |
 | Phase 15 | Thiết kế lại giao diện PH/HS (Student Dashboard) | 6/6 ✅ |
+| Phase 16 | Thiết kế lại toàn diện trang Bài Tập (homework.html) | 6/6 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 📚 **PHASE 16 — Thiết kế lại toàn diện trang Bài Tập (`homework.html`):**
+  - **Task 16.1 — Hero Banner + 4 KPI Cards:**
+    - Tái cấu trúc giao diện `#homeworkDashboard` từ dạng 2 cột lệch sang layout full-width max-width 1100px sang trọng.
+    - Hero Banner gradient xanh (`#1D4ED8` -> `#3B82F6` -> `#60A5FA`), hiển thị icon upload tròn kính mờ, tên học sinh, các chip `# Mã bài`, `Môn học`, badge trạng thái mở/khóa chốt nộp và nút Đăng xuất tiện lợi.
+    - 4 thẻ KPI tính toán trực tiếp từ dữ liệu: Tổng bài được giao (xanh dương), Đã nộp bài (xanh lá), Nộp đúng hạn (emerald), Chưa nộp (đỏ). Lưới 4 cột trên desktop, tự co thành 2 cột cân đối trên mobile không tràn ngang.
+  - **Task 16.2 — Thêm Chart.js + 2 Charts (Donut + Bar):**
+    - Tích hợp thư viện Chart.js qua CDN an toàn trong `<head>`.
+    - Biểu đồ tròn Donut đo tỷ lệ nộp bài với 3 phân khúc chuẩn semantic: Đúng hạn (#10B981), Nộp trễ (#F59E0B), Chưa nộp (#EF4444); hiển thị số % Hoàn thành ở tâm và legend chi tiết số lượng bài.
+    - Biểu đồ cột Bar Chart thống kê số lượng bài nộp theo từng tuần, bo góc cột 8px hiện đại kèm tooltip tối màu `#1E293B`. Quản lý vòng đời chart instances `_hwDonutInst` và `_hwBarInst` tránh memory leak.
+  - **Task 16.3 — Upload Form Reskin (Giữ nguyên 100% logic JS):**
+    - Khu vực kéo thả tệp viền đứt nét xanh dịu `#BFDBFE`, hiệu ứng hover/dragover xanh dương nhạt `#EFF6FF`.
+    - Input tên bài học viền bo 12px, focus ring xanh lam `rgba(59,130,246,0.1)`.
+    - Nút "Gửi bài làm" gradient xanh đậm chuẩn Apple HIG với chiều cao 48px tối ưu cảm ứng.
+    - Bảo toàn toàn bộ logic xử lý tệp, hàng đợi upload `fileQueue`, Google Drive API và modal xem trước.
+  - **Task 16.4 — Danh sách Bài tập được giao (Assigned Homework List):**
+    - Nâng cấp `renderAssignedHomeworkList`: chuyển đổi danh sách bài tập thành các thẻ card hiện đại bo góc 14px.
+    - Viền trái 4px biểu thị trực quan: xanh lá (#10B981) nếu đã nộp bài, đỏ (#EF4444) nếu chưa nộp bài.
+    - Badge trạng thái `✅ Đã nộp` / `❌ Chưa nộp`, kèm nút "Tải bài" và nút "Link" mở liên kết ngoài.
+  - **Task 16.5 — Lịch sử nộp bài: Modern Table & Cards:**
+    - Desktop: Bảng hiện đại với header xanh nhạt `#F0F7FF`, chữ `#64748B`, viền đáy tinh tế và các chip điểm/trạng thái.
+    - Mobile: Card layout `.hw-sub-mobile-card` hiển thị riêng biệt trên mobile, ẩn trên desktop. Tích hợp đầy đủ nhận xét gia sư và các nút hành động Xem, Sửa, Xóa.
+  - **Task 16.6 — Polish Landing Page + Mobile Safe Area:**
+    - Nâng cấp 4 feature cards trên landing page `#mainScreen` với viền `#DBEAFE`, box-shadow nhẹ và hover nhấc nhẹ.
+    - Bổ sung safe-area padding bottom chuẩn iOS Safari, đảm bảo giao diện không bị thanh điều hướng che khuất.
 
 - 🔧 **Hotfix Layout — Khắc phục triệt để lỗi tràn viền và rớt hàng thẻ KPI (`student-dashboard.html`):**
   - **Chuyển sang 3 Cột Cân Đối:** Thay thế `repeat(auto-fill, minmax(155px, 1fr))` bằng `repeat(3, 1fr)` trên Desktop. 6 thẻ KPI được chia đều thành 2 hàng x 3 cột hoàn hảo, loại bỏ hoàn toàn tình trạng 5 thẻ ở hàng 1 bị ép tràn ra ngoài viền màn hình và 1 thẻ bị lẻ loi ở hàng 2.

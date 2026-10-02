@@ -568,6 +568,67 @@
 
 ---
 
+## PHASE 16 — Thiết kế lại toàn diện trang Bài Tập (homework.html) (Demo only)
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/homework.html`). Không sửa production `Gia sư/`.  
+> Chi tiết: xem `PHASE16_HOMEWORK.md`.  
+> **Thứ tự thực hiện:** 16.1 → 16.2 → 16.3 → 16.4 → 16.5 → 16.6.
+
+### Task 16.1 — Hero Banner + 4 KPI Cards
+- [x] **Mô tả:** Tái cấu trúc layout `#homeworkDashboard` từ 2 cột lệch sang full-width (max-width 1100px). Bổ sung Hero Banner gradient xanh (`#1D4ED8` -> `#3B82F6` -> `#60A5FA`), hiển thị icon, tên học sinh, các chip mã bài tập/môn học, badge trạng thái chốt nộp bài và nút Đăng xuất. Bên dưới là lưới 4 thẻ KPI: Tổng bài được giao, Đã nộp bài, Nộp đúng hạn, Chưa nộp bài.
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Hero banner gradient xanh, tên HS, mã bài, môn học, badge chốt
+  - [x] 4 KPI cards tính toán và hiển thị đúng số liệu
+  - [x] Grid 4 cột desktop, 2 cột mobile không tràn ngang
+  - [x] Nút Đăng xuất tiện lợi trong hero banner
+
+### Task 16.2 — Thêm Chart.js + 2 Charts (Donut + Bar)
+- [x] **Mô tả:** Import thư viện Chart.js qua CDN vào `<head>` của `homework.html`. Xây dựng 2 biểu đồ trực quan: Donut chart đo tỷ lệ nộp bài (3 phân khúc: Đúng hạn xanh lá, Nộp trễ cam, Chưa nộp đỏ, hiển thị % Hoàn thành ở tâm) và Bar chart thống kê số lượng bài nộp theo từng tuần với cột bo tròn hiện đại.
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Import Chart.js CDN không gây lỗi
+  - [x] Donut chart 3 màu với text % ở giữa và legend chi tiết
+  - [x] Bar chart theo tuần cột bo tròn 8px với tooltip tối màu
+  - [x] Xử lý mượt mà khi dữ liệu rỗng hoặc chuyển tài khoản
+
+### Task 16.3 — Upload Form Reskin (Giữ nguyên logic JS)
+- [x] **Mô tả:** Nâng cấp thị giác cho form nộp bài mới: vùng upload kéo thả viền đứt nét xanh lam pastel `#BFDBFE`, hiệu ứng hover/dragover xanh dương, input tên bài học focus ring `rgba(59,130,246,0.1)`, nút Gửi bài làm gradient xanh dương chuẩn Apple HIG (`min-height: 48px`). Tuyệt đối giữ nguyên 100% logic upload, queue, API và preview modal.
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Upload area viền xanh nét đứt, tương tác hover/dragover mượt mà
+  - [x] Input focus có ring xanh tinh tế
+  - [x] Nút gửi bài gradient xanh đậm nổi bật
+  - [x] Giữ nguyên toàn bộ logic JS và tương thích upload form
+
+### Task 16.4 — Danh sách Bài tập được giao (Assigned Homework List)
+- [x] **Mô tả:** Nâng cấp hàm `renderAssignedHomeworkList`: chuyển đổi danh sách bài tập được giao thành các card hiện đại với viền trái biểu thị trạng thái (viền xanh lá nếu đã nộp, viền đỏ nếu chưa nộp), icon check/chấm than, deadline và các nút bấm chức năng (Tải bài, Mở link liên kết ngoài).
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Mỗi bài tập hiển thị dưới dạng card bo góc 14px tinh gọn
+  - [x] Viền trái 4px semantic: xanh lá (Đã nộp), đỏ (Chưa nộp)
+  - [x] Badge trạng thái "✅ Đã nộp" / "❌ Chưa nộp"
+  - [x] Nút Tải bài và Mở link ngoài đồng bộ style
+
+### Task 16.5 — Lịch sử nộp bài: Modern Table & Cards
+- [x] **Mô tả:** Nâng cấp khu vực lịch sử nộp bài: trên desktop sử dụng bảng hiện đại với header xanh nhạt `#F0F7FF`, chữ `#64748B`, viền đáy tinh tế và các chip điểm/trạng thái; trên mobile tự động chuyển sang card layout `.hw-sub-mobile-card` gọn gàng, hiển thị nhận xét gia sư và các nút hành động (Xem bài, Sửa, Xóa).
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Table header xanh nhạt sang trọng trên desktop
+  - [x] Status chip phân loại rõ ràng kèm điểm số
+  - [x] Mobile cards hiển thị riêng biệt trên mobile, ẩn trên desktop
+  - [x] Thao tác Xem, Sửa, Xóa hoạt động trơn tru
+
+### Task 16.6 — Polish Landing Page + Mobile Safe Area
+- [x] **Mô tả:** Đồng bộ phong cách cho 4 feature cards trên landing page `#mainScreen` (viền `#DBEAFE`, đổ bóng nhẹ `0 4px 16px rgba(59,130,246,0.07)`, hiệu ứng hover nhấc nhẹ), bổ sung safe-area padding bottom cho màn hình iOS và tối ưu hiển thị tổng thể.
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Landing page feature cards đồng bộ visual với hệ thống
+  - [x] Hiệu ứng hover nhấc nhẹ êm ái
+  - [x] Tối ưu safe-area bottom và responsive hoàn hảo trên mobile
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
@@ -577,6 +638,7 @@
 | Phase 13 — Public Pages Light Theme | 5 | 5 |
 | Phase 14 — Mobile Responsive Optimization | 6 | 6 |
 | Phase 15 — Student Dashboard Redesign | 6 | 6 |
-| **Tổng** | **51** | **51** |
+| Phase 16 — Homework Page Redesign | 6 | 6 |
+| **Tổng** | **57** | **57** |
 
 

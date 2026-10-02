@@ -33,6 +33,11 @@
 
 ## Task vừa hoàn thành
 
+- 🔧 **Hotfix Layout — Khắc phục triệt để lỗi tràn viền và rớt hàng thẻ KPI (`student-dashboard.html`):**
+  - **Chuyển sang 3 Cột Cân Đối:** Thay thế `repeat(auto-fill, minmax(155px, 1fr))` bằng `repeat(3, 1fr)` trên Desktop. 6 thẻ KPI được chia đều thành 2 hàng x 3 cột hoàn hảo, loại bỏ hoàn toàn tình trạng 5 thẻ ở hàng 1 bị ép tràn ra ngoài viền màn hình và 1 thẻ bị lẻ loi ở hàng 2.
+  - **Triệt tiêu hiện tượng cắt cụt chữ:** Bổ sung `min-width: 0 !important;` cho thẻ và info wrapper, đồng thời đặt `white-space: normal !important; word-break: break-word;` cho `.summary-label`, giúp tiêu đề dài như "HOÀN THÀNH BTVN (THÁNG)", "SỐ BUỔI ĐÃ HỌC" tự ngắt dòng tự nhiên, không bị cắt xén hay đè chữ.
+  - **Tối ưu Mobile 480px:** Tinh chỉnh padding thẻ và font size trên điện thoại nhỏ, đảm bảo 2 cột hiển thị sắc nét, không có bất kỳ thanh cuộn ngang nào phát sinh.
+
 - 📢 **Task 15.6 — Announcement Box + Feedback Form Redesign (`student-dashboard.html`, `js/student.js`):**
   - **Khung Thông Báo 2 Biến Thể Đẹp Mắt:**
     - Khi có thông báo: Card `.announce-card.announce-has` nền gradient xanh pastel thanh nhã (`#EFF6FF` → `#DBEAFE`), viền xanh `#BFDBFE`, icon loa thông báo `fa-bullhorn` trắng trên nền tròn xanh `#3B82F6`, tiêu đề xanh hoa lệ và nội dung rõ nét.

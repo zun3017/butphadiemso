@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
-**Cập nhật lần cuối:** 2026-10-01  
-**Giai đoạn:** Phase 13 (Đổi theme 5 trang Public: Tím Neon Tối → Sáng Trắng-Xanh) — HOÀN THÀNH 100% (39/39 tasks)
+**Cập nhật lần cuối:** 2026-10-02  
+**Giai đoạn:** Phase 14 (Tối ưu giao diện điện thoại Mobile Responsive) — HOÀN THÀNH 100% (45/45 tasks)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100.0% (39/39 tasks)
+[██████████] 100.0% (45/45 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -26,10 +26,49 @@
 | Phase 11 | Fix Bug Trạng thái Học phí | 1/1 ✅ |
 | Phase 12 | Hệ thống Multi-Theme (36 Themes) | 7/7 ✅ |
 | Phase 13 | Đổi theme Public Pages sáng trắng-xanh | 5/5 ✅ |
+| Phase 14 | Tối ưu giao diện điện thoại (Mobile) | 6/6 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 📱 **Task 14.6 — Global Polish: Input zoom + Touch target + Safe area (demo only):**
+  - **iOS Safari Zoom Prevention:** Đặt cỡ chữ `font-size: 16px !important` cho tất cả thẻ `input[type="text|password|number|email|tel|search"]`, `select`, `textarea` trên thiết bị di động (≤768px), loại bỏ hoàn toàn hiện tượng trình duyệt tự ý zoom cận cảnh khi người dùng bấm vào ô nhập liệu.
+  - **Apple HIG Touch Target:** Thiết lập kích thước tối thiểu 44x44px (`min-height: 44px; min-width: 44px`) cho các nút điều hướng, nút submit, nút CTA, action button, nút nộp bài và các thẻ bấm nhanh, đảm bảo thao tác ngón tay chính xác và mượt mà.
+  - **Chống tràn ngang & Smooth Scroll:** Khóa tràn ngang toàn trang bằng `overflow-x: hidden` trên `body`, kích hoạt cuộn mượt mà `scroll-behavior: smooth` trên thẻ `html` kèm kiểm tra `prefers-reduced-motion`.
+  - **Tối ưu Hero Section & Form Card:** Căn chỉnh tiêu đề trang chủ 26px, subtitle 14px, các nút CTA xếp dọc 100% trên màn hình ≤480px; thẻ login form card co giãn vừa vặn, padding 20px 16px trên điện thoại nhỏ (360px–390px).
+
+
+- 📱 **Task 14.5 — `homework.html`: Touch optimization (demo only):**
+  - **Upload Area Mobile:** Tối ưu hóa kích thước vùng tải bài (min-height 100px), các nút chức năng chọn camera và tệp PDF/Word đạt chuẩn min-height 48px, dễ chạm bấm ngón tay trên điện thoại. Ẩn hint kéo thả và thay bằng gợi ý chạm trực quan.
+  - **Nút hành động:** Đưa các nút nộp bài, hủy sửa sang layout cột 100% full-width trên màn hình ≤480px, chiều cao tối thiểu 48px.
+  - **Bảng lịch sử & Score:** Kích hoạt card layout cho danh sách bài nộp trên mobile, tối ưu padding thẻ thông tin và kích thước huy hiệu điểm số gọn gàng, chống tràn ngang tuyệt đối.
+
+
+- 📱 **Task 14.4 — `tutor-dashboard.html`: Sidebar + Bảng + KPI mobile (demo only):**
+  - **Tối ưu KPI Grid:** 4 thẻ KPI chuyển sang hiển thị 2 cột cân đối trên màn hình mobile, font size số liệu (`.kpi-value`) tự động điều chỉnh 22px / 19px tránh tràn dòng hoặc mất chữ.
+  - **Bảng học phí:** Thiết lập scroll ngang mượt mà (`overflow-x: auto; -webkit-overflow-scrolling: touch;`) với min-width 580px cho `#tuitionTable`, đảm bảo bảng không bị xô lệch trên mọi độ phân giải.
+  - **Safe Area Bottom:** Bổ sung `padding-bottom: calc(85px + env(safe-area-inset-bottom))` cho `.tutor-main-content`, đảm bảo khoảng cách an toàn với thanh điều hướng đáy và home indicator của iPhone.
+
+
+- 📱 **Task 14.3 — `student-dashboard.html`: Thêm media queries mobile (demo only):**
+  - **Khối Style Responsive:** Bổ sung block `<style>` chuyên biệt cho di động nhằm khắc phục tình trạng thiếu media query trước đó.
+  - **Summary/KPI Grid:** Chuyển sang 2 cột trên tablet/màn hình nhỏ (≤768px) và 1 cột trên điện thoại (≤480px), điều chỉnh kích thước số đo (`.summary-val`, `.score-number`) không bị tràn.
+  - **Chart & Table:** Cấu hình chiều cao biểu đồ tối đa 220px, kích thước co giãn 100%, bổ sung cuộn ngang mượt mà cho bảng lịch sử điểm số (`.table-wrapper`), touch target nút bấm tối thiểu 44px.
+
+
+- 📱 **Task 14.2 — Navbar mobile: Icon-only + Hamburger dropdown (demo only):**
+  - **CSS Responsive Navbar (`css/style.css`):** Thêm cấu trúc 2 tầng đáp ứng cho toàn bộ thanh điều hướng:
+    - **≤ 600px:** Tự động ẩn text nhãn (`.nav-btn .nav-label { display: none; }`), chuyển sang chế độ icon-only tinh gọn, kích thước chạm chuẩn Apple HIG (min 44x44px), ẩn bớt phụ đề logo để tối đa diện tích hiển thị.
+    - **≤ 400px:** Ẩn hoàn toàn `.nav-right`, hiển thị nút Hamburger ☰ (`.hamburger-btn`), đưa `.nav-container` về 1 hàng ngang cân đối (`space-between`).
+  - **Dropdown Navigation & Script (5 file HTML):** Tích hợp markup menu dropdown mờ phủ (`.mobile-nav-dropdown`) và nút mở menu vào 5 file HTML (`index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`). Kèm hàm `toggleMobileNav()` mượt mà, tự đóng khi chạm ra ngoài và tự động kích hoạt class `active` theo trang đang truy cập.
+
+
+- 📱 **Task 14.1 — Fix `tutor-calendar.html`: Viewport + FullCalendar mobile (demo only):**
+  - **Viewport Meta:** Sửa triệt để lỗi ép desktop width 1200px `<meta name="viewport" content="width=1200, user-scalable=yes">` sang chuẩn responsive mobile: `<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">`.
+  - **FullCalendar Responsive View:** Cấu hình `initialView` tự động nhận diện theo kích thước màn hình (`window.innerWidth <= 768 ? 'dayGridMonth' : 'timeGridWeek'`), tích hợp callback `windowResize` chuyển đổi linh hoạt giữa month view và week view.
+  - **CSS Media Queries:** Bổ sung layout dọc cho toolbar, co giãn header, font size tối ưu cho cell/chip/toolbar trên breakpoint ≤768px và ≤480px, đưa `.sheet-panel` về full-width 100% trên màn hình hẹp.
+
 
 - 🎨 **Task 13.5 — Sửa styles và inline styles `homework.html` (demo only):**
   - **Internal `<style>` Tag:** Đồng bộ toàn diện khối style 460 dòng sang ánh sáng trắng - xanh: `body` dùng biến `var(--bg-page)` và `var(--bg-page-gradient)`, `.badge` nền `#EFF6FF` viền `#BFDBFE` chữ `#2563EB`, `.main-title` chữ `var(--text-primary)`, `.search-card` nền `var(--bg-card)` viền `var(--border-card)`, `.input-wrapper` nền `var(--bg-input)` viền `#CBD5E1` chữ tối, `.btn-submit` gradient xanh `var(--btn-bg)`, 4 thẻ tính năng nền `var(--bg-card)`, `#resultBox` và `.hw-info-card` nền trắng viền nhạt đổ bóng dịu, `.upload-area` nền `#F8FAFF` viền nét đứt xanh `#BFDBFE`, `.avatar-circle` nền `#EFF6FF` icon xanh `#3B82F6`, `.progress-bar` gradient xanh, nút bấm `.action-btn-hw` nền sáng chữ `#2563EB`.

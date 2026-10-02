@@ -476,6 +476,33 @@
 ### Task 13.5 — Sửa inline styles homework.html (phức tạp nhất)
 - [x] **Mô tả:** Batch replace và kiểm soát context các mã màu neon tím `#8E4DFF` → `#3B82F6`, border/background rgba mờ sang `#F8FAFF` / `#E2E8F0`, text `#A6ADCE` → `#64748B`, text `#FFF` → `#1E293B` (chỉ khi là text color, giữ nguyên background `#FFF`), bảo toàn tuyệt đối `#FFD23F` (25 vị trí) và semantic colors `#EF4444`, `#10B981`, `#F59E0B`.
 
+
+---
+
+## PHASE 14 — Mobile Responsive Optimization (Demo only)
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/`). Không sửa production `Gia sư/`.  
+> Chi tiết: xem `PHASE14_MOBILE.md` và `PROMPT_PHASE14_MOBILE.md`.  
+> **Thứ tự bắt buộc:** 14.1 → 14.2 → 14.3 → 14.4 → 14.5 → 14.6.
+
+### Task 14.1 — Fix tutor-calendar.html: Viewport + FullCalendar mobile
+- [x] **Mô tả:** Đổi viewport từ `width=1200` sang `width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover`. Sửa FullCalendar `initialView` sang `dayGridMonth` khi mobile (≤768px), thêm `windowResize` callback. Thêm media queries CSS cho toolbar dọc, font size nhỏ gọn, sheet panel 100% width.
+
+### Task 14.2 — Navbar mobile: Icon-only + Hamburger dropdown
+- [x] **Mô tả:** Thêm CSS responsive navbar vào `css/style.css` (≤600px icon-only, ≤400px hamburger). Bọc nhãn nút trong `<span class="nav-label">` trên 5 trang HTML (`index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`). Thêm markup `.hamburger-btn` và `.mobile-nav-dropdown` kèm script toggle + active handler.
+
+### Task 14.3 — student-dashboard.html: Thêm media queries mobile
+- [x] **Mô tả:** Thêm khối `<style>` responsive cho `student-dashboard.html`: `.summary-grid` 2 cột trên ≤768px và 1 cột trên ≤480px, điều chỉnh `.score-number`, chart container max-width 100% và height 220px, cho phép cuộn ngang bảng kết quả `.result-table-wrapper`.
+
+### Task 14.4 — tutor-dashboard.html: Sidebar + Bảng + KPI mobile
+- [x] **Mô tả:** Đảm bảo `.tutor-sidebar` hoạt động trên mobile (fixed ẩn bên trái, toggle button ☰, overlay đóng khi click ngoài). Grid KPI 2 cột trên mobile, bảng học phí bọc cuộn ngang với min-width 580px, thêm safe area bottom cho iOS.
+
+### Task 14.5 — homework.html: Touch optimization
+- [x] **Mô tả:** Tối ưu tương tác chạm trên `homework.html`: upload area min-height 100px và ẩn hint kéo thả thay bằng hint nhấn chọn file; action buttons full width min-height 48px trên mobile; file list table cuộn ngang hoặc card layout; score badge hiển thị gọn đẹp.
+
+### Task 14.6 — Global Polish: Input zoom + Touch target + Safe area
+- [x] **Mô tả:** Bổ sung vào cuối `css/style.css`: font-size 16px cho inputs/select/textarea trên mobile tránh iOS auto-zoom, touch targets tối thiểu 44px, `overflow-x: hidden` trên body, smooth scroll, hero section mobile trên `index.html` và padding card login.
+
 ---
 
 ## Thống kê
@@ -485,5 +512,7 @@
 | Phase 1–11 | 27 | 27 |
 | Phase 12 — Multi-Theme System | 7 | 7 |
 | Phase 13 — Public Pages Light Theme | 5 | 5 |
-| **Tổng** | **39** | **39** |
+| Phase 14 — Mobile Responsive Optimization | 6 | 6 |
+| **Tổng** | **45** | **45** |
+
 

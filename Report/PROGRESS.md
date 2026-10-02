@@ -1,14 +1,14 @@
 # PROGRESS — Web Gia Sư Demo
 
 **Cập nhật lần cuối:** 2026-10-02  
-**Giai đoạn:** Phase 18 (Trang Chủ Redesign — Thiết kế lại trang chủ index.html) — 7/7 tasks (72/72 tasks, 100% HOÀN THÀNH)
+**Giai đoạn:** Phase 19 (Scroll Animation An Toàn Toàn Bộ Web) — 8/8 tasks (80/80 tasks, 100% HOÀN THÀNH)
 
 ---
 
 ## Tổng tiến độ
 
 ```
-[██████████] 100.0% (72/72 tasks)
+[██████████] 100.0% (80/80 tasks)
 ```
 
 | Phase | Mô tả | Tiến độ |
@@ -31,10 +31,31 @@
 | Phase 16 | Thiết kế lại toàn diện trang Bài Tập (homework.html) | 6/6 ✅ |
 | Phase 17 | Beautiful Mobile UI (Giao diện điện thoại đẹp) | 8/8 ✅ |
 | Phase 18 | Trang Chủ Redesign (Landing Page 4.0) | 7/7 ✅ |
+| Phase 19 | Thêm Scroll Animation An Toàn Toàn Web | 8/8 ✅ |
 
 ---
 
 ## Task vừa hoàn thành
+
+- 🎬 **PHASE 19 — Thêm Scroll Animation An Toàn Cho Toàn Bộ Web (HOÀN THÀNH 8/8 TASKS):**
+  - **Task 19.1 — Engine Setup (`js/scroll-animations.js`, `css/style.css`, 7 HTML files):**
+    - Tạo file JavaScript độc lập `js/scroll-animations.js` với IntersectionObserver, tự động bỏ qua phần tử ẩn `display: none` / `visibility: hidden` và hỗ trợ `prefers-reduced-motion`.
+    - Thêm bộ class CSS animation toàn diện vào cuối `css/style.css`.
+    - Include thẻ script engine vào tất cả 7 trang HTML trước `</body>`.
+  - **Task 19.2 — index.html Scroll Animation:**
+    - Gán hiệu ứng cuộn mượt mà cho Hero badge, tiêu đề, subtitle, buttons, Quick demo bar, Metrics header & 4 donut cards, 3 Pillars, Platform mockup & features, Vision cards, Steps timeline và FAQ accordion.
+  - **Task 19.3 — student-login.html:**
+    - Animate heading tĩnh của trang, áp dụng stagger cho 4 feature cards tĩnh cuối trang. Bảo toàn tuyệt đối form tra cứu và kết quả học sinh.
+  - **Task 19.4 — tutor-login.html:**
+    - Animate heading tĩnh của trang, áp dụng stagger cho 4 feature cards tĩnh cuối trang. Bảo toàn form mã PIN và luồng đăng nhập.
+  - **Task 19.5 — homework.html:**
+    - Gán reveal cho badge, tiêu đề h2, subtitle p trong `#mainScreen` và stagger cho 4 feature cards tĩnh. Giữ an toàn tuyệt đối 100% cho `#homeworkDashboard` và biểu đồ Chart.js.
+  - **Task 19.6 — student-dashboard.html (Safe Skip):**
+    - Đánh giá toàn diện: Trang chứa dữ liệu render động qua JS và canvas Chart.js. Bỏ qua việc gán animation container để ngăn chặn lỗi stuck opacity: 0 theo đúng hướng dẫn thiết kế.
+  - **Task 19.7 — tutor-dashboard.html (Safe Skip):**
+    - Đánh giá toàn diện: SPA dashboard quản lý chuyển tab động. Bỏ qua việc gán animation container để giữ nguyên 100% tính ổn định của hệ thống.
+  - **Task 19.8 — tutor-calendar.html (Safe Skip):**
+    - Đánh giá toàn diện: Ứng dụng FullCalendar toàn màn hình. Bỏ qua việc gán animation để bảo đảm kích thước và rendering của FullCalendar hoạt động trơn tru.
 
 - 🚀 **PHASE 18 — Trang Chủ Redesign (Landing Page 4.0 — HOÀN THÀNH TOÀN DIỆN 7/7 TASKS):**
   - **Task 18.7 — Footer Polish (`css/home.css`):**

@@ -777,6 +777,83 @@
 
 ---
 
+## PHASE 19 — Thêm Scroll Animation An Toàn Cho Toàn Bộ Web (Demo only)
+
+> ⚠️ **CHỈ SỬA TRÊN BẢN DEMO** (`Gia sư - demo/`). Không sửa production `Gia sư/`.  
+> Chi tiết: xem `PHASE19_SCROLL_ANIMATION.md` và `PROMPT_PHASE19_SCROLL.md`.  
+> **Thứ tự bắt buộc:** 19.1 → 19.2 → 19.3 → 19.4 → 19.5 → 19.6 → 19.7 → 19.8.
+
+### Task 19.1 — Engine Setup (CSS + JS + Include 7 trang)
+- [x] **Mô tả:** Tạo file độc lập `js/scroll-animations.js` triển khai Scroll Reveal Engine bằng `IntersectionObserver` thuần (`threshold: 0.12`, `rootMargin: '0px 0px -40px 0px'`), tự động bỏ qua element ẩn `display: none` / `visibility: hidden` và hỗ trợ `prefers-reduced-motion`. Thêm bộ CSS animation (`.reveal`, `.reveal.visible`, `.reveal-stagger`, `.reveal-left`, `.reveal-right`, `.reveal-scale`, media queries cho mobile và reduced motion) vào cuối `css/style.css`. Include `<script src="js/scroll-animations.js"></script>` trước `</body>` trên toàn bộ 7 trang HTML (`index.html`, `student-login.html`, `tutor-login.html`, `homework.html`, `student-dashboard.html`, `tutor-dashboard.html`, `tutor-calendar.html`).
+- **File cần sửa:** `js/scroll-animations.js`, `css/style.css`, cả 7 trang HTML
+- **Tiêu chí hoàn thành:**
+  - [x] Tạo mới file `js/scroll-animations.js` không lỗi cú pháp
+  - [x] Thêm CSS scroll animation vào cuối `css/style.css`
+  - [x] Include script thành công trước `</body>` trên cả 7 file HTML
+  - [x] Console không báo lỗi đỏ, engine khởi chạy mượt mà
+
+### Task 19.2 — index.html Scroll Animation (🟢 Thấp)
+- [x] **Mô tả:** Áp dụng animation cho các section tĩnh trên Landing Page theo whitelist: Hero badge/tiêu đề/mô tả/CTAs/quick demo, Metrics header & 4 donut cards, 3 Pillars header & cards, Platform preview mockup & features, Vision header & 4 cards, Steps timeline header & steps, FAQ header & accordion. Footer và Navigation giữ nguyên không animate.
+- **File cần sửa:** `index.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Cuộn từ trên xuống từng section fade-in mượt mà
+  - [x] Stagger cards xuất hiện tuần tự êm ái
+  - [x] Không có phần tử nào bị kẹt ẩn
+  - [x] Footer và Nav giữ nguyên không giật lag
+
+### Task 19.3 — student-login.html (🟡 Trung bình)
+- [x] **Mô tả:** Thêm class `reveal` cho khối heading/tagline tĩnh (`#page-ph-hs > .text-center`), thêm `reveal-stagger` vào grid 4 feature cards tĩnh cuối trang. Tuyệt đối không chạm vào `#toastNotification`, form tìm kiếm, demo 1-chạm hay kết quả tìm kiếm.
+- **File cần sửa:** `student-login.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Form tra cứu hiện ngay lập tức khi load trang
+  - [x] Cuộn xuống thấy 4 feature cards xuất hiện tuần tự
+  - [x] Thao tác tra cứu và kết quả học sinh hoạt động 100% chuẩn xác
+  - [x] Console không lỗi
+
+### Task 19.4 — tutor-login.html (🟡 Trung bình)
+- [x] **Mô tả:** Thêm class `reveal` cho khối heading/tagline tĩnh (`#page-gia-su > .text-center`), thêm `reveal-stagger` vào grid 4 feature cards tĩnh cuối trang. Form nhập PIN, danh sách chọn gia sư và dashboard chuyển hướng giữ nguyên 100%.
+- **File cần sửa:** `tutor-login.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Form nhập PIN hiển thị tức thì khi tải trang
+  - [x] Feature cards cuối trang xuất hiện khi cuộn
+  - [x] Đăng nhập PIN hoạt động ổn định và chính xác
+  - [x] Console không lỗi
+
+### Task 19.5 — homework.html (🔴 Cao)
+- [x] **Mô tả:** Chỉ animate các thành phần tĩnh trong màn hình đăng nhập `#mainScreen`: badge (delay 0.1s), h2 (delay 0.2s), subtitle p (delay 0.3s) và grid 4 feature cards tĩnh với `reveal-stagger`. Tuyệt đối không thêm class reveal vào `#homeworkDashboard`, `#pageAutoLoading`, form tra cứu hay bất kỳ element JS-controlled nào.
+- **File cần sửa:** `homework.html`
+- **Tiêu chí hoàn thành:**
+  - [x] Badge và heading #mainScreen fade-in nhẹ khi mở trang
+  - [x] Đăng nhập / xem demo → #homeworkDashboard hiển thị ngay lập tức
+  - [x] Toàn bộ biểu đồ Donut/Line, KPI cards, form upload và lịch sử nộp bài hoạt động hoàn hảo
+  - [x] Không có element nào bên trong dashboard bị kẹt opacity: 0
+
+### Task 19.6 — student-dashboard.html (🟡 Trung bình)
+- [x] **Mô tả:** Kiểm tra và đánh giá rủi ro: Dashboard học sinh được render động 100% qua JavaScript (`renderStudentView()`), chứa canvas Chart.js và bảng lịch sử có thể bị xung đột hoặc kẹt ẩn nếu gán animation. Tuân thủ nguyên tắc thiết kế: Bỏ qua (Skip) việc gán reveal class cho các container dữ liệu, script `scroll-animations.js` đã load sẵn sàng.
+- **File cần sửa:** `student-dashboard.html` (đã include script ở Task 19.1)
+- **Tiêu chí hoàn thành:**
+  - [x] Toàn bộ dữ liệu học sinh, KPI, biểu đồ đường, biểu đồ donut và bảng điểm hiển thị tức thì
+  - [x] Không phát sinh xung đột hiển thị
+  - [x] Ghi nhận bỏ qua an toàn theo đúng tài liệu thiết kế
+
+### Task 19.7 — tutor-dashboard.html (🔴 Cao)
+- [x] **Mô tả:** Kiểm tra và đánh giá rủi ro: Bảng điều khiển gia sư là ứng dụng đơn trang (SPA) gồm 6 tab chuyển đổi qua lại bằng JavaScript, chứa nhiều modal và biểu đồ Chart.js. Tuân thủ nguyên tắc an toàn: Bỏ qua (Skip) việc gán reveal class cho các khối quản lý dữ liệu để bảo vệ tối đa tính năng hệ thống, script `scroll-animations.js` đã load sẵn sàng.
+- **File cần sửa:** `tutor-dashboard.html` (đã include script ở Task 19.1)
+- **Tiêu chí hoàn thành:**
+  - [x] Giao diện quản lý, sidebar, biểu đồ và bảng học phí hoạt động 100% ổn định
+  - [x] Chuyển đổi qua lại giữa 6 tab mượt mà
+  - [x] Ghi nhận bỏ qua an toàn theo đúng tài liệu thiết kế
+
+### Task 19.8 — tutor-calendar.html (🔴 Cao)
+- [x] **Mô tả:** Kiểm tra và đánh giá rủi ro: Trang lịch dạy chiếm 100% viewport FullCalendar với 21 `display:none` và các modal điều khiển lịch sự kiện. Tuân thủ nguyên tắc an toàn: Bỏ qua (Skip) việc can thiệp vào container `#calendar` hoặc custom toolbar để tránh phá vỡ tính toán kích thước của FullCalendar.
+- **File cần sửa:** `tutor-calendar.html` (đã include script ở Task 19.1)
+- **Tiêu chí hoàn thành:**
+  - [x] FullCalendar render tức thì, không bị lệch hoặc kẹt ẩn
+  - [x] Thao tác chuyển tháng, đổi view, bấm xem sự kiện hoạt động trơn tru
+  - [x] Ghi nhận bỏ qua an toàn theo đúng tài liệu thiết kế
+
+---
+
 ## Thống kê
 
 | Phase | Tasks | Hoàn thành |
@@ -789,7 +866,8 @@
 | Phase 16 — Homework Page Redesign | 6 | 6 |
 | Phase 17 — Beautiful Mobile UI | 8 | 8 |
 | Phase 18 — Trang Chủ Redesign (Landing Page) | 7 | 7 |
-| **Tổng** | **72** | **72** |
+| Phase 19 — Scroll Animation Toàn Trang | 8 | 8 |
+| **Tổng** | **80** | **80** |
 
 
 

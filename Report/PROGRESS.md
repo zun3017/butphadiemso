@@ -32,7 +32,13 @@
 
 ## Task vừa hoàn thành
 
-- 📱 **Task 14.6 — Global Polish: Input zoom + Touch target + Safe area (demo only):**
+- 📱 **Hotfix Mobile — Tối ưu Header Mobile & Khôi phục Giao diện, Tài khoản, Đăng xuất (`tutor-dashboard.html`):**
+  - **Khôi phục 3 nút chức năng cốt lõi:** Đưa 3 nút Giao diện (`openThemeSwitcher()`), Cài đặt tài khoản (`openTutorAccountModal()`), và Đăng xuất (`quayLai()`) hiển thị trực tiếp trên thanh Mobile Header trên cùng của điện thoại, đồng thời hiển thị đầy đủ bên trong ngăn kéo Menu Drawer.
+  - **Thay thế Bottom Bar bị chèn ép:** Bỏ hoàn toàn thanh 62px chật chội ở đáy màn hình; chuyển `.tutor-sidebar` thành Ngăn kéo trượt Offcanvas (`left: -290px` trượt ra `left: 0`) có lớp phủ nền mờ `.sidebar-overlay` và nút đóng ✕.
+  - **Tối ưu Mobile Header:** Bổ sung `.tutor-mobile-header` sticky trên cùng (☰ menu hamburger, tiêu đề Gia Sư 4.0, tên gia sư, và 3 nút tiện ích nhanh).
+  - **Khắc phục vỡ layout các section:** Sửa widget thông báo nhanh `#tutorQuickAnnouncementWidget` (input và nút gửi xếp dọc 100%), thanh chọn tháng `.overview-top-bar` xếp gọn không chồng chéo, các bộ lọc nhật ký / học phí co giãn full-width.
+  - **Dọn dẹp xung đột Navbar cũ:** Loại bỏ các đoạn CSS media query cũ có `display: grid !important` trong `student-login.html`, `tutor-login.html`, và `homework.html` để navbar đồng nhất và hamburger hoạt động chuẩn xác.
+
   - **iOS Safari Zoom Prevention:** Đặt cỡ chữ `font-size: 16px !important` cho tất cả thẻ `input[type="text|password|number|email|tel|search"]`, `select`, `textarea` trên thiết bị di động (≤768px), loại bỏ hoàn toàn hiện tượng trình duyệt tự ý zoom cận cảnh khi người dùng bấm vào ô nhập liệu.
   - **Apple HIG Touch Target:** Thiết lập kích thước tối thiểu 44x44px (`min-height: 44px; min-width: 44px`) cho các nút điều hướng, nút submit, nút CTA, action button, nút nộp bài và các thẻ bấm nhanh, đảm bảo thao tác ngón tay chính xác và mượt mà.
   - **Chống tràn ngang & Smooth Scroll:** Khóa tràn ngang toàn trang bằng `overflow-x: hidden` trên `body`, kích hoạt cuộn mượt mà `scroll-behavior: smooth` trên thẻ `html` kèm kiểm tra `prefers-reduced-motion`.
